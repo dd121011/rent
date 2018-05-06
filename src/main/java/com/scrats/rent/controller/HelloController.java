@@ -1,0 +1,120 @@
+package com.scrats.rent.controller;
+
+import com.scrats.rent.common.JsonResult;
+import com.scrats.rent.common.exception.BusinessException;
+import com.scrats.rent.common.exception.ErrorInfo;
+import com.scrats.rent.common.exception.NotAuthorizedException;
+import com.scrats.rent.common.job.PushJob;
+import com.scrats.rent.util.RedisUtil;
+import org.quartz.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @Created with jointstarc.
+ * @Email: 262297088@qq.com
+ * @Description:
+ * @User: lol.
+ * @Date: 2018/1/3 18:18.
+ */
+@Controller
+public class HelloController {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Autowired
+    private SchedulerFactoryBean schedulerFactoryBean;
+
+    @RequestMapping("/hello")
+    public String demo(Map<String, Object> map) {
+        map.put("descrip", "Hello, it's a springboot integrate freemarker's demo!!!!");
+        map.put("tdate", new Date());
+        System.out.println("345678i");
+        logger.info("this is hello");
+        throw new NotAuthorizedException("非法请求");
+//        return "hello";
+    }
+
+    @RequestMapping("/home")
+    public String home(Map<String, Object> map) {
+        System.out.println("home");
+        return "home";
+    }
+
+    @RequestMapping("/redisTest")
+    @ResponseBody
+    public void redisTest(Map<String, Object> map) {
+        redisUtil.set("test", "tt");
+        Object reidsValue = redisUtil.get("test");
+        System.out.println(reidsValue);
+    }
+
+    @RequestMapping("/redisSessionTest")
+    @ResponseBody
+    public JsonResult<Map> redisSessionTest(HttpServletRequest request) {
+        Map map = new HashMap();
+        map.put("sessionId", request.getSession().getId());
+        map.put("message", request.getSession().getAttribute("requestUrl"));
+//        if(!msgService.checkReportAvaliable(166)){
+//            return new JsonResult("推送的报表已经被禁用");
+//        }
+        return new JsonResult(map);
+    }
+
+    @RequestMapping("/jobTest")
+    @ResponseBody
+    public void jobTest(Map<String, Object> map) throws Exception {
+
+        JobDataMap jobDataMap = new JobDataMap();
+        jobDataMap.put("jobKey1", "jobValue1");
+
+        Scheduler scheduler = schedulerFactoryBean.getScheduler();
+
+        //构建job信息
+        JobDetail jobDetail = JobBuilder.newJob(PushJob.class).setJobData(jobDataMap)
+                .withDescription("report").withIdentity("jobClassName", "jobGroupName").build();
+
+        //表达式调度构建器(即任务执行的时间)
+        String cronExpression = "0 * * * * ?";
+        CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
+
+        //按新的cronExpression表达式构建一个新的trigger
+        CronTrigger trigger = TriggerBuilder.newTrigger().forJob(jobDetail).withSchedule(scheduleBuilder).withIdentity("jobClassName", "jobGroupName")
+                .build();
+
+        try {
+            scheduler.scheduleJob(jobDetail, trigger);
+
+        } catch (SchedulerException e) {
+            System.out.println("创建定时任务失败" + e);
+            throw new Exception("创建定时任务失败");
+        }
+
+        // 启动调度器
+        scheduler.start();
+    }
+
+    @RequestMapping("/BusinessExceptionTest")
+    @ResponseBody
+    public void ExceptionTest(){
+        throw new BusinessException(ErrorInfo.STATUS_CODE_BUSINESS_ERROR,"this is BusinessException");
+    }
+    @RequestMapping("/AuthorTest")
+    @ResponseBody
+    public void AuthorTest(){
+        throw new NotAuthorizedException("非法请求");
+    }
+}

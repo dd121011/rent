@@ -1,0 +1,35 @@
+server:
+  port: 8083
+  session:
+    timeout: 3600
+#    store-dir: redis
+  context-path: /rent/
+  tomcat:
+    uri-encoding: utf-8
+  error:
+    path: /error
+
+management:
+  port: 54001
+  health:
+    mail:
+      enabled: false
+
+spring:
+  profiles:
+    active: dev
+  session:
+    store-type: redis
+  #自定义静态资源
+  mvc:
+    static-path-pattern: /static/**
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+logging:
+  config: classpath:logback-spring.xml
+
+jpush:
+  key: c1a786a57a59620a86fce314
+  secret: 2b39cd397064cfbad5b055ab

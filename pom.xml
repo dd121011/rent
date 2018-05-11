@@ -29,11 +29,6 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-
 		<!-- Test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -45,6 +40,11 @@
 		<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-freemarker</artifactId>
 		</dependency>
 
 		<!-- Spring Boot 事物依赖 -->
@@ -60,17 +60,16 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Spring Boot session共享 Begin-->
+		<!-- redis-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
-
+		<!-- Spring Boot session共享 Begin-->
 		<dependency>
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session</artifactId>
 		</dependency>
-		<!-- Spring Boot session共享 End-->
 
 		<!--配置一些通用的监控，比如jvm监控、类加载、http监控-->
 		<dependency>
@@ -110,11 +109,6 @@
 		<!--<artifactId>pagehelper</artifactId>-->
 		<!--<version>4.1.6</version>-->
 		<!--</dependency>-->
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-freemarker</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -170,7 +164,6 @@
 					<fork>true</fork>
 				</configuration>
 			</plugin>
-
 		</plugins>
 	</build>
 

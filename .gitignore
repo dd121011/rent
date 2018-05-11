@@ -1,2 +1,3 @@
-
-rent.iml
+/.idea/
+/*.iml
+/target/

@@ -1,5 +1,6 @@
 package com.scrats.rent.entity;
 
+import com.scrats.rent.base.entity.BaseEntity;
 import lombok.Data;
 
 /**
@@ -7,27 +8,21 @@ import lombok.Data;
  * Created by lol on 15/4/23.
  */
 @Data
-public class Building extends Common{
-
-    private static final long serialVersionUID = -620516728733479628L;
+public class Building extends BaseEntity {
 
     private int id;//主键
-    private float waterRate;//水费
-    private float powerRate;//电费
-    private float powerThreeRate;//三相电费
-    private float healthRate;//卫生费
-    private float internetRate;//网费
-    private float propertyManagementRate;//物业管理费
-    private float parkingRate;//停车费
-    private int roomTotal;//总的房间数
-    private int roomAvailable;//可用房间数,通过总的房间数和可用房间数可以计算出出租房间数
-    private String address;//地址
+    private int water;//水费[分], eg 1个月1KG水700
+    private int power;//电费[分], eg 1个月1kwh电120
+    private int powerThree;//三相电费[分], eg 1个月1kwh电150
+    private int health;//卫生费[分], eg 1个月1000
+    private int internet;//网费[分], eg 1个月1000
+    private int management;//物业管理费[分], eg 1个月1000
+    private int parking;//停车费[分], eg 1个月1000
+    private int rooms;//总的房间数
+    private int roomAble;//可用房间数,通过总的房间数和可用房间数可以计算出出租房间数
 
-    private String street;//街道
-    private String town;//镇
-    private String village;//村
-    private String District;//小区
+    private String desc;//描述
 
-    private int landlordId;//对应的房东id,一栋房子对应一个房东
+    private int addressId;//地址Id
 
 }

@@ -1,5 +1,4 @@
-
-<#assign base=request.contextPath>
+<#assign base=request.contextPath/>
 <base id="base" href="${base}">
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">

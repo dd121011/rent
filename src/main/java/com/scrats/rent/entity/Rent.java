@@ -1,5 +1,6 @@
 package com.scrats.rent.entity;
 
+import com.scrats.rent.base.entity.BaseEntity;
 import lombok.Data;
 
 /**
@@ -7,32 +8,28 @@ import lombok.Data;
  * Created by lol on 15/4/23.
  */
 @Data
-public class Rent extends Common {
-
-    private static final long serialVersionUID = -7942452150917227172L;
+public class Rent extends BaseEntity {
 
     private int id;//主键
-    private String rentNumber;//房租收据单号
-    private float waterRate;//水费
-    private float powerRate;//电费
-    private float powerThreeRate;//三相电费
-    private float healthRate;//卫生费
-    private float internetRate;//网费
-    private float parkingRate;//停车费
-    private float propertyManagementRate;//物业管理费
-    private float rent;//租金
-    private float waterLast;//上月用水
-    private float wateThis;//本月用水
-    private float powerLast;//上月用电
-    private float powerThis;//本月用电
-    private float powerThreeLast;//上月用三相电
-    private float powerThreeThis;//本月用三相电
-    private boolean ischarge;//是否已收房租
+    private String rentNo;//房租收据单号
+    private int water;//水费[分], eg 1个月1KG水700
+    private int power;//电费[分], eg 1个月1kwh电120
+    private int powerThree;//三相电费[分], eg 1个月1kwh电150
+    private int health;//卫生费[分], eg 1个月1000
+    private int internet;//网费[分], eg 1个月1000
+    private int management;//物业管理费[分], eg 1个月1000
+    private int parking;//停车费[分], eg 1个月1000
+    private int rent;//租金[分], eg 1个月50000
+    private int waterLast;//上月水表读数[升]
+    private int wateThis;//本月水表读数[升]
+    private int powerLast;//上月电表读数[kwh]
+    private int powerThis;//本月电表读数[kwh]
+    private int powerThreeLast;//上月用三电表读数[kwh]
+    private int powerThreeThis;//本月用三电表读数[kwh]
+    private String payed;//是否已收房租
+    private String channel;//支付渠道
 
 
-    private int landlordId;//房东id
-    private String landlordName;//房东用户名
-    private int roomid;//房间id,一个房租对应一个roomId
-    private String roomNumber;//房间编号
+    private int roomId;//房间id,一个房租对应一个roomId
 
 }

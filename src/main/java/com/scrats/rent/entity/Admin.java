@@ -1,5 +1,6 @@
 package com.scrats.rent.entity;
 
+import com.scrats.rent.base.entity.BaseEntity;
 import lombok.Data;
 
 /**
@@ -7,13 +8,12 @@ import lombok.Data;
  * Created by lol on 15/4/13.
  */
 @Data
-public class Admin extends Common{
-
-    private static final long serialVersionUID = 7604085747555126591L;
+public class Admin extends BaseEntity{
 
     private int id;//主键
-    private String jobNum;//工号
-    private Boolean issuper;//是否超级管理员
-    private int userId;//对应user的id
+    private String jobNo;//工号
+    private String administrator;//是否超级管理员, 0-否, 1-是
+
+    private int userId;//一个管理员对应一个账号
 
 }

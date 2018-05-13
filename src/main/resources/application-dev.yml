@@ -1,5 +1,5 @@
 spring:
-  #模板引擎
+  ##################freemarker config begin#################
   freemarker:
     #后缀
     suffix: .ftl
@@ -38,9 +38,9 @@ spring:
       #可以满足一般需要。默认情况变量为null则替换为空字符串，如果需要自定义，写上${empty!"EmptyValue of fbysss"}的形式即可
       classic_compatible: true
       template_exception_handler: html_debug
+  ##################freemarker config end#################
 
-  #redis 配置
-  #################redis基础配置#################
+  ##################redis config begin  ##################
   redis:
     #redis数据库名称(默认为0)
     database: 0
@@ -70,12 +70,14 @@ spring:
       #redis集群配置
 #      spring.redis.cluster.nodes=192.168.177.128:7001,192.168.177.128:7002,192.168.177.128:7003,192.168.177.128:7004,192.168.177.128:7005,192.168.177.128:7006
 #      spring.redis.cluster.max-redirects=3
-  #数据源配置
+  ##################redis config end#  #################
+
+  ##################datasource config begin #################
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://45.76.249.30:3306/rent?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/rent?useUnicode=true&characterEncoding=utf8
     username: root
-    password: <bkowCG)456fY
+    password: 111111
 
     type: com.alibaba.druid.pool.DruidDataSource
     # 初始化大小，最小，最大
@@ -105,7 +107,9 @@ spring:
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
     # 合并多个DruidDataSource的监控数据
     useGlobalDataSourceStat: true
+  ##################datasource config end #################
 
+  ##################mybatis config begin  #################
 mybatis:
   #实体类所在包
   type-aliases-package: com.scrats.rent.entity

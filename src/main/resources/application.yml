@@ -9,6 +9,7 @@ server:
   error:
     path: /error
 
+#springboot 监控
 management:
   port: 54001
   health:

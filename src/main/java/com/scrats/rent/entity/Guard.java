@@ -1,5 +1,6 @@
 package com.scrats.rent.entity;
 
+import com.scrats.rent.base.entity.BaseEntity;
 import lombok.Data;
 
 /**
@@ -7,9 +8,7 @@ import lombok.Data;
  * Created by lol on 15/4/23.
  */
 @Data
-public class Guard extends Common{
-
-    private static final long serialVersionUID = 8895674553631875038L;
+public class Guard extends BaseEntity {
 
     private int id;//主键
     private Boolean issuper;//超级寻管员

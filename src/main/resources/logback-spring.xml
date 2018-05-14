@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="false">
     <contextName>recommend</contextName>
-    <property name="log.path" value="rentLog"/><!--部署的时候最好改为绝对位置-->
+    <property name="log.path" value="logs"/><!--部署的时候最好改为绝对位置-->
 
     <!--控制台日志输出配置-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">

@@ -63,11 +63,11 @@
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                <a class="" href="javascript:;">所有商品<span class="layui-nav-more"></span></a>
+                <a class="" href="javascript:;">账号类型<span class="layui-nav-more"></span></a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;">列表一</a></dd>
-                    <dd><a href="javascript:;">列表二</a></dd>
-                    <dd><a href="javascript:;">列表三</a></dd>
+                    <dd><a href="javascript:;">管理员</a></dd>
+                    <dd><a href="javascript:;">租户</a></dd>
+                    <dd><a href="javascript:;">房东</a></dd>
                     <dd><a href="">超链接</a></dd>
                 </dl>
             </li>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>房屋出租管理系统 - by Ryan</title>
+    <title>XXX - by Ryan</title>
     <#include "common.ftl" />
 
     <div class="layui-body">

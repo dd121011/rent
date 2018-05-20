@@ -57,17 +57,17 @@ CREATE TABLE `account` (
 -- ----------------------------
 -- Table structure for admin
 -- ----------------------------
-DROP TABLE IF EXISTS `admin`;
-CREATE TABLE `admin` (
-    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `jobNo` char(10) NOT NULL COMMENT '工号',
-    `administrator` char(1) DEFAULT '0' COMMENT '是否超级管理员, 0-否, 1-是',
-    `user_id` int(10) unsigned DEFAULT NULL COMMENT '一个房东对应一个账号, 用户Id',
-    `create_time` datetime NOT NULL COMMENT '创建时间',
-    `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-    `remark` varchar(256) DEFAULT NULL COMMENT '备注',
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `admin`;
+-- CREATE TABLE `admin` (
+--     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--     `jobNo` char(10) NOT NULL COMMENT '工号',
+--     `administrator` char(1) DEFAULT '0' COMMENT '是否超级管理员, 0-否, 1-是',
+--     `user_id` int(10) unsigned DEFAULT NULL COMMENT '一个房东对应一个账号, 用户Id',
+--     `create_time` datetime NOT NULL COMMENT '创建时间',
+--     `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+--     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
+--     PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for attachment
@@ -250,7 +250,7 @@ CREATE TABLE `room_attach` (
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `type` char(1) NOT NULL COMMENT '用户类型 , 0-租客, 1-房东, 2-管理员, 3-巡管员',
+    `type` char(1) NOT NULL DEFAULT '0' COMMENT '用户类型 , 0-租客, 1-房东, 2-管理员, 3-巡管员, 4-超级管理员',
     `name` varchar(32) NOT NULL COMMENT '姓名',
     `sex` char(1) NOT NULL DEFAULT '0' COMMENT '0-保密, 1-男, 2-女',
     `age` int(3) DEFAULT NULL COMMENT '年龄',

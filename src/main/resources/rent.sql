@@ -180,7 +180,7 @@ CREATE TABLE `rent` (
     `power_this` int(10) unsigned DEFAULT NULL COMMENT '本月电表读数[kwh]',
     `power_fee_last` int(10) unsigned DEFAULT NULL COMMENT '上月用三电表读数[kwh]',
     `power_fee_this` int(10) unsigned DEFAULT NULL COMMENT '本月用三电表读数[kwh]',
-    `payed` char(1) DEFAULT '0' COMMENT '是否已支付',
+    `pay_ts` int unsigned not null DEFAULT '0' COMMENT '支付时间戳，13位，0：代表未支付；非0已支付',
     `channel` char(1) DEFAULT NULL DEFAULT '0' COMMENT '支付渠道，0-线下支付；1-微信支付；2-支付宝支付',
     `room_id` int(10) unsigned DEFAULT NULL COMMENT '房间id,一个房租对应一个roomId',
     PRIMARY KEY (`rent_id`)

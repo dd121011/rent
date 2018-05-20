@@ -254,7 +254,7 @@ CREATE TABLE `user` (
     `name` varchar(32) NOT NULL COMMENT '姓名',
     `sex` char(1) NOT NULL DEFAULT '0' COMMENT '0-保密, 1-男, 2-女',
     `age` int(3) DEFAULT NULL COMMENT '年龄',
-    `pic` int(10) unsigned DEFAULT NULL COMMENT '头像',
+    `avatar` VARCHAR (128) NOT NULL DEFAULT '' COMMENT '头像URL',
     `qq` varchar(32) DEFAULT NULL COMMENT 'qq',
     `wechat` varchar(32) DEFAULT NULL COMMENT '微信',
     `email` varchar(32) DEFAULT NULL COMMENT 'email',

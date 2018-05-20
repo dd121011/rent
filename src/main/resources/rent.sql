@@ -29,7 +29,7 @@ CREATE TABLE `account` (
     `create_time` datetime NOT NULL COMMENT '创建时间',
     `update_time` datetime DEFAULT NULL COMMENT '更新时间',
     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
-    `deleted` char(1) DEFAULT NULL COMMENT '删除时间戳',
+    `delete_ts` int unsigned not null DEFAULT '0' comment '删除时间，13位时间戳',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -50,7 +50,7 @@ CREATE TABLE `account` (
 --     `create_time` datetime NOT NULL COMMENT '创建时间',
 --     `update_time` datetime DEFAULT NULL COMMENT '更新时间',
 --     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
---     `deleted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间戳',
+--     `delete_ts` int unsigned not null DEFAULT '0' comment '删除时间，13位时间戳',
 --     PRIMARY KEY (`id`)
 -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -79,7 +79,7 @@ CREATE TABLE `attachment` (
     `create_time` datetime NOT NULL COMMENT '创建时间',
     `update_time` datetime DEFAULT NULL COMMENT '更新时间',
     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
-    `deleted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间戳',
+    `delete_ts` int unsigned not null DEFAULT '0' comment '删除时间，13位时间戳',
     PRIMARY KEY (`attachment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -102,7 +102,7 @@ CREATE TABLE `building` (
     `create_time` datetime NOT NULL COMMENT '创建时间',
     `update_time` datetime DEFAULT NULL COMMENT '修改时间',
     `remark` varchar(0) DEFAULT NULL COMMENT '备注',
-    `deleted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间戳',
+    `delete_ts` int unsigned not null DEFAULT '0' comment '删除时间，13位时间戳',
 --     `address_id` int(10) unsigned DEFAULT NULL COMMENT '地址Id',
     `address` varchar(128) not null DEFAULT '' comment '地址',
     PRIMARY KEY (`building_id`)
@@ -118,7 +118,7 @@ CREATE TABLE `building_attach` (
     `create_time` datetime NOT NULL COMMENT '创建时间',
     `update_time` datetime DEFAULT NULL COMMENT '更新时间',
     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
-    `deleted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间戳',
+    `delete_ts` int unsigned not null DEFAULT '0' comment '删除时间，13位时间戳',
     PRIMARY KEY (`building_id`,`attach_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -132,7 +132,7 @@ CREATE TABLE `building_landlord` (
     `create_time` datetime NOT NULL COMMENT '创建时间',
     `update_time` datetime DEFAULT NULL COMMENT '更新时间',
     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
-    `deleted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间戳',
+    `delete_ts` int unsigned not null DEFAULT '0' comment '删除时间，13位时间戳',
     PRIMARY KEY (`landlord_id`,`building_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -155,7 +155,7 @@ CREATE TABLE `deposit` (
     `create_time` datetime NOT NULL COMMENT '创建时间',
     `update_time` datetime DEFAULT NULL COMMENT '更新时间',
     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
-    `deleted` char(1) DEFAULT NULL COMMENT '删除时间戳',
+    `delete_ts` int unsigned not null DEFAULT '0' comment '删除时间，13位时间戳',
     PRIMARY KEY (`deposit_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -200,7 +200,7 @@ CREATE TABLE `renter` (
     `create_time` datetime NOT NULL COMMENT '创建时间 ',
     `update_time` datetime DEFAULT NULL COMMENT '修改时间',
     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
-    `deleted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间戳',
+    `delete_ts` int unsigned not null DEFAULT '0' comment '删除时间，13位时间戳',
     PRIMARY KEY (`renter_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -226,7 +226,7 @@ CREATE TABLE `room` (
     `create_time` datetime NOT NULL COMMENT '创建时间',
     `update_time` datetime DEFAULT NULL COMMENT '修改时间',
     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
-    `deleted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间戳',
+    `delete_ts` int unsigned not null DEFAULT '0' comment '删除时间，13位时间戳',
     PRIMARY KEY (`room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -240,7 +240,7 @@ CREATE TABLE `room_attach` (
     `create_time` datetime NOT NULL COMMENT '创建时间',
     `update_time` datetime DEFAULT NULL COMMENT '更新时间',
     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
-    `deleted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间戳',
+    `delete_ts` int unsigned not null DEFAULT '0' comment '删除时间，13位时间戳',
     PRIMARY KEY (`room_id`,`attach_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

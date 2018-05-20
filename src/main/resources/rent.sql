@@ -181,7 +181,7 @@ CREATE TABLE `rent` (
     `power_fee_last` int(10) unsigned DEFAULT NULL COMMENT '上月用三电表读数[kwh]',
     `power_fee_this` int(10) unsigned DEFAULT NULL COMMENT '本月用三电表读数[kwh]',
     `payed` char(1) DEFAULT '0' COMMENT '是否已支付',
-    `channel` char(1) DEFAULT NULL COMMENT '支付渠道',
+    `channel` char(1) DEFAULT NULL DEFAULT '0' COMMENT '支付渠道，0-线下支付；1-微信支付；2-支付宝支付',
     `room_id` int(10) unsigned DEFAULT NULL COMMENT '房间id,一个房租对应一个roomId',
     PRIMARY KEY (`rent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

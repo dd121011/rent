@@ -36,23 +36,23 @@ CREATE TABLE `account` (
 -- ----------------------------
 -- Table structure for address
 -- ----------------------------
-DROP TABLE IF EXISTS `address`;
-CREATE TABLE `address` (
-    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `province` varchar(32) NOT NULL COMMENT '省',
-    `city` varchar(32) NOT NULL COMMENT '市',
-    `country` varchar(32) DEFAULT NULL COMMENT '县',
-    `town` varchar(32) DEFAULT NULL COMMENT '镇',
-    `street` varchar(32) DEFAULT NULL COMMENT '街道',
-    `village` varchar(32) DEFAULT NULL COMMENT '村',
-    `district` varchar(32) DEFAULT NULL COMMENT '小区',
-    `building_no` varchar(32) DEFAULT NULL COMMENT '楼牌号',
-    `create_time` datetime NOT NULL COMMENT '创建时间',
-    `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-    `remark` varchar(256) DEFAULT NULL COMMENT '备注',
-    `deleted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间戳',
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `address`;
+-- CREATE TABLE `address` (
+--     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--     `province` varchar(32) NOT NULL COMMENT '省',
+--     `city` varchar(32) NOT NULL COMMENT '市',
+--     `country` varchar(32) DEFAULT NULL COMMENT '县',
+--     `town` varchar(32) DEFAULT NULL COMMENT '镇',
+--     `street` varchar(32) DEFAULT NULL COMMENT '街道',
+--     `village` varchar(32) DEFAULT NULL COMMENT '村',
+--     `district` varchar(32) DEFAULT NULL COMMENT '小区',
+--     `building_no` varchar(32) DEFAULT NULL COMMENT '楼牌号',
+--     `create_time` datetime NOT NULL COMMENT '创建时间',
+--     `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+--     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
+--     `deleted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间戳',
+--     PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for admin
@@ -103,7 +103,8 @@ CREATE TABLE `building` (
     `update_time` datetime DEFAULT NULL COMMENT '修改时间',
     `remark` varchar(0) DEFAULT NULL COMMENT '备注',
     `deleted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间戳',
-    `address_id` int(10) unsigned DEFAULT NULL COMMENT '地址Id',
+--     `address_id` int(10) unsigned DEFAULT NULL COMMENT '地址Id',
+    `address` varchar(128) not null DEFAULT '' comment '地址',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -259,7 +260,8 @@ CREATE TABLE `user` (
     `email` varchar(32) DEFAULT NULL COMMENT 'email',
     `profession` varchar(32) DEFAULT NULL COMMENT '职业',
     `hometown` varchar(32) DEFAULT NULL COMMENT '籍贯',
-    `address_id` int(10) unsigned DEFAULT NULL COMMENT '地址Id',
+--     `address_id` int(10) unsigned DEFAULT NULL COMMENT '地址Id',
+    `address` varchar(128) not null DEFAULT '' comment '地址',
     `account_id` int(10) unsigned NOT NULL COMMENT '账号Id',
     `create_time` datetime NOT NULL COMMENT '创建时间',
     `update_time` datetime DEFAULT NULL COMMENT '修改时间',

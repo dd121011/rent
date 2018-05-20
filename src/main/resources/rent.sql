@@ -74,13 +74,13 @@ CREATE TABLE `account` (
 -- ----------------------------
 DROP TABLE IF EXISTS `attachment`;
 CREATE TABLE `attachment` (
-    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `attachment_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `store` varchar(64) NOT NULL COMMENT '存放地址',
     `create_time` datetime NOT NULL COMMENT '创建时间',
     `update_time` datetime DEFAULT NULL COMMENT '更新时间',
     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
     `deleted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间戳',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`attachment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -88,7 +88,7 @@ CREATE TABLE `attachment` (
 -- ----------------------------
 DROP TABLE IF EXISTS `building`;
 CREATE TABLE `building` (
-    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `building_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `water` int(10) unsigned NOT NULL COMMENT '水费[分], eg 1个月1KG水700',
     `power` int(10) unsigned NOT NULL COMMENT '电费[分], eg 1个月1kwh电120',
     `power_three` int(10) DEFAULT '0' COMMENT '三相电费[分], eg 1个月1kwh电150',
@@ -105,7 +105,7 @@ CREATE TABLE `building` (
     `deleted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间戳',
 --     `address_id` int(10) unsigned DEFAULT NULL COMMENT '地址Id',
     `address` varchar(128) not null DEFAULT '' comment '地址',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`building_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -141,7 +141,7 @@ CREATE TABLE `building_landlord` (
 -- ----------------------------
 DROP TABLE IF EXISTS `deposit`;
 CREATE TABLE `deposit` (
-    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `deposit_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_no` varchar(10) NOT NULL COMMENT '房间编号',
     `water` int(10) unsigned DEFAULT NULL COMMENT '水费[分], eg 1个月1KG水700',
     `power` int(10) unsigned DEFAULT NULL COMMENT '电费[分], eg 1个月1kwh电120',
@@ -156,7 +156,7 @@ CREATE TABLE `deposit` (
     `update_time` datetime DEFAULT NULL COMMENT '更新时间',
     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
     `deleted` char(1) DEFAULT NULL COMMENT '删除时间戳',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`deposit_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -164,7 +164,7 @@ CREATE TABLE `deposit` (
 -- ----------------------------
 DROP TABLE IF EXISTS `rent`;
 CREATE TABLE `rent` (
-    `id` int(10) NOT NULL,
+    `rent_id` int(10) NOT NULL,
     `rent_no` varchar(64) NOT NULL COMMENT '房租收据单号',
     `water` int(10) unsigned NOT NULL COMMENT '水费[分], eg 1个月1KG水700',
     `power` int(10) unsigned NOT NULL COMMENT '电费[分], eg 1个月1kwh电120',
@@ -183,7 +183,7 @@ CREATE TABLE `rent` (
     `payed` char(1) DEFAULT '0' COMMENT '是否已支付',
     `channel` char(1) DEFAULT NULL COMMENT '支付渠道',
     `room_id` int(10) unsigned DEFAULT NULL COMMENT '房间id,一个房租对应一个roomId',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`rent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -191,7 +191,7 @@ CREATE TABLE `rent` (
 -- ----------------------------
 DROP TABLE IF EXISTS `renter`;
 CREATE TABLE `renter` (
-    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `renter_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `id_card` varchar(16) DEFAULT NULL COMMENT 'identification card 身份证号',
     `id_card_pic` varchar(64) DEFAULT NULL COMMENT '身份证正面',
     `id_card_pic_back` varchar(64) DEFAULT NULL COMMENT '身份证反面',
@@ -201,7 +201,7 @@ CREATE TABLE `renter` (
     `update_time` datetime DEFAULT NULL COMMENT '修改时间',
     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
     `deleted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间戳',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`renter_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -209,7 +209,7 @@ CREATE TABLE `renter` (
 -- ----------------------------
 DROP TABLE IF EXISTS `room`;
 CREATE TABLE `room` (
-    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `room_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_no` varchar(10) NOT NULL COMMENT '房间号',
     `deposit` int(10) NOT NULL COMMENT '押金[分]',
     `rent` int(10) NOT NULL COMMENT '租金[分]',
@@ -227,7 +227,7 @@ CREATE TABLE `room` (
     `update_time` datetime DEFAULT NULL COMMENT '修改时间',
     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
     `deleted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间戳',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -249,7 +249,7 @@ CREATE TABLE `room_attach` (
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `type` char(1) NOT NULL DEFAULT '0' COMMENT '用户类型 , 0-租客, 1-房东, 2-管理员, 3-巡管员, 4-超级管理员',
     `name` varchar(32) NOT NULL COMMENT '姓名',
     `sex` char(1) NOT NULL DEFAULT '0' COMMENT '0-保密, 1-男, 2-女',
@@ -266,7 +266,7 @@ CREATE TABLE `user` (
     `create_time` datetime NOT NULL COMMENT '创建时间',
     `update_time` datetime DEFAULT NULL COMMENT '修改时间',
     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;

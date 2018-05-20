@@ -266,7 +266,7 @@ CREATE TABLE `user` (
     `avatar` VARCHAR (128) NOT NULL DEFAULT '' COMMENT '头像URL',
     `qq` varchar(32) DEFAULT NULL COMMENT 'qq',
     `wechat` varchar(32) DEFAULT NULL COMMENT '微信',
-    `email` varchar(32) DEFAULT NULL COMMENT 'email',
+    `email` varchar(64) DEFAULT NULL COMMENT 'email',
     `profession` varchar(32) DEFAULT NULL COMMENT '职业',
     `hometown` varchar(32) DEFAULT NULL COMMENT '籍贯',
 --     `address_id` int(10) unsigned DEFAULT NULL COMMENT '地址Id',

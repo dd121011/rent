@@ -91,7 +91,7 @@ CREATE TABLE `building` (
     `building_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `water` int(10) unsigned NOT NULL COMMENT '水费[分], eg 1个月1KG水700',
     `power` int(10) unsigned NOT NULL COMMENT '电费[分], eg 1个月1kwh电120',
-    `power_fee` int(10) DEFAULT '0' COMMENT '三相电费[分], eg 1个月1kwh电150',
+    `power_three` int(10) DEFAULT '0' COMMENT '三相电费[分], eg 1个月1kwh电150',
     `health` int(10) DEFAULT '0' COMMENT '卫生费[分], eg 1个月1000',
     `internet` int(10) DEFAULT '0' COMMENT '网费[分], eg 1个月1000',
     `management` int(10) DEFAULT '0' COMMENT '物业管理费[分], eg 1个月1000',
@@ -113,14 +113,14 @@ CREATE TABLE `building` (
 -- ----------------------------
 DROP TABLE IF EXISTS `building_attach`;
 CREATE TABLE `building_attach` (
-    building_attach_id int unsigned not null AUTO_INCREMENT,
+    `building_attach_id` int unsigned not null AUTO_INCREMENT,
     `building_id` int(10) unsigned NOT NULL DEFAULT '0',
     `attach_id` int(10) unsigned NOT NULL DEFAULT '0',
     `create_ts` bigint unsigned not null DEFAULT '0' COMMENT '创建时间',
     `update_ts` bigint unsigned not null DEFAULT '0' COMMENT '更新时间',
     `remark` varchar(256) DEFAULT NULL DEFAULT '' COMMENT '备注',
     `delete_ts` bigint unsigned not null DEFAULT '0' comment '删除时间，13位时间戳',
-    PRIMARY KEY (building_attach_id),
+    PRIMARY KEY (`building_attach_id`),
     UNIQUE KEY (`building_id`,`attach_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -129,7 +129,7 @@ CREATE TABLE `building_attach` (
 -- ----------------------------
 DROP TABLE IF EXISTS `building_landlord`;
 CREATE TABLE `building_landlord` (
-    building_landlord_id int unsigned not null AUTO_INCREMENT,
+    `building_landlord_id` int unsigned not null AUTO_INCREMENT,
     `landlord_id` int(10) unsigned NOT NULL COMMENT '房东Id',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `create_ts` bigint unsigned not null DEFAULT '0' COMMENT '创建时间',
@@ -149,7 +149,7 @@ CREATE TABLE `deposit` (
     `room_no` varchar(10) NOT NULL COMMENT '房间编号',
     `water` int(10) unsigned DEFAULT NULL COMMENT '水费[分], eg 1个月1KG水700',
     `power` int(10) unsigned DEFAULT NULL COMMENT '电费[分], eg 1个月1kwh电120',
-    `power_fee` int(10) unsigned DEFAULT NULL COMMENT '三相电费[分], eg 1个月1kwh电150',
+    `power_three` int(10) unsigned DEFAULT NULL COMMENT '三相电费[分], eg 1个月1kwh电150',
     `health` int(10) unsigned DEFAULT NULL COMMENT '卫生费[分], eg 1个月1000',
     `internet` int(10) unsigned DEFAULT NULL COMMENT '网费[分], eg 1个月1000',
     `management` int(10) unsigned DEFAULT NULL COMMENT '物业管理费[分], eg 1个月1000',
@@ -173,7 +173,7 @@ CREATE TABLE `rent` (
     `rent_no` varchar(64) NOT NULL COMMENT '房租收据单号',
     `water` int(10) unsigned NOT NULL COMMENT '水费[分], eg 1个月1KG水700',
     `power` int(10) unsigned NOT NULL COMMENT '电费[分], eg 1个月1kwh电120',
-    `power_fee` int(10) unsigned DEFAULT NULL COMMENT '三相电费[分], eg 1个月1kwh电150',
+    `power_three` int(10) unsigned DEFAULT NULL COMMENT '三相电费[分], eg 1个月1kwh电150',
     `health` int(10) unsigned DEFAULT NULL COMMENT '卫生费[分], eg 1个月1000',
     `internet` int(10) unsigned DEFAULT NULL COMMENT '网费[分], eg 1个月1000',
     `management` int(10) unsigned DEFAULT NULL COMMENT '物业管理费[分], eg 1个月1000',
@@ -184,8 +184,8 @@ CREATE TABLE `rent` (
     `water_this` int(10) unsigned DEFAULT NULL COMMENT '本月水表读数[升]',
     `power_last` int(10) unsigned DEFAULT NULL COMMENT '上月电表读数[kwh]',
     `power_this` int(10) unsigned DEFAULT NULL COMMENT '本月电表读数[kwh]',
-    `power_fee_last` int(10) unsigned DEFAULT NULL COMMENT '上月用三电表读数[kwh]',
-    `power_fee_this` int(10) unsigned DEFAULT NULL COMMENT '本月用三电表读数[kwh]',
+    `power_three_last` int(10) unsigned DEFAULT NULL COMMENT '上月用三电表读数[kwh]',
+    `power_three_this` int(10) unsigned DEFAULT NULL COMMENT '本月用三电表读数[kwh]',
     `pay_ts` bigint unsigned not null DEFAULT '0' COMMENT '支付时间戳，13位，0：代表未支付；非0已支付',
     `channel` char(1) DEFAULT NULL DEFAULT '0' COMMENT '支付渠道，0-线下支付；1-微信支付；2-支付宝支付',
     `room_id` int(10) unsigned DEFAULT NULL COMMENT '房间id,一个房租对应一个roomId',
@@ -224,8 +224,8 @@ CREATE TABLE `room` (
     `water_this` int(11) NOT NULL DEFAULT '0' COMMENT '本月水表读数',
     `power_last` int(11) NOT NULL DEFAULT '0' COMMENT '上月电表读数',
     `power_this` int(11) NOT NULL DEFAULT '0' COMMENT '本月电表读数',
-    `power_fee_last` int(11) DEFAULT '0' COMMENT '上月用三电表读数',
-    `power_fee_this` int(11) DEFAULT '0' COMMENT '本月用三电表读数',
+    `power_three_last` int(11) DEFAULT '0' COMMENT '上月用三电表读数',
+    `power_three_this` int(11) DEFAULT '0' COMMENT '本月用三电表读数',
     `rent_day` varchar(2) NOT NULL COMMENT '收租日',
     `desc` varchar(0) DEFAULT NULL COMMENT '描述',
     `rented` char(1) NOT NULL DEFAULT '0' COMMENT '是否出租,0- 未出租,1-已出租',

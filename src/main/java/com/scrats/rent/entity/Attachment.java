@@ -8,14 +8,11 @@ import lombok.Data;
  * Description: ${DESCRIPTION}.
  * Email:    guosq@scrats.cn.
  * Author:   lol.
- * Date:     2018/5/13 16:33.
+ * Date:     2018/5/23 23:37.
  */
 @Data
-public class Account extends BaseEntity {
+public class Attachment extends BaseEntity {
 
-    private int accountId;//主键
-    private String username;//用户名
-    private String pwd;//密码
-    private String phone;//手机号码
-
+    private int attachment_id;//主键
+    private String store;//存放地址
 }

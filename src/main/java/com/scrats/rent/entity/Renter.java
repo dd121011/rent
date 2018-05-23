@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class Renter extends BaseEntity {
 
-    private int id;//主键
+    private int renterId;//主键
     private String idCard;//identification card 身份证号
     private String idCardPic;//身份证正面
     private String idCardPicBack;//身份证反面

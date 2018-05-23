@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class Deposit extends BaseEntity {
 
-    private int id;//主键
+    private int depositId;//主键
     private String roomNo;//房间编号
     private int water;//水费[分], eg 1个月1KG水700
     private int power;//电费[分], eg 1个月1kwh电120
@@ -20,6 +20,7 @@ public class Deposit extends BaseEntity {
     private int management;//物业管理费[分], eg 1个月1000
     private int parking;//停车费[分], eg 1个月1000
     private int rent;//租金[分], eg 1个月50000
+    private int otherFee;//其他费用
 
     private int roomId;//房间id,一个押金对应一个roomId,一个roomId可能对应多个押金Id
 

@@ -3,6 +3,8 @@ package com.scrats.rent.entity;
 import com.scrats.rent.base.entity.BaseEntity;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 房子实体类,一个房东可能有多个房子，一个房子对应多个房间
  * Created by lol on 15/4/23.
@@ -10,7 +12,7 @@ import lombok.Data;
 @Data
 public class Building extends BaseEntity {
 
-    private int id;//主键
+    private int buildingId;//主键
     private int water;//水费[分], eg 1个月1KG水700
     private int power;//电费[分], eg 1个月1kwh电120
     private int powerThree;//三相电费[分], eg 1个月1kwh电150
@@ -23,6 +25,9 @@ public class Building extends BaseEntity {
 
     private String desc;//描述
 
-    private int addressId;//地址Id
+    private String address;//地址
+
+    private List<Attachment> attachmentList;//一个房子对应多个attachment
+
 
 }

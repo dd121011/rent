@@ -3,6 +3,8 @@ package com.scrats.rent.entity;
 import com.scrats.rent.base.entity.BaseEntity;
 import lombok.Data;
 
+import javax.persistence.Table;
+
 /**
  * Created with scrat.
  * Description: ${DESCRIPTION}.
@@ -11,6 +13,7 @@ import lombok.Data;
  * Date:     2018/5/13 16:33.
  */
 @Data
+@Table
 public class Account extends BaseEntity {
 
     private int accountId;//主键

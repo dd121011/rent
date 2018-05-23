@@ -1,8 +1,8 @@
 package com.scrats.rent.base.service;
 
 import com.scrats.rent.base.RestResp;
-import com.scrats.rent.base.mapper.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import tk.mybatis.mapper.common.BaseMapper;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
 public class BaseServiceImpl<T,PK> implements BaseService<T,PK> {
 
     @Autowired
-    private BaseMapper<T,PK> baseMapper;
+    private BaseMapper<T> baseMapper;
 
     @Override
     public T save(T pojo) {
@@ -42,6 +42,7 @@ public class BaseServiceImpl<T,PK> implements BaseService<T,PK> {
 
     @Override
     public RestResp<List<T>> listByPage(T pojo) {
-        return new RestResp<>(baseMapper.pageSelect(pojo),baseMapper.pageCount(pojo));
+        return null;
+//        return new RestResp<>(baseMapper.pageSelect(pojo),baseMapper.pageCount(pojo));
     }
 }

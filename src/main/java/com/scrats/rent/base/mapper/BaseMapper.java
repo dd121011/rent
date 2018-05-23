@@ -1,14 +1,14 @@
 package com.scrats.rent.base.mapper;
 
-import java.util.List;
+import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.common.MySqlMapper;
 
-public interface BaseMapper<T,PK> {
-    int insert(T pojo);
-    int insertSelective(T record);
-    int deleteByPrimaryKey(PK id);
-    T selectByPrimaryKey(PK id);
-    int updateByPrimaryKeySelective(T pojo);
-    List<T> pageSelect(T pojo);
-    int pageCount(T pojo);
-
+/**
+ * Created with scrat.
+ * Description: ${DESCRIPTION}.
+ * Email:    guosq@scrats.cn.
+ * Author:   lol.
+ * Date:     2018/5/22 17:10.
+ */
+public interface BaseMapper<T> extends Mapper<T>, MySqlMapper<T> {
 }

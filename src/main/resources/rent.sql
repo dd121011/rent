@@ -186,13 +186,13 @@ CREATE TABLE `rent` (
     `power_this` int(10) unsigned DEFAULT NULL COMMENT '本月电表读数[kwh]',
     `power_three_last` int(10) unsigned DEFAULT NULL COMMENT '上月用三电表读数[kwh]',
     `power_three_this` int(10) unsigned DEFAULT NULL COMMENT '本月用三电表读数[kwh]',
-    `pay_ts` bigint unsigned not null DEFAULT '0' COMMENT '支付时间戳，13位，0：代表未支付；非0已支付',
+    `pay_ts` bigint unsigned not null DEFAULT '0' COMMENT '支付时间戳，13位',
     `channel` char(1) DEFAULT NULL DEFAULT '0' COMMENT '支付渠道，0-线下支付；1-微信支付；2-支付宝支付',
     `room_id` int(10) unsigned DEFAULT NULL COMMENT '房间id,一个房租对应一个roomId',
     `create_ts` bigint unsigned not null DEFAULT '0' COMMENT '创建时间',
     `update_ts` bigint unsigned not null DEFAULT '0' COMMENT '更新时间',
     `remark` varchar(256) DEFAULT NULL DEFAULT '' COMMENT '备注',
-    `delete_ts` bigint unsigned not null DEFAULT '0' comment '删除时间，13位时间戳'
+    `delete_ts` bigint unsigned not null DEFAULT '0' comment '删除时间，13位时间戳',
     PRIMARY KEY (`rent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

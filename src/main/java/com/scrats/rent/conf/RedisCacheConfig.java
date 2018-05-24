@@ -4,12 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,9 +23,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @User: lol.
  * @Date: 2018/1/9 15:16.
  */
-@Configuration
-@EnableCaching//启用缓存
-@EnableConfigurationProperties(RedisProperties.class)
+//@Configuration
+//@EnableCaching//启用缓存
+//@EnableConfigurationProperties(RedisProperties.class)
 public class RedisCacheConfig extends CachingConfigurerSupport {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());

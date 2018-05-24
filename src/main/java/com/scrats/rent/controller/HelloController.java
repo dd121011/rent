@@ -5,7 +5,7 @@ import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.common.exception.ErrorInfo;
 import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.common.job.PushJob;
-import com.scrats.rent.util.RedisUtil;
+import com.scrats.rent.base.service.RedisService;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +33,7 @@ public class HelloController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private RedisUtil redisUtil;
+    private RedisService redisService;
 
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
@@ -57,8 +57,8 @@ public class HelloController {
     @RequestMapping("/redisTest")
     @ResponseBody
     public void redisTest(Map<String, Object> map) {
-        redisUtil.set("test", "tt");
-        Object reidsValue = redisUtil.get("test");
+        redisService.set("test", "tt");
+        Object reidsValue = redisService.get("test");
         System.out.println(reidsValue);
     }
 

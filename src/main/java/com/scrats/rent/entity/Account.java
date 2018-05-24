@@ -3,6 +3,7 @@ package com.scrats.rent.entity;
 import com.scrats.rent.base.entity.BaseEntity;
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Table;
 
 /**
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 @Table
 public class Account extends BaseEntity {
 
+    @Column(name = "account_id")
     private int accountId;//主键
     private String username;//用户名
     private String pwd;//密码

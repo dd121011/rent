@@ -1,7 +1,7 @@
 package com.scrats.rent.test;
 
 import com.scrats.rent.entity.Admin;
-import com.scrats.rent.util.RedisUtil;
+import com.scrats.rent.base.service.RedisService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,12 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class RedisTest extends BaseTest {
 
     @Autowired
-    private RedisUtil redisUtil;
+    private RedisService redisService;
 
     @Test
     public void redisTest() {
-        redisUtil.set("test", "tt");
-        Object reidsValue = redisUtil.get("test");
+        redisService.set("test", "tt");
+        Object reidsValue = redisService.get("test");
         System.out.println(reidsValue);
 
         Admin admin = new Admin();

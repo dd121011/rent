@@ -23,9 +23,9 @@ import java.util.Map;
 @Repository
 public class JPushManager {
     private final Logger logger = Logger.getLogger(this.getClass());
-    @Value("${jpush.key}")
+    @Value("${edc.jpush.key}")
     private String APP_KEY;
-    @Value("${jpush.secret}")
+    @Value("${edc.jpush.secret}")
     private String MASTER_SECRET;
 
     public boolean pushCard(String title, String description, String cardContent, String... regIds) {

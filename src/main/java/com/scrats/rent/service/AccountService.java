@@ -1,7 +1,9 @@
 package com.scrats.rent.service;
 
+import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.entity.Account;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -13,5 +15,7 @@ import java.util.List;
  */
 public interface AccountService {
 
-    public List<Account> selectAll();
+    List<Account> selectAll();
+
+    JsonResult login(String username, String pwd, HttpServletRequest request);
 }

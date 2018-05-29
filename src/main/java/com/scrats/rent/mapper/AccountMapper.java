@@ -12,5 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  * Date:     2018/5/24 00:12.
  */
 @Mapper
-public interface AccountDao extends BaseMapper<Account> {
+public interface AccountMapper extends BaseMapper<Account> {
+
+    Account login(Account account);
 }

@@ -71,7 +71,7 @@ public class HelloController {
 //        if(!msgService.checkReportAvaliable(166)){
 //            return new JsonResult("推送的报表已经被禁用");
 //        }
-        return new JsonResult(map);
+        return new JsonResult<>(map);
     }
 
     @RequestMapping("/jobTest")

@@ -1,3 +1,4 @@
+<#include "common.ftl" />
 <!DOCTYPE html>
 <html>
 <head>

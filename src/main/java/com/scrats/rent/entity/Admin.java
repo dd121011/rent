@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class Admin extends BaseEntity{
 
+    private static final long serialVersionUID = 4011410956895224111L;
+
     private int id;//主键
     private String jobNo;//工号
     private String administrator;//是否超级管理员, 0-否, 1-是

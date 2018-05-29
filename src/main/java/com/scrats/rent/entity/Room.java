@@ -12,6 +12,8 @@ import java.util.List;
 @Data
 public class Room extends BaseEntity {
 
+    private static final long serialVersionUID = 8142937416927930896L;
+
     private int roomId;//主键
     private String roomNo;//房间号
     private int deposit;//押金[分]

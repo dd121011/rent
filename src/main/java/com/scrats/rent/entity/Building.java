@@ -12,6 +12,8 @@ import java.util.List;
 @Data
 public class Building extends BaseEntity {
 
+    private static final long serialVersionUID = -8526366061711633128L;
+
     private int buildingId;//主键
     private int water;//水费[分], eg 1个月1KG水700
     private int power;//电费[分], eg 1个月1kwh电120

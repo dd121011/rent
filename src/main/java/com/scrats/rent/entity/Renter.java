@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class Renter extends BaseEntity {
 
+    private static final long serialVersionUID = -8072135200688142869L;
+
     private int renterId;//主键
     private String idCard;//identification card 身份证号
     private String idCardPic;//身份证正面

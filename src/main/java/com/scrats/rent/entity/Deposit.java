@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class Deposit extends BaseEntity {
 
+    private static final long serialVersionUID = 2180201904798488772L;
+
     private int depositId;//主键
     private String roomNo;//房间编号
     private int water;//水费[分], eg 1个月1KG水700

@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class Guard extends BaseEntity {
 
+    private static final long serialVersionUID = 8895674553631875038L;
+
     private int id;//主键
     private Boolean issuper;//超级寻管员
 

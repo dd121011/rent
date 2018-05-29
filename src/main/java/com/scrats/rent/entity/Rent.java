@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class Rent extends BaseEntity {
 
+    private static final long serialVersionUID = 6961570224294320920L;
+
     private int rentId;//主键
     private String rentNo;//房租收据单号
     private int water;//水费[分], eg 1个月1KG水700

@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class User extends BaseEntity {
 
+    private static final long serialVersionUID = -6043513751393352184L;
+
     private int userId;//主键
     private String type;//用户类型 , 0-租客, 1-房东, 2-管理员, 3-巡管员
     private String name;//姓名

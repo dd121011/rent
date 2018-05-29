@@ -13,6 +13,8 @@ import lombok.Data;
 @Data
 public class Attachment extends BaseEntity {
 
+    private static final long serialVersionUID = -2817612996471911838L;
+
     private int attachment_id;//主键
     private String store;//存放地址
 }

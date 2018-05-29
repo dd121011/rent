@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scrats.rent.mapper.AccountMapper">
+
+    <select id="login" resultType="com.scrats.rent.entity.Account" parameterType="com.scrats.rent.entity.Account">
+        select username, pwd, phone, account_id, create_ts, update_ts, delete_ts from account
+        where 1=1
+        <if test="null != username and '' != username">
+          and username = #{username}
+        </if>
+        <if test="null != pwd and '' != pwd">
+            and pwd = #{pwd}
+        </if>
+        limit 1
+    </select>
+</mapper>

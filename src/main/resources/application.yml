@@ -2,8 +2,7 @@ server:
   port: 8083
   session:
     timeout: 3600
-#    store-dir: redis
-  context-path: /rent/
+  context-path: /rent
   tomcat:
     uri-encoding: utf-8
   error:
@@ -31,6 +30,26 @@ spring:
 logging:
   config: classpath:logback-spring.xml
 
-jpush:
-  key: c1a786a57a59620a86fce314
-  secret: 2b39cd397064cfbad5b055ab
+ ##################mybatis config begin  #################
+mybatis:
+  #实体类所在包
+  type-aliases-package: com.scrats.rent.entity
+  #mapper.xml所在位置
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+#    mapUnderscoreToCamelCase: true
+    map-underscore-to-camel-case: true
+    #是否启用下划线与驼峰式命名规则的映射（如first_name => firstName
+
+#通用mapper
+mapper:
+  mappers: com.scrats.rent.base.mapper.BaseMapper
+  not-empty: false
+  identity: MYSQL
+
+#分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

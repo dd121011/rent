@@ -346,7 +346,7 @@ CREATE TABLE `rent_iterm` (
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
     `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`user_id`)
+    PRIMARY KEY (`rent_iterm_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

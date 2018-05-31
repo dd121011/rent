@@ -202,6 +202,7 @@ DROP TABLE IF EXISTS `water`;
 CREATE TABLE `water` (
     `water_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_id` varchar(10) NOT NULL COMMENT '房间Id',
+    `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `count` int(10) unsigned DEFAULT '0' COMMENT '水表读数, 单位KG',
     `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
@@ -218,6 +219,7 @@ DROP TABLE IF EXISTS `electric`;
 CREATE TABLE `electric` (
     `electric_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_id` varchar(10) NOT NULL COMMENT '房间Id',
+    `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `count` int(10) unsigned DEFAULT '0' COMMENT '电表读数, 单位Kwh',
     `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
@@ -234,6 +236,7 @@ DROP TABLE IF EXISTS `electric_three`;
 CREATE TABLE `electric_three` (
     `electric_three_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_id` varchar(10) NOT NULL COMMENT '房间Id',
+    `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `count` int(10) unsigned DEFAULT '0' COMMENT '三相电表读数, 单位Kwh',
     `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
@@ -252,6 +255,7 @@ CREATE TABLE `renter` (
     `id_card_pic` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证正面',
     `id_card_pic_back` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证反面',
     `room_id` int(10) unsigned NOT NULL COMMENT '房间id,一个租户对应一个房间，一个房间对应多个租户',
+    `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `user_id` int(10) unsigned NOT NULL COMMENT '一个租客对应一个账号',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
@@ -300,6 +304,8 @@ DROP TABLE IF EXISTS `deposit_iterm`;
 CREATE TABLE `deposit_iterm` (
     `deposit_iterm_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `deposit_id` int(10) unsigned NOT NULL COMMENT '押金Id',
+    `room_id` int(10) unsigned NOT NULL COMMENT '房间Id',
+    `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `name` varchar(32) NOT NULL COMMENT '押金项目名称',
     `price` varchar(32) NOT NULL COMMENT '押金项目单价[分]',
     `unit` varchar(32) NOT NULL COMMENT '押金项目单位, 从字典表获得',
@@ -337,6 +343,8 @@ CREATE TABLE `rent` (
 DROP TABLE IF EXISTS `rent_iterm`;
 CREATE TABLE `rent_iterm` (
     `rent_iterm_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `rent_id` int(10) unsigned NOT NULL COMMENT '房租Id',
+    `room_id` int(10) unsigned NOT NULL COMMENT '房间Id',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `name` varchar(32) NOT NULL COMMENT '房租项目名称',
     `price` varchar(32) NOT NULL COMMENT '房租项目单价[分]',

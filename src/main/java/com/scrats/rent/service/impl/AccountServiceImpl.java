@@ -1,5 +1,6 @@
 package com.scrats.rent.service.impl;
 
+import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.entity.Account;
@@ -9,9 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created with scrat.
@@ -21,32 +19,23 @@ import java.util.Map;
  * Date:     2018/5/24 00:17.
  */
 @Service
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl extends BaseServiceImpl<Account, AccountMapper> implements AccountService {
 
-    @Autowired
-    private AccountMapper accountMapper;
 
     @Autowired
     private RedisService redisService;
 
     @Override
-    public List<Account> selectAll() {
-        //分页插件的使用 第一个参数是当前页 第二个参数是每页显示的条数
-//        PageHelper.startPage(2, 2);
-        return accountMapper.selectAll();
-    }
-
-    @Override
     public JsonResult login(String username, String pwd, HttpServletRequest request) {
 
-        Account result = accountMapper.login(new Account(username, pwd));
+        Account result = dao.login(new Account(username, pwd));
         if(null != result){
             request.getSession().setAttribute("account", result);
             return new JsonResult();
         }
         Account sel = new Account();
         sel.setUsername(username);
-        result = accountMapper.login(sel);
+        result = dao.login(sel);
         if(null != result){
             return new JsonResult("账号不存在");
         }

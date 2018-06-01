@@ -1,10 +1,11 @@
 package com.scrats.rent.service;
 
+import com.scrats.rent.base.service.BaseService;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.entity.Account;
+import com.scrats.rent.mapper.AccountMapper;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * Created with scrat.
@@ -13,9 +14,7 @@ import java.util.List;
  * Author:   lol.
  * Date:     2018/5/24 00:16.
  */
-public interface AccountService {
-
-    List<Account> selectAll();
+public interface AccountService extends BaseService<Account, AccountMapper> {
 
     JsonResult login(String username, String pwd, HttpServletRequest request);
 }

@@ -14,7 +14,7 @@ INSERT INTO `user` (user_id, type, name, sex, age, account_id, create_ts) VALUES
 -- dictionary initial
 INSERT INTO `dictionary` (dic_id, name, code, create_ts) VALUES (1, '房源配套设施', '001', unix_timestamp(now()));
 
--- dictionary initial
+-- dictionary_iterm initial
 INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (1, '床', unix_timestamp(now()));
 INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (1, 'WIFI', unix_timestamp(now()));
 INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (1, '衣柜', unix_timestamp(now()));

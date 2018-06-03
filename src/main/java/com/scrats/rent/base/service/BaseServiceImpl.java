@@ -18,18 +18,8 @@ public class BaseServiceImpl<T, D extends BaseMapper<T>> implements BaseService<
     protected D dao;
 
     @Override
-    public List<T> selectAll() {
-        return dao.selectAll();
-    }
-
-    @Override
     public List<T> select(T var1) {
         return dao.select(var1);
-    }
-
-    @Override
-    public T selectOne(T var1) {
-        return dao.selectOne(var1);
     }
 
     @Override
@@ -38,8 +28,23 @@ public class BaseServiceImpl<T, D extends BaseMapper<T>> implements BaseService<
     }
 
     @Override
-    public int delete(T var1) {
-        return dao.delete(var1);
+    public List<T> selectAll() {
+        return dao.selectAll();
+    }
+
+    @Override
+    public T selectOne(T var1) {
+        return dao.selectOne(var1);
+    }
+
+    @Override
+    public int selectCount(T var1) {
+        return dao.selectCount(var1);
+    }
+
+    @Override
+    public List<T> selectByIds(String ids) {
+        return dao.selectByIds(ids);
     }
 
     @Override
@@ -48,7 +53,38 @@ public class BaseServiceImpl<T, D extends BaseMapper<T>> implements BaseService<
     }
 
     @Override
+    public int insertSelective(T var1) {
+        return dao.insertSelective(var1);
+    }
+
+    @Override
     public int insertList(List<T> var1) {
         return dao.insertList(var1);
     }
+
+    @Override
+    public int updateByPrimaryKey(T var1){
+        return  dao.updateByPrimaryKey(var1);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(T var1){
+        return  dao.updateByPrimaryKeySelective(var1);
+    }
+
+    @Override
+    public int delete(T var1) {
+        return dao.delete(var1);
+    }
+
+    @Override
+    public int deleteByPrimaryKey(Object var1) {
+        return dao.deleteByPrimaryKey(var1);
+    }
+
+    @Override
+    public int deleteByIds(String ids) {
+        return dao.deleteByIds(ids);
+    }
+
 }

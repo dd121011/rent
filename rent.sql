@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `dictionary`;
 CREATE TABLE `dictionary` (
     `dic_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `name` varchar(32) NOT NULL COMMENT '字典类型名称',
-    `code` varchar (8) NOT NULL COMMENT '字典类型编号',
+    `code` char (3) NOT NULL COMMENT '字典类型编号',
     `desc` varchar (128) DEFAULT '' COMMENT '字典类型描述',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',

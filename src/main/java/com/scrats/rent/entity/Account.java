@@ -19,7 +19,7 @@ public class Account extends BaseEntity {
     private static final long serialVersionUID = 7219373609398245913L;
 
     @Id
-    @Column(name = "account_id")
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int accountId;//主键
     private String username;//用户名

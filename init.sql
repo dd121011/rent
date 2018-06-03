@@ -14,6 +14,7 @@ INSERT INTO `user` (user_id, type, name, sex, age, account_id, create_ts) VALUES
 -- dictionary initial
 INSERT INTO `dictionary` (dic_id, name, code, create_ts) VALUES (1, '房源配套设施', '001', unix_timestamp(now()));
 INSERT INTO `dictionary` (dic_id, name, code, create_ts) VALUES (2, '装修情况', '002', unix_timestamp(now()));
+INSERT INTO `dictionary` (dic_id, name, code, create_ts) VALUES (3, '房间朝向', '003', unix_timestamp(now()));
 
 -- dictionary_iterm initial
 INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (1, '床', unix_timestamp(now()));
@@ -41,3 +42,12 @@ INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (2, '毛胚', u
 INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (2, '简装', unix_timestamp(now()));
 INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (2, '精装', unix_timestamp(now()));
 INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (2, '豪装', unix_timestamp(now()));
+
+INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (3, '东', unix_timestamp(now()));
+INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (3, '南', unix_timestamp(now()));
+INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (3, '西', unix_timestamp(now()));
+INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (3, '北', unix_timestamp(now()));
+INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (3, '东南', unix_timestamp(now()));
+INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (3, '东北', unix_timestamp(now()));
+INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (3, '西南', unix_timestamp(now()));
+INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (3, '西北', unix_timestamp(now()));

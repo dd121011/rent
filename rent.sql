@@ -111,9 +111,7 @@ CREATE TABLE `user` (
 DROP TABLE IF EXISTS `building`;
 CREATE TABLE `building` (
     `building_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `water` int(10) unsigned DEFAULT NULL COMMENT '水费[分], eg 1个月1KG水700',
-    `electric` int(10) unsigned DEFAULT NULL COMMENT '电费[分], eg 1个月1kwh电120',
-    `electric_three` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '三相电费[分], eg 1个月1kwh电150, 有的房子不提供',
+    `facilities` varchar(256) DEFAULT '' COMMENT '配套设施',
     `rooms` int(10) NOT NULL COMMENT '总的房间数',
     `room_able` int(10) DEFAULT '0' COMMENT '可用房间数,通过总的房间数和可用房间数可以计算出出租房间数',
     `desc` varchar(256) DEFAULT '' COMMENT '描述',
@@ -124,24 +122,6 @@ CREATE TABLE `building` (
     --     `address_id` int(10) unsigned DEFAULT NULL COMMENT '地址Id',
     `address` varchar(128) DEFAULT '' COMMENT '地址',
     PRIMARY KEY (`building_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for dictionary_iterm
--- ----------------------------
-DROP TABLE IF EXISTS `building_iterm`;
-CREATE TABLE `building_iterm` (
-    `building_iterm_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
-    `name` varchar(32) NOT NULL COMMENT '房租项目名称',
-    `price` varchar(32) NOT NULL COMMENT '房租项目单价[分]',
-    `unit` varchar(32) NOT NULL COMMENT '房租项目单位, 从字典表获得',
-    `desc` varchar (128) DEFAULT '' COMMENT '房租项目描述',
-    `remark` varchar(256) DEFAULT '' COMMENT '备注',
-    `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`building_iterm_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -176,6 +156,22 @@ CREATE TABLE `building_landlord` (
     PRIMARY KEY (building_landlord_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+-- ----------------------------
+-- Table structure for extra
+-- ----------------------------
+DROP TABLE IF EXISTS `extra`;
+CREATE TABLE `extra` (
+    `extra_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `name` varchar(10) NOT NULL COMMENT '名称',
+    `unit` varchar(10) NOT NULL COMMENT '单位',
+    `remark` varchar(256) DEFAULT '' COMMENT '备注',
+    `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
+    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    PRIMARY KEY (`extra_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- ----------------------------
 -- Table structure for room
 -- ----------------------------
@@ -183,8 +179,14 @@ DROP TABLE IF EXISTS `room`;
 CREATE TABLE `room` (
     `room_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_no` varchar(10) NOT NULL COMMENT '房间号',
-    `price` int(10) NOT NULL COMMENT '租金[分]',
-    `rent_day` varchar(2) NOT NULL COMMENT '收租日',
+    `style` varchar(16) DEFAULT '0室0厅0卫' COMMENT '房型',
+    `orientation` int(10) NOT NULL COMMENT '房间朝向',
+    `decoration` int(10) NOT NULL COMMENT '装修情况',
+    `facilities` varchar(256) DEFAULT '' COMMENT '配套设施',
+    `guaranty` int(2) DEFAULT 1 COMMENT '押金月份',
+    `pay` int(2) DEFAULT 1 COMMENT '租金月份',
+    `rent_fee` int(10) unsigned NOT NULL COMMENT '租金[分/月]',
+    `area` int(10) NOT NULL COMMENT '使用面积[平方分米]',
     `desc` varchar(0) DEFAULT '' COMMENT '描述',
     `rent_ts` bigint unsigned DEFAULT '0' COMMENT '出租时间',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子id,一个房间对应一个房子id',
@@ -194,6 +196,7 @@ CREATE TABLE `room` (
     `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 -- ----------------------------
 -- Table structure for water
@@ -245,6 +248,7 @@ CREATE TABLE `electric_three` (
     `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`electric_three_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- ----------------------------
 -- Table structure for renter
 -- ----------------------------
@@ -264,7 +268,31 @@ CREATE TABLE `renter` (
     PRIMARY KEY (`renter_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
+-- ----------------------------
+-- Table structure for renter
+-- ----------------------------
+DROP TABLE IF EXISTS `bargin`;
+CREATE TABLE `bargin` (
+    `bargin_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `id_card` varchar(16) NOT NULL COMMENT 'identification card 身份证号',
+    `id_card_pic` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证正面',
+    `id_card_pic_back` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证反面',
+    `guaranty` int(2) DEFAULT 1 COMMENT '押金月份',
+    `pay` int(2) DEFAULT 1 COMMENT '租金月份',
+    `rent_fee` int(10) unsigned NOT NULL COMMENT '租金[分/月]',
+    `guaranty_fee` int(10) unsigned NOT NULL COMMENT '押金[分]',
+    `total` int(10) unsigned NOT NULL COMMENT '首次缴费[分]',
+    `room_id` int(10) unsigned NOT NULL COMMENT '房间id,一个合同对应一个房间，一个房间对应多个合同',
+    `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
+    `user_id` int(10) unsigned NOT NULL COMMENT '一个租客对应一个账号',
+    `remark` varchar(256) DEFAULT '' COMMENT '备注',
+    `live_ts` bigint unsigned NOT NULL COMMENT '入住时间，13位时间戳',
+    `lease_ts` bigint unsigned NOT NULL COMMENT '退租时间，13位时间戳',
+    `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
+    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    PRIMARY KEY (`bargin_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for room_attach

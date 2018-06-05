@@ -130,8 +130,8 @@ CREATE TABLE `renter` (
 DROP TABLE IF EXISTS `building`;
 CREATE TABLE `building` (
     `building_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `facilities` varchar(256) DEFAULT '' COMMENT '配套设施',
-    `extra_fee` varchar(256) DEFAULT '' COMMENT '额外收费项',
+    `facilities` varchar(256) DEFAULT '' COMMENT '配套设施id字符串[,隔开]',
+    `extra_fee` varchar(256) DEFAULT '' COMMENT '额外收费项id字符串[,隔开]',
     `rooms` int(10) NOT NULL COMMENT '总的房间数',
     `room_able` int(10) DEFAULT '0' COMMENT '可用房间数,通过总的房间数和可用房间数可以计算出出租房间数',
     `desc` varchar(256) DEFAULT '' COMMENT '描述',
@@ -206,8 +206,8 @@ CREATE TABLE `room` (
     `rent_fee` int(10) unsigned NOT NULL COMMENT '租金[分/月]',
     `area` int(10) NOT NULL COMMENT '使用面积[平方分米]',
     `desc` varchar(0) DEFAULT '' COMMENT '描述',
-    `facilities` varchar(256) DEFAULT '' COMMENT '配套设施',
-    `extra_fee` varchar(256) DEFAULT '' COMMENT '额外收费项',
+    `facilities` varchar(256) DEFAULT '' COMMENT '配套设施id字符串[,隔开]',
+    `extra_fee` varchar(256) DEFAULT '' COMMENT '额外收费项id字符串[,隔开]',
     `rent_ts` bigint unsigned DEFAULT '0' COMMENT '出租时间',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子id,一个房间对应一个房子id',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
@@ -254,7 +254,7 @@ CREATE TABLE `bargin` (
     `electric` int(10) unsigned DEFAULT '0' COMMENT '电表初始读数, 单位Kwh',
     `electric_three` int(10) unsigned DEFAULT '0' COMMENT '三相电表初始读数, 单位Kwh',
     `gas_three` int(10) unsigned DEFAULT '0' COMMENT '天然气初始读数, 单位m2',
-    `facilities` varchar(256) DEFAULT '' COMMENT '配套设施',
+    `facilities` varchar(256) DEFAULT '' COMMENT '配套设施id字符串[,隔开]',
     `room_id` int(10) unsigned NOT NULL COMMENT '房间id,一个合同对应一个房间，一个房间对应多个合同',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `user_id` int(10) unsigned NOT NULL COMMENT '一个租客对应一个账号',
@@ -370,11 +370,11 @@ CREATE TABLE `rent_iterm` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for water
+-- Table structure for water_history
 -- ----------------------------
-DROP TABLE IF EXISTS `water`;
-CREATE TABLE `water` (
-    `water_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `water_history`;
+CREATE TABLE `water_history` (
+    `water_history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_id` varchar(10) NOT NULL COMMENT '房间Id',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `count` int(10) unsigned DEFAULT '0' COMMENT '水表读数, 单位KG',
@@ -383,15 +383,15 @@ CREATE TABLE `water` (
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
     `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`water_id`)
+    PRIMARY KEY (`water_history_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for electric
+-- Table structure for electric_history
 -- ----------------------------
-DROP TABLE IF EXISTS `electric`;
-CREATE TABLE `electric` (
-    `electric_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `electric_history`;
+CREATE TABLE `electric_history` (
+    `electric_history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_id` varchar(10) NOT NULL COMMENT '房间Id',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `count` int(10) unsigned DEFAULT '0' COMMENT '电表读数, 单位Kwh',
@@ -400,15 +400,15 @@ CREATE TABLE `electric` (
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
     `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`electric_id`)
+    PRIMARY KEY (`electric_history_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for electric_three
+-- Table structure for electric_three_history
 -- ----------------------------
-DROP TABLE IF EXISTS `electric_three`;
-CREATE TABLE `electric_three` (
-    `electric_three_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `electric_three_history`;
+CREATE TABLE `electric_three_history` (
+    `electric_three_history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_id` varchar(10) NOT NULL COMMENT '房间Id',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `count` int(10) unsigned DEFAULT '0' COMMENT '三相电表读数, 单位Kwh',
@@ -417,15 +417,15 @@ CREATE TABLE `electric_three` (
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
     `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`electric_three_id`)
+    PRIMARY KEY (`electric_three_history_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for gas
 -- ----------------------------
-DROP TABLE IF EXISTS `gas`;
-CREATE TABLE `gas` (
-    `gas_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `gas_history`;
+CREATE TABLE `gas_history` (
+    `gas_history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_id` varchar(10) NOT NULL COMMENT '房间Id',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `count` int(10) unsigned DEFAULT '0' COMMENT '天然气读数, 单位m2',
@@ -434,7 +434,7 @@ CREATE TABLE `gas` (
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
     `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`gas_id`)
+    PRIMARY KEY (`gas_history_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

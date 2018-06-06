@@ -59,7 +59,13 @@
         var username = $("input[type='text']").val();
         var pwd = $("input[type='password']").val();
         $.post("${base}/login",{username:username,pwd:pwd},function(result){
-            window.location.href = "${base}/home";
+            if(result.code == 1){
+                window.location.href = "${base}/home";
+            }else{
+                alert(result.msg);
+            }
+        }).error(function (result) {
+            alert("系统错误");
         });
     }
 </script>

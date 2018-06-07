@@ -27,4 +27,7 @@ public class BaseEntity implements Serializable {
     @Transient
     private Integer rows = 10;
 
+    @Transient
+    private String searchText;//搜索内容
+
 }

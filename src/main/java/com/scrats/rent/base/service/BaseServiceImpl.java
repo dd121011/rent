@@ -1,6 +1,8 @@
 package com.scrats.rent.base.service;
 
+import com.github.pagehelper.PageHelper;
 import com.scrats.rent.base.mapper.BaseMapper;
+import com.scrats.rent.common.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -85,6 +87,13 @@ public class BaseServiceImpl<T, D extends BaseMapper<T>> implements BaseService<
     @Override
     public int deleteByIds(String ids) {
         return dao.deleteByIds(ids);
+    }
+
+    @Override
+    public PageInfo<T> select(int page, int rows, T var1) {
+        PageHelper.startPage(page, rows);
+        List<T> list = dao.select(var1);
+        return new PageInfo<T>(list);
     }
 
 }

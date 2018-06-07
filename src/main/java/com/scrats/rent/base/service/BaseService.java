@@ -1,5 +1,7 @@
 package com.scrats.rent.base.service;
 
+import com.scrats.rent.common.PageInfo;
+
 import java.util.List;
 
 /**
@@ -136,4 +138,13 @@ public interface BaseService<T, D> {
      * @return: int
      */
     int deleteByIds(String ids);
+
+    /**
+     * @description: 根据实体中的属性值进行查询，查询条件使用等号
+     * @author: lol
+     * @date: 2018/6/3 22:17
+     * @param: var1
+     * @return: List<T>
+     */
+    PageInfo<T> select(int page, int rows, T var1);
 }

@@ -7,10 +7,10 @@
 
 POST
 
-| 参数 | 类型 | 描述 | 是否必填 |
+| 参数 | 类型 | 是否必填 | 描述 |
 | --- | --- | --- | --- |
-| username | String | 用户名 | 必填 |
-| pwd | String | 密码 | 必填 |
+| username | String | 必填 | 用户名 |
+| pwd | String | 必填 | 密码 |
 
 RETURN
 
@@ -22,11 +22,11 @@ RETURN
 
 GET
 
-| 参数 | 类型 | 描述 | 是否必填 |
+| 参数 | 类型 | 是否必填 | 描述 |
 | --- | --- | --- | --- |
-| page | int | 页码 | 必填 |
-| rows | int | 每页大小 | 必填 |
-| userId | int | 房东Id | 必填 |
+| page | int | 必填 | 页码 |
+| rows | int | 必填 | 每页大小 |
+| userId | int |必填  | 房东Id |
 
 RETURN
 房东

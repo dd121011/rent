@@ -1,5 +1,7 @@
 package com.scrats.rent.common;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -9,6 +11,7 @@ import java.io.Serializable;
  * @User: lol.
  * @Date: 2017/12/29 09:58.
  */
+@Data
 public class JsonResult<T> implements Serializable {
     private static final long serialVersionUID = 3287794870377113472L;
 
@@ -19,45 +22,34 @@ public class JsonResult<T> implements Serializable {
     private int code;
     private String msg;
     private T data;
+    private int count;
 
     //构造方法
     public JsonResult() {
-        code = SUCCESS;
-        msg = MESSAGE;
+        this.code = SUCCESS;
+        this.msg = MESSAGE;
     }
+
     public JsonResult (T data){
-        code = SUCCESS;
+        this.code = SUCCESS;
         this.data = data;
     }
+
+    public JsonResult(T data, int count){
+        this.code = SUCCESS;
+        this.data = data;
+        this.count = count;
+
+    }
+
     public JsonResult (Throwable e){
-        code = ERROR;
+        this.code = ERROR;
         this.msg = e.getMessage();
     }
+
     public JsonResult (String msg){
-        code = ERROR;
+        this.code = ERROR;
         this.msg = msg;
     }
-    //get AND set 方法
-    public int getCode() {
-        return code;
-    }
-    public void setCode(int code) {
-        this.code = code;
-    }
-    public String getMsg() {
-        return msg;
-    }
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-    public T getData() {
-        return data;
-    }
-    public void setData(T data) {
-        this.data = data;
-    }
-    @Override
-    public String toString() {
-        return "JsonResult [code=" + code + ", msg=" + msg + ", data=" + data + "]";
-    }
+
 }

@@ -1,5 +1,7 @@
 package com.scrats.rent.constant;
 
+import lombok.Getter;
+
 /**
  * Created with scrat.
  * Description: ${DESCRIPTION}.
@@ -9,17 +11,29 @@ package com.scrats.rent.constant;
  */
 public enum SexType {
 
-    secret("保密"),
-    male("男"),
-    female("女");
+    secret("保密", "0"),
+    male("男", "1"),
+    female("女", "2");
 
+    @Getter
     private String name;
+    @Getter
+    private String value;
 
-    SexType(String name) {
+
+    SexType(String name, String value) {
         this.name = name;
+        this.value = value;
     }
 
-    public String getName() {
-        return name;
+    public static SexType fromValue(String value) {
+        SexType[] sexTypes = SexType.values();
+        for (SexType type : sexTypes) {
+            if (type.value.equals(value)) {
+                return type;
+            }
+        }
+        return null;
     }
+
 }

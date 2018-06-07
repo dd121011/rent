@@ -4,8 +4,10 @@ import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.entity.Account;
+import com.scrats.rent.entity.User;
 import com.scrats.rent.mapper.AccountMapper;
 import com.scrats.rent.service.AccountService;
+import com.scrats.rent.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +27,18 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, AccountMapper> 
     @Autowired
     private RedisService redisService;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public JsonResult login(String username, String pwd, HttpServletRequest request) {
 
         Account result = dao.login(new Account(username, pwd));
         if(null != result){
-            request.getSession().setAttribute("account", result);
+            User user = userService.getUserByAccountId(result.getAccountId());
+            System.out.println(user.getTypeName());
+            System.out.println(user.getSexName());
+            request.getSession().setAttribute("user", user);
             return new JsonResult();
         }
         Account sel = new Account();

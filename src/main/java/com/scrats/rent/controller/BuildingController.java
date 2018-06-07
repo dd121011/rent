@@ -1,6 +1,7 @@
 package com.scrats.rent.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.scrats.rent.base.entity.BaseEntity;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Building;
@@ -38,11 +39,11 @@ public class BuildingController {
 
     @GetMapping("/list")
     @ResponseBody
-    public String list(int page, int rows, HttpServletRequest request) {
+    public String list(BaseEntity base, HttpServletRequest request) {
 
 //        User user = (User) request.getSession().getAttribute("user");
         int userId = 3;
-        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(page, rows, userId);
+        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(base.getPage(), base.getRows(), userId);
 
         return JSON.toJSONString(new JsonResult(pageInfo.getList(), (int) pageInfo.getTotal()));
     }

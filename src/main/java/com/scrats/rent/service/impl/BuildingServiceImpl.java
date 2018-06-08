@@ -6,6 +6,8 @@ import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Building;
 import com.scrats.rent.mapper.BuildingMapper;
 import com.scrats.rent.service.BuildingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,7 @@ import java.util.List;
 @Service
 public class BuildingServiceImpl extends BaseServiceImpl<Building, BuildingMapper> implements BuildingService {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public PageInfo<Building> getBuildingListByUserId(int page, int rows, int userId) {

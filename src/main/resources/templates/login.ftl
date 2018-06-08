@@ -40,7 +40,13 @@
 <script src="${base}/static/plugins/login/js/jquery.js"></script>
 <script src="${base}/static/plugins/login/js/verificationNumbers.js"></script>
 <script src="${base}/static/plugins/login/js/Particleground.js"></script>
+<script src="${base}/static/js/extends/jquery.cookie.js"></script>
 <script>
+    var tokenId = $.cookie('rent_tokenId');
+    if(undefined != tokenId){
+        window.location.href = "${base}/home?tokenId=" + tokenId;
+    }
+
     $(document).ready(function () {
         //粒子背景特效
         $('body').particleground({
@@ -60,6 +66,8 @@
         var pwd = $("input[type='password']").val();
         $.post("${base}/login",{username:username,pwd:pwd},function(result){
             if(result.code == 1){
+                tokenId = result.data.tokenId;
+                $.cookie("rent_tokenId",tokenId,{expires: 7, path: '/rent'})
                 window.location.href = "${base}/home";
             }else{
                 alert(result.msg);

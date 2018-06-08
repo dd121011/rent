@@ -1,5 +1,6 @@
 package com.scrats.rent.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.JsonResult;
@@ -8,10 +9,13 @@ import com.scrats.rent.entity.User;
 import com.scrats.rent.mapper.AccountMapper;
 import com.scrats.rent.service.AccountService;
 import com.scrats.rent.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 /**
  * Created with scrat.
@@ -23,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 public class AccountServiceImpl extends BaseServiceImpl<Account, AccountMapper> implements AccountService {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private RedisService redisService;
@@ -38,8 +43,11 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, AccountMapper> 
             User user = userService.getUserByAccountId(result.getAccountId());
             System.out.println(user.getTypeName());
             System.out.println(user.getSexName());
-            request.getSession().setAttribute("user", user);
-            return new JsonResult();
+            String tokenId = UUID.randomUUID().toString().replace("-","");
+            redisService.set(tokenId,user, (long) (60*60));
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("tokenId", tokenId);
+            return new JsonResult(jsonObject);
         }
         Account sel = new Account();
         sel.setUsername(username);

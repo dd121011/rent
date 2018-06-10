@@ -1,6 +1,7 @@
 package com.scrats.rent.api;
 
 import com.alibaba.fastjson.JSON;
+import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.CurrentUser;
@@ -14,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Created with scrat.
@@ -37,13 +36,9 @@ public class BuildingApi {
 
 
     @GetMapping("/list")
-    public String list(@CurrentUser User user, int page, int rows, HttpServletRequest request) {
+    public String list(@CurrentUser User user, APIRequest apiRequest) {
 
-        if(rows < 1){
-            rows = 10;
-        }
-
-        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(page, rows, user.getUserId());
+        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(apiRequest.getPage(), apiRequest.getRows(), user.getUserId());
 
         return JSON.toJSONString(new JsonResult(pageInfo.getList(), (int) pageInfo.getTotal()));
     }

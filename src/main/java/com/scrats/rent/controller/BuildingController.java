@@ -2,6 +2,7 @@ package com.scrats.rent.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.scrats.rent.base.service.RedisService;
+import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.CurrentUser;
@@ -50,10 +51,9 @@ public class BuildingController {
 
     @GetMapping("/list")
     @ResponseBody
-    public String list(@CurrentUser User user, HttpServletRequest request) {
+    public String list(@CurrentUser User user, APIRequest apiRequest) {
 
-//        int userId = 3;
-        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(user.getPage(), user.getRows(), user.getUserId());
+        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(apiRequest.getPage(), apiRequest.getRows(), user.getUserId());
 
         return JSON.toJSONString(new JsonResult(pageInfo.getList(), (int) pageInfo.getTotal()));
     }

@@ -3,7 +3,6 @@ package com.scrats.rent.base.entity;
 import lombok.Data;
 
 import javax.persistence.Column;
-import javax.persistence.Transient;
 import java.io.Serializable;
 
 @Data
@@ -20,14 +19,5 @@ public class BaseEntity implements Serializable {
     private String remark;//备注
     @Column
     private long deleteTs;//删除时间戳
-
-    @Transient
-    private Integer page = 1;
-
-    @Transient
-    private Integer rows = 10;
-
-    @Transient
-    private String searchText;//搜索内容
 
 }

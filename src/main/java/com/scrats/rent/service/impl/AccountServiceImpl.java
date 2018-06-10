@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.JsonResult;
+import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.Account;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.mapper.AccountMapper;
@@ -14,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 /**
@@ -36,13 +36,13 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, AccountMapper> 
     private UserService userService;
 
     @Override
-    public JsonResult login(String username, String pwd, HttpServletRequest request) {
+    public JsonResult login(String username, String pwd) {
 
         Account result = dao.login(new Account(username, pwd));
         if(null != result){
             User user = userService.getUserByAccountId(result.getAccountId());
             String tokenId = UUID.randomUUID().toString().replace("-","");
-            redisService.set(tokenId,user, (long) (60*60));
+            redisService.set(tokenId,user, GlobalConst.ACCESS_TOKEN_EXPIRE);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("tokenId", tokenId);
             return new JsonResult(jsonObject);

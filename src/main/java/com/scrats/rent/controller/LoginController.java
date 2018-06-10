@@ -10,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Created with scrat.
  * Description: ${DESCRIPTION}.
@@ -30,9 +28,9 @@ public class LoginController {
     @IgnoreSecurity
     @PostMapping("/login")
     @ResponseBody
-    public JsonResult login(String username, String pwd, HttpServletRequest request) {
+    public JsonResult login(String username, String pwd) {
 
-        return accountService.login(username, pwd, request);
+        return accountService.login(username, pwd);
     }
 
 }

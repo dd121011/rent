@@ -13,5 +13,7 @@ public class GlobalConst {
 
     public static final String ACCESS_TOKEN = "user_token_key";
 
+    public static final long ACCESS_TOKEN_EXPIRE = 60 * 60 * 24 * 7;
+
 
 }

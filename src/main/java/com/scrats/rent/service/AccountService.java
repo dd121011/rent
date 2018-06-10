@@ -5,8 +5,6 @@ import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.entity.Account;
 import com.scrats.rent.mapper.AccountMapper;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Created with scrat.
  * Description: ${DESCRIPTION}.
@@ -16,5 +14,5 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface AccountService extends BaseService<Account, AccountMapper> {
 
-    JsonResult login(String username, String pwd, HttpServletRequest request);
+    JsonResult login(String username, String pwd);
 }

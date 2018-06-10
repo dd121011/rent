@@ -3,6 +3,7 @@ package com.scrats.rent.api;
 import com.alibaba.fastjson.JSON;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
+import com.scrats.rent.common.annotation.CurrentUser;
 import com.scrats.rent.entity.Building;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.service.BuildingService;
@@ -36,17 +37,13 @@ public class BuildingApi {
 
 
     @GetMapping("/list")
-    public String list(int page, int rows, int userId, HttpServletRequest request) {
+    public String list(@CurrentUser User user, int page, int rows, HttpServletRequest request) {
 
         if(rows < 1){
             rows = 10;
         }
 
-        User user = userService.selectByPrimaryKey(userId);
-        if(null == user){
-            return JSON.toJSONString(new JsonResult("userId不正确"));
-        }
-        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(page, rows, userId);
+        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(page, rows, user.getUserId());
 
         return JSON.toJSONString(new JsonResult(pageInfo.getList(), (int) pageInfo.getTotal()));
     }

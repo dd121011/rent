@@ -59,6 +59,7 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
         if (StringUtils.isEmpty(token)) {
             throw new NotAuthorizedException("非法请求, 请登陆");
         }
+        httpServletRequest.setAttribute("tokenId", token);
         User userInfo = (User) redisService.get(token);
         httpServletRequest.setAttribute("rentUser", userInfo);
         return true;

@@ -1,6 +1,7 @@
 package com.scrats.rent.common;
 
 import com.scrats.rent.common.annotation.CurrentUser;
+import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.entity.User;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -8,7 +9,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 /**
  * @Created with scrat.
@@ -29,7 +29,6 @@ public class APIRequestResolver implements HandlerMethodArgumentResolver {
         if (user != null) {
             return user;
         }
-//        throw new BusinessException("httprequest error");
-        throw new MissingServletRequestPartException("httprequest error");
+        throw new BusinessException("httprRquest error");
     }
 }

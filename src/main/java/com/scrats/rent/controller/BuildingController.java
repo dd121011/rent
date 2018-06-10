@@ -1,9 +1,12 @@
 package com.scrats.rent.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.scrats.rent.base.entity.BaseEntity;
+import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
+import com.scrats.rent.common.annotation.CurrentUser;
+import com.scrats.rent.common.annotation.IgnoreSecurity;
+import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.Building;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.service.BuildingService;
@@ -33,18 +36,24 @@ public class BuildingController {
     @Autowired
     private BuildingService buildingService;
 
-    @GetMapping("/")
-    public String list() {
+    @Autowired
+    private RedisService redisService;
+
+    @IgnoreSecurity
+    @GetMapping("/goBuilding")
+    public String list(String tokenId, HttpServletRequest request)
+    {
+        User user = (User) redisService.get(GlobalConst.ACCESS_TOKEN);
+        request.getSession().setAttribute("user",user);
         return "building_list";
     }
 
     @GetMapping("/list")
     @ResponseBody
-    public String list(BaseEntity base, HttpServletRequest request) {
+    public String list(@CurrentUser User user, HttpServletRequest request) {
 
-        User user = (User) request.getSession().getAttribute("user");
 //        int userId = 3;
-        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(base.getPage(), base.getRows(), user.getUserId());
+        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(user.getPage(), user.getRows(), user.getUserId());
 
         return JSON.toJSONString(new JsonResult(pageInfo.getList(), (int) pageInfo.getTotal()));
     }

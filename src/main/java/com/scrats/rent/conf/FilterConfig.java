@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import com.scrats.rent.common.filter.BaseFilter;
 import com.scrats.rent.common.filter.CsrfFilter;
 import com.scrats.rent.common.filter.XssFilter;
 
@@ -67,17 +66,5 @@ public class FilterConfig
         registration.setOrder(3);
         return registration;
     }
-
-    @Bean
-    public FilterRegistrationBean baseFilterRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new BaseFilter());
-        registration.addUrlPatterns("/*");
-        registration.setName("baseFilter");
-        registration.setOrder(4);
-        return registration;
-    }
-
-
 
 }

@@ -1,7 +1,7 @@
 package com.scrats.rent.controller;
 
-import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.JsonResult;
+import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,16 +26,16 @@ public class LoginController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private RedisService redisService;
-
-    @Autowired
     private AccountService accountService;
 
+    @IgnoreSecurity
     @GetMapping("/")
     public String gologin() {
+
         return "login";
     }
 
+    @IgnoreSecurity
     @PostMapping("/login")
     @ResponseBody
     public JsonResult login(String username, String pwd, HttpServletRequest request) {

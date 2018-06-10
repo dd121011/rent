@@ -48,7 +48,7 @@ public class HelloController {
 //        return "hello";
     }
 
-    @RequestMapping("/home")
+    @RequestMapping("/goHome")
     public String home(Map<String, Object> map) {
         System.out.println("home");
         return "home";

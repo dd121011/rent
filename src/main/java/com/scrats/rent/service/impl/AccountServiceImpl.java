@@ -41,8 +41,6 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, AccountMapper> 
         Account result = dao.login(new Account(username, pwd));
         if(null != result){
             User user = userService.getUserByAccountId(result.getAccountId());
-            System.out.println(user.getTypeName());
-            System.out.println(user.getSexName());
             String tokenId = UUID.randomUUID().toString().replace("-","");
             redisService.set(tokenId,user, (long) (60*60));
             JSONObject jsonObject = new JSONObject();

@@ -1,0 +1,1 @@
+var tokenId = $.cookie('rent_tokenId');

@@ -1,6 +1,6 @@
 package com.scrats.rent.common.exception;
 
-import com.scrats.rent.common.GlobalConst;
+import com.scrats.rent.constant.GlobalConst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;

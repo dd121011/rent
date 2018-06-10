@@ -41,10 +41,10 @@
 <script src="${base}/static/plugins/login/js/verificationNumbers.js"></script>
 <script src="${base}/static/plugins/login/js/Particleground.js"></script>
 <script src="${base}/static/js/extends/jquery.cookie.js"></script>
+<script src="${base}/static/js/util.js"></script>
 <script>
-    var tokenId = $.cookie('rent_tokenId');
     if(undefined != tokenId){
-        window.location.href = "${base}/home?tokenId=" + tokenId;
+        window.location.href = "${base}/building/goBuilding?tokenId=" + tokenId;
     }
 
     $(document).ready(function () {
@@ -64,11 +64,12 @@
     var login = function () {
         var username = $("input[type='text']").val();
         var pwd = $("input[type='password']").val();
+
         $.post("${base}/login",{username:username,pwd:pwd},function(result){
             if(result.code == 1){
                 tokenId = result.data.tokenId;
                 $.cookie("rent_tokenId",tokenId,{expires: 7, path: '/rent'})
-                window.location.href = "${base}/home";
+                window.location.href = "${base}/building/goBuilding?tokenId=" + tokenId;
             }else{
                 alert(result.msg);
             }

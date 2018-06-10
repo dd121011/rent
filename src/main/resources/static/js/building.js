@@ -43,6 +43,7 @@ layui.use('table', function(){
     table.render({
         elem: '#LAY_table_user'//指定原始表格元素选择器（
         ,url: '/rent/building/list'//数据接口
+        ,headers: {tokenId: tokenId}
         ,request: {
             pageName: 'page' //页码的参数名称，默认：page
             ,limitName: 'rows' //每页数据量的参数名，默认：limit

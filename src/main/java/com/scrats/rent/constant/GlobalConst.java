@@ -1,4 +1,4 @@
-package com.scrats.rent.common;
+package com.scrats.rent.constant;
 
 /**
  * @Created with jointstarc.
@@ -10,4 +10,8 @@ package com.scrats.rent.common;
 public class GlobalConst {
 
     public static final String PROFILE_PRD = "pro";
+
+    public static final String ACCESS_TOKEN = "user_token_key";
+
+
 }

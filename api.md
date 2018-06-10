@@ -26,6 +26,7 @@ GET
 | --- | --- | --- | --- |
 | page | int | 必填 | 页码 |
 | rows | int | 必填 | 每页大小 |
+| tokenId | String | 必填 | 登录标识 |
 
 RETURN
 

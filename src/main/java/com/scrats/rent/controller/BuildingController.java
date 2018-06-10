@@ -45,7 +45,7 @@ public class BuildingController {
     {
         User user = (User) redisService.get(GlobalConst.ACCESS_TOKEN);
         request.getSession().setAttribute("user",user);
-        return "building_list";
+        return "landlord/building_list";
     }
 
     @GetMapping("/list")

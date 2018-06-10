@@ -1,6 +1,5 @@
 package com.scrats.rent.common.exception;
 
-import com.mchange.rmi.NotAuthorizedException;
 import com.scrats.rent.common.GlobalConst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  * @User: lol.
  * @Date: 2018/1/11 10:32.
  */
+//声明该类中的@ExceptionHandler作用于全局
 @ControllerAdvice
 public class GlobalExceptionHandler implements ApplicationContextAware {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
@@ -75,7 +75,7 @@ public class GlobalExceptionHandler implements ApplicationContextAware {
             modelAndView.addObject("msg", response.getMessage());
             modelAndView.addObject("url", req.getRequestURL());
             modelAndView.addObject("code", response.getCode());
-            modelAndView.setViewName("error");
+            modelAndView.setViewName("/error");
             return modelAndView;
         }
     }

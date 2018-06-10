@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>房屋出租 - by scrats</title>
-    <#include "menu.ftl" />
+    <#include "admin/menu.ftl" />
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
@@ -33,7 +33,7 @@
         </div>
     </div>
 
-<#include "footer.ftl"/>
+<#include "admin/footer.ftl"/>
 
 <div id="addDiv" style="padding: 20px 0; padding-right: 40px; display: none" >
     <form class="layui-form" action="">

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>房屋出租 - by scrats</title>
-    <#include "menu.ftl" />
+    <#include "landlord/menu.ftl" />
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
@@ -32,7 +32,7 @@
         </div>
     </div>
 
-<#include "footer.ftl"/>
+<#include "landlord/footer.ftl"/>
 
 <div id="addDiv" style="padding: 20px 0; padding-right: 40px; display: none" >
     <form class="layui-form" action="">
@@ -107,7 +107,7 @@
 <script src="${base}/static/js/extends/jquery-1.11.3.min.js" charset="utf-8"></script>
 <script src="${base}/static/js/extends/jquery.cookie.js" charset="utf-8"></script>
 <script src="${base}/static/layui/layui.js" charset="utf-8"></script>
-<script src="${base}/static/js/building.js" charset="utf-8"></script>
+<script src="${base}/static/js/landlord/building.js" charset="utf-8"></script>
 <script src="${base}/static/js/util.js"></script>
 
 </html>

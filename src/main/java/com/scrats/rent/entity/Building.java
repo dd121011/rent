@@ -26,7 +26,7 @@ public class Building extends BaseEntity {
     private String extraFee;//额外收费项id字符串[,隔开]
     private int rooms;//总的房间数
     private int roomAble;//可用房间数,通过总的房间数和可用房间数可以计算出出租房间数
-    private String desc;//描述
+    private String describe;//描述
     private String address;//地址
 
     private List<Attachment> attachmentList;//一个房子对应多个attachment

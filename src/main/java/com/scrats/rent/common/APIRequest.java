@@ -21,9 +21,9 @@ public class APIRequest<K> {
 
     private String tokenId;
 
-    private Integer page = 1;
+    private int page = 1;
 
-    private Integer rows = 10;
+    private int rows = 10;
 
     private String searchText;//搜索内容
 
@@ -33,11 +33,11 @@ public class APIRequest<K> {
     private K bodyObject;
     private Class bodyObjectClass;
 
-    public Integer getRows() {
+    public int getRows() {
         return rows > 0 ? rows : 10;
     }
 
-    public Integer getPage() {
+    public int getPage() {
         return page > 0 ? page : 1;
     }
 
@@ -64,7 +64,5 @@ public class APIRequest<K> {
     public static <T> T getParameterValue(APIRequest request, String key, Class<T> clazz) {
         return getParameterValue(request, key, null, clazz);
     }
-
-
 
 }

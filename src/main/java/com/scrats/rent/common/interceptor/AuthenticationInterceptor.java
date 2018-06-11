@@ -64,9 +64,19 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
             throw new NotAuthorizedException("非法请求, 请登陆");
         }
         httpServletRequest.setAttribute("tokenId", token);
-        User user = (User) redisService.get(token);
         APIRequest apiRequest = JSON.parseObject(json,APIRequest.class);
+        if(null == apiRequest){
+            apiRequest = new APIRequest();
+        }
+        User user = (User) redisService.get(token);
         apiRequest.setUser(user);
+        String metod = httpServletRequest.getMethod();
+        if(httpServletRequest.getMethod().equalsIgnoreCase("GET")){
+            apiRequest.setPage(Integer.parseInt(httpServletRequest.getParameter("page")));
+            apiRequest.setRows(Integer.parseInt(httpServletRequest.getParameter("rows")));
+            apiRequest.setSearchText(httpServletRequest.getParameter("searchText"));
+        }
+
         httpServletRequest.setAttribute("apiRequest", apiRequest);
         return true;
     }

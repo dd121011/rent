@@ -55,20 +55,20 @@ layui.use('table', function(){
             ,countName: 'count' //数据总数的字段名称，默认：count
             ,dataName: 'data' //数据列表的字段名称，默认：data
         } //如果无需自定义数据响应名称，可不加该参数
-        ,id: 'testReload'
+        ,id: 'LAY_table_user'
         ,page: true//开启分页
 //            ,height: 315//容器高度
         ,cols: [[//表头
             {checkbox: true, fixed: true}
-            ,{field:'buildingId', title: '主键', width:80, sort: true, fixed: true}
-            ,{field:'facilities', title: '配套设施', width:80}
-            ,{field:'extraFee', title: '额外收费项', width:80, sort: true}
-            ,{field:'rooms', title: '总的房间数', width:80}
-            ,{field:'roomAble', title: '可用房间数', width:80}
-            ,{field:'desc', title: '描述', sort: true, width:80}
-            ,{field:'address', title: '地址', sort: true, width:80}
-            ,{field:'createTs', title: '创建时间', width:80}
-            ,{field:'updateTs', title: '更新时间', sort: true, width:135}
+            ,{field:'buildingId', title: 'ID'}
+            ,{field:'facilities', title: '配套设施', width:100}
+            ,{field:'extraFee', title: '额外收费项', width:100}
+            ,{field:'rooms', title: '总的房间数', sort: true, width:110}
+            ,{field:'roomAble', title: '可用房间数', sort: true, width:120}
+            ,{field:'desc', title: '描述', width:80}
+            ,{field:'address', title: '地址', width:80}
+            ,{field:'createTs', title: '创建时间', sort: true, width:100}
+            ,{field:'updateTs', title: '更新时间', sort: true, width:100}
             ,{field:'', title: '操作', align:'center', toolbar: '#barDemo'}
         ]]
         ,done: function(res, curr, count){
@@ -81,6 +81,28 @@ layui.use('table', function(){
 
             //得到数据总量
             console.log(count);
+
+            $("[data-field='buildingId']").css('display','none');//隐藏不需要显示的id字段
+        }
+    });
+
+
+    //监听表格复选框选择
+    table.on('checkbox(user)', function(obj){
+        console.log(obj)
+    });
+    //监听工具条
+    table.on('tool(user)', function(obj){
+        var data = obj.data;
+        if(obj.event === 'detail'){
+            layer.msg('ID：'+ data.buildingId + ' 的查看操作');
+        } else if(obj.event === 'del'){
+            layer.confirm('真的删除行么', function(index){
+                obj.del();
+                layer.close(index);
+            });
+        } else if(obj.event === 'edit'){
+            layer.alert('编辑行：<br>'+ JSON.stringify(data))
         }
     });
 
@@ -89,7 +111,7 @@ layui.use('table', function(){
             var demoReload = $('#demoReload');
 
             //执行重载
-            table.reload('testReload', {
+            table.reload('LAY_table_user', {
                 page: {
                     curr: 1 //重新从第 1 页开始
                 }

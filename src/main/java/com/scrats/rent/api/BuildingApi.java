@@ -4,15 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
-import com.scrats.rent.common.annotation.CurrentUser;
+import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.entity.Building;
-import com.scrats.rent.entity.User;
 import com.scrats.rent.service.BuildingService;
 import com.scrats.rent.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,10 +33,9 @@ public class BuildingApi {
     private UserService userService;
 
 
-    @GetMapping("/list")
-    public String list(@CurrentUser User user, APIRequest apiRequest) {
-
-        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(apiRequest.getPage(), apiRequest.getRows(), user.getUserId());
+    @RequestMapping("/list")
+    public String list(@APIRequestControl APIRequest apiRequest) {
+        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(apiRequest.getPage(), apiRequest.getRows(), apiRequest.getUser().getUserId());
 
         return JSON.toJSONString(new JsonResult(pageInfo.getList(), (int) pageInfo.getTotal()));
     }

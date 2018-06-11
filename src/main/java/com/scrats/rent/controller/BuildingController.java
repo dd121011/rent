@@ -5,7 +5,7 @@ import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
-import com.scrats.rent.common.annotation.CurrentUser;
+import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.Building;
@@ -51,9 +51,9 @@ public class BuildingController {
 
     @GetMapping("/list")
     @ResponseBody
-    public String list(@CurrentUser User user, APIRequest apiRequest) {
+    public String list(@APIRequestControl APIRequest apiRequest) {
 
-        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(apiRequest.getPage(), apiRequest.getRows(), user.getUserId());
+        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(apiRequest.getPage(), apiRequest.getRows(), apiRequest.getUser().getUserId());
 
         return JSON.toJSONString(new JsonResult(pageInfo.getList(), (int) pageInfo.getTotal()));
     }

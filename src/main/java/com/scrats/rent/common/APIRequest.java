@@ -2,7 +2,9 @@ package com.scrats.rent.common;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.entity.User;
+import com.scrats.rent.util.BaseUtil;
 import lombok.Data;
 
 import java.util.Map;
@@ -47,21 +49,22 @@ public class APIRequest<K> {
         return bodyObject;
     }
 
-//    public static <T> T getParameterValue(APIRequest request, String key, T defaultValue, Class<T> clazz) {
-//        T value = Utils.getFromMap(request.body, key, clazz);
-//        if (value == null) {
-//            if (defaultValue == null) {
-//                throw new MissingParameterException(key, clazz.getName());
-//            }
-//            value = defaultValue;
-//        }
-//
-//        return value;
-//    }
+    public static <T> T getParameterValue(APIRequest request, String key, T defaultValue, Class<T> clazz) {
+        T value = BaseUtil.getFromMap(request.body, key, clazz);
+        if (value == null) {
+            if (defaultValue == null) {
+                throw new BusinessException("缺少参数:" + key + ", 类型:" + clazz.getName());
+            }
+            value = defaultValue;
+        }
 
-//    public static <T> T getParameterValue(APIRequest request, String key, Class<T> clazz) {
-//        return getParameterValue(request, key, null, clazz);
-//    }
+        return value;
+    }
+
+    public static <T> T getParameterValue(APIRequest request, String key, Class<T> clazz) {
+        return getParameterValue(request, key, null, clazz);
+    }
+
 
 
 }

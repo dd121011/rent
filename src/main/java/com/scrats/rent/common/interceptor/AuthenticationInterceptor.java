@@ -1,9 +1,12 @@
 package com.scrats.rent.common.interceptor;
 
+import com.alibaba.fastjson.JSON;
 import com.scrats.rent.base.service.RedisService;
+import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.entity.User;
+import com.scrats.rent.util.IOUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,13 +58,16 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
         }
 
         String token = httpServletRequest.getHeader("tokenId");
+        String json = IOUtil.getInputStreamAsText(httpServletRequest.getInputStream(),"UTF-8");
         logger.debug("token: " + token);
         if (StringUtils.isEmpty(token)) {
             throw new NotAuthorizedException("非法请求, 请登陆");
         }
         httpServletRequest.setAttribute("tokenId", token);
-        User userInfo = (User) redisService.get(token);
-        httpServletRequest.setAttribute("rentUser", userInfo);
+        User user = (User) redisService.get(token);
+        APIRequest apiRequest = JSON.parseObject(json,APIRequest.class);
+        apiRequest.setUser(user);
+        httpServletRequest.setAttribute("apiRequest", apiRequest);
         return true;
     }
 

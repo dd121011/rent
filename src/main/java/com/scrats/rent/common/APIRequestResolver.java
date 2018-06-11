@@ -1,8 +1,7 @@
 package com.scrats.rent.common;
 
-import com.scrats.rent.common.annotation.CurrentUser;
+import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.exception.BusinessException;
-import com.scrats.rent.entity.User;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -20,14 +19,14 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class APIRequestResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
-        return methodParameter.getParameterType().isAssignableFrom(User.class) && methodParameter.hasParameterAnnotation(CurrentUser.class);
+        return methodParameter.getParameterType().isAssignableFrom(APIRequest.class) && methodParameter.hasParameterAnnotation(APIRequestControl.class);
     }
 
     @Override
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
-        User user = (User) nativeWebRequest.getAttribute("rentUser", RequestAttributes.SCOPE_REQUEST);
-        if (user != null) {
-            return user;
+        APIRequest apiRequest = (APIRequest) nativeWebRequest.getAttribute("apiRequest", RequestAttributes.SCOPE_REQUEST);
+        if (apiRequest != null) {
+            return apiRequest;
         }
         throw new BusinessException("httprRquest error");
     }

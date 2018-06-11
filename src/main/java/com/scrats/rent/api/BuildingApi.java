@@ -11,8 +11,11 @@ import com.scrats.rent.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @Created with scrat.
@@ -33,10 +36,10 @@ public class BuildingApi {
     private UserService userService;
 
 
-    @RequestMapping("/list")
+    @PostMapping("/list")
     public String list(@APIRequestControl APIRequest apiRequest) {
         PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(apiRequest.getPage(), apiRequest.getRows(), apiRequest.getUser().getUserId());
 
-        return JSON.toJSONString(new JsonResult(pageInfo.getList(), (int) pageInfo.getTotal()));
+        return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
     }
 }

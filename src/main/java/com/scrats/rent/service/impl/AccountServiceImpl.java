@@ -45,7 +45,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, AccountMapper> 
             redisService.set(tokenId,user, GlobalConst.ACCESS_TOKEN_EXPIRE);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("tokenId", tokenId);
-            return new JsonResult(jsonObject);
+            return new JsonResult<JSONObject>(jsonObject);
         }
         Account sel = new Account();
         sel.setUsername(username);

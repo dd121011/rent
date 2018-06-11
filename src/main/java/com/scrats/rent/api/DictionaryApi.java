@@ -46,11 +46,9 @@ public class DictionaryApi {
     @PostMapping("/dicItermList")
     public String dicItermList(@APIRequestControl APIRequest apiRequest) {
         List<DictionaryIterm> list = null;
-        int dicId = APIRequest.getParameterValue(apiRequest,"dicId",Integer.class);
+        int dicId = APIRequest.getParameterValue(apiRequest,"dicId",0,Integer.class);
         if(dicId > 0){
-            DictionaryIterm dictionaryIterm = new DictionaryIterm();
-            dictionaryIterm.setDicId(dicId);
-            list = dictionaryItermService.select(dictionaryIterm);
+            list = dictionaryItermService.getDicItermByDicId(dicId);
         }else{
             list = dictionaryItermService.selectAll();
         }

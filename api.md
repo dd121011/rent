@@ -14,6 +14,33 @@ POST
 
 RETURN
 
+## 字典
+
+### 所有类型列表
+
+> /api/dic/list
+
+POST
+
+| 参数 | 类型 | 是否必填 | 描述 |
+| --- | --- | --- | --- |
+| tokenId | String | 必填 | 登录标识 |
+
+RETURN
+
+### 所有字典项目列表【某一字典类型】
+
+> /api/dic/dicItermList
+
+POST
+
+| 参数 | 类型 | 是否必填 | 描述 |
+| --- | --- | --- | --- |
+| tokenId | String | 必填 | 登录标识 |
+| dicId | Integer | 非必填 | 字典类型Id |
+
+RETURN
+
 ## 房东
 
 ### 房子列表

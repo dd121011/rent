@@ -71,8 +71,14 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
         User user = (User) redisService.get(token);
         apiRequest.setUser(user);
         if(httpServletRequest.getMethod().equalsIgnoreCase("GET")){
-            apiRequest.setPage(Integer.parseInt(httpServletRequest.getParameter("page")));
-            apiRequest.setRows(Integer.parseInt(httpServletRequest.getParameter("rows")));
+            String page = httpServletRequest.getParameter("page");
+            if(!StringUtils.isEmpty(page)){
+                apiRequest.setPage(Integer.parseInt(page));
+            }
+            String rows = httpServletRequest.getParameter("page");
+            if(!StringUtils.isEmpty(rows)){
+                apiRequest.setPage(Integer.parseInt(rows));
+            }
             apiRequest.setSearchText(httpServletRequest.getParameter("searchText"));
         }
         httpServletRequest.setAttribute("apiRequest", apiRequest);

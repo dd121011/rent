@@ -22,10 +22,11 @@ public class Building extends BaseEntity {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int buildingId;//主键
-    private String facilities;//配套设施id字符串[,隔开]
-    private String extraFee;//额外收费项id字符串[,隔开]
+    private String name;//房子名称
     private int rooms;//总的房间数
     private int roomAble;//可用房间数,通过总的房间数和可用房间数可以计算出出租房间数
+    private String facilities;//配套设施id字符串[,隔开]
+    private String extraFee;//额外收费项id字符串[,隔开]
     private String describe;//描述
     private String address;//地址
 

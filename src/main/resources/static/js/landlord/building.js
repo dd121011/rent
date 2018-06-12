@@ -11,6 +11,7 @@ layui.use(['element', 'layer', 'table'], function () {
     table.render({
         elem: '#LAY_table_user'//指定原始表格元素选择器（
         , url: '/rent/building/list'//数据接口
+        , method: 'post'
         , headers: {tokenId: tokenId}
         , request: {
             pageName: 'page' //页码的参数名称，默认：page
@@ -29,14 +30,13 @@ layui.use(['element', 'layer', 'table'], function () {
         , cols: [[//表头
             {checkbox: true, fixed: true}
             , {field: 'buildingId', title: 'ID'}
-            , {field: 'facilities', title: '配套设施', width: 100}
-            , {field: 'extraFee', title: '额外收费项', width: 100}
+            , {field: 'name', title: '楼盘', width: 200}
             , {field: 'rooms', title: '总的房间数', sort: true, width: 110}
             , {field: 'roomAble', title: '可用房间数', sort: true, width: 120}
+            , {field: 'facilities', title: '配套设施', width: 100}
+            , {field: 'extraFee', title: '额外收费项', width: 100}
             , {field: 'desc', title: '描述', width: 80}
             , {field: 'address', title: '地址', width: 80}
-            , {field: 'createTs', title: '创建时间', sort: true, width: 100}
-            , {field: 'updateTs', title: '更新时间', sort: true, width: 100}
             , {field: '', title: '操作', align: 'center', toolbar: '#barDemo'}
         ]]
         , done: function (res, curr, count) {

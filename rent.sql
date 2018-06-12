@@ -128,6 +128,7 @@ CREATE TABLE `renter` (
 DROP TABLE IF EXISTS `building`;
 CREATE TABLE `building` (
     `building_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `name` varchar(256) NOT NULL COMMENT '房子名称',
     `facilities` varchar(256) DEFAULT '' COMMENT '配套设施id字符串[,隔开]',
     `extra_fee` varchar(256) DEFAULT '' COMMENT '额外收费项id字符串[,隔开]',
     `rooms` int(10) NOT NULL COMMENT '总的房间数',

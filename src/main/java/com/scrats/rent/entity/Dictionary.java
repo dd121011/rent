@@ -13,16 +13,16 @@ import javax.persistence.*;
  * @Date: 2018/6/11 21:25.
  */
 @Data
-@Table
 public class Dictionary extends BaseEntity {
 
     private static final long serialVersionUID = 3519803533413277196L;
 
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int dicId;//主键
+    private Integer dicId;//主键
     private String name;//字典类型名称
     private String code;//字典类型编号
 
+    public Dictionary() {
+    }
 }

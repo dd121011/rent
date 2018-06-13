@@ -16,4 +16,6 @@ import java.util.List;
 public interface DictionaryItermService extends BaseService<DictionaryIterm, DictionaryItermMapper> {
 
     List<DictionaryIterm> getDicItermByDicId(Integer dicId);
+
+    List<DictionaryIterm> getDicItermByDicCode(String dicCode);
 }

@@ -26,4 +26,9 @@ public class DictionaryItermServiceImpl extends BaseServiceImpl<DictionaryIterm,
     public List<DictionaryIterm> getDicItermByDicId(Integer dicId) {
         return dao.getDicItermByDicId(dicId);
     }
+
+    @Override
+    public List<DictionaryIterm> getDicItermByDicCode(String dicCode) {
+        return dao.getDicItermByDicCode(dicCode);
+    }
 }

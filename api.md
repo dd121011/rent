@@ -47,13 +47,55 @@ RETURN
 
 > /api/building/list
 
-GET
+POST
 
 | 参数 | 类型 | 是否必填 | 描述 |
 | --- | --- | --- | --- |
 | page | int | 必填 | 页码 |
 | rows | int | 必填 | 每页大小 |
 | tokenId | String | 必填 | 登录标识 |
+
+RETURN
+
+### 获取所有配套设施
+
+> /api/building/facilitiestAll
+
+POST
+
+| 参数 | 类型 | 是否必填 | 描述 |
+| --- | --- | --- | --- |
+| tokenId | String | 必填 | 登录标识 |
+
+RETURN
+
+### 获取所有额外收费项
+
+> /api/building/extrasAll
+
+POST
+
+| 参数 | 类型 | 是否必填 | 描述 |
+| --- | --- | --- | --- |
+| tokenId | String | 必填 | 登录标识 |
+
+RETURN
+
+### 编辑房子
+
+> /api/building/edit
+
+POST
+
+| 参数 | 类型 | 是否必填 | 描述 |
+| --- | --- | --- | --- |
+| tokenId | String | 必填 | 登录标识 |
+| buildingId | Integer | 非必填 | 有值代表修改，否则新增 |
+| name | String | 必填 | 房子名称 |
+| facilities | String | 非必填 | 配套设施id字符串，','隔开 |
+| extraFee | String | 非必填 | 额外收费项id字符串，','隔开 |
+| description | String | 非必填 | 描述 |
+| address | String | 非必填 | 地址 |
 
 RETURN
 

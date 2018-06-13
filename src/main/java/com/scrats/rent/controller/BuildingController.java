@@ -7,8 +7,10 @@ import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
-import com.scrats.rent.entity.Building;
-import com.scrats.rent.service.BuildingService;
+import com.scrats.rent.constant.GlobalConst;
+import com.scrats.rent.entity.*;
+import com.scrats.rent.service.*;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with scrat.
@@ -39,9 +42,31 @@ public class BuildingController {
     @Autowired
     private RedisService redisService;
 
+    @Autowired
+    private DictionaryService dictionaryService;
+
+    @Autowired
+    private DictionaryItermService dictionaryItermService;
+
+    @Autowired
+    private ExtraService extraService;
+
+    @Autowired
+    private BuildingLandlordService buildingLandlordService;
+
     @IgnoreSecurity
     @GetMapping("/goBuilding")
-    public String list(){
+    public String goBuilding(String tokenId, Map<String, Object> map){
+
+        User user = (User)redisService.get(tokenId);
+
+        List<DictionaryIterm> facilities = dictionaryItermService.getDicItermByDicCode(GlobalConst.FACILITY_CODE);
+        List<Extra> extras = extraService.selectAll();
+
+        map.put("user",user);
+        map.put("extraList",extras);
+        map.put("facilityList",facilities);
+
         return "landlord/building_list";
     }
 
@@ -52,6 +77,27 @@ public class BuildingController {
         PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(apiRequest.getPage(), apiRequest.getRows(), apiRequest.getUser().getUserId());
 
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
+    }
+
+    @PostMapping("/edit")
+    @ResponseBody
+    public String edit(@APIRequestControl APIRequest apiRequest, Building building, String[] dicItermIds, String[] extraIds) {
+
+        String dicItermId = StringUtils.join(dicItermIds, ",");
+        String extraId = StringUtils.join(extraIds, ",");
+        building.setFacilities(dicItermId);
+        building.setExtraFee(extraId);
+
+        if(null != building.getBuildingId()){
+            buildingService.updateByPrimaryKeySelective(building);
+        }else{
+            building.setCreateTs(System.currentTimeMillis());
+            buildingService.insertSelective(building);
+            BuildingLandlord buildingLandlord = new BuildingLandlord(apiRequest.getUser().getUserId(), building.getBuildingId());
+            buildingLandlordService.insertSelective(buildingLandlord);
+        }
+
+        return JSON.toJSONString(new JsonResult<>());
     }
 
 }

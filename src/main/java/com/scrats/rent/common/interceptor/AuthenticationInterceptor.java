@@ -7,10 +7,10 @@ import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.util.IOUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -60,23 +60,23 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
         String token = httpServletRequest.getHeader("tokenId");
         String json = IOUtil.getInputStreamAsText(httpServletRequest.getInputStream(),"UTF-8");
         logger.debug("token: " + token);
-        if (StringUtils.isEmpty(token)) {
+        if (StringUtils.isBlank(token)) {
             throw new NotAuthorizedException("非法请求, 请登陆");
         }
-        httpServletRequest.setAttribute("tokenId", token);
         APIRequest apiRequest = JSON.parseObject(json,APIRequest.class);
         if(null == apiRequest){
             apiRequest = new APIRequest();
         }
         User user = (User) redisService.get(token);
         apiRequest.setUser(user);
+        apiRequest.setTokenId(token);
         if(httpServletRequest.getMethod().equalsIgnoreCase("GET")){
             String page = httpServletRequest.getParameter("page");
-            if(!StringUtils.isEmpty(page)){
+            if(StringUtils.isNotBlank(page)){
                 apiRequest.setPage(Integer.parseInt(page));
             }
             String rows = httpServletRequest.getParameter("page");
-            if(!StringUtils.isEmpty(rows)){
+            if(StringUtils.isNotBlank(rows)){
                 apiRequest.setPage(Integer.parseInt(rows));
             }
             apiRequest.setSearchText(httpServletRequest.getParameter("searchText"));

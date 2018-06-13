@@ -164,7 +164,7 @@ CREATE TABLE `building_attach` (
 -- ----------------------------
 DROP TABLE IF EXISTS `building_landlord`;
 CREATE TABLE `building_landlord` (
-    `building_landlord_id` int unsigned NOT NULL AUTO_INCREMENT,
+    `building_landlord_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `landlord_id` int(10) unsigned NOT NULL COMMENT '房东Id',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
@@ -221,7 +221,7 @@ CREATE TABLE `room` (
 -- ----------------------------
 DROP TABLE IF EXISTS `room_attach`;
 CREATE TABLE `room_attach` (
-    room_attach_id int unsigned NOT NULL AUTO_INCREMENT,
+    room_attach_id int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_id` int(10) unsigned NOT NULL COMMENT '房间Id',
     `attach_id` int(10) unsigned NOT NULL COMMENT '附件Id',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
@@ -292,7 +292,7 @@ DROP TABLE IF EXISTS `deposit`;
 CREATE TABLE `deposit` (
     `deposit_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_no` varchar(10) NOT NULL COMMENT '房间编号',
-    `fee` int unsigned NOT NULL DEFAULT '0' COMMENT '总费用',
+    `fee` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '总费用',
     `pay_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '支付时间戳，13位',
     `pay_no` varchar(256) DEFAULT '' COMMENT '支付订单号',
     `channel` char(1) DEFAULT NULL COMMENT '支付渠道，0-线下支付；1-微信支付；2-支付宝支付',
@@ -332,9 +332,9 @@ CREATE TABLE `rent` (
     `rent_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `rent_no` varchar(64) NOT NULL COMMENT '房租收据单号',
     `rent_month` char(6) NOT NULL COMMENT '房租月份, eg 201806',
-    `fee` int unsigned NOT NULL DEFAULT '0' COMMENT '总费用',
-    `count` int unsigned NOT NULL DEFAULT '0' COMMENT '折扣费用',
-    `real_fee` int unsigned NOT NULL DEFAULT '0' COMMENT '实际费用',
+    `fee` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '总费用',
+    `count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '折扣费用',
+    `real_fee` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '实际费用',
     `pay_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '支付时间戳，13位',
     `pay_no` varchar(256) DEFAULT '' COMMENT '支付订单号',
     `channel` char(1) DEFAULT NULL COMMENT '支付渠道，0-线下支付；1-微信支付；2-支付宝支付',
@@ -453,7 +453,7 @@ CREATE TABLE `gas_history` (
 --     `create_time` datetime NOT NULL COMMENT '创建时间，13位时间戳',
 --     `update_time` datetime DEFAULT NULL COMMENT '更新时间, 13位时间戳',
 --     `remark` varchar(256) DEFAULT NULL COMMENT '备注',
---     `delete_ts` int unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+--     `delete_ts` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
 --     PRIMARY KEY (`id`)
 -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

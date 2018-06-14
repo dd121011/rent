@@ -21,11 +21,12 @@ layui.use(['element', 'layer', 'form'], function () {
         console.log(JSON.stringify(ff));
         var jhxhr = $.ajax({url: requestBaseUrl + "/building/edit", data: ff, headers: header, type: "POST"});
         jhxhr.done(function (res) {
-            if(res.code == 1){
+            var dat =$.parseJSON(res);
+            if(dat.code == 1){
                 // location.href=base + "building/goBuilding?tokenId=" + tokenId;
                 layer.close(1);
             }else{
-                layer.alert(res.msg)
+                layer.alert(dat.msg)
             }
         });
 
@@ -34,7 +35,7 @@ layui.use(['element', 'layer', 'form'], function () {
 
 
     var active = {
-        offset: function (othis) {
+        buildingAdd: function (othis) {
             var type = othis.data('type');
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
@@ -52,7 +53,6 @@ layui.use(['element', 'layer', 'form'], function () {
             });
         },
     };
-
 
     $('#layerDemo .layui-btn').on('click', function () {
         var othis = $(this), method = othis.data('method');

@@ -24,10 +24,10 @@
             </div>
 
             <div class="site-demo-button" id="layerDemo" style="padding: 15px;">
-                <button data-method="offset" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
+                <button data-method="buildingAdd" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
             </div>
 
-            <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+            <table class="layui-hide" id="lay_table_building" lay-filter="building"></table>
 
         </div>
     </div>
@@ -35,7 +35,7 @@
 <#include "landlord/footer.ftl"/>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">出租情况</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>

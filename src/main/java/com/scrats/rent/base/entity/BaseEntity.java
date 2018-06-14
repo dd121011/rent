@@ -16,7 +16,4 @@ public class BaseEntity implements Serializable {
     private String remark;//备注
     private Long deleteTs;//删除时间戳
 
-    public BaseEntity() {
-        this.createTs = System.currentTimeMillis();
-    }
 }

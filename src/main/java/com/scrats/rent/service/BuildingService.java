@@ -15,4 +15,6 @@ import com.scrats.rent.mapper.BuildingMapper;
 public interface BuildingService extends BaseService<Building, BuildingMapper> {
 
     PageInfo<Building> getBuildingListByUserId(int page, int rows, int userId);
+
+    int deleteBuildingByIds(Integer... ids);
 }

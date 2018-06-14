@@ -13,4 +13,5 @@ import com.scrats.rent.mapper.BuildingLandlordMapper;
  */
 public interface BuildingLandlordService extends BaseService<BuildingLandlord, BuildingLandlordMapper> {
 
+    int deleteBuildingByLandloordIds(Integer... ids);
 }

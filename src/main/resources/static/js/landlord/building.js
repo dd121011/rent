@@ -9,7 +9,7 @@ layui.use(['element', 'layer', 'table'], function () {
 
     //方法级渲染
     table.render({
-        elem: '#LAY_table_user'//指定原始表格元素选择器（
+        elem: '#lay_table_building'//指定原始表格元素选择器（
         , url: '/rent/building/list'//数据接口
         , method: 'post'
         , headers: {tokenId: tokenId}
@@ -24,7 +24,7 @@ layui.use(['element', 'layer', 'table'], function () {
             , countName: 'count' //数据总数的字段名称，默认：count
             , dataName: 'data' //数据列表的字段名称，默认：data
         } //如果无需自定义数据响应名称，可不加该参数
-        , id: 'LAY_table_user'
+        , id: 'lay_table_building'
         , page: true//开启分页
 //            ,height: 315//容器高度
         , cols: [[//表头
@@ -43,30 +43,37 @@ layui.use(['element', 'layer', 'table'], function () {
             //如果是异步请求数据方式，res即为你接口返回的信息。
             //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
             console.log(res);
-
             //得到当前页码
             console.log(curr);
-
             //得到数据总量
             console.log(count);
-
             $("[data-field='buildingId']").css('display', 'none');//隐藏不需要显示的id字段
         }
     });
 
     //监听表格复选框选择
-    table.on('checkbox(user)', function (obj) {
-        console.log(obj)
+    table.on('checkbox(building)', function (obj) {
+        console.log(obj);
+        layer.alert("this is check all");
     });
 
     //监听工具条
-    table.on('tool(user)', function (obj) {
+    table.on('tool(building)', function (obj) {
         var data = obj.data;
         if (obj.event === 'detail') {
             layer.msg('ID：' + data.buildingId + ' 的查看操作');
         } else if (obj.event === 'del') {
             layer.confirm('真的删除行么', function (index) {
-                obj.del();
+
+                var jhxhr = $.ajax({url: requestBaseUrl + "/building/delete", data:{"ids": data.buildingId}, headers: header, type: "POST"});
+                jhxhr.done(function (res) {
+                    var dat =$.parseJSON(res);
+                    if(dat.code == 1){
+                        obj.del();
+                    }else{
+                        layer.alert(dat.msg)
+                    }
+                });
                 layer.close(index);
             });
         } else if (obj.event === 'edit') {
@@ -78,7 +85,7 @@ layui.use(['element', 'layer', 'table'], function () {
         reload: function () {
             var demoReload = $('#demoReload');
             //执行重载
-            table.reload('LAY_table_user', {
+            table.reload('lay_table_building', {
                 page: {
                     curr: 1 //重新从第 1 页开始
                 }

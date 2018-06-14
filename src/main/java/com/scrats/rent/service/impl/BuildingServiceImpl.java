@@ -30,4 +30,10 @@ public class BuildingServiceImpl extends BaseServiceImpl<Building, BuildingMappe
         List<Building> list = dao.getBuildingListByUserId(userId);
         return new PageInfo<Building>(list);
     }
+
+    @Override
+    public int deleteBuildingByIds(Integer... ids) {
+        long ts = System.currentTimeMillis();
+        return dao.deleteBuildingByIds(ts, ids);
+    }
 }

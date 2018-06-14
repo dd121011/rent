@@ -94,8 +94,34 @@ public class BuildingController {
             building.setCreateTs(System.currentTimeMillis());
             buildingService.insertSelective(building);
             BuildingLandlord buildingLandlord = new BuildingLandlord(apiRequest.getUser().getUserId(), building.getBuildingId());
+            buildingLandlord.setCreateTs(System.currentTimeMillis());
             buildingLandlordService.insertSelective(buildingLandlord);
         }
+
+        return JSON.toJSONString(new JsonResult<>());
+    }
+
+    @PostMapping("/delete")
+    @ResponseBody
+    public String delete(@APIRequestControl APIRequest apiRequest, Integer... ids){
+        //校验是否是本人名下的删除
+        List<BuildingLandlord> list = buildingLandlordService.findListBy("landlord_id", apiRequest.getUser().getUserId());
+        for(int id : ids){
+            boolean flag = true;
+            for(BuildingLandlord buildingLandlord : list){
+                if((buildingLandlord.getBuilding_id() - id) == 0){
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag){
+                return JSON.toJSONString(new JsonResult<>("删除失败"));
+            }
+        }
+
+        //执行删除动作,将delete_ts副职
+        buildingLandlordService.deleteBuildingByLandloordIds(ids);
+        buildingService.deleteBuildingByIds(ids);
 
         return JSON.toJSONString(new JsonResult<>());
     }

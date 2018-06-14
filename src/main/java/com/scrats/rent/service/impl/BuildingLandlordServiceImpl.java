@@ -20,4 +20,9 @@ public class BuildingLandlordServiceImpl extends BaseServiceImpl<BuildingLandlor
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Override
+    public int deleteBuildingByLandloordIds(Integer... ids) {
+        long ts = System.currentTimeMillis();
+        return dao.deleteBuildingByLandloordIds(ts, ids);
+    }
 }

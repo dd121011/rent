@@ -75,6 +75,7 @@ public class BuildingApi {
     public String edit(@APIRequestControl APIRequest apiRequest, Building building) {
 
         if(null != building.getBuildingId()){
+            building.setUpdateTs(System.currentTimeMillis());
             buildingService.updateByPrimaryKeySelective(building);
         }else{
             building.setCreateTs(System.currentTimeMillis());

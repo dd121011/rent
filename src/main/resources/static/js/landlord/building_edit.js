@@ -13,18 +13,13 @@ layui.use(['element', 'layer', 'form'], function () {
         $.each($('input[type=checkbox][name=extraIds]:checked'),function(){
             extra.push($(this).val());
         });
-        console.log("baseURI=" + base.baseURI);
-        console.log("base=" + requestBaseUrl);
-        console.log("tokenId=" + tokenId);
-        var ff = $(data.form).serialize();
-        console.log(ff);
-        console.log(JSON.stringify(ff));
-        var jhxhr = $.ajax({url: requestBaseUrl + "/building/edit", data: ff, headers: header, type: "POST"});
+        var params = $(data.form).serialize();
+        var jhxhr = $.ajax({url: requestBaseUrl + "/building/edit", data: params, headers: header, type: "POST"});
         jhxhr.done(function (res) {
             var dat =$.parseJSON(res);
             if(dat.code == 1){
-                // location.href=base + "building/goBuilding?tokenId=" + tokenId;
                 layer.close(1);
+                location.href= requestBaseUrl + "/building/goBuilding?tokenId=" + tokenId;
             }else{
                 layer.alert(dat.msg)
             }
@@ -36,13 +31,24 @@ layui.use(['element', 'layer', 'form'], function () {
 
     var active = {
         buildingAdd: function (othis) {
+            $("input").val("");
+            $("select").val("");
+            $("[name='description']").val('');
+            $.each($('input[type=checkbox][name=dicItermIds]'),function(){
+                $(this).attr("checked",false);
+                $(this).next().removeClass("layui-form-checked");
+            });
+            $.each($('input[type=checkbox][name=extraIds]'),function(){
+                $(this).attr("checked",false);
+                $(this).next().removeClass("layui-form-checked");
+            });
             var type = othis.data('type');
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "编辑楼盘"
                 , area: '800px'
                 , offset: type //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
-                , id: 'layerDemo' + type //防止重复弹出
+                , id: 'layerDemoAdd' //防止重复弹出
                 , content: $('#addDiv')
                 , btn: '关闭全部'
                 , btnAlign: 'c' //按钮居中
@@ -51,6 +57,8 @@ layui.use(['element', 'layer', 'form'], function () {
                     layer.closeAll();
                 }
             });
+            // $('#testBuildingForm')[0].reset();
+
         },
     };
 

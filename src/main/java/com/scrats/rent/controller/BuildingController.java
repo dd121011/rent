@@ -89,6 +89,7 @@ public class BuildingController {
         building.setExtraFee(extraId);
 
         if(null != building.getBuildingId()){
+            building.setUpdateTs(System.currentTimeMillis());
             buildingService.updateByPrimaryKeySelective(building);
         }else{
             building.setCreateTs(System.currentTimeMillis());

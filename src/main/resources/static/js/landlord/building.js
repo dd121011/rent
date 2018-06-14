@@ -1,9 +1,10 @@
-layui.use(['element', 'layer', 'table'], function () {
+layui.use(['element', 'layer', 'table', 'form'], function () {
     var $ = layui.$;
     // var $ = layui.jquery;
     var element = layui.element;
     var layer = layui.layer;
     var table = layui.table;
+    var form = layui.form;
 
     layer.msg('hello');
 
@@ -35,7 +36,7 @@ layui.use(['element', 'layer', 'table'], function () {
             , {field: 'roomAble', title: '可用房间数', sort: true, width: 120}
             , {field: 'facilities', title: '配套设施', width: 100}
             , {field: 'extraFee', title: '额外收费项', width: 100}
-            , {field: 'desc', title: '描述', width: 80}
+            , {field: 'description', title: '描述', width: 80}
             , {field: 'address', title: '地址', width: 80}
             , {field: '', title: '操作', align: 'center', toolbar: '#barDemo'}
         ]]
@@ -77,7 +78,31 @@ layui.use(['element', 'layer', 'table'], function () {
                 layer.close(index);
             });
         } else if (obj.event === 'edit') {
-            layer.alert('编辑行：<br>' + JSON.stringify(data))
+            form.val("formBuilding", {
+                "buildingId": data.buildingId
+                ,"name": data.name
+                ,"address": data.address
+                ,"description": data.description
+            });
+            var facility = data.facilities.split(",");
+            $.each($('input[type=checkbox][name=dicItermIds]'),function(){
+                for(j = 0, len=facility.length; j < len; j++) {
+                    if(facility[j] == $(this).val()){
+                        $(this).attr("checked",true);
+                        $(this).next().addClass("layui-form-checked");
+                    }
+                }
+            });
+            var extra = data.extraFee.split(",");
+            $.each($('input[type=checkbox][name=extraIds]'),function(){
+                for(j = 0, len=extra.length; j < len; j++) {
+                    if(extra[j] == $(this).val()){
+                        $(this).attr("checked",true);
+                        $(this).next().addClass("layui-form-checked");
+                    }
+                }
+            });
+            active.buildingEdit();
         }
     });
 
@@ -95,7 +120,23 @@ layui.use(['element', 'layer', 'table'], function () {
                     }
                 }//传参*/
             });
-        }
+        },
+        buildingEdit: function () {
+            layer.open({
+                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                ,title: "编辑楼盘"
+                , area: '800px'
+                , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                , id: 'layerDemoEdit'  //防止重复弹出
+                , content: $('#addDiv')
+                , btn: '关闭全部'
+                , btnAlign: 'c' //按钮居中
+//                    ,shade: 0 //不显示遮罩
+                , yes: function () {
+                    layer.closeAll();
+                }
+            });
+        },
     };
 
     //绑定click点击事件

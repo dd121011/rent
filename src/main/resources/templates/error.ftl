@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="${base}/static/favicon.ico">
     <title>程序出错了 -  Scrat</title>
 </head>
 <body>

@@ -3,8 +3,11 @@ package com.scrats.rent.base.service;
 import com.github.pagehelper.PageHelper;
 import com.scrats.rent.base.mapper.BaseMapper;
 import com.scrats.rent.common.PageInfo;
+import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
@@ -94,6 +97,45 @@ public class BaseServiceImpl<T, D extends BaseMapper<T>> implements BaseService<
         PageHelper.startPage(page, rows);
         List<T> list = dao.select(var1);
         return new PageInfo<T>(list);
+    }
+
+    @Override
+    public T findBy(String property, Object value) throws TooManyResultsException {
+        try {
+            ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();
+            Class<T> modelClass = (Class<T>) pt.getActualTypeArguments()[0];
+
+            T model = modelClass.newInstance();
+            Field field = modelClass.getDeclaredField(property);
+            field.setAccessible(true);
+            field.set(model, value);
+            return dao.selectOne(model);
+        } catch (ReflectiveOperationException e) {
+            //throw new ServiceException(e.getMessage(), e); 最好使用一个自定义异常
+            throw new RuntimeException(e.getMessage(), e);
+        }
+
+    }
+
+    @Override
+    public List<T> findListBy(String property, Object value) {
+
+        try {
+            ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();
+            Class<T> modelClass = (Class<T>) pt.getActualTypeArguments()[0];
+            T model = modelClass.newInstance();
+            Field field = modelClass.getDeclaredField(property);
+            field.setAccessible(true);
+            field.set(model, value);
+            return dao.select(model);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.scrats.rent.base.service;
 
 import com.scrats.rent.common.PageInfo;
+import org.apache.ibatis.exceptions.TooManyResultsException;
 
 import java.util.List;
 
@@ -147,4 +148,8 @@ public interface BaseService<T, D> {
      * @return: List<T>
      */
     PageInfo<T> select(int page, int rows, T var1);
+
+    T findBy(String property, Object value) throws TooManyResultsException;
+
+    List<T> findListBy(String property, Object value);
 }

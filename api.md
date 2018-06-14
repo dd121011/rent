@@ -99,6 +99,18 @@ POST
 
 RETURN
 
+### 删除房子
+
+> /api/building/delete
+
+POST
+
+| 参数 | 类型 | 是否必填 | 描述 |
+| --- | --- | --- | --- |
+| tokenId | String | 必填 | 登录标识 |
+| ids | int数组 | 必填 | building_id |
+
+RETURN
 
 房东
 0，删除房子，修改房子，房子详情，

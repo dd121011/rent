@@ -1,6 +1,5 @@
 package com.scrats.rent.test;
 
-import com.scrats.rent.entity.Admin;
 import com.scrats.rent.base.service.RedisService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,6 @@ public class RedisTest extends BaseTest {
         Object reidsValue = redisService.get("test");
         System.out.println(reidsValue);
 
-        Admin admin = new Admin();
-
-        System.out.println(admin.toString());
     }
 
 }

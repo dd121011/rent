@@ -24,11 +24,21 @@ public class BuildingServiceImpl extends BaseServiceImpl<Building, BuildingMappe
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Override
-    public PageInfo<Building> getBuildingListByUserId(int page, int rows, int userId) {
+    private PageInfo<Building> getBuildingListByUserId(int page, int rows, int userId) {
         PageHelper.startPage(page, rows);
         List<Building> list = dao.getBuildingListByUserId(userId);
         return new PageInfo<Building>(list);
+    }
+
+    @Override
+    public PageInfo<Building> getBuildingListByUserId(int page, int rows, int userId, boolean pageFlag) {
+        if(pageFlag){
+            return getBuildingListByUserId(page, rows, userId);
+        }
+        List<Building> list = dao.getBuildingListByUserId(userId);
+        PageInfo pageInfo = new PageInfo();
+        pageInfo.setList(list);
+        return pageInfo;
     }
 
     @Override

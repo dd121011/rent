@@ -24,6 +24,9 @@ public class PageInfo<T> implements Serializable {
     private int pages;        // 总页数
     private int size;        // 当前页的数量 <= pageSize，该属性来自ArrayList的size属性
 
+    public PageInfo() {
+    }
+
     /**
      * 包装Page对象，因为直接返回Page对象，在JSON处理以及其他情况下会被当成List来处理，
      * 而出现一些问题。

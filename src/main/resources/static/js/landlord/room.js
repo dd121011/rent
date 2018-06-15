@@ -7,17 +7,20 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
     var form = layui.form;
 
     layer.msg('hello');
-
+    var selectBuilding = 1;
     //方法级渲染
     table.render({
-        elem: '#lay_table_building'//指定原始表格元素选择器（
-        , url: requestBaseUrl + '/building/list'//数据接口
+        elem: '#lay_table_room'//指定原始表格元素选择器（
+        , url: requestBaseUrl + '/room/list'//数据接口
         , method: 'post'
         , headers: {tokenId: tokenId}
         , request: {
             pageName: 'page' //页码的参数名称，默认：page
             , limitName: 'rows' //每页数据量的参数名，默认：limit
         } //如果无需自定义请求参数，可不加该参数
+        , where: {
+            buildingId : selectBuilding
+        }
         , response: {
             statusName: 'code' //数据状态的字段名称，默认：code
             , statusCode: 1 //成功的状态码，默认：0
@@ -25,19 +28,20 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
             , countName: 'count' //数据总数的字段名称，默认：count
             , dataName: 'data' //数据列表的字段名称，默认：data
         } //如果无需自定义数据响应名称，可不加该参数
-        , id: 'lay_table_building'
+        , id: 'lay_table_room'
         , page: true//开启分页
 //            ,height: 315//容器高度
         , cols: [[//表头
             {checkbox: true, fixed: true}
-            , {field: 'buildingId', title: 'ID'}
-            , {field: 'name', title: '楼盘', width: 200}
-            , {field: 'rooms', title: '总的房间数', sort: true, width: 110}
-            , {field: 'roomAble', title: '可用房间数', sort: true, width: 120}
-            , {field: 'facilities', title: '配套设施', width: 100}
-            , {field: 'extraFee', title: '额外收费项', width: 100}
-            , {field: 'description', title: '描述', width: 80}
-            , {field: 'address', title: '地址', width: 80}
+            , {field: 'roomId', title: 'ID'}
+            , {field: 'roomNo', title: '房间号', sort: true, width: 100}
+            , {field: 'style', title: '房型', sort: true, width: 100}
+            , {field: 'orientation', title: '房间朝向', sort: true, width: 100}
+            , {field: 'quaranty', title: '押金月份', width: 100}
+            , {field: 'pay', title: '租金月份', sort: true, width: 100}
+            , {field: 'rentFee', title: '租金[元/月]', sort: true, width: 100}
+            , {field: 'description', title: '描述', width: 100}
+            , {field: 'rentTs', title: '是否出租', width: 80}
             , {field: '', title: '操作', align: 'center', toolbar: '#barDemo'}
         ]]
         , done: function (res, curr, count) {
@@ -48,24 +52,25 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
             console.log(curr);
             //得到数据总量
             console.log(count);
-            $("[data-field='buildingId']").css('display', 'none');//隐藏不需要显示的id字段
+            $("[data-field='roomId']").css('display', 'none');//隐藏不需要显示的id字段
         }
     });
 
     //监听表格复选框选择
-    table.on('checkbox(building)', function (obj) {
+    table.on('checkbox(room)', function (obj) {
         console.log(obj);
         layer.alert("this is check all");
     });
 
     //监听工具条
-    table.on('tool(building)', function (obj) {
+    table.on('tool(room)', function (obj) {
         var data = obj.data;
         if (obj.event === 'detail') {
-            location.href= requestBaseUrl + "/room/goRoom/" + data.buildingId + "?tokenId=" + tokenId;
+            layer.msg('ID：' + data.roomId + ' 的查看操作');
         } else if (obj.event === 'del') {
             layer.confirm('真的删除行么', function (index) {
-                var jhxhr = $.ajax({url: requestBaseUrl + "/building/delete", data:{"ids": data.buildingId}, headers: header, type: "POST"});
+
+                var jhxhr = $.ajax({url: requestBaseUrl + "/room/delete", data:{"ids": data.roomId}, headers: header, type: "POST"});
                 jhxhr.done(function (res) {
                     var dat =$.parseJSON(res);
                     if(dat.code == 1){
@@ -78,7 +83,7 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
             });
         } else if (obj.event === 'edit') {
             form.val("formBuilding", {
-                "buildingId": data.buildingId
+                "roomId": data.roomId
                 ,"name": data.name
                 ,"address": data.address
                 ,"description": data.description
@@ -101,7 +106,7 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
                     }
                 }
             });
-            active.buildingEdit();
+            active.roomEdit();
         }
     });
 
@@ -109,24 +114,25 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
         reload: function () {
             var demoReload = $('#demoReload');
             //执行重载
-            table.reload('lay_table_building', {
+            table.reload('lay_table_room', {
                 page: {
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: {
                     key: {
                         id: demoReload.val()
+                        ,buildingId: 1
                     }
                 }//传参*/
             });
         },
-        buildingEdit: function () {
+        roomEdit: function () {
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "编辑楼盘"
                 , area: '800px'
                 , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
-                , id: 'layerBuildingEdit'  //防止重复弹出
+                , id: 'layerRoomEdit'  //防止重复弹出
                 , content: $('#addDiv')
                 , btn: '关闭全部'
                 , btnAlign: 'c' //按钮居中

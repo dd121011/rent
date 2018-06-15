@@ -12,7 +12,7 @@
             内容主体区域
             <br><br>
             <blockquote class="layui-elem-quote">
-                这个是building_list.ftl
+                这个是room_list.ftl
             </blockquote>
             <hr class="layui-bg-green">
             <div class="demoTable">
@@ -23,11 +23,11 @@
                 <button class="layui-btn" data-type="reload">搜索</button>
             </div>
 
-            <div class="site-demo-button" id="layerBuilding" style="padding: 15px;">
+            <div class="site-demo-button" id="layerRoom" style="padding: 15px;">
                 <button data-method="buildingAdd" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
             </div>
 
-            <table class="layui-hide" id="lay_table_building" lay-filter="building"></table>
+            <table class="layui-hide" id="lay_table_room" lay-filter="room"></table>
 
         </div>
     </div>
@@ -35,7 +35,7 @@
 <#include "landlord/footer.ftl"/>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">出租情况</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">出租记录</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -44,8 +44,8 @@
 <script src="${base}/static/js/extends/jquery.cookie.js" charset="utf-8"></script>
 <script src="${base}/static/layui/layui.js" charset="utf-8"></script>
 <script src="${base}/static/js/util.js"></script>
-<script src="${base}/static/js/landlord/building.js" charset="utf-8"></script>
+<script src="${base}/static/js/landlord/room.js" charset="utf-8"></script>
 
-<#include "landlord/building_edit.ftl"/>
+<#--<#include "landlord/room_edit.ftl"/>-->
 
 </html>

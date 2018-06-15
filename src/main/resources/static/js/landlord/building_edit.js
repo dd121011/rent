@@ -44,7 +44,7 @@ layui.use(['element', 'layer', 'form'], function () {
                 ,title: "新增楼盘"
                 , area: '800px'
                 , offset: type //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
-                , id: 'layerDemoAdd' //防止重复弹出
+                , id: 'layerBuildingAdd' //防止重复弹出
                 , content: $('#addDiv')
                 , btn: '关闭全部'
                 , btnAlign: 'c' //按钮居中
@@ -58,7 +58,7 @@ layui.use(['element', 'layer', 'form'], function () {
         },
     };
 
-    $('#layerDemo .layui-btn').on('click', function () {
+    $('#layerBuilding .layui-btn').on('click', function () {
         var othis = $(this), method = othis.data('method');
         active[method] ? active[method].call(this, othis) : '';
     });

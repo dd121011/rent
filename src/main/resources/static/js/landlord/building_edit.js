@@ -33,19 +33,15 @@ layui.use(['element', 'layer', 'form'], function () {
         buildingAdd: function (othis) {
             $("input").val("");
             $("select").val("");
-            $("[name='description']").val('');
-            $.each($('input[type=checkbox][name=dicItermIds]'),function(){
-                $(this).attr("checked",false);
-                $(this).next().removeClass("layui-form-checked");
-            });
-            $.each($('input[type=checkbox][name=extraIds]'),function(){
+            $("[name='description']").val("");
+            $.each($('input[type=checkbox]'),function(){
                 $(this).attr("checked",false);
                 $(this).next().removeClass("layui-form-checked");
             });
             var type = othis.data('type');
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                ,title: "编辑楼盘"
+                ,title: "新增楼盘"
                 , area: '800px'
                 , offset: type //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
                 , id: 'layerDemoAdd' //防止重复弹出

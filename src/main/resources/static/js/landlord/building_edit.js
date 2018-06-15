@@ -31,7 +31,7 @@ layui.use(['element', 'layer', 'form'], function () {
 
     var active = {
         buildingAdd: function (othis) {
-            $("input").val("");
+            $("input[type!=checkbox]").val("");
             $("select").val("");
             $("[name='description']").val("");
             $.each($('input[type=checkbox]'),function(){

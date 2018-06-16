@@ -5,21 +5,14 @@ layui.use(['element', 'layer', 'form'], function () {
 
     //监听提交
     form.on('submit(formDemo)', function(data){
-        var facility=[];
-        $.each($('input:checkbox[name=dicItermIds]:checked'),function(){
-            facility.push($(this).val());
-        });
-        var extra=[];
-        $.each($('input[type=checkbox][name=extraIds]:checked'),function(){
-            extra.push($(this).val());
-        });
         var params = $(data.form).serialize();
-        var jhxhr = $.ajax({url: requestBaseUrl + "/building/edit", data: params, headers: header, type: "POST"});
+        var jhxhr = $.ajax({url: requestBaseUrl + "/room/edit", data: params, headers: header, type: "POST"});
         jhxhr.done(function (res) {
             var dat =$.parseJSON(res);
             if(dat.code == 1){
                 layer.close(1);
-                location.href= requestBaseUrl + "/building/goBuilding?tokenId=" + tokenId;
+                var buildingId = $("select[name=buildingId]").val();
+                location.href= requestBaseUrl + "/room/goRoom/" + buildingId + "?tokenId=" + tokenId;
             }else{
                 layer.alert(dat.msg)
             }
@@ -31,20 +24,20 @@ layui.use(['element', 'layer', 'form'], function () {
 
     var active = {
         add: function (othis) {
-            $("input[type!=checkbox]").val("");
-            $("select").val("");
-            $("[name='description']").val("");
-            $.each($('input[type=checkbox]'),function(){
-                $(this).attr("checked",false);
-                $(this).next().removeClass("layui-form-checked");
-            });
+            // $("input[type!=checkbox]").val("");
+            // // $("select").val("");
+            // $("[name='description']").val("");
+            // $.each($('input[type=checkbox]'),function(){
+            //     $(this).attr("checked",false);
+            //     $(this).next().removeClass("layui-form-checked");
+            // });
             var type = othis.data('type');
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                ,title: "新增楼盘"
-                , area: '800px'
+                ,title: "新增房间"
+                , area: '500px'
                 , offset: type //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
-                , id: 'layerBuildingAdd' //防止重复弹出
+                , id: 'layerRoomAdd' //防止重复弹出
                 , content: $('#addDiv')
                 , btn: '关闭全部'
                 , btnAlign: 'c' //按钮居中
@@ -56,7 +49,7 @@ layui.use(['element', 'layer', 'form'], function () {
         },
     };
 
-    $('#layerBuilding .layui-btn').on('click', function () {
+    $('#layerRoom .layui-btn').on('click', function () {
         var othis = $(this), method = othis.data('method');
         active[method] ? active[method].call(this, othis) : '';
     });

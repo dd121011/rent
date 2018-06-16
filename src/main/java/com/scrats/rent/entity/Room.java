@@ -22,10 +22,12 @@ public class Room extends BaseEntity {
     private Integer roomId;//主键
 
     private String roomNo;//房间号
-    private String style;//房型,默认1室0厅0卫
+    private Integer living;//厅数量
+    private Integer bedroom;//房间数量
+    private Integer toilet;//卫生间数量
     private String orientation;//房间朝向
     private String decoration;//装修情况
-    private Integer quaranty;//押金月份
+    private Integer guaranty;//押金月份
     private Integer pay;//租金月份
     private Integer rentFee;//租金[分/月]
     private Integer area;//使用面积[平方分米]
@@ -34,7 +36,7 @@ public class Room extends BaseEntity {
     private String extraFee;//额外收费项id字符串[,隔开]
     private Long rentTs;//是否出租,0- 未出租,1-已出租
 
-    private int buildingId;//房子id,一个房间对应一个房子id
+    private Integer buildingId;//房子id,一个房间对应一个房子id
 
     private List<Attachment> attachmentList;//一个房间对应多个attachment
 

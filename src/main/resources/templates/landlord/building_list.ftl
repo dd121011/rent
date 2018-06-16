@@ -15,7 +15,7 @@
                 这个是building_list.ftl
             </blockquote>
             <hr class="layui-bg-green">
-            <div class="demoTable">
+            <div class="buildingTable">
                 搜索ID：
                 <div class="layui-inline">
                     <input class="layui-input" name="id" id="demoReload" autocomplete="off">
@@ -24,7 +24,7 @@
             </div>
 
             <div class="site-demo-button" id="layerBuilding" style="padding: 15px;">
-                <button data-method="buildingAdd" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
+                <button data-method="add" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
             </div>
 
             <table class="layui-hide" id="lay_table_building" lay-filter="building"></table>

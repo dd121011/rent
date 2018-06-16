@@ -15,7 +15,7 @@
                 这个是room_list.ftl
             </blockquote>
             <hr class="layui-bg-green">
-            <div class="demoTable">
+            <div class="roomTable">
                 搜索ID：
                 <div class="layui-inline">
                     <input class="layui-input" name="id" id="demoReload" autocomplete="off">
@@ -24,7 +24,7 @@
             </div>
 
             <div class="site-demo-button" id="layerRoom" style="padding: 15px;">
-                <button data-method="buildingAdd" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
+                <button data-method="add" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
             </div>
 
             <table class="layui-hide" id="lay_table_room" lay-filter="room"></table>
@@ -46,6 +46,6 @@
 <script src="${base}/static/js/util.js"></script>
 <script src="${base}/static/js/landlord/room.js" charset="utf-8"></script>
 
-<#--<#include "landlord/room_edit.ftl"/>-->
+<#include "landlord/room_edit.ftl"/>
 
 </html>

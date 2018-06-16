@@ -101,7 +101,7 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
                     }
                 }
             });
-            active.buildingEdit();
+            active.edit();
         }
     });
 
@@ -120,7 +120,7 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
                 }//传参*/
             });
         },
-        buildingEdit: function () {
+        edit: function () {
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "编辑楼盘"
@@ -139,7 +139,7 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
     };
 
     //绑定click点击事件
-    $('.demoTable .layui-btn').on('click', function () {
+    $('.buildingTable .layui-btn').on('click', function () {
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });

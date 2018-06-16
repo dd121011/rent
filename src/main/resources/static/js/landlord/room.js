@@ -11,7 +11,7 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
     //方法级渲染
     table.render({
         elem: '#lay_table_room'//指定原始表格元素选择器（
-        , url: requestBaseUrl + '/room/list'//数据接口
+        , url: requestBaseUrl + '/room/list/' + selectBuilding//数据接口
         , method: 'post'
         , headers: {tokenId: tokenId}
         , request: {
@@ -37,7 +37,7 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
             , {field: 'roomNo', title: '房间号', sort: true, width: 100}
             , {field: 'style', title: '房型', sort: true, width: 100}
             , {field: 'orientation', title: '房间朝向', sort: true, width: 100}
-            , {field: 'quaranty', title: '押金月份', width: 100}
+            , {field: 'guaranty', title: '押金月份', width: 100}
             , {field: 'pay', title: '租金月份', sort: true, width: 100}
             , {field: 'rentFee', title: '租金[元/月]', sort: true, width: 100}
             , {field: 'description', title: '描述', width: 100}
@@ -106,31 +106,32 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
                     }
                 }
             });
-            active.roomEdit();
+            active.edit();
         }
     });
 
     var active = {
-        reload: function () {
+        reload: function (buildingId) {
             var demoReload = $('#demoReload');
             //执行重载
             table.reload('lay_table_room', {
-                page: {
+                url: requestBaseUrl + '/room/list/' + buildingId//数据接口
+                ,page: {
                     curr: 1 //重新从第 1 页开始
                 }
-                , where: {
+                ,where: {
                     key: {
                         id: demoReload.val()
-                        ,buildingId: 1
+                        ,buildingId: 2
                     }
                 }//传参*/
             });
         },
-        roomEdit: function () {
+        edit: function () {
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                ,title: "编辑楼盘"
-                , area: '800px'
+                ,title: "编辑房间"
+                , area: '600px'
                 , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
                 , id: 'layerRoomEdit'  //防止重复弹出
                 , content: $('#addDiv')
@@ -145,7 +146,7 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
     };
 
     //绑定click点击事件
-    $('.demoTable .layui-btn').on('click', function () {
+    $('.roomTable .layui-btn').on('click', function () {
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });

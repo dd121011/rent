@@ -1,7 +1,5 @@
-layui.use(['element', 'layer', 'table', 'form'], function () {
+layui.use(['layer', 'table', 'form'], function () {
     var $ = layui.$;
-    // var $ = layui.jquery;
-    var element = layui.element;
     var layer = layui.layer;
     var table = layui.table;
     var form = layui.form;
@@ -72,17 +70,16 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
 
                 var jhxhr = $.ajax({url: requestBaseUrl + "/room/delete", data:{"ids": data.roomId}, headers: header, type: "POST"});
                 jhxhr.done(function (res) {
-                    var dat =$.parseJSON(res);
-                    if(dat.code == 1){
+                    if(res.code == 1){
                         obj.del();
                     }else{
-                        layer.alert(dat.msg)
+                        layer.alert(res.msg)
                     }
                 });
                 layer.close(index);
             });
         } else if (obj.event === 'edit') {
-            form.val("formBuilding", {
+            form.val("formRoom", {
                 "roomId": data.roomId
                 ,"name": data.name
                 ,"address": data.address

@@ -24,18 +24,43 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Override
     public PageInfo<Room> getRoomListByBuildingId(int page, int rows, Integer buildingId) {
-        PageHelper.startPage(page, rows);
-        List<Room> list = dao.getRoomListByBuildingId(buildingId);
-        return new PageInfo<Room>(list);
+        return getRoomListByBuildingId(page, rows, buildingId, true);
     }
 
     @Override
     public PageInfo<Room> getRoomListByBuildingId(int page, int rows, Integer buildingId, boolean pageFlag) {
+        return getRoomListByBuildingId(page, rows, buildingId, pageFlag, false);
+    }
+
+    @Override
+    public PageInfo<Room> getRoomListByBuildingId(int page, int rows, Integer buildingId, boolean pageFlag, boolean deleteFlag) {
         if(pageFlag){
-            return getRoomListByBuildingId(page, rows, buildingId);
+            PageHelper.startPage(page, rows);
+            List<Room> list;
+            if(deleteFlag){
+                list= dao.getRoomListByBuildingIdWithDeleted(buildingId);
+            }else{
+                list= dao.getRoomListByBuildingId(buildingId);
+            }
+            return new PageInfo<Room>(list);
         }
-        List<Room> list = dao.getRoomListByBuildingId(buildingId);
-        return new PageInfo<Room>(list);
+
+        List<Room> list;
+        if(deleteFlag){
+            list = dao.getRoomListByBuildingIdWithDeleted(buildingId);
+        }else{
+            list = dao.getRoomListByBuildingId(buildingId);
+        }
+        PageInfo pageInfo = new PageInfo();
+        pageInfo.setList(list);
+        return pageInfo;
+    }
+
+    @Override
+    public int deleteRoomByIds(Integer... ids) {
+        long ts = System.currentTimeMillis();
+        return dao.deleteRoomByIds(ts, ids);
     }
 }

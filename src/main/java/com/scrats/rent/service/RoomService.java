@@ -14,5 +14,11 @@ import com.scrats.rent.mapper.RoomMapper;
  */
 public interface RoomService extends BaseService<Room, RoomMapper> {
 
+    PageInfo<Room> getRoomListByBuildingId(int page, int rows, Integer buildingId);
+
     PageInfo<Room> getRoomListByBuildingId(int page, int rows, Integer buildingId, boolean pageFlag);
+
+    PageInfo<Room> getRoomListByBuildingId(int page, int rows, Integer buildingId, boolean pageFlag, boolean deleteFlag);
+
+    int deleteRoomByIds(Integer... ids);
 }

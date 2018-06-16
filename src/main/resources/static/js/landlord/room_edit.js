@@ -1,4 +1,4 @@
-layui.use(['element', 'layer', 'form'], function () {
+layui.use(['layer', 'form'], function () {
     var $ = layui.jquery;
     var layer = layui.layer;
     var form = layui.form;
@@ -8,13 +8,12 @@ layui.use(['element', 'layer', 'form'], function () {
         var params = $(data.form).serialize();
         var jhxhr = $.ajax({url: requestBaseUrl + "/room/edit", data: params, headers: header, type: "POST"});
         jhxhr.done(function (res) {
-            var dat =$.parseJSON(res);
-            if(dat.code == 1){
+            if(res.code == 1){
                 layer.close(1);
                 var buildingId = $("select[name=buildingId]").val();
                 location.href= requestBaseUrl + "/room/goRoom/" + buildingId + "?tokenId=" + tokenId;
             }else{
-                layer.alert(dat.msg)
+                layer.alert(res.msg)
             }
         });
 

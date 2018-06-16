@@ -9,10 +9,7 @@ import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.*;
-import com.scrats.rent.service.BuildingService;
-import com.scrats.rent.service.DictionaryItermService;
-import com.scrats.rent.service.ExtraService;
-import com.scrats.rent.service.RoomService;
+import com.scrats.rent.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +43,8 @@ public class RoomController {
     private DictionaryItermService dictionaryItermService;
     @Autowired
     private ExtraService extraService;
+    @Autowired
+    private BuildingLandlordService buildingLandlordService;
 
     @IgnoreSecurity
     @GetMapping("/goRoom/{buildingId}")
@@ -63,7 +62,6 @@ public class RoomController {
         //获取所有额外收费项
         List<Extra> extras = extraService.selectAll();
 
-
         map.put("user",user);
         map.put("buildingId",buildingId);
         map.put("buildings",pageInfo.getList());
@@ -79,14 +77,14 @@ public class RoomController {
     @ResponseBody
     public String list(@APIRequestControl APIRequest apiRequest, @PathVariable(name="buildingId") Integer buildingId) {
 
-        PageInfo<Room> pageInfo = roomService.getRoomListByBuildingId(apiRequest.getPage(), apiRequest.getRows(), buildingId, true);
+        PageInfo<Room> pageInfo = roomService.getRoomListByBuildingId(apiRequest.getPage(), apiRequest.getRows(), buildingId);
 
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
     }
 
     @PostMapping("/edit")
     @ResponseBody
-    public String edit(@APIRequestControl APIRequest apiRequest, Room room, String[] dicItermIds, String[] extraIds) {
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Room room, String[] dicItermIds, String[] extraIds) {
 
         String dicItermId = StringUtils.join(dicItermIds, ",");
         String extraId = StringUtils.join(extraIds, ",");
@@ -101,6 +99,33 @@ public class RoomController {
             roomService.insertSelective(room);
         }
 
-        return JSON.toJSONString(new JsonResult<>());
+        return new JsonResult();
+    }
+
+    @PostMapping("/delete")
+    @ResponseBody
+    public JsonResult delete(@APIRequestControl APIRequest apiRequest, Integer... ids){
+        //校验是否是本人名下的删除
+        List<BuildingLandlord> list = buildingLandlordService.findListBy("landlord_id", apiRequest.getUser().getUserId());
+
+        String roomIds = StringUtils.join(ids,",");
+        List<Room> roomList = roomService.selectByIds(roomIds);
+
+        for(Room room : roomList){
+            boolean flag = true;
+            for(BuildingLandlord buildingLandlord : list){
+                if((buildingLandlord.getBuilding_id() - room.getBuildingId()) == 0){
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag){
+                return new JsonResult("删除失败");
+            }
+        }
+
+        roomService.deleteRoomByIds(ids);
+
+        return new JsonResult();
     }
 }

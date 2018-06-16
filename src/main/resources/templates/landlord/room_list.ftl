@@ -40,10 +40,6 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
-<script src="${base}/static/js/extends/jquery-1.11.3.min.js" charset="utf-8"></script>
-<script src="${base}/static/js/extends/jquery.cookie.js" charset="utf-8"></script>
-<script src="${base}/static/layui/layui.js" charset="utf-8"></script>
-<script src="${base}/static/js/util.js"></script>
 <script src="${base}/static/js/landlord/room.js" charset="utf-8"></script>
 
 <#include "landlord/room_edit.ftl"/>

@@ -89,9 +89,6 @@
         <appender-ref ref="console"/>
         <appender-ref ref="errorFile"/>
     </root>
-    <!--<root level="debug">-->  <!--控制台输出debug级别的log-->
-    <!--<appender-ref ref="console"/>-->
-    <!--</root>-->
 
     <logger name="com.scrats.rent" level="debug">
         <appender-ref ref="infoFile"/>

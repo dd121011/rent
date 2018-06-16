@@ -15,7 +15,7 @@ import com.scrats.rent.common.filter.XssFilter;
  * @User: lol.
  * @Date: 2018/1/3 14:07.
  */
-@Configuration
+//@Configuration
 public class FilterConfig
 {
 

@@ -4,8 +4,8 @@ layui.use(['layer', 'table', 'form'], function () {
     var table = layui.table;
     var form = layui.form;
 
-    layer.msg('hello');
     var selectBuilding = 1;
+
     //方法级渲染
     table.render({
         elem: '#lay_table_room'//指定原始表格元素选择器（
@@ -108,11 +108,11 @@ layui.use(['layer', 'table', 'form'], function () {
     });
 
     var active = {
-        reload: function (buildingId) {
+        reload: function () {
             var demoReload = $('#demoReload');
             //执行重载
             table.reload('lay_table_room', {
-                url: requestBaseUrl + '/room/list/' + buildingId//数据接口
+                url: requestBaseUrl + '/room/list/' + selectBuilding//数据接口
                 ,page: {
                     curr: 1 //重新从第 1 页开始
                 }

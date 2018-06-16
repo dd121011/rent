@@ -7,7 +7,7 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="icon" href="${base}/static/favicon.ico">
 <link rel="stylesheet" href="${base}/static/layui/css/layui.css" media="all"/>
-<link rel="stylesheet" href="${base}/static/css/home.css">
+<link rel="stylesheet" href="${base}/static/css/public.css">
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">

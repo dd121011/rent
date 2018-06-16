@@ -15,7 +15,7 @@
     <script src="${base}/static/plugins/login/js/verificationNumbers.js"></script>
     <script src="${base}/static/plugins/login/js/Particleground.js"></script>
     <script src="${base}/static/js/extends/jquery.cookie.js"></script>
-    <script src="${base}/static/js/common.js"></script>
+    <script src="${base}/static/js/public.js"></script>
 </head>
 
 <body>

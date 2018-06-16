@@ -6,30 +6,25 @@
     <title>房屋出租 - by scrats</title>
     <#include "landlord/menu.ftl" />
 
-    <div class="layui-body">
-        <!-- 内容主体区域 -->
-        <div style="padding: 15px;">
-            内容主体区域
-            <br><br>
-            <blockquote class="layui-elem-quote">
-                这个是room_list.ftl
-            </blockquote>
-            <hr class="layui-bg-green">
-            <div class="roomTable">
-                搜索ID：
-                <div class="layui-inline">
-                    <input class="layui-input" name="id" id="demoReload" autocomplete="off">
-                </div>
-                <button class="layui-btn" data-type="reload">搜索</button>
+    <div class="layui-body childrenBody">
+        内容主体区域
+        <br><br>
+        <blockquote class="layui-elem-quote">
+            这个是room_list.ftl
+        </blockquote>
+        <hr class="layui-bg-green">
+        <div class="roomTable">
+            搜索ID：
+            <div class="layui-inline">
+                <input class="layui-input" name="id" id="demoReload" autocomplete="off">
             </div>
-
-            <div class="site-demo-button" id="layerRoom" style="padding: 15px;">
-                <button data-method="add" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
-            </div>
-
-            <table class="layui-hide" id="lay_table_room" lay-filter="room"></table>
-
+            <button class="layui-btn" data-type="reload">搜索</button>
         </div>
+
+        <div class="site-demo-button" id="layerRoom" style="padding: 15px;">
+            <button data-method="add" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
+        </div>
+        <table class="layui-hide" id="lay_table_room" lay-filter="room"></table>
     </div>
 
 <#include "landlord/footer.ftl"/>

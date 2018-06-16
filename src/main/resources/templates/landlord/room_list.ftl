@@ -35,6 +35,19 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
+<script type="text/html" id="roomStyleTpl">
+    {{d.bedroom}}房{{d.living}}厅{{d.toilet}}卫
+</script>
+<script type="text/html" id="roomGuarantyAndPayTpl">
+    押{{d.guaranty}}付{{d.pay}}
+</script>
+<script type="text/html" id="roomRentTpl">
+    {{#  if(d.rentTs > 0){ }}
+    <div style="background-color: #5FB878;"><i class="layui-icon layui-icon-ok"></i></div>
+    {{#  } else { }}
+    <div style="background-color: #FF5722;"><i class="layui-icon layui-icon-close"></i></div>
+    {{#  } }}
+</script>
 <script src="${base}/static/js/landlord/room.js" charset="utf-8"></script>
 
 <#include "landlord/room_edit.ftl"/>

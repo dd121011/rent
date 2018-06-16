@@ -33,13 +33,12 @@ layui.use(['layer', 'table', 'form'], function () {
             {checkbox: true, fixed: true}
             , {field: 'roomId', title: 'ID'}
             , {field: 'roomNo', title: '房间号', sort: true, width: 100}
-            , {field: 'style', title: '房型', sort: true, width: 100}
-            , {field: 'orientation', title: '房间朝向', sort: true, width: 100}
-            , {field: 'guaranty', title: '押金月份', width: 100}
-            , {field: 'pay', title: '租金月份', sort: true, width: 100}
+            , {field: 'roomStyle', title: '房型', sort: true, width: 100, templet: '#roomStyleTpl'}
+            , {field: 'orientationName', title: '房间朝向', sort: true, width: 100}
+            , {field: 'guarantyAndPay', title: '押付情况', width: 100, templet: '#roomGuarantyAndPayTpl'}
             , {field: 'rentFee', title: '租金[元/月]', sort: true, width: 150}
             , {field: 'description', title: '描述', width: 100}
-            , {field: 'rentTs', title: '是否出租', width: 100}
+            , {field: 'rentTs', title: '是否出租', width: 100, templet: '#roomRentTpl'}
             , {field: '', title: '操作', align: 'center', toolbar: '#barDemo'}
         ]]
         , done: function (res, curr, count) {
@@ -80,9 +79,18 @@ layui.use(['layer', 'table', 'form'], function () {
             });
         } else if (obj.event === 'edit') {
             form.val("formRoom", {
-                "roomId": data.roomId
-                ,"name": data.name
-                ,"address": data.address
+                "buildingId": data.buildingId
+                ,"roomId": data.roomId
+                ,"roomNo": data.roomNo
+                ,"orientation": data.orientation
+                ,"decoration": data.decoration
+                ,"bedroom": data.bedroom
+                ,"living": data.living
+                ,"toilet": data.toilet
+                ,"guaranty": data.guaranty
+                ,"pay": data.pay
+                ,"rentFee": data.rentFee
+                ,"area": data.area
                 ,"description": data.description
             });
             var facility = data.facilities.split(",");
@@ -128,7 +136,7 @@ layui.use(['layer', 'table', 'form'], function () {
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "编辑房间"
-                , area: '600px'
+                , area: '500px'
                 , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
                 , id: 'layerRoomEdit'  //防止重复弹出
                 , content: $('#addDiv')

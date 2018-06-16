@@ -17,10 +17,10 @@ import java.util.List;
  */
 public interface RoomMapper extends BaseMapper<Room> {
 
-    @Select("select * from room t where 1=1 and t.building_id = #{buildingId} and t.delete_ts = 0")
+    @Select("select t.*, d.value as orientation_name from room t left join dictionary_iterm d on t.orientation = d.dic_iterm_id where 1=1 and t.building_id = #{buildingId} and t.delete_ts = 0")
     List<Room> getRoomListByBuildingId(Integer buildingId);
 
-    @Select("select * from room t where 1=1 and t.building_id = #{buildingId}")
+    @Select("select t.*, d.value as orientation_name from room t left join dictionary_iterm d on t.orientation = d.dic_iterm_id where 1=1 and t.building_id = #{buildingId}")
     List<Room> getRoomListByBuildingIdWithDeleted(Integer buildingId);
 
     @Update("<script>update room t set t.delete_ts = #{deleteTs} where 1=1 and t.room_id in <foreach item='item' index='index' collection='ids' open='(' separator=',' close=')'> #{item} </foreach></script>")

@@ -1,17 +1,14 @@
 package com.scrats.rent.api;
 
 import com.alibaba.fastjson.JSON;
-import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
-import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.Building;
 import com.scrats.rent.entity.BuildingLandlord;
-import com.scrats.rent.entity.DictionaryIterm;
-import com.scrats.rent.entity.Extra;
-import com.scrats.rent.service.*;
+import com.scrats.rent.service.BuildingLandlordService;
+import com.scrats.rent.service.BuildingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,19 +32,6 @@ public class BuildingApi {
 
     @Autowired
     private BuildingService buildingService;
-
-    @Autowired
-    private RedisService redisService;
-
-    @Autowired
-    private DictionaryService dictionaryService;
-
-    @Autowired
-    private DictionaryItermService dictionaryItermService;
-
-    @Autowired
-    private ExtraService extraService;
-
     @Autowired
     private BuildingLandlordService buildingLandlordService;
 
@@ -57,18 +41,6 @@ public class BuildingApi {
         PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(apiRequest.getPage(), apiRequest.getRows(), apiRequest.getUser().getUserId(), true);
 
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
-    }
-
-    @PostMapping("/extrasAll")
-    public String extrasAll() {
-        List<Extra> extras = extraService.selectAll();
-        return JSON.toJSONString(new JsonResult<List>(extras));
-    }
-
-    @PostMapping("/facilitiestAll")
-    public String extras() {
-        List<DictionaryIterm> facilities = dictionaryItermService.getDicItermByDicCode(GlobalConst.FACILITY_CODE);
-        return JSON.toJSONString(new JsonResult<List>(facilities));
     }
 
     @PostMapping("/edit")
@@ -110,5 +82,12 @@ public class BuildingApi {
         buildingService.deleteBuildingByIds(ids);
 
         return JSON.toJSONString(new JsonResult<>());
+    }
+
+    @PostMapping("/buildingAll")
+    public String buildingAll(@APIRequestControl APIRequest apiRequest) {
+        //获取所有房子select数据
+        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(1, 1, apiRequest.getUser().getUserId(), false);
+        return JSON.toJSONString(new JsonResult<List>(pageInfo.getList()));
     }
 }

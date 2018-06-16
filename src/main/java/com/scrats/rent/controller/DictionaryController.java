@@ -1,9 +1,7 @@
 package com.scrats.rent.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
-import com.scrats.rent.common.annotation.APIRequestControl;
+import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.Dictionary;
 import com.scrats.rent.entity.DictionaryIterm;
 import com.scrats.rent.service.DictionaryItermService;
@@ -11,7 +9,9 @@ import com.scrats.rent.service.DictionaryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -35,24 +35,41 @@ public class DictionaryController {
     private DictionaryItermService dictionaryItermService;
 
 
-    @PostMapping("/list")
-    public String list() {
+    @PostMapping("/dicListAll")
+    public JsonResult dicListAll() {
 
         List<Dictionary> list = dictionaryService.selectAll();
 
-        return JSON.toJSONString(new JsonResult<List>(list));
+        return new JsonResult<List>(list);
     }
 
-    @PostMapping("/dicItermList")
-    public String dicItermList(@APIRequestControl APIRequest apiRequest) {
-        List<DictionaryIterm> list = null;
-        int dicId = APIRequest.getParameterValue(apiRequest,"dicId",0,Integer.class);
+    @PostMapping("/dicItermListAll")
+    public JsonResult dicItermListAll(int dicId) {
+        List<DictionaryIterm> list;
         if(dicId > 0){
             list = dictionaryItermService.getDicItermByDicId(dicId);
         }else{
             list = dictionaryItermService.selectAll();
         }
-        return JSON.toJSONString(new JsonResult<List>(list));
+        return new JsonResult<List>(list);
+    }
+
+    @PostMapping("/facilitiestAll")
+    public JsonResult facilitiestAll() {
+        List<DictionaryIterm> facilities = dictionaryItermService.getDicItermByDicCode(GlobalConst.FACILITY_CODE);
+        return new JsonResult<List>(facilities);
+    }
+
+    @PostMapping("/decorationAll")
+    public JsonResult decorationAll() {
+        List<DictionaryIterm> facilities = dictionaryItermService.getDicItermByDicCode(GlobalConst.DECORATION_CODE);
+        return new JsonResult<List>(facilities);
+    }
+
+    @PostMapping("/orientationAll")
+    public JsonResult orientationAll() {
+        List<DictionaryIterm> facilities = dictionaryItermService.getDicItermByDicCode(GlobalConst.ORIENTATION_CODE);
+        return new JsonResult<List>(facilities);
     }
 
 }

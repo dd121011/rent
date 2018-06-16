@@ -7,6 +7,7 @@ var requestBaseUrl = getRootPath();
 
 
 
+
 //js获取项目根路径，如： http://localhost:8083/rent
 function getRootPath(){
     //获取当前网址，如： http://localhost:8083/rent/admin/news.action

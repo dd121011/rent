@@ -43,9 +43,9 @@
 </script>
 <script type="text/html" id="roomRentTpl">
     {{#  if(d.rentTs > 0){ }}
-    <div style="background-color: #5FB878;">已出租</i></div>
+    <a class="layui-btn layui-btn-xs">已出租</a>
     {{#  } else { }}
-    <div style="background-color: #FF5722;">未出租</div>
+    <a class="layui-btn layui-btn-danger layui-btn-xs">未出租</a>
     {{#  } }}
 </script>
 <script src="${base}/static/js/landlord/room.js" charset="utf-8"></script>

@@ -39,9 +39,9 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
             , {field: 'orientation', title: '房间朝向', sort: true, width: 100}
             , {field: 'guaranty', title: '押金月份', width: 100}
             , {field: 'pay', title: '租金月份', sort: true, width: 100}
-            , {field: 'rentFee', title: '租金[元/月]', sort: true, width: 100}
+            , {field: 'rentFee', title: '租金[元/月]', sort: true, width: 150}
             , {field: 'description', title: '描述', width: 100}
-            , {field: 'rentTs', title: '是否出租', width: 80}
+            , {field: 'rentTs', title: '是否出租', width: 100}
             , {field: '', title: '操作', align: 'center', toolbar: '#barDemo'}
         ]]
         , done: function (res, curr, count) {

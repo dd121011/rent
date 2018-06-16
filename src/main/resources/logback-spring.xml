@@ -2,7 +2,10 @@
 <configuration scan="false">
     <contextName>rent</contextName>
     <property name="log.path" value="logs"/><!--部署的时候最好改为绝对位置-->
-
+    <springProfile name="release">
+        <!--配置打印sql-->
+        <property name="log.path" value="/var/log/rent"/>
+    </springProfile>
     <!--控制台日志输出配置-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <!--对输出日志进行格式化-->

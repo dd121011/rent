@@ -6,6 +6,7 @@ import tk.mybatis.mapper.annotation.KeySql;
 import tk.mybatis.mapper.code.IdentityDialect;
 
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.List;
 
 /**
@@ -39,5 +40,8 @@ public class Room extends BaseEntity {
     private Integer buildingId;//房子id,一个房间对应一个房子id
 
     private List<Attachment> attachmentList;//一个房间对应多个attachment
+
+    @Transient
+    private String orientationName;
 
 }

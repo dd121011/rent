@@ -148,6 +148,18 @@ POST
 
 RETURN
 
+### 房子详情
+
+> /api/room/detail/{buildingId}
+
+GET
+
+| 参数 | 类型 | 是否必填 | 描述 |
+| --- | --- | --- | --- |
+| buildingId | Integer | 必填 | 房子ID |
+
+RETURN
+
 ### 房间列表
 
 > /api/room/list/{buildingId}
@@ -202,9 +214,19 @@ POST
 
 RETURN
 
+### 房间详情
+
+> /api/room/detail/{roomId}
+
+GET
+
+| 参数 | 类型 | 是否必填 | 描述 |
+| --- | --- | --- | --- |
+| roomId | Integer | 必填 | 房间ID |
+
+RETURN
+
 房东
-0，房子详情，
-1，房间详情
 2，添加租客，删除租客，修改租客，租客详情
 3，添加合同，解除合同，合同详情
 4，生成账单，账单结算，账单详情

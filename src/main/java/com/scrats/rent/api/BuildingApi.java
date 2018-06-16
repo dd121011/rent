@@ -5,6 +5,7 @@ import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
+import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.entity.Building;
 import com.scrats.rent.entity.BuildingLandlord;
 import com.scrats.rent.service.BuildingLandlordService;
@@ -12,9 +13,7 @@ import com.scrats.rent.service.BuildingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -89,5 +88,13 @@ public class BuildingApi {
         //获取所有房子select数据
         PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(1, 1, apiRequest.getUser().getUserId(), false);
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList()));
+    }
+
+    @GetMapping("/detail/{buildingId}")
+    @IgnoreSecurity
+    public String detail(@PathVariable(name="buildingId") Integer buildingId) {
+        //获取所有房子select数据
+        Building building = buildingService.selectByPrimaryKey(buildingId);
+        return JSON.toJSONString(new JsonResult<Building>(building));
     }
 }

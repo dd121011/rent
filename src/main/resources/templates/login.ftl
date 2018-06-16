@@ -15,7 +15,7 @@
     <script src="${base}/static/plugins/login/js/verificationNumbers.js"></script>
     <script src="${base}/static/plugins/login/js/Particleground.js"></script>
     <script src="${base}/static/js/extends/jquery.cookie.js"></script>
-    <script src="${base}/static/js/util.js"></script>
+    <script src="${base}/static/js/common.js"></script>
 </head>
 
 <body>
@@ -69,6 +69,7 @@
         $.post("${base}/login",{username:username,pwd:pwd},function(result){
             if(result.code == 1){
                 tokenId = result.data.tokenId;
+                header["tokenId"] = tokenId;
                 $.cookie("rent_tokenId",tokenId,{expires: 7, path: '/rent'})
                 window.location.href = "${base}/building/goBuilding?tokenId=" + tokenId;
             }else{

@@ -1,7 +1,5 @@
-layui.use(['element', 'layer', 'table', 'form'], function () {
+layui.use(['layer', 'table', 'form'], function () {
     var $ = layui.$;
-    // var $ = layui.jquery;
-    var element = layui.element;
     var layer = layui.layer;
     var table = layui.table;
     var form = layui.form;
@@ -67,11 +65,10 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
             layer.confirm('真的删除行么', function (index) {
                 var jhxhr = $.ajax({url: requestBaseUrl + "/building/delete", data:{"ids": data.buildingId}, headers: header, type: "POST"});
                 jhxhr.done(function (res) {
-                    var dat =$.parseJSON(res);
-                    if(dat.code == 1){
+                    if(res.code == 1){
                         obj.del();
                     }else{
-                        layer.alert(dat.msg)
+                        layer.alert(res.msg)
                     }
                 });
                 layer.close(index);

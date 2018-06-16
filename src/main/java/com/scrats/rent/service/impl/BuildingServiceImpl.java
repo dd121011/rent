@@ -24,18 +24,35 @@ public class BuildingServiceImpl extends BaseServiceImpl<Building, BuildingMappe
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private PageInfo<Building> getBuildingListByUserId(int page, int rows, int userId) {
-        PageHelper.startPage(page, rows);
-        List<Building> list = dao.getBuildingListByUserId(userId);
-        return new PageInfo<Building>(list);
+    @Override
+    public PageInfo<Building> getBuildingListByUserId(int page, int rows, int userId) {
+        return getBuildingListByUserId(page, rows, userId, true);
     }
 
     @Override
     public PageInfo<Building> getBuildingListByUserId(int page, int rows, int userId, boolean pageFlag) {
+        return getBuildingListByUserId(page, rows, userId, pageFlag, false);
+    }
+
+    @Override
+    public PageInfo<Building> getBuildingListByUserId(int page, int rows, int userId, boolean pageFlag, boolean deleteFlag) {
         if(pageFlag){
-            return getBuildingListByUserId(page, rows, userId);
+            PageHelper.startPage(page, rows);
+            List<Building> list;
+            if(deleteFlag){
+                list= dao.getBuildingListByUserIdWithDeleted(userId);
+            }else{
+                list= dao.getBuildingListByUserId(userId);
+            }
+            return new PageInfo<Building>(list);
         }
-        List<Building> list = dao.getBuildingListByUserId(userId);
+
+        List<Building> list;
+        if(deleteFlag){
+            list = dao.getBuildingListByUserIdWithDeleted(userId);
+        }else{
+            list = dao.getBuildingListByUserId(userId);
+        }
         PageInfo pageInfo = new PageInfo();
         pageInfo.setList(list);
         return pageInfo;

@@ -81,7 +81,7 @@ public class BuildingController {
 
     @PostMapping("/edit")
     @ResponseBody
-    public String edit(@APIRequestControl APIRequest apiRequest, Building building, String[] dicItermIds, String[] extraIds) {
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Building building, String[] dicItermIds, String[] extraIds) {
 
         String dicItermId = StringUtils.join(dicItermIds, ",");
         String extraId = StringUtils.join(extraIds, ",");
@@ -99,12 +99,12 @@ public class BuildingController {
             buildingLandlordService.insertSelective(buildingLandlord);
         }
 
-        return JSON.toJSONString(new JsonResult<>());
+        return new JsonResult<>();
     }
 
     @PostMapping("/delete")
     @ResponseBody
-    public String delete(@APIRequestControl APIRequest apiRequest, Integer... ids){
+    public JsonResult delete(@APIRequestControl APIRequest apiRequest, Integer... ids){
         //校验是否是本人名下的删除
         List<BuildingLandlord> list = buildingLandlordService.findListBy("landlord_id", apiRequest.getUser().getUserId());
         for(int id : ids){
@@ -116,7 +116,7 @@ public class BuildingController {
                 }
             }
             if(flag){
-                return JSON.toJSONString(new JsonResult<>("删除失败"));
+                return new JsonResult("删除失败");
             }
         }
 
@@ -124,7 +124,7 @@ public class BuildingController {
         buildingLandlordService.deleteBuildingByLandloordIds(ids);
         buildingService.deleteBuildingByIds(ids);
 
-        return JSON.toJSONString(new JsonResult<>());
+        return new JsonResult();
     }
 
 }

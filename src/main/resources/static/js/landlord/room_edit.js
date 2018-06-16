@@ -24,13 +24,13 @@ layui.use(['element', 'layer', 'form'], function () {
 
     var active = {
         add: function (othis) {
-            // $("input[type!=checkbox]").val("");
+            // $("input[type!=checkbox][type!=select]").val("");
             // // $("select").val("");
-            // $("[name='description']").val("");
-            // $.each($('input[type=checkbox]'),function(){
-            //     $(this).attr("checked",false);
-            //     $(this).next().removeClass("layui-form-checked");
-            // });
+            $("[name='description']").val("");
+            $.each($('input[type=checkbox]'),function(){
+                $(this).attr("checked",false);
+                $(this).next().removeClass("layui-form-checked");
+            });
             var type = othis.data('type');
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）

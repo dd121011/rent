@@ -1,5 +1,5 @@
 <div id="addDiv" style="padding: 20px 0; padding-right: 40px; display: none" >
-    <form class="layui-form" id="testBuildingForm" lay-filter="formBuilding" action="">
+    <form class="layui-form" id="testBuildingForm" lay-filter="buildingFormFilter" action="">
         <div class="layui-form-item" style="display: none">
             <label class="layui-form-label">id</label>
             <div class="layui-input-block">

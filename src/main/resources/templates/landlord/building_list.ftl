@@ -25,7 +25,7 @@
             <button data-method="add" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
         </div>
 
-        <table class="layui-hide" id="lay_table_building" lay-filter="building"></table>
+        <table class="layui-hide" id="lay_table_building" lay-filter="buildingTableFilter"></table>
     </div>
 
 <#include "landlord/footer.ftl"/>

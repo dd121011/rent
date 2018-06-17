@@ -31,7 +31,6 @@ layui.use(['layer', 'table', 'form'], function () {
 //            ,height: 315//容器高度
         , cols: [[//表头
             {checkbox: true, fixed: true}
-            , {field: 'roomId', title: 'ID'}
             , {field: 'roomNo', title: '房间号', sort: true, width: 100}
             , {field: 'roomStyle', title: '房型', sort: true, width: 100, templet: '#roomStyleTpl'}
             , {field: 'orientationName', title: '房间朝向', sort: true, width: 100}
@@ -49,18 +48,17 @@ layui.use(['layer', 'table', 'form'], function () {
             console.log(curr);
             //得到数据总量
             console.log(count);
-            $("[data-field='roomId']").css('display', 'none');//隐藏不需要显示的id字段
         }
     });
 
     //监听表格复选框选择
-    table.on('checkbox(room)', function (obj) {
+    table.on('checkbox(roomTableFilter)', function (obj) {
         console.log(obj);
         layer.alert("this is check all");
     });
 
     //监听工具条
-    table.on('tool(room)', function (obj) {
+    table.on('tool(roomTableFilter)', function (obj) {
         var data = obj.data;
         if (obj.event === 'detail') {
             layer.msg('ID：' + data.roomId + ' 的查看操作');
@@ -78,7 +76,7 @@ layui.use(['layer', 'table', 'form'], function () {
                 layer.close(index);
             });
         } else if (obj.event === 'edit') {
-            form.val("formRoom", {
+            form.val("roomFormFilter", {
                 "buildingId": data.buildingId
                 ,"roomId": data.roomId
                 ,"roomNo": data.roomNo

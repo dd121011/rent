@@ -24,7 +24,7 @@
         <div class="site-demo-button" id="layerRoom" style="padding: 15px;">
             <button data-method="add" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
         </div>
-        <table class="layui-hide" id="lay_table_room" lay-filter="room"></table>
+        <table class="layui-hide" id="lay_table_room" lay-filter="roomTableFilter"></table>
     </div>
 
 <#include "landlord/footer.ftl"/>

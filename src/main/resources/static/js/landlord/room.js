@@ -32,9 +32,13 @@ layui.use(['layer', 'table', 'form'], function () {
         , cols: [[//表头
             {checkbox: true, fixed: true}
             , {field: 'roomNo', title: '房间号', sort: true, width: 100}
-            , {field: 'roomStyle', title: '房型', sort: true, width: 100, templet: '#roomStyleTpl'}
+            , {field: 'roomStyle', title: '房型', sort: true, width: 100, templet: function(d){
+                    return d.bedroom + '房' + d.living + '厅' + d.toilet + '卫';
+                }}
             , {field: 'orientationName', title: '房间朝向', sort: true, width: 100}
-            , {field: 'guarantyAndPay', title: '押付情况', width: 100, templet: '#roomGuarantyAndPayTpl'}
+            , {field: 'guarantyAndPay', title: '押付情况', width: 100, templet: function(d){
+                    return '押' + d.guaranty + '付' + d.pay;
+                }}
             , {field: 'rentFee', title: '租金[元/月]', sort: true, width: 150}
             , {field: 'description', title: '描述', width: 100}
             , {field: 'rentTs', title: '是否出租', width: 100, templet: '#roomRentTpl'}
@@ -149,7 +153,7 @@ layui.use(['layer', 'table', 'form'], function () {
     };
 
     //绑定click点击事件
-    $('.roomTable .layui-btn').on('click', function () {
+    $('.search_btn').on('click', function () {
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });

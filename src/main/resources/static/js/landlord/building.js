@@ -134,7 +134,7 @@ layui.use(['layer', 'table', 'form'], function () {
     };
 
     //绑定click点击事件
-    $('.buildingTable .layui-btn').on('click', function () {
+    $('.search_btn').on('click', function () {
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });

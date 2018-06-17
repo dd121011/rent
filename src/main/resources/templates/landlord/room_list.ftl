@@ -10,20 +10,17 @@
         内容主体区域
         <br><br>
         <blockquote class="layui-elem-quote">
-            这个是room_list.ftl
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <input type="text" name="name" required  lay-verify="required" placeholder="请输入房间号" autocomplete="off" class="layui-input">
+                </div>
+                <a class="layui-btn search_btn" data-type="reload">搜索</a>
+            </div>
+            <div class="layui-inline" id="layerRoom">
+                <button data-method="add" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
+            </div>
         </blockquote>
         <hr class="layui-bg-green">
-        <div class="roomTable">
-            搜索ID：
-            <div class="layui-inline">
-                <input class="layui-input" name="id" id="demoReload" autocomplete="off">
-            </div>
-            <button class="layui-btn" data-type="reload">搜索</button>
-        </div>
-
-        <div class="site-demo-button" id="layerRoom" style="padding: 15px;">
-            <button data-method="add" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
-        </div>
         <table class="layui-hide" id="lay_table_room" lay-filter="roomTableFilter"></table>
     </div>
 
@@ -35,12 +32,6 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
-<script type="text/html" id="roomStyleTpl">
-    {{d.bedroom}}房{{d.living}}厅{{d.toilet}}卫
-</script>
-<script type="text/html" id="roomGuarantyAndPayTpl">
-    押{{d.guaranty}}付{{d.pay}}
-</script>
 <script type="text/html" id="roomRentTpl">
     {{#  if(d.rentTs > 0){ }}
     <a class="layui-btn layui-btn-xs">已出租</a>

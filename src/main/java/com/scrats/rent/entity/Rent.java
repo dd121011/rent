@@ -18,7 +18,7 @@ public class Rent extends BaseEntity {
 
     @Id
     @KeySql(dialect = IdentityDialect.MYSQL)
-    private int rentId;//主键
+    private Integer rentId;//主键
     private String rentNo;//房租收据单号
     private String rentMonth;//房租月份, eg 201806
     private Integer fee;//总费用

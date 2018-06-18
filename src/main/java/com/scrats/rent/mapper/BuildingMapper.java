@@ -17,11 +17,15 @@ import java.util.List;
  */
 public interface BuildingMapper extends BaseMapper<Building> {
 
-    @Select("select b.* from building b right join building_landlord bl on b.building_id = bl.building_id where bl.landlord_id = #{userId} and b.delete_ts = 0")
-    List<Building> getBuildingListByUserId(int userId);
-
-    @Select("select b.* from building b right join building_landlord bl on b.building_id = bl.building_id where bl.landlord_id = #{userId}")
-    List<Building> getBuildingListByUserIdWithDeleted(int userId);
+    @Select("<script>select t.* "+
+            "from building t " +
+            "right join building_landlord bl on t.building_id = bl.building_id " +
+            "where 1=1 " +
+            "<if test='userId != null'>and bl.landlord_id = #{userId}</if>" +
+            "<if test='building.name != null and building.name != \"\"'>and t.name = #{building.name}</if>" +
+            "<if test='building.deleteTs != null and building.deleteTs > 0'>and t.delete_ts > #{building.deleteTs}</if>" +
+            "</script>")
+    List<Building> getBuildingListWithUserId(@Param("building")Building building, @Param("userId")Integer userId);
 
     @Update("<script>update building t set t.delete_ts = #{deleteTs} where 1=1 and t.building_id in <foreach item='item' index='index' collection='ids' open='(' separator=',' close=')'> #{item} </foreach></script>")
     int deleteBuildingByIds(@Param("deleteTs")long deleteTs, @Param("ids") Integer... ids);

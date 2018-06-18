@@ -1,6 +1,7 @@
 package com.scrats.rent.service;
 
 import com.scrats.rent.base.service.BaseService;
+import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Building;
 import com.scrats.rent.mapper.BuildingMapper;
@@ -14,11 +15,9 @@ import com.scrats.rent.mapper.BuildingMapper;
  */
 public interface BuildingService extends BaseService<Building, BuildingMapper> {
 
-    PageInfo<Building> getBuildingListByUserId(int page, int rows, int userId);
+    PageInfo<Building> getBuildingListWithUserId(APIRequest apiRequest, Building building, int userId);
 
-    PageInfo<Building> getBuildingListByUserId(int page, int rows, int userId, boolean pageFlag);
-
-    PageInfo<Building> getBuildingListByUserId(int page, int rows, int userId, boolean pageFlag, boolean deleteFlag);
+    PageInfo<Building> getBuildingListWithUserId(APIRequest apiRequest, Building building, int userId, boolean pageFlag);
 
     int deleteBuildingByIds(Integer... ids);
 }

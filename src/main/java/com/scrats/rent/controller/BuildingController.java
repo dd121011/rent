@@ -74,7 +74,7 @@ public class BuildingController {
     @ResponseBody
     public String list(@APIRequestControl APIRequest apiRequest) {
 
-        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(apiRequest.getPage(), apiRequest.getRows(), apiRequest.getUser().getUserId(), true);
+        PageInfo<Building> pageInfo = buildingService.getBuildingListWithUserId(apiRequest, null, apiRequest.getUser().getUserId(), true);
 
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
     }

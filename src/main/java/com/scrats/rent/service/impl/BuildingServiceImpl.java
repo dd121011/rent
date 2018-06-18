@@ -2,6 +2,7 @@ package com.scrats.rent.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.scrats.rent.base.service.BaseServiceImpl;
+import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Building;
 import com.scrats.rent.mapper.BuildingMapper;
@@ -25,34 +26,23 @@ public class BuildingServiceImpl extends BaseServiceImpl<Building, BuildingMappe
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public PageInfo<Building> getBuildingListByUserId(int page, int rows, int userId) {
-        return getBuildingListByUserId(page, rows, userId, true);
+    public PageInfo<Building> getBuildingListWithUserId(APIRequest apiRequest, Building building, int userId) {
+        return getBuildingListWithUserId(apiRequest, building, userId, true);
     }
 
     @Override
-    public PageInfo<Building> getBuildingListByUserId(int page, int rows, int userId, boolean pageFlag) {
-        return getBuildingListByUserId(page, rows, userId, pageFlag, false);
-    }
-
-    @Override
-    public PageInfo<Building> getBuildingListByUserId(int page, int rows, int userId, boolean pageFlag, boolean deleteFlag) {
+    public PageInfo<Building> getBuildingListWithUserId(APIRequest apiRequest, Building building, int userId, boolean pageFlag) {
+        List<Building> list;
+        if(null == building){
+            building = new Building();
+        }
         if(pageFlag){
-            PageHelper.startPage(page, rows);
-            List<Building> list;
-            if(deleteFlag){
-                list= dao.getBuildingListByUserIdWithDeleted(userId);
-            }else{
-                list= dao.getBuildingListByUserId(userId);
-            }
+            PageHelper.startPage(apiRequest.getPage(), apiRequest.getRows());
+            list = dao.getBuildingListWithUserId(building, userId);
             return new PageInfo<Building>(list);
         }
 
-        List<Building> list;
-        if(deleteFlag){
-            list = dao.getBuildingListByUserIdWithDeleted(userId);
-        }else{
-            list = dao.getBuildingListByUserId(userId);
-        }
+        list = dao.getBuildingListWithUserId(building, userId);
         PageInfo pageInfo = new PageInfo();
         pageInfo.setList(list);
         return pageInfo;

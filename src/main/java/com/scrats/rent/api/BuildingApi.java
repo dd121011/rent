@@ -37,7 +37,7 @@ public class BuildingApi {
 
     @PostMapping("/list")
     public String list(@APIRequestControl APIRequest apiRequest) {
-        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(apiRequest.getPage(), apiRequest.getRows(), apiRequest.getUser().getUserId(), true);
+        PageInfo<Building> pageInfo = buildingService.getBuildingListWithUserId(apiRequest, null, apiRequest.getUser().getUserId(), true);
 
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
     }
@@ -86,7 +86,7 @@ public class BuildingApi {
     @PostMapping("/buildingAll")
     public String buildingAll(@APIRequestControl APIRequest apiRequest) {
         //获取所有房子select数据
-        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(1, 1, apiRequest.getUser().getUserId(), false);
+        PageInfo<Building> pageInfo = buildingService.getBuildingListWithUserId(null, null, apiRequest.getUser().getUserId(), false);
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList()));
     }
 

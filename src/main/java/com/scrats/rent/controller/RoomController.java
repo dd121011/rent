@@ -52,7 +52,9 @@ public class RoomController {
 
         User user = (User)redisService.get(tokenId);
         //获取所有房子select数据
-        PageInfo<Building> pageInfo = buildingService.getBuildingListByUserId(1, 1, user.getUserId(), false);
+        Building building = new Building();
+        building.setBuildingId(buildingId);
+        PageInfo<Building> pageInfo = buildingService.getBuildingListWithUserId(null, building, user.getUserId(), false);
         //获取所有房间朝向
         List<DictionaryIterm> orientations = dictionaryItermService.getDicItermByDicCode(GlobalConst.ORIENTATION_CODE);
         //获取所有装修情况

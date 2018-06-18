@@ -40,10 +40,9 @@ public class RoomApi {
     private BuildingLandlordService buildingLandlordService;
 
     @PostMapping("/list/{buildingId}")
-    public String list(@APIRequestControl APIRequest apiRequest, @PathVariable(name="buildingId") Integer buildingId) {
-
-        PageInfo<Room> pageInfo = roomService.getRoomListByBuildingId(apiRequest.getPage(), apiRequest.getRows(), buildingId);
-
+    public String list(@APIRequestControl APIRequest apiRequest, @PathVariable(name="buildingId") Integer buildingId, Room room) {
+        room.setBuildingId(buildingId);
+        PageInfo<Room> pageInfo = roomService.getRoomList(apiRequest, room);
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
     }
 

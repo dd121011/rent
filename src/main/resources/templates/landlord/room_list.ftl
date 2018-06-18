@@ -10,15 +10,31 @@
         内容主体区域
         <br><br>
         <blockquote class="layui-elem-quote">
-            <div class="layui-inline">
-                <div class="layui-input-inline">
-                    <input type="text" name="name" required  lay-verify="required" placeholder="请输入房间号" autocomplete="off" class="layui-input">
+            <form class="layui-form" lay-filter="roomSearchFormFilter" action="">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="text" id="searchRoomNo" placeholder="请输入房间号" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline">
+                        <select id="searchBuildingId" lay-verify="required" lay-search="">
+                        <#list buildings as item>
+                            <option value="${item.buildingId}">${item.name}</option>
+                        </#list>
+                        </select>
+                    </div>
+                    <div class="layui-input-inline">
+                        <select id="searchRoomRentTs"  lay-search="">
+                            <option value="-1" selected>所有</option>
+                            <option value="1">已出租</option>
+                            <option value="0">未出租</option>
+                        </select>
+                    </div>
+                    <a class="layui-btn search_btn" data-method="search" data-type="search">搜索</a>
                 </div>
-                <a class="layui-btn search_btn" data-type="reload">搜索</a>
-            </div>
-            <div class="layui-inline" id="layerRoom">
-                <button data-method="add" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
-            </div>
+                <div class="layui-inline">
+                    <button data-method="add" data-type="add" class="layui-btn layui-btn-normal">添加</button>
+                </div>
+            </form>
         </blockquote>
         <hr class="layui-bg-green">
         <table class="layui-hide" id="lay_table_room" lay-filter="roomTableFilter"></table>
@@ -27,7 +43,12 @@
 <#include "landlord/footer.ftl"/>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">出租记录</a>
+    {{#  if(d.rentTs > 0){ }}
+    <a class="layui-btn layui-btn-primary layui-btn-normal layui-btn-xs" lay-event="continue">续约</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-primary layui-btn-normal layui-btn-xs" lay-event="rent">出租</a>
+    {{#  } }}
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="rentHistoty">出租记录</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>

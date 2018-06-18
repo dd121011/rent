@@ -2,6 +2,7 @@ package com.scrats.rent.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.scrats.rent.base.service.BaseServiceImpl;
+import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Room;
 import com.scrats.rent.mapper.RoomMapper;
@@ -25,34 +26,20 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public PageInfo<Room> getRoomListByBuildingId(int page, int rows, Integer buildingId) {
-        return getRoomListByBuildingId(page, rows, buildingId, true);
+    public PageInfo<Room> getRoomList(APIRequest apiRequest, Room room) {
+        return getRoomList(apiRequest, room, true);
     }
 
     @Override
-    public PageInfo<Room> getRoomListByBuildingId(int page, int rows, Integer buildingId, boolean pageFlag) {
-        return getRoomListByBuildingId(page, rows, buildingId, pageFlag, false);
-    }
-
-    @Override
-    public PageInfo<Room> getRoomListByBuildingId(int page, int rows, Integer buildingId, boolean pageFlag, boolean deleteFlag) {
+    public PageInfo<Room> getRoomList(APIRequest apiRequest, Room room, boolean pageFlag) {
+        List<Room> list;
         if(pageFlag){
-            PageHelper.startPage(page, rows);
-            List<Room> list;
-            if(deleteFlag){
-                list= dao.getRoomListByBuildingIdWithDeleted(buildingId);
-            }else{
-                list= dao.getRoomListByBuildingId(buildingId);
-            }
+            PageHelper.startPage(apiRequest.getPage(), apiRequest.getRows());
+            list = dao.getRoomList(room);
             return new PageInfo<Room>(list);
         }
 
-        List<Room> list;
-        if(deleteFlag){
-            list = dao.getRoomListByBuildingIdWithDeleted(buildingId);
-        }else{
-            list = dao.getRoomListByBuildingId(buildingId);
-        }
+        list = dao.getRoomList(room);
         PageInfo pageInfo = new PageInfo();
         pageInfo.setList(list);
         return pageInfo;

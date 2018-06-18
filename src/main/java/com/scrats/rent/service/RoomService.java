@@ -1,6 +1,7 @@
 package com.scrats.rent.service;
 
 import com.scrats.rent.base.service.BaseService;
+import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Room;
 import com.scrats.rent.mapper.RoomMapper;
@@ -14,11 +15,9 @@ import com.scrats.rent.mapper.RoomMapper;
  */
 public interface RoomService extends BaseService<Room, RoomMapper> {
 
-    PageInfo<Room> getRoomListByBuildingId(int page, int rows, Integer buildingId);
+    PageInfo<Room> getRoomList(APIRequest apiRequest, Room room);
 
-    PageInfo<Room> getRoomListByBuildingId(int page, int rows, Integer buildingId, boolean pageFlag);
-
-    PageInfo<Room> getRoomListByBuildingId(int page, int rows, Integer buildingId, boolean pageFlag, boolean deleteFlag);
+    PageInfo<Room> getRoomList(APIRequest apiRequest, Room room, boolean pageFlag);
 
     int deleteRoomByIds(Integer... ids);
 }

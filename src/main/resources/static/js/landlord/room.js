@@ -91,7 +91,7 @@ layui.use(['layer', 'table', 'form'], function () {
                 ,"description": data.description
             });
             var facility = data.facilities.split(",");
-            $.each($('input[type=checkbox][name=dicItermIds]'),function(){
+            $.each($('input[type=checkbox][name=facilityIds]'),function(){
                 for(j = 0, len=facility.length; j < len; j++) {
                     if(facility[j] == $(this).val()){
                         $(this).attr("checked",true);

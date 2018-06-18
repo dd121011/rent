@@ -10,6 +10,7 @@ import com.scrats.rent.entity.Building;
 import com.scrats.rent.entity.BuildingLandlord;
 import com.scrats.rent.service.BuildingLandlordService;
 import com.scrats.rent.service.BuildingService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,11 @@ public class BuildingApi {
     }
 
     @PostMapping("/edit")
-    public String edit(@APIRequestControl APIRequest apiRequest, Building building) {
+    public String edit(@APIRequestControl APIRequest apiRequest, Building building, String[] facilityIds, String[] extraIds) {
+        String facilityId = StringUtils.join(facilityIds, ",");
+        String extraId = StringUtils.join(extraIds, ",");
+        building.setFacilities(facilityId);
+        building.setExtraFee(extraId);
 
         if(null != building.getBuildingId()){
             building.setUpdateTs(System.currentTimeMillis());

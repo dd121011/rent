@@ -16,7 +16,7 @@
             <label class="layui-form-label">配套设施</label>
             <div class="layui-input-block">
                 <#list facilityList as item>
-                    <input type="checkbox" lay-filter="testt" name="dicItermIds" value="${item.dicItermId}" title="${item.value}">
+                    <input type="checkbox" lay-filter="testt" name="facilityIds" value="${item.dicItermId}" title="${item.value}">
                 </#list>
             </div>
         </div>

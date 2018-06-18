@@ -81,11 +81,11 @@ public class BuildingController {
 
     @PostMapping("/edit")
     @ResponseBody
-    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Building building, String[] dicItermIds, String[] extraIds) {
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Building building, String[] facilityIds, String[] extraIds) {
 
-        String dicItermId = StringUtils.join(dicItermIds, ",");
+        String facilityId = StringUtils.join(facilityIds, ",");
         String extraId = StringUtils.join(extraIds, ",");
-        building.setFacilities(dicItermId);
+        building.setFacilities(facilityId);
         building.setExtraFee(extraId);
 
         if(null != building.getBuildingId()){

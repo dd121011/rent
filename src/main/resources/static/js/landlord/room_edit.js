@@ -5,7 +5,9 @@ layui.use(['layer', 'form'], function () {
 
     //监听提交
     form.on('submit(formDemo)', function(data){
-        var params = $(data.form).serialize();
+        var params = $(data.form).serializeObject();
+        params.rentFee = params.rentFee * 100;
+        params.area = params.area * 10000;
         var jhxhr = $.ajax({url: requestBaseUrl + "/room/edit", data: params, headers: header, type: "POST"});
         jhxhr.done(function (res) {
             if(res.code == 1){

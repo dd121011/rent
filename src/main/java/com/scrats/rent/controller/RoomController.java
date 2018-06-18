@@ -89,6 +89,9 @@ public class RoomController {
         String extraId = StringUtils.join(extraIds, ",");
         room.setFacilities(dicItermId);
         room.setExtraFee(extraId);
+        //单位转换
+        room.setRentFee(room.getRentFee()*100);//元->分
+        room.setArea(room.getArea()*10000);//平方米->平方厘米
 
         if(null != room.getRoomId()){
             room.setUpdateTs(System.currentTimeMillis());

@@ -34,7 +34,9 @@ layui.use(['layer', 'table', 'form'], function () {
             , {field: 'guarantyAndPay', title: '押付情况', width: 100, templet: function(d){
                     return '押' + d.guaranty + '付' + d.pay;
                 }}
-            , {field: 'rentFee', title: '租金[元/月]', sort: true, width: 150}
+            , {field: 'rentFee', title: '租金[元/月]', sort: true, width: 150, templet: function(d){
+                    return d.rentFee/100;
+                }}
             , {field: 'description', title: '描述', width: 100}
             , {field: 'rentTs', title: '是否出租', width: 100, templet: '#roomRentTpl'}
             , {field: '', title: '操作', align: 'center', toolbar: '#barDemo'}
@@ -84,8 +86,8 @@ layui.use(['layer', 'table', 'form'], function () {
                 ,"toilet": data.toilet
                 ,"guaranty": data.guaranty
                 ,"pay": data.pay
-                ,"rentFee": data.rentFee
-                ,"area": data.area
+                ,"rentFee": data.rentFee/100
+                ,"area": data.area/10000
                 ,"description": data.description
             });
             var facility = data.facilities.split(",");

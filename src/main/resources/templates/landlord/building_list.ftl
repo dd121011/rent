@@ -10,15 +10,18 @@
         内容主体区域
         <br><br>
         <blockquote class="layui-elem-quote">
-            <div class="layui-inline">
-                <div class="layui-input-inline">
-                    <input type="text" name="name" required  lay-verify="required" placeholder="请输入楼盘名字" autocomplete="off" class="layui-input">
+            <form class="layui-form" lay-filter="buildingSearchFormFilter" action="">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <select id="searchBuildingName"  lay-search>
+                        </select>
+                    </div>
+                    <a class="layui-btn search_btn" data-method="search" data-type="auto">搜索</a>
                 </div>
-                <a class="layui-btn search_btn" data-method="search" data-type="auto">搜索</a>
-            </div>
-            <div class="layui-inline" id="layerBuilding">
-                <button data-method="add" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
-            </div>
+                <div class="layui-inline" id="layerBuilding">
+                    <button data-method="add" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
+                </div>
+            </form>
         </blockquote>
         <hr class="layui-bg-green">
         <table class="layui-hide" id="lay_table_building" lay-filter="buildingTableFilter"></table>

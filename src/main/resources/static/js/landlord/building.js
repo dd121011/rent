@@ -6,6 +6,8 @@ layui.use(['layer', 'table', 'form'], function () {
 
     layer.msg('hello');
 
+    var selectLoadFlag= true;
+
     //方法级渲染
     table.render({
         elem: '#lay_table_building'//指定原始表格元素选择器（
@@ -38,13 +40,14 @@ layui.use(['layer', 'table', 'form'], function () {
             , {field: '', title: '操作', align: 'center', toolbar: '#barDemo'}
         ]]
         , done: function (res, curr, count) {
-            //如果是异步请求数据方式，res即为你接口返回的信息。
-            //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-            console.log(res);
-            //得到当前页码
-            console.log(curr);
-            //得到数据总量
-            console.log(count);
+            if(selectLoadFlag){
+                var selectData = res.data;
+                $("#searchBuildingName").append("<option value='-1' selected>全部</option>");
+                for(i = 0, len=selectData.length; i < len; i++) {
+                    $("#searchBuildingName").append("<option value='"+selectData[i].buildingId+"'>"+selectData[i].name+"</option>");
+                }
+                form.render('select','buildingSearchFormFilter');
+            }
         }
     });
 
@@ -109,9 +112,7 @@ layui.use(['layer', 'table', 'form'], function () {
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: {
-                    key: {
-                        id: demoReload.val()
-                    }
+                    buildingId: $('#searchBuildingName').val()
                 }//传参*/
             });
         },

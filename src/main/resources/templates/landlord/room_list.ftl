@@ -16,15 +16,15 @@
                         <input type="text" id="searchRoomNo" placeholder="请输入房间号" autocomplete="off" class="layui-input">
                     </div>
                     <div class="layui-input-inline">
-                        <select id="searchBuildingId" lay-verify="required" lay-search="">
+                        <select id="searchBuildingId" lay-verify="required" lay-search>
                         <#list buildings as item>
-                            <option value="${item.buildingId}">${item.name}</option>
+                            <option value="${item.buildingId}"<#if item.buildingId == buildingId>selected</#if>>${item.name}</option>
                         </#list>
                         </select>
                     </div>
                     <div class="layui-input-inline">
                         <select id="searchRoomRentTs"  lay-search="">
-                            <option value="-1" selected>所有</option>
+                            <option value="-1" selected>全部</option>
                             <option value="1">已出租</option>
                             <option value="0">未出租</option>
                         </select>

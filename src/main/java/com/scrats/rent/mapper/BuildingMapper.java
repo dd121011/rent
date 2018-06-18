@@ -22,8 +22,11 @@ public interface BuildingMapper extends BaseMapper<Building> {
             "right join building_landlord bl on t.building_id = bl.building_id " +
             "where 1=1 " +
             "<if test='userId != null'>and bl.landlord_id = #{userId}</if>" +
-            "<if test='building.name != null and building.name != \"\"'>and t.name = #{building.name}</if>" +
-            "<if test='building.deleteTs != null and building.deleteTs > 0'>and t.delete_ts > #{building.deleteTs}</if>" +
+            "<if test = 'null != building'>" +
+            "   <if test='building.buildingId != null and building.buildingId > 0'>and t.building_id = #{building.buildingId}</if>" +
+                "<if test='building.name != null and building.name != \"\"'>and t.name = #{building.name}</if>" +
+                "<if test='building.deleteTs != null and building.deleteTs > 0'>and t.delete_ts > #{building.deleteTs}</if>" +
+            "</if>" +
             "</script>")
     List<Building> getBuildingListWithUserId(@Param("building")Building building, @Param("userId")Integer userId);
 

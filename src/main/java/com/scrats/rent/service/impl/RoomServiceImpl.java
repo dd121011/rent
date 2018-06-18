@@ -33,6 +33,9 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     @Override
     public PageInfo<Room> getRoomList(APIRequest apiRequest, Room room, boolean pageFlag) {
         List<Room> list;
+        if(null == room){
+            room = new Room();
+        }
         if(pageFlag){
             PageHelper.startPage(apiRequest.getPage(), apiRequest.getRows());
             list = dao.getRoomList(room);

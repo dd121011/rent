@@ -33,9 +33,6 @@ public class BuildingServiceImpl extends BaseServiceImpl<Building, BuildingMappe
     @Override
     public PageInfo<Building> getBuildingListWithUserId(APIRequest apiRequest, Building building, int userId, boolean pageFlag) {
         List<Building> list;
-        if(null == building){
-            building = new Building();
-        }
         if(pageFlag){
             PageHelper.startPage(apiRequest.getPage(), apiRequest.getRows());
             list = dao.getBuildingListWithUserId(building, userId);

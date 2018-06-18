@@ -102,6 +102,9 @@ POST
 | page | int | 必填 | 页码 |
 | rows | int | 必填 | 每页大小 |
 | tokenId | String | 必填 | 登录标识 |
+| buildingId | Integer | 非必填 | 房子Id |
+| name | String | 非必填 | 房子名称，精确匹配 |
+| deleteTs | Long | 非必填 | 删除标识，deleteTs>0代表已删除 |
 
 RETURN
 
@@ -171,10 +174,14 @@ POST
 | page | int | 必填 | 页码 |
 | rows | int | 必填 | 每页大小 |
 | tokenId | String | 必填 | 登录标识 |
+| buildingId | String | 非必填 | 房子Id |
+| roomNo | String | 非必填 | 房间号,精确匹配 |
+| rentTs | Long | 非必填 | 删除标识，rentTs>0代表已出租，rentTs=0代表未出租，rentTs<0代表全部 |
+| deleteTs | Long | 非必填 | 删除标识，deleteTs>0代表已删除 |
 
 RETURN
 
-### 编辑房子
+### 编辑房间
 
 > /api/room/edit
 

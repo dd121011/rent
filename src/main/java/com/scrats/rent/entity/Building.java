@@ -6,6 +6,7 @@ import tk.mybatis.mapper.annotation.KeySql;
 import tk.mybatis.mapper.code.IdentityDialect;
 
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.List;
 
 /**
@@ -30,8 +31,9 @@ public class Building extends BaseEntity {
 
     private List<Attachment> attachmentList;//一个房子对应多个attachment
 
-    public Building() {
-        super();
-    }
+    @Transient
+    private List<DictionaryIterm> facilitiesIterm;
+    @Transient
+    private List<DictionaryIterm> extraFeeIterm;
 
 }

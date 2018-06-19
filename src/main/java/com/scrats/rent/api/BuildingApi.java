@@ -8,8 +8,10 @@ import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.entity.Building;
 import com.scrats.rent.entity.BuildingLandlord;
+import com.scrats.rent.entity.DictionaryIterm;
 import com.scrats.rent.service.BuildingLandlordService;
 import com.scrats.rent.service.BuildingService;
+import com.scrats.rent.service.DictionaryItermService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +36,8 @@ public class BuildingApi {
     private BuildingService buildingService;
     @Autowired
     private BuildingLandlordService buildingLandlordService;
-
+    @Autowired
+    private DictionaryItermService dictionaryItermService;
 
     @PostMapping("/list")
     public String list(@APIRequestControl APIRequest apiRequest, Building building) {
@@ -100,6 +103,14 @@ public class BuildingApi {
     public String detail(@PathVariable(name="buildingId") Integer buildingId) {
         //获取所有房子select数据
         Building building = buildingService.selectByPrimaryKey(buildingId);
+        //获取所有配套设施
+        List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(building.getFacilities());
+        //获取所有额外收费项
+        List<DictionaryIterm> extras = dictionaryItermService.selectByIds(building.getExtraFee());
+
+        building.setFacilitiesIterm(facilities);
+        building.setExtraFeeIterm(extras);
+
         return JSON.toJSONString(new JsonResult<Building>(building));
     }
 }

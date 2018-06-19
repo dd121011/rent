@@ -29,7 +29,7 @@
 
 <#include "landlord/footer.ftl"/>
 
-<script type="text/html" id="barDemo">
+<script type="text/html" id="buildingListBar">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">出租情况</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>

@@ -44,7 +44,7 @@ layui.use(['layer', 'table', 'form'], function () {
                     }
                     return '<a class="layui-btn layui-btn-danger layui-btn-xs">未出租</a>'
                 }}
-            , {field: '', title: '操作', align: 'center', toolbar: '#barDemo'}
+            , {field: '', title: '操作', align: 'center', toolbar: '#roomListBar'}
         ]]
         , done: function (res, curr, count) {
             //如果是异步请求数据方式，res即为你接口返回的信息。
@@ -156,6 +156,8 @@ layui.use(['layer', 'table', 'form'], function () {
             // active.edit();
         } else if (obj.event === 'continue'){
             //续约
+        } else if (obj.event === 'detail'){
+            location.href= requestBaseUrl + "/room/goRoomDetail/" + data.roomId + "?tokenId=" + tokenId;
         }
     });
 

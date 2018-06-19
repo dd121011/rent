@@ -42,11 +42,12 @@
 
 <#include "landlord/footer.ftl"/>
 
-<script type="text/html" id="barDemo">
+<script type="text/html" id="roomListBar">
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="detail">详情</a>
     {{#  if(d.rentTs > 0){ }}
-    <a class="layui-btn layui-btn-primary layui-btn-normal layui-btn-xs" lay-event="continue">续约</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="continue">续约</a>
     {{#  } else { }}
-    <a class="layui-btn layui-btn-primary layui-btn-normal layui-btn-xs" lay-event="rent">出租</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="rent">出租</a>
     {{#  } }}
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="rentHistoty">出租记录</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>

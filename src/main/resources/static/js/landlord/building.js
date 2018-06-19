@@ -37,7 +37,7 @@ layui.use(['layer', 'table', 'form'], function () {
             , {field: 'extraFee', title: '额外收费项', width: 100}
             , {field: 'description', title: '描述', width: 80}
             , {field: 'address', title: '地址', width: 80}
-            , {field: '', title: '操作', align: 'center', toolbar: '#barDemo'}
+            , {field: '', title: '操作', align: 'center', toolbar: '#buildingListBar'}
         ]]
         , done: function (res, curr, count) {
             if(selectLoadFlag){

@@ -43,5 +43,13 @@ public class Room extends BaseEntity {
 
     @Transient
     private String orientationName;
+    @Transient
+    private String decorationName;
+    @Transient
+    private List<DictionaryIterm> facilitiesIterm;
+    @Transient
+    private List<DictionaryIterm> extraFeeIterm;
+    @Transient
+    private Building building;
 
 }

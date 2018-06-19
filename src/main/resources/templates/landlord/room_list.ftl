@@ -53,15 +53,9 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
-<script type="text/html" id="roomRentTpl">
-    {{#  if(d.rentTs > 0){ }}
-    <a class="layui-btn layui-btn-xs">已出租</a>
-    {{#  } else { }}
-    <a class="layui-btn layui-btn-danger layui-btn-xs">未出租</a>
-    {{#  } }}
-</script>
 <script src="${base}/static/js/landlord/room.js" charset="utf-8"></script>
 
 <#include "landlord/room_edit.ftl"/>
+<#include "landlord/room_renter.ftl"/>
 
 </html>

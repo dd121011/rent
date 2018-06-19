@@ -38,7 +38,12 @@ layui.use(['layer', 'table', 'form'], function () {
                     return d.rentFee/100;
                 }}
             , {field: 'description', title: '描述', width: 100}
-            , {field: 'rentTs', title: '是否出租', width: 100, templet: '#roomRentTpl'}
+            , {field: 'rentTs', title: '是否出租', width: 100, templet: function(d){
+                    if(d.rentTs > 0){
+                        return '<a class="layui-btn layui-btn-xs">已出租</a>';
+                    }
+                    return '<a class="layui-btn layui-btn-danger layui-btn-xs">未出租</a>'
+                }}
             , {field: '', title: '操作', align: 'center', toolbar: '#barDemo'}
         ]]
         , done: function (res, curr, count) {
@@ -213,11 +218,11 @@ layui.use(['layer', 'table', 'form'], function () {
                 ,title: "添加租客"
                 , area: '500px'
                 , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
-                , id: 'layerRoomEdit'  //防止重复弹出
-                , content: $('#addDiv')
+                , id: 'layerRentEdit'  //防止重复弹出
+                , content: $('#addRenterDiv')
                 , btn: '关闭全部'
                 , btnAlign: 'c' //按钮居中
-//                    ,shade: 0 //不显示遮罩
+                // , shade: 0 //不显示遮罩
                 , yes: function () {
                     layer.closeAll();
                 }

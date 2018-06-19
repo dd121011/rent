@@ -4,7 +4,7 @@ layui.use(['layer', 'form'], function () {
     var form = layui.form;
 
     //监听提交
-    form.on('submit(formDemo)', function(data){
+    form.on('submit(roomEditFormSubmitFilter)', function(data){
         var params = $(data.form).serializeObject();
         params.rentFee = params.rentFee * 100;
         params.area = params.area * 10000;

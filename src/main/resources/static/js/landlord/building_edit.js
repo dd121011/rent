@@ -4,7 +4,7 @@ layui.use(['layer', 'form'], function () {
     var form = layui.form;
 
     //监听提交
-    form.on('submit(formDemo)', function(data){
+    form.on('submit(buildingEditFormSubmitFilter)', function(data){
         // var facility=[];
         // $.each($('input:checkbox[name=dicItermIds]:checked'),function(){
         //     facility.push($(this).val());

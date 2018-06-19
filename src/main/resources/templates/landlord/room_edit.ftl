@@ -113,6 +113,7 @@
                     <input type="text" name="rentFee" required  lay-verify="required" placeholder="请输入租金" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid">元/月</div>
+            </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">

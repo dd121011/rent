@@ -149,7 +149,23 @@ public interface BaseService<T, D> {
      */
     PageInfo<T> select(int page, int rows, T var1);
 
+    /**
+     * @description: 根据属性获取单个实体
+     * @author: lol
+     * @date: 2018/6/20 12:24
+     * @param: property  属性名
+     * @param: value   属性值
+     * @return: T
+     */
     T findBy(String property, Object value) throws TooManyResultsException;
 
+    /**
+     * @description: 根据属性获取多个实体
+     * @author: lol
+     * @date: 2018/6/20 12:26
+     * @param: property  属性名
+     * @param: value   属性值
+     * @return: List<T>
+     */
     List<T> findListBy(String property, Object value);
 }

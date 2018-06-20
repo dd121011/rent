@@ -43,6 +43,8 @@ public class RoomApi {
     private RenterService renterService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ExtraService extraService;
 
     @PostMapping("/list/{buildingId}")
     public String list(@APIRequestControl APIRequest apiRequest, @PathVariable(name="buildingId") Integer buildingId, Room room) {
@@ -110,7 +112,7 @@ public class RoomApi {
         //获取所有配套设施
         List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(room.getFacilities());
         //获取所有额外收费项
-        List<DictionaryIterm> extras = dictionaryItermService.selectByIds(room.getExtraFee());
+        List<Extra> extras = extraService.selectByIds(room.getExtraFee());
 
         room.setBuilding(building);
         room.setOrientationName(orientation.getValue());

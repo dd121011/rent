@@ -177,7 +177,7 @@ public class RoomController {
         return "landlord/room_detail";
     }
 
-    @GetMapping("/roomRenter/{roomId}")
+    @GetMapping("/renterAll/{roomId}")
     @ResponseBody
     public String roomRenter(@PathVariable(name="roomId") Integer roomId){
 

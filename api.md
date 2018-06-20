@@ -235,7 +235,7 @@ RETURN
 
 ### 房间所有租客
 
-> /api/room/roomRenter/{roomId}
+> /api/room/renterAll/{roomId}
 
 GET
 

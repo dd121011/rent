@@ -8,7 +8,7 @@ layui.use(['layer', 'table', 'form'], function () {
 
     table.render({
         elem: '#lay_table_room_renter'//指定原始表格元素选择器（
-        , url: requestBaseUrl + '/room/roomRenter/' + $('#roomId').val()
+        , url: requestBaseUrl + '/room/renterAll/' + $('#roomId').val()
         , method: 'get'
         , headers: {tokenId: tokenId}
         , request: {

@@ -122,7 +122,7 @@ public class RoomApi {
         return JSON.toJSONString(new JsonResult<Room>(room));
     }
 
-    @GetMapping("/roomRenter/{roomId}")
+    @GetMapping("/renterAll/{roomId}")
     public String roomRenter(@PathVariable(name="roomId") Integer roomId){
 
         List<Renter> list = renterService.findListBy("roomId", roomId);

@@ -106,11 +106,11 @@ public class BuildingController {
     @ResponseBody
     public JsonResult delete(@APIRequestControl APIRequest apiRequest, Integer... ids){
         //校验是否是本人名下的删除
-        List<BuildingLandlord> list = buildingLandlordService.findListBy("landlord_id", apiRequest.getUser().getUserId());
+        List<BuildingLandlord> list = buildingLandlordService.findListBy("landlordId", apiRequest.getUser().getUserId());
         for(int id : ids){
             boolean flag = true;
             for(BuildingLandlord buildingLandlord : list){
-                if((buildingLandlord.getBuilding_id() - id) == 0){
+                if((buildingLandlord.getBuildingId() - id) == 0){
                     flag = false;
                     break;
                 }

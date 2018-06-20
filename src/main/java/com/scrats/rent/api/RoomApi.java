@@ -73,7 +73,7 @@ public class RoomApi {
     @PostMapping("/delete")
     public String delete(@APIRequestControl APIRequest apiRequest, Integer... ids){
         //校验是否是本人名下的删除
-        List<BuildingLandlord> list = buildingLandlordService.findListBy("landlord_id", apiRequest.getUser().getUserId());
+        List<BuildingLandlord> list = buildingLandlordService.findListBy("landlordId", apiRequest.getUser().getUserId());
 
         String roomIds = StringUtils.join(ids,",");
         List<Room> roomList = roomService.selectByIds(roomIds);
@@ -81,7 +81,7 @@ public class RoomApi {
         for(Room room : roomList){
             boolean flag = true;
             for(BuildingLandlord buildingLandlord : list){
-                if((buildingLandlord.getBuilding_id() - room.getBuildingId()) == 0){
+                if((buildingLandlord.getBuildingId() - room.getBuildingId()) == 0){
                     flag = false;
                     break;
                 }

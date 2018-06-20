@@ -18,18 +18,18 @@ public class BuildingLandlord extends BaseEntity {
 
     @Id
     @KeySql(dialect = IdentityDialect.MYSQL)
-    private Integer building_landlord_id;//主键
-    private Integer landlord_id;//主键
-    private Integer building_id;//主键
+    private Integer buildingLandlordId;//主键
+    private Integer landlordId;//主键
+    private Integer buildingId;//主键
 
 
     public BuildingLandlord() {
         super();
     }
 
-    public BuildingLandlord(Integer landlord_id, Integer building_id) {
+    public BuildingLandlord(Integer landlordId, Integer buildingId) {
         super();
-        this.landlord_id = landlord_id;
-        this.building_id = building_id;
+        this.landlordId = landlordId;
+        this.buildingId = buildingId;
     }
 }

@@ -233,6 +233,19 @@ GET
 
 RETURN
 
+### 房间所有租客
+
+> /api/room/roomRenter/{roomId}
+
+GET
+
+| 参数 | 类型 | 是否必填 | 描述 |
+| --- | --- | --- | --- |
+| tokenId | String | 必填 | 登录标识 |
+| roomId | Integer | 必填 | 房间ID |
+
+RETURN
+
 房东
 2，添加租客，删除租客，修改租客，租客详情
 3，添加合同，解除合同，合同详情

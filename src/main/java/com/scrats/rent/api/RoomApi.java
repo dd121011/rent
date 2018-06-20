@@ -1,19 +1,15 @@
 package com.scrats.rent.api;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
-import com.scrats.rent.entity.Building;
-import com.scrats.rent.entity.BuildingLandlord;
-import com.scrats.rent.entity.DictionaryIterm;
-import com.scrats.rent.entity.Room;
-import com.scrats.rent.service.BuildingLandlordService;
-import com.scrats.rent.service.BuildingService;
-import com.scrats.rent.service.DictionaryItermService;
-import com.scrats.rent.service.RoomService;
+import com.scrats.rent.entity.*;
+import com.scrats.rent.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +39,10 @@ public class RoomApi {
     private BuildingLandlordService buildingLandlordService;
     @Autowired
     private DictionaryItermService dictionaryItermService;
+    @Autowired
+    private RenterService renterService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/list/{buildingId}")
     public String list(@APIRequestControl APIRequest apiRequest, @PathVariable(name="buildingId") Integer buildingId, Room room) {
@@ -118,5 +118,20 @@ public class RoomApi {
         room.setFacilitiesIterm(facilities);
         room.setExtraFeeIterm(extras);
         return JSON.toJSONString(new JsonResult<Room>(room));
+    }
+
+    @GetMapping("/roomRenter/{roomId}")
+    public String roomRenter(@PathVariable(name="roomId") Integer roomId){
+
+        List<Renter> list = renterService.findListBy("roomId", roomId);
+        JSONArray jsonArray = new JSONArray();
+        for(Renter renter : list){
+            User user = userService.selectByPrimaryKey(renter.getUserId());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("renter",renter);
+            jsonObject.put("user",user);
+            jsonArray.add(jsonObject);
+        }
+        return JSON.toJSONString(new JsonResult<JSONArray>(jsonArray));
     }
 }

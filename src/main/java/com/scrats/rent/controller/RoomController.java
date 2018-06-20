@@ -1,6 +1,8 @@
 package com.scrats.rent.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
@@ -45,10 +47,16 @@ public class RoomController {
     private ExtraService extraService;
     @Autowired
     private BuildingLandlordService buildingLandlordService;
+    @Autowired
+    private BarginService barginService;
+    @Autowired
+    private RenterService renterService;
+    @Autowired
+    private UserService userService;
 
     @IgnoreSecurity
     @GetMapping("/goRoom/{buildingId}")
-    public String goRoom(String tokenId, @PathVariable(name="buildingId", required = false) Integer buildingId, Map<String, Object> map){
+    public String goRoom(String tokenId, @PathVariable(name="buildingId") Integer buildingId, Map<String, Object> map){
 
         User user = (User)redisService.get(tokenId);
         //获取所有房子select数据
@@ -105,7 +113,7 @@ public class RoomController {
     @ResponseBody
     public JsonResult delete(@APIRequestControl APIRequest apiRequest, Integer... ids){
         //校验是否是本人名下的删除
-        List<BuildingLandlord> list = buildingLandlordService.findListBy("landlord_id", apiRequest.getUser().getUserId());
+        List<BuildingLandlord> list = buildingLandlordService.findListBy("landlordId", apiRequest.getUser().getUserId());
 
         String roomIds = StringUtils.join(ids,",");
         List<Room> roomList = roomService.selectByIds(roomIds);
@@ -113,7 +121,7 @@ public class RoomController {
         for(Room room : roomList){
             boolean flag = true;
             for(BuildingLandlord buildingLandlord : list){
-                if((buildingLandlord.getBuilding_id() - room.getBuildingId()) == 0){
+                if((buildingLandlord.getBuildingId() - room.getBuildingId()) == 0){
                     flag = false;
                     break;
                 }
@@ -126,5 +134,62 @@ public class RoomController {
         roomService.deleteRoomByIds(ids);
 
         return new JsonResult();
+    }
+
+    @PostMapping("/rent")
+    @ResponseBody
+    public JsonResult rent(@APIRequestControl APIRequest apiRequest, Bargin bargin) {
+
+        System.out.println("111");
+        bargin.setCreateTs(System.currentTimeMillis());
+        barginService.insertSelective(bargin);
+
+        return new JsonResult();
+    }
+
+    @IgnoreSecurity
+    @GetMapping("/goRoomDetail/{roomId}")
+    public String goRoomDetail(String tokenId, @PathVariable(name="roomId") Integer roomId, Map<String, Object> map){
+
+        User user = (User)redisService.get(tokenId);
+
+        Room room = roomService.selectByPrimaryKey(roomId);
+        //获取房子
+        Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
+        //获取房间朝向name
+        DictionaryIterm orientation = dictionaryItermService.selectByPrimaryKey(room.getOrientation());
+        //获取装修情况name
+        DictionaryIterm decoration = dictionaryItermService.selectByPrimaryKey(room.getDecoration());
+        //获取所有配套设施
+        List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(room.getFacilities());
+        //获取所有额外收费项
+        List<DictionaryIterm> extras = dictionaryItermService.selectByIds(room.getExtraFee());
+
+        room.setBuilding(building);
+        room.setOrientationName(orientation.getValue());
+        room.setDecorationName(decoration.getValue());
+        room.setFacilitiesIterm(facilities);
+        room.setExtraFeeIterm(extras);
+
+        map.put("user",user);
+        map.put("room",room);
+
+        return "landlord/room_detail";
+    }
+
+    @GetMapping("/roomRenter/{roomId}")
+    @ResponseBody
+    public String roomRenter(@PathVariable(name="roomId") Integer roomId){
+
+        List<Renter> list = renterService.findListBy("roomId", roomId);
+        JSONArray jsonArray = new JSONArray();
+        for(Renter renter : list){
+            User user = userService.selectByPrimaryKey(renter.getUserId());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("renter",renter);
+            jsonObject.put("user",user);
+            jsonArray.add(jsonObject);
+        }
+        return JSON.toJSONString(new JsonResult<List>(jsonArray));
     }
 }

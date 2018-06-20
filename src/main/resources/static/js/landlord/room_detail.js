@@ -8,8 +8,8 @@ layui.use(['layer', 'table', 'form'], function () {
 
     table.render({
         elem: '#lay_table_room_renter'//指定原始表格元素选择器（
-        , url: requestBaseUrl + '/room/list/1'
-        , method: 'post'
+        , url: requestBaseUrl + '/room/roomRenter/' + $('#roomId').val()
+        , method: 'get'
         , headers: {tokenId: tokenId}
         , request: {
             pageName: 'page' //页码的参数名称，默认：page
@@ -26,24 +26,23 @@ layui.use(['layer', 'table', 'form'], function () {
         // , page: false//开启分页
 //            ,height: 315//容器高度
         , cols: [[//表头
-            {checkbox: true, fixed: true}
-            , {field: 'roomNo', title: '房间号', sort: true}
-            , {field: 'roomStyle', title: '房型', sort: true, templet: function(d){
-                    return d.bedroom + '房' + d.living + '厅' + d.toilet + '卫';
+            {field: 'name', title: '租客姓名', templet: function(d){
+                    return d.user.name;
                 }}
-            , {field: 'orientationName', title: '房间朝向', sort: true}
-            , {field: 'guarantyAndPay', title: '押付情况', templet: function(d){
-                    return '押' + d.guaranty + '付' + d.pay;
+            , {field: 'sex', title: '租客性别', templet: function(d){
+                    return d.user.sexName;
                 }}
-            , {field: 'rentFee', title: '租金[元/月]', sort: true, templet: function(d){
-                    return d.rentFee/100;
+            , {field: 'phone', title: '手机号', templet: function(d){
+                    return d.user.name;
                 }}
-            , {field: 'description', title: '描述'}
-            , {field: 'rentTs', title: '是否出租', templet: function(d){
-                    if(d.rentTs > 0){
-                        return '<a class="layui-btn layui-btn-xs">已出租</a>';
-                    }
-                    return '<a class="layui-btn layui-btn-danger layui-btn-xs">未出租</a>'
+            , {field: 'idCard', title: '身份证号', templet: function(d){
+                    return d.renter.idCard == undefined ? "" : d.renter.idCard;
+                }}
+            , {field: 'wechat', title: '微信号', templet: function(d){
+                    return d.user.wechat;
+                }}
+            , {field: 'qq', title: 'QQ号', templet: function(d){
+                    return d.user.qq;
                 }}
         ]]
         , done: function (res, curr, count) {

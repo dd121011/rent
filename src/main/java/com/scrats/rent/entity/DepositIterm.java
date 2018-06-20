@@ -25,6 +25,7 @@ public class DepositIterm extends BaseEntity {
     private String name;//押金项目名称
     private Integer price;//押金项目单价[分]
     private String unit;//押金项目单位
-    private Integer total;//押金项目金额
+    private Integer number;//押金项目数量
+    private Integer money;//押金项目金额
 
 }

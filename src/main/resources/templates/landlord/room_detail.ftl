@@ -62,14 +62,18 @@
         </div>
         <hr class="layui-bg-green">
         <blockquote class="layui-elem-quote">
-            租客列表
+            租客列表&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="layui-inline" id="layerRenter">
+                <button data-method="addRenter" data-type="add" class="layui-btn layui-btn-normal">添加租客</button>
+            </div>
         </blockquote>
         <table class="layui-hide" id="lay_table_room_renter" lay-filter="renterRoomTableFilter"></table>
-
     </div>
 
 <#include "landlord/footer.ftl"/>
 
 <script src="${base}/static/js/landlord/room_detail.js" charset="utf-8"></script>
+
+<#include "landlord/room_renter.ftl"/>
 
 </html>

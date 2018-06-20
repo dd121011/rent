@@ -23,8 +23,6 @@ layui.use(['layer', 'table', 'form'], function () {
             , dataName: 'data' //数据列表的字段名称，默认：data
         } //如果无需自定义数据响应名称，可不加该参数
         , id: 'lay_table_room_renter'
-        // , page: false//开启分页
-//            ,height: 315//容器高度
         , cols: [[//表头
             {field: 'name', title: '租客姓名', templet: function(d){
                     return d.user.name;
@@ -50,46 +48,7 @@ layui.use(['layer', 'table', 'form'], function () {
     });
 
     var active = {
-        add: function () {
-            // $("input[type!=checkbox][type!=select]").val("");
-            // // $("select").val("");
-            $("[name='description']").val("");
-            $.each($('input[type=checkbox]'),function(){
-                $(this).attr("checked",false);
-                $(this).next().removeClass("layui-form-checked");
-            });
-            layer.open({
-                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                ,title: "新增房间"
-                , area: '500px'
-                , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
-                , id: 'layerRoomAdd' //防止重复弹出
-                , content: $('#addDiv')
-                , btn: '关闭全部'
-                , btnAlign: 'c' //按钮居中
-//                    ,shade: 0 //不显示遮罩
-                , yes: function () {
-                    layer.closeAll();
-                }
-            });
-        },
-        edit: function () {
-            layer.open({
-                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                ,title: "编辑房间"
-                , area: '500px'
-                , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
-                , id: 'layerRoomEdit'  //防止重复弹出
-                , content: $('#addDiv')
-                , btn: '关闭全部'
-                , btnAlign: 'c' //按钮居中
-//                    ,shade: 0 //不显示遮罩
-                , yes: function () {
-                    layer.closeAll();
-                }
-            });
-        },
-        rent: function () {
+        addRenter: function () {
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "添加租客"

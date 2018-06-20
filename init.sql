@@ -53,14 +53,14 @@ INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (3, '西南', u
 INSERT INTO `dictionary_iterm` (dic_id, value, create_ts) VALUES (3, '西北', unix_timestamp(now()));
 
 -- extra initial
-INSERT INTO `extra` (name, unit, create_ts) VALUES ('水费', '吨', unix_timestamp(now()));
-INSERT INTO `extra` (name, unit, create_ts) VALUES ('电费', '度', unix_timestamp(now()));
-INSERT INTO `extra` (name, unit, create_ts) VALUES ('三相电费', '度', unix_timestamp(now()));
-INSERT INTO `extra` (name, unit, create_ts) VALUES ('物业费', '月', unix_timestamp(now()));
-INSERT INTO `extra` (name, unit, create_ts) VALUES ('卫生费', '月', unix_timestamp(now()));
-INSERT INTO `extra` (name, unit, create_ts) VALUES ('停车费', '月', unix_timestamp(now()));
-INSERT INTO `extra` (name, unit, create_ts) VALUES ('宽带费', '月', unix_timestamp(now()));
-INSERT INTO `extra` (name, unit, create_ts) VALUES ('电视费', '月', unix_timestamp(now()));
-INSERT INTO `extra` (name, unit, create_ts) VALUES ('空调费', '月', unix_timestamp(now()));
-INSERT INTO `extra` (name, unit, create_ts) VALUES ('供暖费', '月', unix_timestamp(now()));
-INSERT INTO `extra` (name, unit, create_ts) VALUES ('燃气费', '方', unix_timestamp(now()));
+INSERT INTO `extra` (name, code, unit, create_ts) VALUES ('水费', 'water', '吨', unix_timestamp(now()));
+INSERT INTO `extra` (name, code, unit, create_ts) VALUES ('电费', 'electric', '度', unix_timestamp(now()));
+INSERT INTO `extra` (name, code, unit, create_ts) VALUES ('三相电费', 'electricThree', '度', unix_timestamp(now()));
+INSERT INTO `extra` (name, code, unit, create_ts) VALUES ('物业费', 'property', '月', unix_timestamp(now()));
+INSERT INTO `extra` (name, code, unit, create_ts) VALUES ('卫生费', 'health', '月', unix_timestamp(now()));
+INSERT INTO `extra` (name, code, unit, create_ts) VALUES ('停车费', 'parking', '月', unix_timestamp(now()));
+INSERT INTO `extra` (name, code, unit, create_ts) VALUES ('宽带费', 'web', '月', unix_timestamp(now()));
+INSERT INTO `extra` (name, code, unit, create_ts) VALUES ('电视费', 'tv', '月', unix_timestamp(now()));
+INSERT INTO `extra` (name, code, unit, create_ts) VALUES ('空调费', 'air', '月', unix_timestamp(now()));
+INSERT INTO `extra` (name, code, unit, create_ts) VALUES ('供暖费', 'warm', '月', unix_timestamp(now()));
+INSERT INTO `extra` (name, code, unit, create_ts) VALUES ('燃气费', 'gas', '方', unix_timestamp(now()));

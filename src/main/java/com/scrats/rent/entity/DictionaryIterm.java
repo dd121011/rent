@@ -23,6 +23,4 @@ public class DictionaryIterm extends BaseEntity {
     private Integer dicId;//字典类型Id
     private String value;//字典项目值
 
-    public DictionaryIterm() {
-    }
 }

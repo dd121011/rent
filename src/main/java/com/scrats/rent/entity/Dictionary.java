@@ -23,6 +23,4 @@ public class Dictionary extends BaseEntity {
     private String name;//字典类型名称
     private String code;//字典类型编号
 
-    public Dictionary() {
-    }
 }

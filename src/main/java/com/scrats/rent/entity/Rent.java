@@ -27,6 +27,6 @@ public class Rent extends BaseEntity {
     private Long payTs;//支付时间戳，13位
     private String payNo;//支付订单号
     private String channel;//支付渠道，0-线下支付；1-微信支付；2-支付宝支付
-    private int roomId;//房间id,一个房租对应一个roomId
+    private Integer roomId;//房间id,一个房租对应一个roomId
 
 }

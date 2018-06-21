@@ -24,7 +24,7 @@ public class User extends BaseEntity {
     private String type;//用户类型 , 0-租客, 1-房东, 2-管理员, 3-巡管员, 4-超级管理员
     private String name;//姓名
     private String sex;//0-保密, 1-男, 2-女
-    private int age;//年龄
+    private Integer age;//年龄
     private String avatar;//头像URL
     private String qq;//qq
     private String wechat;//微信

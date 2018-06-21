@@ -22,7 +22,6 @@ public class Extra extends BaseEntity {
     private Integer extraId;//主键
     private String name;//名称
     private String unit;//单位
+    private String code;//编码
 
-    public Extra() {
-    }
 }

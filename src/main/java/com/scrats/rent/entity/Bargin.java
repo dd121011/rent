@@ -25,9 +25,9 @@ public class Bargin extends BaseEntity {
     private String name;//姓名
     private String sex;//性別, 0-保密, 1-男, 2-女
     private String phone;//手机号码
-    private String id_card;//identification card 身份证号
-    private String id_card_pic;//身份证正面
-    private String id_card_pic_back;//身份证反面
+    private String idCard;//identification card 身份证号
+    private String idCardPic;//身份证正面
+    private String idCardPicBack;//身份证反面
     private Integer guaranty;//押金月份
     private Integer pay;//租金月份
     private Integer rentFee;//租金[分/月]

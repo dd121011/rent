@@ -21,7 +21,7 @@ public class Bargin extends BaseEntity {
 
     @Id
     @KeySql(dialect = IdentityDialect.MYSQL)
-    private Integer barginID;//主键
+    private Integer barginId;//主键
     private String name;//姓名
     private String sex;//性別, 0-保密, 1-男, 2-女
     private String phone;//手机号码

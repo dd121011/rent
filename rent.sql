@@ -109,7 +109,7 @@ CREATE TABLE `user` (
 DROP TABLE IF EXISTS `renter`;
 CREATE TABLE `renter` (
     `renter_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `id_card` varchar(16) NOT NULL COMMENT 'identification card 身份证号',
+    `id_card` varchar(18) NOT NULL COMMENT 'identification card 身份证号',
     `id_card_pic` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证正面',
     `id_card_pic_back` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证反面',
     `room_id` int(10) unsigned NOT NULL COMMENT '房间id,一个租户对应一个房间，一个房间对应多个租户',
@@ -244,7 +244,7 @@ CREATE TABLE `bargin` (
     `name` varchar(64) NOT NULL COMMENT '姓名',
     `sex` char(1) NOT NULL DEFAULT '0' COMMENT '性別, 0-保密, 1-男, 2-女',
     `phone` char(11) NOT NULL COMMENT '手机号码',
-    `id_card` varchar(16) NOT NULL COMMENT 'identification card 身份证号',
+    `id_card` varchar(18) NOT NULL COMMENT 'identification card 身份证号',
     `id_card_pic` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证正面',
     `id_card_pic_back` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证反面',
     `guaranty` int(2) DEFAULT 1 COMMENT '押金月份',

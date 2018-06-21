@@ -262,7 +262,7 @@ CREATE TABLE `bargin` (
     `user_id` int(10) unsigned NOT NULL COMMENT '一个租客对应一个账号',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `live_ts` bigint unsigned NOT NULL COMMENT '入住时间，13位时间戳',
-    `lease_ts` bigint unsigned NOT NULL COMMENT '退租时间，13位时间戳',
+    `leave_ts` bigint unsigned NOT NULL COMMENT '退租时间，13位时间戳',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
     `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',

@@ -20,4 +20,6 @@ public interface BuildingService extends BaseService<Building, BuildingMapper> {
     PageInfo<Building> getBuildingListWithUserId(APIRequest apiRequest, Building building, int userId, boolean pageFlag);
 
     int deleteBuildingByIds(Integer... ids);
+
+    Building getBuildingByRoomId(Integer roomId);
 }

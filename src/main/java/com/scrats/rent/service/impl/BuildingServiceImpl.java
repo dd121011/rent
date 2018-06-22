@@ -50,4 +50,9 @@ public class BuildingServiceImpl extends BaseServiceImpl<Building, BuildingMappe
         long ts = System.currentTimeMillis();
         return dao.deleteBuildingByIds(ts, ids);
     }
+
+    @Override
+    public Building getBuildingByRoomId(Integer roomId) {
+        return dao.getBuildingByRoomId(roomId);
+    }
 }

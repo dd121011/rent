@@ -34,6 +34,15 @@ public class User extends BaseEntity {
     private String address;//地址
     private Integer accountId;//账号Id
 
+    public User() {
+        super();
+    }
+
+    public User(String type) {
+        super();
+        this.type = type;
+    }
+
     public String getTypeName(){
         return UserType.fromValue(type).getName();
     }

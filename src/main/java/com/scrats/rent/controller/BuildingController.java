@@ -60,7 +60,7 @@ public class BuildingController {
 
         User user = (User)redisService.get(tokenId);
 
-        List<DictionaryIterm> facilities = dictionaryItermService.getDicItermByDicCode(GlobalConst.FACILITY_CODE);
+        List<DictionaryIterm> facilities = dictionaryItermService.findListBy("dicCode", GlobalConst.FACILITY_CODE);
         List<Extra> extras = extraService.selectAll();
 
         map.put("user",user);

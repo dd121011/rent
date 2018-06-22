@@ -4,8 +4,6 @@ import com.scrats.rent.base.service.BaseService;
 import com.scrats.rent.entity.DictionaryIterm;
 import com.scrats.rent.mapper.DictionaryItermMapper;
 
-import java.util.List;
-
 /**
  * Created with scrat.
  * Description: ${DESCRIPTION}.
@@ -15,7 +13,6 @@ import java.util.List;
  */
 public interface DictionaryItermService extends BaseService<DictionaryIterm, DictionaryItermMapper> {
 
-    List<DictionaryIterm> getDicItermByDicId(Integer dicId);
 
-    List<DictionaryIterm> getDicItermByDicCode(String dicCode);
+
 }

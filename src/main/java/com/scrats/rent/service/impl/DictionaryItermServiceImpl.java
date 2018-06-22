@@ -22,13 +22,4 @@ public class DictionaryItermServiceImpl extends BaseServiceImpl<DictionaryIterm,
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Override
-    public List<DictionaryIterm> getDicItermByDicId(Integer dicId) {
-        return dao.getDicItermByDicId(dicId);
-    }
-
-    @Override
-    public List<DictionaryIterm> getDicItermByDicCode(String dicCode) {
-        return dao.getDicItermByDicCode(dicCode);
-    }
 }

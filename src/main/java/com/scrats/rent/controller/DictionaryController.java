@@ -9,7 +9,7 @@ import com.scrats.rent.service.DictionaryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,7 +35,7 @@ public class DictionaryController {
     private DictionaryItermService dictionaryItermService;
 
 
-    @PostMapping("/dicListAll")
+    @GetMapping("/dicListAll")
     public JsonResult dicListAll() {
 
         List<Dictionary> list = dictionaryService.selectAll();
@@ -43,33 +43,34 @@ public class DictionaryController {
         return new JsonResult<List>(list);
     }
 
-    @PostMapping("/dicItermListAll")
-    public JsonResult dicItermListAll(int dicId) {
-        List<DictionaryIterm> list;
-        if(dicId > 0){
-            list = dictionaryItermService.getDicItermByDicId(dicId);
-        }else{
-            list = dictionaryItermService.selectAll();
-        }
+    @GetMapping("/dicItermListAll")
+    public JsonResult dicItermListAll(String dicCode) {
+        List<DictionaryIterm> list = dictionaryItermService.findListBy("dicCode", dicCode);
         return new JsonResult<List>(list);
     }
 
-    @PostMapping("/facilitiestAll")
+    @GetMapping("/facilitiestAll")
     public JsonResult facilitiestAll() {
-        List<DictionaryIterm> facilities = dictionaryItermService.getDicItermByDicCode(GlobalConst.FACILITY_CODE);
+        List<DictionaryIterm> facilities = dictionaryItermService.findListBy("dicCode", GlobalConst.FACILITY_CODE);
         return new JsonResult<List>(facilities);
     }
 
-    @PostMapping("/decorationAll")
+    @GetMapping("/decorationAll")
     public JsonResult decorationAll() {
-        List<DictionaryIterm> facilities = dictionaryItermService.getDicItermByDicCode(GlobalConst.DECORATION_CODE);
-        return new JsonResult<List>(facilities);
+        List<DictionaryIterm> decorations = dictionaryItermService.findListBy("dicCode", GlobalConst.DECORATION_CODE);
+        return new JsonResult<List>(decorations);
     }
 
-    @PostMapping("/orientationAll")
+    @GetMapping("/orientationAll")
     public JsonResult orientationAll() {
-        List<DictionaryIterm> facilities = dictionaryItermService.getDicItermByDicCode(GlobalConst.ORIENTATION_CODE);
-        return new JsonResult<List>(facilities);
+        List<DictionaryIterm> orientations = dictionaryItermService.findListBy("dicCode", GlobalConst.ORIENTATION_CODE);
+        return new JsonResult<List>(orientations);
+    }
+
+    @GetMapping("/extraAll")
+    public JsonResult extraAll() {
+        List<DictionaryIterm> extras = dictionaryItermService.findListBy("dicCode", GlobalConst.EXTRA_CODE);
+        return new JsonResult<List>(extras);
     }
 
 }

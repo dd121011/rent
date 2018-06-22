@@ -61,7 +61,7 @@ public class BuildingController {
         User user = (User)redisService.get(tokenId);
 
         List<DictionaryIterm> facilities = dictionaryItermService.findListBy("dicCode", GlobalConst.FACILITY_CODE);
-        List<Extra> extras = extraService.selectAll();
+        List<DictionaryIterm> extras = dictionaryItermService.findListBy("dicCode", GlobalConst.EXTRA_CODE);
 
         map.put("user",user);
         map.put("extraList",extras);

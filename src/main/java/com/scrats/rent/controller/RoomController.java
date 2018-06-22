@@ -53,6 +53,8 @@ public class RoomController {
     private RenterService renterService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AccountService accountService;
 
     @IgnoreSecurity
     @GetMapping("/goRoom/{buildingId}")
@@ -62,13 +64,13 @@ public class RoomController {
         //获取所有房子select数据
         PageInfo<Building> pageInfo = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
         //获取所有房间朝向
-        List<DictionaryIterm> orientations = dictionaryItermService.getDicItermByDicCode(GlobalConst.ORIENTATION_CODE);
+        List<DictionaryIterm> orientations = dictionaryItermService.findListBy("dicCode", GlobalConst.ORIENTATION_CODE);
         //获取所有装修情况
-        List<DictionaryIterm> decorations = dictionaryItermService.getDicItermByDicCode(GlobalConst.DECORATION_CODE);
+        List<DictionaryIterm> decorations = dictionaryItermService.findListBy("dicCode", GlobalConst.DECORATION_CODE);
         //获取所有配套设施
-        List<DictionaryIterm> facilities = dictionaryItermService.getDicItermByDicCode(GlobalConst.FACILITY_CODE);
+        List<DictionaryIterm> facilities = dictionaryItermService.findListBy("dicCode", GlobalConst.FACILITY_CODE);
         //获取所有额外收费项
-        List<Extra> extras = extraService.selectAll();
+        List<DictionaryIterm> extras = dictionaryItermService.findListBy("dicCode", GlobalConst.EXTRA_CODE);
 
         map.put("user",user);
         map.put("buildingId",buildingId);
@@ -138,11 +140,17 @@ public class RoomController {
 
     @PostMapping("/rent")
     @ResponseBody
-    public JsonResult rent(@APIRequestControl APIRequest apiRequest, Bargin bargin) {
+    public JsonResult rentAdd(@APIRequestControl APIRequest apiRequest, Bargin bargin, String extras, String depositIterms) {
+        //补齐landlordId字段
+        bargin.setLandlordId(apiRequest.getUser().getUserId());
 
-        System.out.println("111");
-        bargin.setCreateTs(System.currentTimeMillis());
-        barginService.insertSelective(bargin);
+        //TODO 保存合同额外收费项，便于以后计算每月房租，另外还要获取水、电、三相电、天然气的初始读数
+        List<Extra> extraList = JSON.parseArray(extras,Extra.class);
+
+        //TODO 保存押金项和生成押金，填充bargin的guarantyFee字段和total字段
+        List<DepositIterm> depositItermList = JSON.parseArray(depositIterms,DepositIterm.class);
+
+        roomService.rent(bargin, extraList, depositItermList);
 
         return new JsonResult();
     }
@@ -163,7 +171,7 @@ public class RoomController {
         //获取所有配套设施
         List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(room.getFacilities());
         //获取所有额外收费项
-        List<Extra> extras = extraService.selectByIds(room.getExtraFee());
+        List<DictionaryIterm> extras = dictionaryItermService.selectByIds(room.getExtraFee());
 
         room.setBuilding(building);
         room.setOrientationName(orientation.getValue());
@@ -191,6 +199,33 @@ public class RoomController {
             jsonArray.add(jsonObject);
         }
         return JSON.toJSONString(new JsonResult<List>(jsonArray));
+    }
+
+    @GetMapping("/extra/{roomId}")
+    @ResponseBody
+    public String extra(@PathVariable(name="roomId") Integer roomId){
+
+        Room room = roomService.selectByPrimaryKey(roomId);
+        //获取所有额外收费项
+        List<DictionaryIterm> extras = dictionaryItermService.selectByIds(room.getExtraFee());
+        return JSON.toJSONString(new JsonResult<List>(extras));
+    }
+
+    @GetMapping("/depositIterm/{roomId}")
+    @ResponseBody
+    public String depositIterm(@PathVariable(name="roomId") Integer roomId){
+
+        Room room = roomService.selectByPrimaryKey(roomId);
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name","租金");
+        jsonObject.put("unit","月");
+        jsonObject.put("price",room.getRentFee());
+        jsonObject.put("number",room.getGuaranty());
+        jsonObject.put("money",room.getRentFee()*room.getGuaranty());
+        jsonArray.add(jsonObject);
+
+        return JSON.toJSONString(new JsonResult<JSONArray>(jsonArray));
     }
 
 }

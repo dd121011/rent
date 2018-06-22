@@ -8,6 +8,7 @@ import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
+import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
 import org.apache.commons.lang3.StringUtils;
@@ -112,7 +113,7 @@ public class RoomApi {
         //获取所有配套设施
         List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(room.getFacilities());
         //获取所有额外收费项
-        List<Extra> extras = extraService.selectByIds(room.getExtraFee());
+        List<DictionaryIterm> extras = dictionaryItermService.findListBy("dicCode", GlobalConst.EXTRA_CODE);
 
         room.setBuilding(building);
         room.setOrientationName(orientation.getValue());

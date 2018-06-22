@@ -15,11 +15,13 @@ public class GlobalConst {
 
     public static final long ACCESS_TOKEN_EXPIRE = 60 * 60 * 24 * 7;
 
-    public static final String FACILITY_CODE = "001";
+    public static final String FACILITY_CODE = "0001";
 
-    public static final String DECORATION_CODE = "002";
+    public static final String DECORATION_CODE = "0002";
 
-    public static final String ORIENTATION_CODE = "003";
+    public static final String ORIENTATION_CODE = "0003";
+
+    public static final String EXTRA_CODE = "0004";
 
 
 }

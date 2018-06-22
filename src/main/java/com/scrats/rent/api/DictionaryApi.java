@@ -5,7 +5,6 @@ import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.Dictionary;
 import com.scrats.rent.entity.DictionaryIterm;
-import com.scrats.rent.entity.Extra;
 import com.scrats.rent.service.DictionaryItermService;
 import com.scrats.rent.service.DictionaryService;
 import com.scrats.rent.service.ExtraService;
@@ -52,12 +51,6 @@ public class DictionaryApi {
         return JSON.toJSONString(new JsonResult<List>(list));
     }
 
-    @GetMapping("/extrasAll")
-    public String extrasAll() {
-        List<Extra> extras = extraService.selectAll();
-        return JSON.toJSONString(new JsonResult<List>(extras));
-    }
-
     @GetMapping("/facilitiestAll")
     public String facilitiestAll() {
         List<DictionaryIterm> facilities = dictionaryItermService.findListBy("dicCode", GlobalConst.FACILITY_CODE);
@@ -76,8 +69,8 @@ public class DictionaryApi {
         return JSON.toJSONString(new JsonResult<List>(orientations));
     }
 
-    @GetMapping("/extraAll")
-    public String extraAll() {
+    @GetMapping("/extrasAll")
+    public String extrasAll() {
         List<DictionaryIterm> extras = dictionaryItermService.findListBy("dicCode", GlobalConst.EXTRA_CODE);
         return JSON.toJSONString(new JsonResult<List>(extras));
     }

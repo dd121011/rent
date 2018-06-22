@@ -25,7 +25,7 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
         jhxhr.done(function (res) {
             if(res.code == 1){
                 layer.close(1);
-                // location.href= requestBaseUrl + "/room/goRoomDetail/" + $('#roomId').val() + "?tokenId=" + tokenId;
+                location.href= requestBaseUrl + "/room/goRoomDetail/" + $('#roomId').val() + "?tokenId=" + tokenId;
             }else{
                 layer.alert(res.msg)
             }

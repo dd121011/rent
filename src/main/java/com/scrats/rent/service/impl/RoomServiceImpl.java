@@ -118,11 +118,12 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         bargin.setGuarantyFee(20000);
         bargin.setTotal(50000);
 
-
-
         bargin.setCreateTs(createTs);
-        int id = barginService.insertSelective(bargin);
-        System.out.println(id);
+        barginService.insertSelective(bargin);
+
+        //更新房间状态
+        Room room = dao.selectByPrimaryKey(bargin.getRoomId());
+        room.setRentTs(createTs);
         return false;
     }
 }

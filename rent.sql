@@ -22,14 +22,13 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `dictionary`;
 CREATE TABLE `dictionary` (
-    `dic_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `dic_code` char (4) NOT NULL COMMENT '字典类型编号',
     `name` varchar(32) NOT NULL COMMENT '字典类型名称',
-    `code` char (3) NOT NULL COMMENT '字典类型编号',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
     `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`dic_id`)
+    PRIMARY KEY (`dic_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -37,14 +36,15 @@ CREATE TABLE `dictionary` (
 -- ----------------------------
 DROP TABLE IF EXISTS `dictionary_iterm`;
 CREATE TABLE `dictionary_iterm` (
-    `dic_iterm_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `dic_id` int(10) unsigned NOT NULL COMMENT '字典类型Id',
-    `value` varchar(32) NOT NULL COMMENT '字典项目值',
+    `dic_iterm_code` char (4) NOT NULL COMMENT '字典类型项编号',
+    `dic_code` char (4) NOT NULL COMMENT '字典类型编号',
+    `value` varchar(32) NOT NULL COMMENT '字典类型项值',
+    `unit` varchar(16) DEFAULT '' COMMENT '字典类型项值',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
     `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`dic_iterm_id`)
+    PRIMARY KEY (`dic_iterm_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

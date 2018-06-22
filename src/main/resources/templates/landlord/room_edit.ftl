@@ -27,7 +27,7 @@
             <div class="layui-input-block">
                 <select name="orientation" lay-filter="orientation">
                 <#list orientations as item>
-                    <option value="${item.dicItermId}">${item.value}</option>
+                    <option value="${item.dicItermCode}">${item.value}</option>
                 </#list>
                 </select>
             </div>
@@ -37,7 +37,7 @@
             <div class="layui-input-block">
                 <select name="decoration" lay-filter="decoration">
                 <#list decorations as item>
-                    <option value="${item.dicItermId}">${item.value}</option>
+                    <option value="${item.dicItermCode}">${item.value}</option>
                 </#list>
                 </select>
             </div>
@@ -128,7 +128,7 @@
             <label class="layui-form-label">配套设施</label>
             <div class="layui-input-block">
                 <#list facilityList as item>
-                    <input type="checkbox" lay-filter="testt" name="facilityIds" value="${item.dicItermId}" title="${item.value}">
+                    <input type="checkbox" lay-filter="testt" name="facilityIds" value="${item.dicItermCode}" title="${item.value}">
                 </#list>
             </div>
         </div>
@@ -136,7 +136,7 @@
             <label class="layui-form-label">额外收费项</label>
             <div class="layui-input-block">
                 <#list extraList as item>
-                    <input type="checkbox" lay-filter="testt" name="extraIds" value="${item.extraId}" title="${item.name}">
+                    <input type="checkbox" lay-filter="testt" name="extraIds" value="${item.dicItermCode}" title="${item.value}">
                 </#list>
             </div>
         </div>

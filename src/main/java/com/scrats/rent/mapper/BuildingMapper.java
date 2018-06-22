@@ -32,4 +32,7 @@ public interface BuildingMapper extends BaseMapper<Building> {
 
     @Update("<script>update building t set t.delete_ts = #{deleteTs} where 1=1 and t.building_id in <foreach item='item' index='index' collection='ids' open='(' separator=',' close=')'> #{item} </foreach></script>")
     int deleteBuildingByIds(@Param("deleteTs")long deleteTs, @Param("ids") Integer... ids);
+
+    @Select("select b.* from building b left join room r on b.building_id = r.building_id where 1=1 and r.room_id = #{roomId}")
+    Building getBuildingByRoomId(Integer roomId);
 }

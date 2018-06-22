@@ -21,7 +21,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserMapper> implement
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public User getUserByAccountId(int accountId) {
+    public User getUserByAccountId(Integer accountId) {
         return dao.getUserByAccountId(accountId);
+    }
+
+    @Override
+    public User getUserByPhone(String phone) {
+        return dao.getUserByPhone(phone);
     }
 }

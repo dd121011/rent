@@ -24,7 +24,7 @@
             <label class="layui-form-label">额外收费项</label>
             <div class="layui-input-block">
                 <#list extraList as item>
-                    <input type="checkbox" lay-filter="testt" name="extraIds" value="${item.extraId}" title="${item.name}">
+                    <input type="checkbox" lay-filter="testt" name="extraIds" value="${item.dicItermCode}" title="${item.value}">
                 </#list>
             </div>
         </div>

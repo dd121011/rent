@@ -18,8 +18,8 @@
                     </div>
                     <a class="layui-btn search_btn" data-method="search" data-type="auto">搜索</a>
                 </div>
-                <div class="layui-inline" id="layerBuilding">
-                    <button data-method="add" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
+                <div class="layui-inline">
+                    <a data-method="add" data-type="auto" class="layui-btn layui-btn-normal">添加</a>
                 </div>
             </form>
         </blockquote>

@@ -32,7 +32,7 @@
                     <a class="layui-btn search_btn" data-method="search" data-type="search">搜索</a>
                 </div>
                 <div class="layui-inline">
-                    <button data-method="add" data-type="add" class="layui-btn layui-btn-normal">添加</button>
+                    <a data-method="add" data-type="add" class="layui-btn layui-btn-normal">添加</a>
                 </div>
             </form>
         </blockquote>
@@ -57,6 +57,5 @@
 <script src="${base}/static/js/landlord/room.js" charset="utf-8"></script>
 
 <#include "landlord/room_edit.ftl"/>
-<#include "landlord/room_renter.ftl"/>
 
 </html>

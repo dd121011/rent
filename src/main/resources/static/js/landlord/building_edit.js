@@ -13,7 +13,7 @@ layui.use(['layer', 'form'], function () {
         // $.each($('input[type=checkbox][name=extraIds]:checked'),function(){
         //     extra.push($(this).val());
         // });
-        var params = $(data.form).serialize();
+        var params = $(data.form).serializeObject();
         var jhxhr = $.ajax({url: requestBaseUrl + "/building/edit", data: params, headers: header, type: "POST"});
         jhxhr.done(function (res) {
             if(res.code == 1){

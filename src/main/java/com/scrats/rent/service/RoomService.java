@@ -3,8 +3,13 @@ package com.scrats.rent.service;
 import com.scrats.rent.base.service.BaseService;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.PageInfo;
+import com.scrats.rent.entity.Bargin;
+import com.scrats.rent.entity.DepositIterm;
+import com.scrats.rent.entity.Extra;
 import com.scrats.rent.entity.Room;
 import com.scrats.rent.mapper.RoomMapper;
+
+import java.util.List;
 
 /**
  * Created with scrat.
@@ -20,4 +25,6 @@ public interface RoomService extends BaseService<Room, RoomMapper> {
     PageInfo<Room> getRoomList(APIRequest apiRequest, Room room, boolean pageFlag);
 
     int deleteRoomByIds(Integer... ids);
+
+    boolean rent(Bargin bargin, List<Extra> extras, List<DepositIterm> depositIterms);
 }

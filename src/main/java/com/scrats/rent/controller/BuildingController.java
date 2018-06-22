@@ -8,18 +8,19 @@ import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.constant.GlobalConst;
-import com.scrats.rent.entity.*;
+import com.scrats.rent.entity.Building;
+import com.scrats.rent.entity.BuildingLandlord;
+import com.scrats.rent.entity.DictionaryIterm;
+import com.scrats.rent.entity.User;
 import com.scrats.rent.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.naming.AuthenticationException;
 import java.util.List;
 import java.util.Map;
 
@@ -56,9 +57,12 @@ public class BuildingController {
 
     @IgnoreSecurity
     @GetMapping("/goBuilding")
-    public String goBuilding(String tokenId, Map<String, Object> map){
+    public String goBuilding(String tokenId, Map<String, Object> map) throws AuthenticationException {
 
         User user = (User)redisService.get(tokenId);
+        if(null == user){
+            throw new AuthenticationException("非法请求, 请登陆");
+        }
 
         List<DictionaryIterm> facilities = dictionaryItermService.findListBy("dicCode", GlobalConst.FACILITY_CODE);
         List<DictionaryIterm> extras = dictionaryItermService.findListBy("dicCode", GlobalConst.EXTRA_CODE);
@@ -81,7 +85,7 @@ public class BuildingController {
 
     @PostMapping("/edit")
     @ResponseBody
-    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Building building, String[] facilityIds, String[] extraIds) {
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Building building, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds) {
 
         String facilityId = StringUtils.join(facilityIds, ",");
         String extraId = StringUtils.join(extraIds, ",");

@@ -124,7 +124,8 @@ layui.use(['layer', 'table', 'form'], function () {
                 $(this).attr("checked",false);
                 $(this).next().removeClass("layui-form-checked");
             });
-            var type = othis.data('type');
+            // var type = othis.data('type');
+            var type = "auto";
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "新增楼盘"
@@ -161,6 +162,7 @@ layui.use(['layer', 'table', 'form'], function () {
     //绑定click点击事件
     $('.childrenBody .layui-btn').on('click', function () {
         var othis = $(this), method = othis.data('method');
+        // active.add();
         active[method] ? active[method].call(this, othis) : '';
     });
 

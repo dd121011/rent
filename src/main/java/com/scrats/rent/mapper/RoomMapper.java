@@ -22,7 +22,7 @@ public interface RoomMapper extends BaseMapper<Room> {
 
     @Select("<script>select t.*, d.value as orientation_name " +
             "from room t " +
-            "left join dictionary_iterm d on t.orientation = d.dic_iterm_id " +
+            "left join dictionary_iterm d on t.orientation = d.dic_iterm_code " +
             "where 1=1 " +
             "<if test='buildingId != null'>and t.building_id = #{buildingId}</if>" +
             "<if test='roomNo != null and roomNo != \"\"'>and t.room_no = #{roomNo}</if>" +

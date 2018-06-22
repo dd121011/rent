@@ -13,5 +13,7 @@ import com.scrats.rent.mapper.UserMapper;
  */
 public interface UserService extends BaseService<User, UserMapper> {
 
-    User getUserByAccountId(int accountId);
+    User getUserByAccountId(Integer accountId);
+
+    User getUserByPhone(String phone);
 }

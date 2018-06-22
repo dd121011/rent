@@ -19,6 +19,7 @@ public class Account extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(generator = "JDBC")
     private Integer accountId;//主键
     private String username;//用户名
     private String pwd;//密码

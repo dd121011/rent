@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -93,7 +94,7 @@ public class RoomController {
 
     @PostMapping("/edit")
     @ResponseBody
-    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Room room, String[] facilityIds, String[] extraIds) {
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Room room, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds) {
 
         String facilityId = StringUtils.join(facilityIds, ",");
         String extraId = StringUtils.join(extraIds, ",");
@@ -169,9 +170,9 @@ public class RoomController {
         //获取装修情况name
         DictionaryIterm decoration = dictionaryItermService.selectByPrimaryKey(room.getDecoration());
         //获取所有配套设施
-        List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(room.getFacilities());
+        List<DictionaryIterm> facilities = StringUtils.isEmpty(room.getFacilities())? new ArrayList<DictionaryIterm>() : dictionaryItermService.selectByIds(room.getFacilities());
         //获取所有额外收费项
-        List<DictionaryIterm> extras = dictionaryItermService.selectByIds(room.getExtraFee());
+        List<DictionaryIterm> extras = StringUtils.isEmpty(room.getExtraFee())? new ArrayList<DictionaryIterm>() : dictionaryItermService.selectByIds(room.getExtraFee());
 
         room.setBuilding(building);
         room.setOrientationName(orientation.getValue());

@@ -47,7 +47,7 @@ public class BuildingApi {
     }
 
     @PostMapping("/edit")
-    public String edit(@APIRequestControl APIRequest apiRequest, Building building, String[] facilityIds, String[] extraIds) {
+    public String edit(@APIRequestControl APIRequest apiRequest, Building building, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds) {
         String facilityId = StringUtils.join(facilityIds, ",");
         String extraId = StringUtils.join(extraIds, ",");
         building.setFacilities(facilityId);

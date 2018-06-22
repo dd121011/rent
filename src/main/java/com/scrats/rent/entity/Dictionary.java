@@ -18,9 +18,7 @@ public class Dictionary extends BaseEntity {
     private static final long serialVersionUID = 3519803533413277196L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer dicId;//主键
+    private String dicCode;//字典类型编号
     private String name;//字典类型名称
-    private String code;//字典类型编号
 
 }

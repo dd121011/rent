@@ -18,9 +18,9 @@ public class DictionaryIterm extends BaseEntity {
     private static final long serialVersionUID = 4656028240726886479L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer dicItermId;//主键
-    private Integer dicId;//字典类型Id
+    private String dicItermCode;//编码
+    private String dicCode;//字典类型Id
     private String value;//字典项目值
+    private String unit;//单位
 
 }

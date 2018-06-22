@@ -27,4 +27,12 @@ public class Renter extends BaseEntity {
     private Integer buildingId;//房子Id
     private Integer userId;//一个租客对应一个账号
 
+    public Renter() {
+        super();
+    }
+
+    public Renter(String idCard) {
+        super();
+        this.idCard = idCard;
+    }
 }

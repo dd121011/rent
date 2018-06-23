@@ -253,6 +253,21 @@ RETURN
 
 小程序
 
+## 小程序
+
+### 绑定用户
+
+> /api/user/bindUser
+
+Get
+
+| 参数 | 类型 | 是否必填 | 描述 |
+| --- | --- | --- | --- |
+| userId | Integer | 必填 | 用户Id |
+| code | String | 必填 | 登录时获取的 code |
+
+RETURN
+
 绑定租客、上传身份信息
 查看合同、押金单
 查看水电、缴费记录

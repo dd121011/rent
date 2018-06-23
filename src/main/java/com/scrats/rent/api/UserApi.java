@@ -2,6 +2,7 @@ package com.scrats.rent.api;
 
 import com.alibaba.fastjson.JSON;
 import com.scrats.rent.common.JsonResult;
+import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.service.UserService;
 import com.scrats.rent.util.weixin.sns.WxAuthorize;
@@ -31,6 +32,7 @@ public class UserApi {
     @Autowired
     private UserService userService;
 
+    @IgnoreSecurity
     @GetMapping("/bindUser")
     public String bindUser(String code, String userId){
         User oldUser = userService.selectByPrimaryKey(userId);

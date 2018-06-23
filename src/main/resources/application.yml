@@ -46,3 +46,19 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+
+#wx configure
+ wx:
+   qy:
+     agent:
+       id: 1000002
+     corp:
+       id: ww170cb031844a5400
+       secret: bi3mQAWY1hIVcGhOhAYdW83LQAVG-fuYQAJe5OAjyy0
+     report:
+       url: https://edcd.evergrande.com/edc_wx/msgPush.html?planID=%s
+#jpush configure
+ jpush:
+   server: http://notify.eafservice.evergrande.com
+   key: c1a786a57a59620a86fce314
+   secret: 2b39cd397064cfbad5b055ab

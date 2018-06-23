@@ -1,4 +1,4 @@
-package com.scrats.rent.common.weixin;
+package com.scrats.rent.util.weixin.qyapi;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -6,7 +6,6 @@ import com.scrats.rent.util.HttpRequestUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 /**
  * Created by scrat on 2017/11/29.
@@ -15,17 +14,15 @@ import org.springframework.stereotype.Repository;
 public class WxPushManager {
     private final Logger logger = Logger.getLogger(this.getClass());
 
-    @Value("${edc.wx.agent.id}")
+    @Value("${wx.qy.agent.id}")
     private String AGEN_ID;
-    @Value("${edc.wx.corp.id}")
+    @Value("${wx.qy.corp.id}")
     private String CROP_ID;
-    @Value("${edc.wx.corp.secret}")
+    @Value("${wx.qy.corp.secret}")
     private String CROP_SECRET;
-    @Value("${edc.nginx.server}")
-    private String NGINX_SERVER;
 
-    private static final String PUSH_URL = "/cgi-bin/message/send?access_token=%s";
-    private static final String USERINFO_URL = "/cgi-bin/user/getuserinfo?access_token=%s&code=%s";
+    private static final String PUSH_URL = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s";
+    private static final String USERINFO_URL = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=%s&code=%s";
 
     private static final String TEXTCARD = "textcard";
     private static final String TOUSER = "touser";
@@ -41,9 +38,9 @@ public class WxPushManager {
     private static final String NEWS = "news";
 
     public JSONObject getUserInfo(String code){
-        String token = WxAccessTokenManager.getInstance(NGINX_SERVER, CROP_ID, CROP_SECRET).getAccessToken();
+        String token = WxAccessTokenManager.getInstance(CROP_ID, CROP_SECRET).getAccessToken();
 
-        String pushUrl = String.format(NGINX_SERVER + USERINFO_URL, token, code);
+        String pushUrl = String.format(USERINFO_URL, token, code);
         logger.info("========pushUrl========" + pushUrl);
         logger.info(pushUrl);
         JSONObject userinfo = HttpRequestUtil.httpGet2Json(pushUrl);
@@ -72,9 +69,9 @@ public class WxPushManager {
     }
 
     private boolean push(String json) {
-        String token = WxAccessTokenManager.getInstance(NGINX_SERVER, CROP_ID, CROP_SECRET).getAccessToken();
+        String token = WxAccessTokenManager.getInstance(CROP_ID, CROP_SECRET).getAccessToken();
 
-        String pushUrl = String.format(NGINX_SERVER + PUSH_URL, token);
+        String pushUrl = String.format(PUSH_URL, token);
         JSONObject pushObj = HttpRequestUtil.httpPost2Json(pushUrl, json);
         if (pushObj == null) {
             return false;
@@ -85,9 +82,9 @@ public class WxPushManager {
     }
 
     private JSONObject pushJson(String json) {
-        String token = WxAccessTokenManager.getInstance(NGINX_SERVER, CROP_ID, CROP_SECRET).getAccessToken();
+        String token = WxAccessTokenManager.getInstance(CROP_ID, CROP_SECRET).getAccessToken();
 
-        String pushUrl = String.format(NGINX_SERVER + PUSH_URL, token);
+        String pushUrl = String.format(PUSH_URL, token);
         return HttpRequestUtil.httpPost2Json(pushUrl, json);
     }
 

@@ -1,13 +1,12 @@
-package com.scrats.rent.common.job;
+package com.scrats.rent.common;
 
 import org.apache.log4j.Logger;
 import org.quartz.SchedulerException;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MesPlanRunner implements CommandLineRunner {
+public class MyRunner implements CommandLineRunner {
     private final Logger logger = Logger.getLogger(this.getClass());
 
     /**

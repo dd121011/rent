@@ -1,4 +1,4 @@
-package com.scrats.rent.common.weixin;
+package com.scrats.rent.util.weixin.qyapi;
 
 import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.util.HttpRequestUtil;
@@ -11,9 +11,8 @@ import org.springframework.util.StringUtils;
 public class WxAccessTokenManager {
     private final Logger logger = Logger.getLogger(this.getClass());
 
-    private static final String ACCESS_TOKEN_URL = "/cgi-bin/gettoken?corpid=%s&corpsecret=%s";
+    private static final String ACCESS_TOKEN_URL = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s";
 
-    private String nginxServer;
     private String cropId;
     private String cropSecret;
     private String accessToken;
@@ -22,18 +21,17 @@ public class WxAccessTokenManager {
 
     private static WxAccessTokenManager INSTANCE;
 
-    private WxAccessTokenManager(String nginxServer, String cropId, String cropSecret) {
-        this.nginxServer = nginxServer;
+    private WxAccessTokenManager(String cropId, String cropSecret) {
         this.cropId = cropId;
         this.cropSecret = cropSecret;
     }
 
-    public static WxAccessTokenManager getInstance(String nginxServer, String cropId, String cropSecret) {
+    public static WxAccessTokenManager getInstance(String cropId, String cropSecret) {
         if (INSTANCE == null) {
             // Double-Check Locking
             synchronized (WxAccessTokenManager.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new WxAccessTokenManager(nginxServer, cropId, cropSecret);
+                    INSTANCE = new WxAccessTokenManager(cropId, cropSecret);
                 }
             }
         }
@@ -68,7 +66,7 @@ public class WxAccessTokenManager {
         int retryTimes = 0;
         while (retryTimes < 3) {
             retryTimes++;
-            String tokenUrl = String.format(nginxServer + ACCESS_TOKEN_URL, cropId, cropSecret);
+            String tokenUrl = String.format(ACCESS_TOKEN_URL, cropId, cropSecret);
             logger.info("========tokenUrl========" + tokenUrl);
             JSONObject tokenObj = HttpRequestUtil.httpGet2Json(tokenUrl);
             if (tokenObj != null) {

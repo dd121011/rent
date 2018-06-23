@@ -1,6 +1,6 @@
 package com.scrats.rent.common.job;
 
-import com.scrats.rent.common.weixin.WxPushManager;
+import com.scrats.rent.util.weixin.qyapi.WxPushManager;
 import com.scrats.rent.util.DateUtil;
 import org.apache.log4j.Logger;
 import org.quartz.*;
@@ -21,10 +21,10 @@ public class PushJob implements Job {
     private WxPushManager wxPushManager;
 
 
-    @Value("${edc.wx.corp.id}")
+    @Value("${wx.qy.corp.id}")
     private String corpId;
 
-    @Value("${edc.wx.report.url}")
+    @Value("${wx.qy.report.url}")
     private String reportUrl;
 
     private static final String PUSH_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_base&state=cj#wechat_redirect";

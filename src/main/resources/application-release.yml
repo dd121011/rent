@@ -110,20 +110,15 @@ spring:
       use-global-data-source-stat: true
   ##################datasource config end #################
 
-edc:
- #nginx服务器用于转发微信请求
- nginx:
-#   server: https://edcd.evergrande.com
-   server: https://qyapi.weixin.qq.com
- #Ldap用户同步&单点登录认证(测试环境)
  wx:
-   agent:
-     id: 1000002
-   corp:
-     id: ww170cb031844a5400
-     secret: bi3mQAWY1hIVcGhOhAYdW83LQAVG-fuYQAJe5OAjyy0
-   report:
-     url: https://edcd.evergrande.com/edc_wx/msgPush.html?planID=%s
+   qy:
+     agent:
+       id: 1000002
+     corp:
+       id: ww170cb031844a5400
+       secret: bi3mQAWY1hIVcGhOhAYdW83LQAVG-fuYQAJe5OAjyy0
+     report:
+       url: https://edcd.evergrande.com/edc_wx/msgPush.html?planID=%s
  jpush:
    server: http://notify.eafservice.evergrande.com
    key: c1a786a57a59620a86fce314

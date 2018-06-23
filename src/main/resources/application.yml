@@ -57,6 +57,10 @@ pagehelper:
        secret: bi3mQAWY1hIVcGhOhAYdW83LQAVG-fuYQAJe5OAjyy0
      report:
        url: https://edcd.evergrande.com/edc_wx/msgPush.html?planID=%s
+   sns:
+     appid: wxba42a8644a5548fd
+     secret: 2aa07da1b3bca8df43ca259c92ec1443
+
 #jpush configure
  jpush:
    server: http://notify.eafservice.evergrande.com

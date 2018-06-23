@@ -34,6 +34,9 @@ public class User extends BaseEntity {
     private String address;//地址
     private Integer accountId;//账号Id
 
+    private String openid;
+    private String unionid;
+
     public User() {
         super();
     }

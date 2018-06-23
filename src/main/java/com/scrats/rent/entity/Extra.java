@@ -24,4 +24,10 @@ public class Extra extends BaseEntity {
     private String unit;//单位
     private String code;//编码
 
+    @Transient
+    private Integer number;//初始数量
+    @Transient
+    private Integer price;//单价
+
+
 }

@@ -12,7 +12,7 @@ management:
 
 spring:
   profiles:
-    active: dev
+    active: release
   #自定义静态资源
   mvc:
     static-path-pattern: /static/**

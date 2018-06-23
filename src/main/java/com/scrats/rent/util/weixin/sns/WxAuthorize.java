@@ -3,6 +3,7 @@ package com.scrats.rent.util.weixin.sns;
 import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.util.HttpRequestUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -32,14 +33,17 @@ public class WxAuthorize {
 
     public User checkUserInfoFromWx(String code) {
         User user = null;
-        String checkUrl = String.format(AUTHORIZE_URL, appId, secret);
+        String checkUrl = String.format(AUTHORIZE_URL, appId, secret, code);
         logger.info("========checkUrl========" + checkUrl);
         JSONObject infoObj = HttpRequestUtil.httpGet2Json(checkUrl);
         if (infoObj != null) {
             logger.info(infoObj.toString());
-            user = new User();
-            user.setOpenid(infoObj.getString(OPENID));
-            user.setUnionid(infoObj.getString(UNIONID));
+            String openid = infoObj.getString(OPENID);
+            if(StringUtils.isNotEmpty(openid)){
+                user = new User();
+                user.setOpenid(openid);
+                user.setUnionid(infoObj.getString(UNIONID));
+            }
         }
         return user;
     }

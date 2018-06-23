@@ -22,9 +22,9 @@ public class WxAuthorize {
 
     private static final String AUTHORIZE_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
 
-    @Value("wx.sns.appid")
+    @Value("${wx.sns.appid}")
     private String appId;
-    @Value("wx.sns.secret")
+    @Value("${wx.sns.secret}")
     private String secret;
 
     private long expiredTs;

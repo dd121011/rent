@@ -38,8 +38,6 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     private BuildingService buildingService;
     @Autowired
     private DictionaryItermService dictionaryItermService;
-    @Autowired
-    private ExtraService extraService;
 
     @Override
     public PageInfo<Room> getRoomList(APIRequest apiRequest, Room room) {
@@ -71,7 +69,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     }
 
     @Override
-    public boolean rent(Bargin bargin, List<Extra> extras, List<DepositIterm> depositIterms) {
+    public boolean rent(Bargin bargin, List<DictionaryIterm> extras, List<DepositIterm> depositIterms) {
         Long createTs = System.currentTimeMillis();
 
         //填充buildingId
@@ -111,7 +109,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         }
 
         //TODO 保存合同额外收费项，便于以后计算每月房租，另外还要获取水、电、三相电、天然气的初始读数
-        for (Extra extra: extras) {
+        for (DictionaryIterm extra: extras) {
             
         }
         //TODO 保存押金项和生成押金，填充bargin的guarantyFee字段和total字段

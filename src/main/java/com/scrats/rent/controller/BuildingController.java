@@ -39,19 +39,12 @@ public class BuildingController {
 
     @Autowired
     private BuildingService buildingService;
-
     @Autowired
     private RedisService redisService;
-
     @Autowired
     private DictionaryService dictionaryService;
-
     @Autowired
     private DictionaryItermService dictionaryItermService;
-
-    @Autowired
-    private ExtraService extraService;
-
     @Autowired
     private BuildingLandlordService buildingLandlordService;
 

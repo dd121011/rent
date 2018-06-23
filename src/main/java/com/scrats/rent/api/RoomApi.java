@@ -44,8 +44,6 @@ public class RoomApi {
     private RenterService renterService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private ExtraService extraService;
 
     @PostMapping("/list/{buildingId}")
     public String list(@APIRequestControl APIRequest apiRequest, @PathVariable(name="buildingId") Integer buildingId, Room room) {

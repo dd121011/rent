@@ -45,8 +45,6 @@ public class RoomController {
     @Autowired
     private DictionaryItermService dictionaryItermService;
     @Autowired
-    private ExtraService extraService;
-    @Autowired
     private BuildingLandlordService buildingLandlordService;
     @Autowired
     private BarginService barginService;
@@ -146,7 +144,7 @@ public class RoomController {
         bargin.setLandlordId(apiRequest.getUser().getUserId());
 
         //TODO 保存合同额外收费项，便于以后计算每月房租，另外还要获取水、电、三相电、天然气的初始读数
-        List<Extra> extraList = JSON.parseArray(extras,Extra.class);
+        List<DictionaryIterm> extraList = JSON.parseArray(extras,DictionaryIterm.class);
 
         //TODO 保存押金项和生成押金，填充bargin的guarantyFee字段和total字段
         List<DepositIterm> depositItermList = JSON.parseArray(depositIterms,DepositIterm.class);

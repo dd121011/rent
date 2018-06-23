@@ -7,7 +7,6 @@ import com.scrats.rent.entity.Dictionary;
 import com.scrats.rent.entity.DictionaryIterm;
 import com.scrats.rent.service.DictionaryItermService;
 import com.scrats.rent.service.DictionaryService;
-import com.scrats.rent.service.ExtraService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +33,6 @@ public class DictionaryApi {
     private DictionaryService dictionaryService;
     @Autowired
     private DictionaryItermService dictionaryItermService;
-    @Autowired
-    private ExtraService extraService;
 
     @GetMapping("/dicListAll")
     public String dicListAll() {

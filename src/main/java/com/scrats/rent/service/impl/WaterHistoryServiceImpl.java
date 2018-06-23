@@ -1,11 +1,8 @@
 package com.scrats.rent.service.impl;
 
 import com.scrats.rent.base.service.BaseServiceImpl;
-import com.scrats.rent.entity.Extra;
 import com.scrats.rent.entity.WaterHistory;
-import com.scrats.rent.mapper.ExtraMapper;
 import com.scrats.rent.mapper.WaterHistoryMapper;
-import com.scrats.rent.service.ExtraService;
 import com.scrats.rent.service.WaterHistoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

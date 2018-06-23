@@ -179,22 +179,6 @@ CREATE TABLE `building_landlord` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for extra
--- ----------------------------
-DROP TABLE IF EXISTS `extra`;
-CREATE TABLE `extra` (
-    `extra_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `name` varchar(32) NOT NULL COMMENT '名称',
-    `code` varchar(32) NOT NULL COMMENT '编码',
-    `unit` varchar(10) NOT NULL COMMENT '单位',
-    `remark` varchar(256) DEFAULT '' COMMENT '备注',
-    `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`extra_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
 -- Table structure for room
 -- ----------------------------
 DROP TABLE IF EXISTS `room`;

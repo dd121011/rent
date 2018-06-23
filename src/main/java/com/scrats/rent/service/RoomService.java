@@ -5,7 +5,7 @@ import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Bargin;
 import com.scrats.rent.entity.DepositIterm;
-import com.scrats.rent.entity.Extra;
+import com.scrats.rent.entity.DictionaryIterm;
 import com.scrats.rent.entity.Room;
 import com.scrats.rent.mapper.RoomMapper;
 
@@ -26,5 +26,5 @@ public interface RoomService extends BaseService<Room, RoomMapper> {
 
     int deleteRoomByIds(Integer... ids);
 
-    boolean rent(Bargin bargin, List<Extra> extras, List<DepositIterm> depositIterms);
+    boolean rent(Bargin bargin, List<DictionaryIterm> extras, List<DepositIterm> depositIterms);
 }

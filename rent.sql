@@ -221,6 +221,22 @@ CREATE TABLE `room_attach` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for room_renter
+-- ----------------------------
+DROP TABLE IF EXISTS `room_renter`;
+CREATE TABLE `room_renter` (
+    room_renter_id int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `room_id` int(10) unsigned NOT NULL COMMENT '房间Id',
+    `renter_id` int(10) unsigned NOT NULL COMMENT '租客Id',
+    `remark` varchar(256) DEFAULT '' COMMENT '备注',
+    `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
+    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    UNIQUE KEY (`room_id`,`renter_id`),
+    PRIMARY KEY (room_renter_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for bargin
 -- ----------------------------
 DROP TABLE IF EXISTS `bargin`;
@@ -286,6 +302,7 @@ CREATE TABLE `deposit` (
     `pay_no` varchar(256) DEFAULT '' COMMENT '支付订单号',
     `channel` char(1) DEFAULT NULL COMMENT '支付渠道，0-线下支付；1-微信支付；2-支付宝支付',
     `room_id` int(10) unsigned NOT NULL COMMENT '房间id,一个押金对应一个roomId,一个roomId可能对应多个押金Id',
+    `renter_id` int(10) unsigned NOT NULL COMMENT '一个押金对应一个租客',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',

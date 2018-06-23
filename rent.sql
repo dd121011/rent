@@ -115,8 +115,6 @@ CREATE TABLE `renter` (
     `id_card` varchar(18) NOT NULL COMMENT 'identification card 身份证号',
     `id_card_pic` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证正面',
     `id_card_pic_back` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证反面',
-    `room_id` int(10) unsigned NOT NULL COMMENT '房间id,一个租户对应一个房间，一个房间对应多个租户',
-    `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `user_id` int(10) unsigned NOT NULL COMMENT '一个租客对应一个账号',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',

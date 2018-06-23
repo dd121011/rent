@@ -23,8 +23,6 @@ public class Renter extends BaseEntity {
     private String idCardPic;//身份证正面
     private String idCardPicBack;//身份证反面
 
-    private Integer roomId;//房间id,一个租户对应一个房间，一个房间对应多个租户
-    private Integer buildingId;//房子Id
     private Integer userId;//一个租客对应一个账号
 
     public Renter() {

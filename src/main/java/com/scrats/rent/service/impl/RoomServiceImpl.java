@@ -95,8 +95,6 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
 
             Renter newRenter = new Renter(bargin.getIdCard());
             newRenter.setCreateTs(createTs);
-            newRenter.setBuildingId(building.getBuildingId());
-            newRenter.setRoomId(bargin.getRoomId());
             newRenter.setUserId(user.getUserId());
             renterService.insertSelective(newRenter);
 

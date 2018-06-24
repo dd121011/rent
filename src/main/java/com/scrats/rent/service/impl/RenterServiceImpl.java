@@ -1,5 +1,6 @@
 package com.scrats.rent.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.base.service.RedisService;
@@ -46,19 +47,23 @@ public class RenterServiceImpl extends BaseServiceImpl<Renter, RenterMapper> imp
 
     @Override
     public JsonResult snsLogin(String code, String signature, String rawData) {
+
         WxSns checkSns = wxAuthorize.checkUserInfoFromWx(code);
         if(null == checkSns){
             return new JsonResult("获取签名失败");
         }
-
+        logger.info("checkSns is: " + JSON.toJSONString(checkSns));
         //检查signature的正确性
+        logger.info("request signature is: " + signature);
         String newSignature = BaseUtil.getSha1(rawData+checkSns.getSession_key());
+        logger.info("check signature is: " + newSignature);
         if(!signature.equals(newSignature)){
             return new JsonResult("签名不正确");
         }
 
         //生成token,保存登录
         WxSns wxSns = wxSnsService.selectByPrimaryKey(checkSns.getOpenid());
+        logger.info("wxSns login: " + JSON.toJSONString(wxSns));
         String tokenId = UUID.randomUUID().toString().replace("-","");
         JSONObject result = new JSONObject();
         result.put("tokenId", tokenId);

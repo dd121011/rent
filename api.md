@@ -259,7 +259,7 @@ RETURN
 
 > /api/user/snsLogin
 
-Get
+Post
 
 | 参数 | 类型 | 是否必填 | 描述 |
 | --- | --- | --- | --- |
@@ -273,7 +273,7 @@ RETURN
 
 > /api/renter/bindUser
 
-Get
+Post
 
 | 参数 | 类型 | 是否必填 | 描述 |
 | --- | --- | --- | --- |

@@ -14,10 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +45,7 @@ public class RenterApi {
     private RedisService redisService;
 
     @IgnoreSecurity
-    @GetMapping("/snsLogin")
+    @PostMapping("/snsLogin")
     public String snsLogin(String code, String signature, String rawData){
         if(StringUtils.isEmpty(code)){
             return JSON.toJSONString(new JsonResult("获取的微信code为空"));
@@ -57,7 +54,7 @@ public class RenterApi {
     }
 
     @IgnoreSecurity
-    @GetMapping("/bindUser")
+    @PostMapping("/bindUser")
     public String bindUser(String tokenId, String openid, Integer roomId){
 
         List<Bargin> barginList = barginService.getBarginValidByRoomIdAndUserId(roomId,null);

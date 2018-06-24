@@ -255,6 +255,20 @@ RETURN
 
 ## 小程序
 
+### 小程序登录
+
+> /api/user/bindUser
+
+Get
+
+| 参数 | 类型 | 是否必填 | 描述 |
+| --- | --- | --- | --- |
+| code | String | 必填 | 登录时获取的 code |
+| signature | String | 必填 | 待校验签名 |
+| rawData | String | 必填 | 被校验rawData |
+
+RETURN
+
 ### 绑定用户
 
 > /api/user/bindUser
@@ -263,8 +277,36 @@ Get
 
 | 参数 | 类型 | 是否必填 | 描述 |
 | --- | --- | --- | --- |
-| userId | Integer | 必填 | 用户Id |
-| code | String | 必填 | 登录时获取的 code |
+| tokenId | String | 必填 | 登录获取的tokenId，不要放在header中 |
+| openid | String | 必填 | 登录时获取的openid |
+| roomId | Integer | 必填 | 带绑定的房间Id |
+
+RETURN
+
+### 绑定用户
+
+> /api/roomList/{userId}
+
+Get
+
+| 参数 | 类型 | 是否必填 | 描述 |
+| --- | --- | --- | --- |
+| tokenId | String | 必填 | 登录获取的tokenId |
+| userId | Integer | 必填 | userId |
+
+RETURN
+
+### 绑定用户
+
+> /api/user/bindUser
+
+Get
+
+| 参数 | 类型 | 是否必填 | 描述 |
+| --- | --- | --- | --- |
+| tokenId | String | 必填 | 登录获取的tokenId |
+| userId | Integer | 必填 | userId |
+| roomId | Integer | 必填 | roomId |
 
 RETURN
 

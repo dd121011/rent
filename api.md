@@ -257,7 +257,7 @@ RETURN
 
 ### 小程序登录
 
-> /api/user/bindUser
+> /api/user/snsLogin
 
 Get
 
@@ -271,7 +271,7 @@ RETURN
 
 ### 绑定用户
 
-> /api/user/bindUser
+> /api/renter/bindUser
 
 Get
 
@@ -283,9 +283,9 @@ Get
 
 RETURN
 
-### 绑定用户
+### 获取房间列表
 
-> /api/roomList/{userId}
+> /api/renterroomList/{userId}
 
 Get
 
@@ -296,9 +296,9 @@ Get
 
 RETURN
 
-### 绑定用户
+### 获取某一个房间的合同
 
-> /api/user/bindUser
+> /api/renter/bargin/{userId}/{roomId}
 
 Get
 

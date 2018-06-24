@@ -60,7 +60,6 @@ public class RenterServiceImpl extends BaseServiceImpl<Renter, RenterMapper> imp
         if(!signature.equals(newSignature)){
             return new JsonResult("签名不正确");
         }
-
         //生成token,保存登录
         WxSns wxSns = wxSnsService.selectByPrimaryKey(checkSns.getOpenid());
         logger.info("wxSns login: " + JSON.toJSONString(wxSns));
@@ -71,12 +70,15 @@ public class RenterServiceImpl extends BaseServiceImpl<Renter, RenterMapper> imp
             checkSns.setCreateTs(System.currentTimeMillis());
             wxSnsService.insertSelective(checkSns);
             result.put("wxSns", checkSns);
+            redisService.set(checkSns.getOpenid(),tokenId, GlobalConst.SNS_FIRST_ACCESS_TOKEN_EXPIRE);
             return new JsonResult<JSONObject>(result);
         }else{
-            if(wxSns.getUserId() > 0){
+            if(null!= wxSns.getUserId() && wxSns.getUserId() > 0){
                 //已有userId，保存登录状态
                 User user = userService.selectByPrimaryKey(wxSns.getUserId());
                 redisService.set(tokenId,user, GlobalConst.ACCESS_TOKEN_EXPIRE);
+            }else{
+                redisService.set(checkSns.getOpenid(),tokenId, GlobalConst.SNS_FIRST_ACCESS_TOKEN_EXPIRE);
             }
             result.put("wxSns", wxSns);
             return new JsonResult<JSONObject>(result);

@@ -57,6 +57,14 @@ public class RenterApi {
     @PostMapping("/bindUser")
     public String bindUser(String tokenId, String openid, Integer roomId){
 
+        String checkTokeId = (String) redisService.get(openid);
+        if(StringUtils.isEmpty(checkTokeId)){
+            return JSON.toJSONString(new JsonResult("请求的openid有误"));
+        }
+        if(!checkTokeId.equals(tokenId)){
+            return JSON.toJSONString(new JsonResult("请求的tokenId有误"));
+        }
+
         List<Bargin> barginList = barginService.getBarginValidByRoomIdAndUserId(roomId,null);
         if(null == barginList || barginList.size()>1){
             return JSON.toJSONString(new JsonResult("roomId有误"));

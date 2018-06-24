@@ -15,6 +15,8 @@ public class GlobalConst {
 
     public static final long ACCESS_TOKEN_EXPIRE = 60 * 60 * 24 * 7;
 
+    public static final long SNS_FIRST_ACCESS_TOKEN_EXPIRE = 60 * 60;
+
     public static final String FACILITY_CODE = "0001";
 
     public static final String DECORATION_CODE = "0002";

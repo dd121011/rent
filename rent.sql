@@ -124,10 +124,10 @@ CREATE TABLE `renter` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for WxSns
+-- Table structure for wx_sns
 -- ----------------------------
-DROP TABLE IF EXISTS `WxSns`;
-CREATE TABLE `WxSns` (
+DROP TABLE IF EXISTS `wx_sns`;
+CREATE TABLE `wx_sns` (
     `openid` varchar(64) NOT NULL COMMENT 'wx openid',
     `unionid` varchar(64) DEFAULT '' COMMENT 'wx unionid',
     `user_id` int(10) unsigned COMMENT 'userId',

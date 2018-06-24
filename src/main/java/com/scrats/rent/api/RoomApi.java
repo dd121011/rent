@@ -8,8 +8,10 @@ import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
-import com.scrats.rent.constant.GlobalConst;
-import com.scrats.rent.entity.*;
+import com.scrats.rent.entity.BuildingLandlord;
+import com.scrats.rent.entity.Renter;
+import com.scrats.rent.entity.Room;
+import com.scrats.rent.entity.User;
 import com.scrats.rent.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -101,23 +103,10 @@ public class RoomApi {
     @IgnoreSecurity
     public String detail(@PathVariable(name="roomId") Integer roomId) {
         //获取所有房子select数据
-        Room room = roomService.selectByPrimaryKey(roomId);
-        //获取房子
-        Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
-        //获取房间朝向name
-        DictionaryIterm orientation = dictionaryItermService.selectByPrimaryKey(room.getOrientation());
-        //获取装修情况name
-        DictionaryIterm decoration = dictionaryItermService.selectByPrimaryKey(room.getDecoration());
-        //获取所有配套设施
-        List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(room.getFacilities());
-        //获取所有额外收费项
-        List<DictionaryIterm> extras = dictionaryItermService.findListBy("dicCode", GlobalConst.EXTRA_CODE);
-
-        room.setBuilding(building);
-        room.setOrientationName(orientation.getValue());
-        room.setDecorationName(decoration.getValue());
-        room.setFacilitiesIterm(facilities);
-        room.setExtraFeeIterm(extras);
+        Room room = roomService.detail(roomId);
+        if(null == room){
+            return JSON.toJSONString(new JsonResult("获取房间详情失败"));
+        }
         return JSON.toJSONString(new JsonResult<Room>(room));
     }
 

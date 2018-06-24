@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +53,8 @@ public class RoomController {
     private UserService userService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private RoomRenterService roomRenterService;
 
     @IgnoreSecurity
     @GetMapping("/goRoom/{buildingId}")
@@ -159,24 +160,7 @@ public class RoomController {
     public String goRoomDetail(String tokenId, @PathVariable(name="roomId") Integer roomId, Map<String, Object> map){
 
         User user = (User)redisService.get(tokenId);
-
-        Room room = roomService.selectByPrimaryKey(roomId);
-        //获取房子
-        Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
-        //获取房间朝向name
-        DictionaryIterm orientation = dictionaryItermService.selectByPrimaryKey(room.getOrientation());
-        //获取装修情况name
-        DictionaryIterm decoration = dictionaryItermService.selectByPrimaryKey(room.getDecoration());
-        //获取所有配套设施
-        List<DictionaryIterm> facilities = StringUtils.isEmpty(room.getFacilities())? new ArrayList<DictionaryIterm>() : dictionaryItermService.selectByIds(room.getFacilities());
-        //获取所有额外收费项
-        List<DictionaryIterm> extras = StringUtils.isEmpty(room.getExtraFee())? new ArrayList<DictionaryIterm>() : dictionaryItermService.selectByIds(room.getExtraFee());
-
-        room.setBuilding(building);
-        room.setOrientationName(orientation.getValue());
-        room.setDecorationName(decoration.getValue());
-        room.setFacilitiesIterm(facilities);
-        room.setExtraFeeIterm(extras);
+        Room room = roomService.detail(roomId);
 
         map.put("user",user);
         map.put("room",room);
@@ -188,10 +172,11 @@ public class RoomController {
     @ResponseBody
     public String renterAll(@PathVariable(name="roomId") Integer roomId){
 
-        List<Renter> list = renterService.findListBy("roomId", roomId);
+        List<RoomRenter> list = roomRenterService.findListBy("roomId", roomId);
         JSONArray jsonArray = new JSONArray();
-        for(Renter renter : list){
-            User user = userService.selectByPrimaryKey(renter.getUserId());
+        for(RoomRenter roomRenter : list){
+            User user = userService.selectByPrimaryKey(roomRenter.getRenterId());
+            Renter renter = renterService.findBy("userId",user.getUserId());
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("renter",renter);
             jsonObject.put("user",user);

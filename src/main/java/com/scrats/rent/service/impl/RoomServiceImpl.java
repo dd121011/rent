@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.PageInfo;
+import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.constant.UserType;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.mapper.RoomMapper;
@@ -99,7 +100,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
             renterService.insertSelective(newRenter);
 
             //补齐renterId字段
-            bargin.setRenterId(newRenter.getRenterId());
+            bargin.setRenterId(user.getUserId());
 
 
         }else{
@@ -121,5 +122,32 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         Room room = dao.selectByPrimaryKey(bargin.getRoomId());
         room.setRentTs(createTs);
         return false;
+    }
+
+    @Override
+    public Room detail(Integer roomId) {
+        //获取所有房子select数据
+        Room room = dao.selectByPrimaryKey(roomId);
+        if(null == room){
+            return room;
+        }
+        //获取房子
+        Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
+        //获取房间朝向name
+        DictionaryIterm orientation = dictionaryItermService.selectByPrimaryKey(room.getOrientation());
+        //获取装修情况name
+        DictionaryIterm decoration = dictionaryItermService.selectByPrimaryKey(room.getDecoration());
+        //获取所有配套设施
+        List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(room.getFacilities());
+        //获取所有额外收费项
+        List<DictionaryIterm> extras = dictionaryItermService.findListBy("dicCode", GlobalConst.EXTRA_CODE);
+
+        room.setBuilding(building);
+        room.setOrientationName(orientation.getValue());
+        room.setDecorationName(decoration.getValue());
+        room.setFacilitiesIterm(facilities);
+        room.setExtraFeeIterm(extras);
+
+        return room;
     }
 }

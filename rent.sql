@@ -26,8 +26,8 @@ CREATE TABLE `dictionary` (
     `name` varchar(32) NOT NULL COMMENT '字典类型名称',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`dic_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -42,8 +42,8 @@ CREATE TABLE `dictionary_iterm` (
     `unit` varchar(16) DEFAULT '' COMMENT '字典类型项值',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`dic_iterm_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -56,8 +56,8 @@ CREATE TABLE `attachment` (
     `store` varchar(64) NOT NULL COMMENT '存放地址',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`attachment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -72,8 +72,8 @@ CREATE TABLE `account` (
     `phone` char(11) NOT NULL COMMENT '手机号码',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -101,8 +101,8 @@ CREATE TABLE `user` (
 
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -118,8 +118,8 @@ CREATE TABLE `renter` (
     `user_id` int(10) unsigned NOT NULL COMMENT '一个租客对应一个账号',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`renter_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -133,8 +133,8 @@ CREATE TABLE `wx_sns` (
     `user_id` int(10) unsigned COMMENT 'userId',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`openid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -152,8 +152,8 @@ CREATE TABLE `building` (
     `description` varchar(256) DEFAULT '' COMMENT '描述',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     --     `address_id` int(10) unsigned DEFAULT NULL COMMENT '地址Id',
     `address` varchar(128) DEFAULT '' COMMENT '地址',
     PRIMARY KEY (`building_id`)
@@ -169,8 +169,8 @@ CREATE TABLE `building_attach` (
     `attach_id` int(10) unsigned NOT NULL COMMENT '附件Id',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`building_attach_id`),
     UNIQUE KEY (`building_id`,`attach_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -185,8 +185,8 @@ CREATE TABLE `building_landlord` (
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     UNIQUE KEY (`landlord_id`,`building_id`),
     PRIMARY KEY (building_landlord_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -214,8 +214,8 @@ CREATE TABLE `room` (
     `building_id` int(10) unsigned NOT NULL COMMENT '房子id,一个房间对应一个房子id',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -229,8 +229,8 @@ CREATE TABLE `room_attach` (
     `attach_id` int(10) unsigned NOT NULL COMMENT '附件Id',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     UNIQUE KEY (`room_id`,`attach_id`),
     PRIMARY KEY (room_attach_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -245,8 +245,8 @@ CREATE TABLE `room_renter` (
     `renter_id` int(10) unsigned NOT NULL COMMENT '租客Id',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     UNIQUE KEY (`room_id`,`renter_id`),
     PRIMARY KEY (room_renter_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -281,8 +281,8 @@ CREATE TABLE `bargin` (
     `live_ts` bigint unsigned NOT NULL COMMENT '入住时间，13位时间戳',
     `leave_ts` bigint unsigned NOT NULL COMMENT '退租时间，13位时间戳',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`bargin_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -300,8 +300,8 @@ CREATE TABLE `bargin_extra` (
     `price` int(10) unsigned NOT NULL COMMENT '价格',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (bargin_extra_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -320,8 +320,8 @@ CREATE TABLE `deposit` (
     `renter_id` int(10) unsigned NOT NULL COMMENT '一个押金对应一个租客',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`deposit_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -341,8 +341,8 @@ CREATE TABLE `deposit_iterm` (
     `money` int(10) unsigned NOT NULL COMMENT '押金项目金额',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`deposit_iterm_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -363,8 +363,8 @@ CREATE TABLE `rent` (
     `room_id` int(10) unsigned NOT NULL COMMENT '房间id,一个房租对应一个roomId',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`rent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -385,8 +385,8 @@ CREATE TABLE `rent_iterm` (
     `description` varchar (256) DEFAULT '' COMMENT '房租项目描述',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`rent_iterm_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -402,8 +402,8 @@ CREATE TABLE `water_history` (
     `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`water_history_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -419,8 +419,8 @@ CREATE TABLE `electric_history` (
     `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`electric_history_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -436,8 +436,8 @@ CREATE TABLE `electric_three_history` (
     `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`electric_three_history_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -453,8 +453,8 @@ CREATE TABLE `gas_history` (
     `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
     PRIMARY KEY (`gas_history_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

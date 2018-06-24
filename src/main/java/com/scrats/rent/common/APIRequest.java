@@ -20,14 +20,16 @@ import java.util.Map;
 public class APIRequest<K> {
 
     private String tokenId;
-
     private int page = 1;
-
     private int rows = 10;
-
     private String searchText;//搜索内容
-
     private User user;
+    private int lanlordId = 0;
+    private int renterId = 0;
+    private String openId = "";
+    private int adminId = 0;
+    private int guardId = 0;
+    private boolean administratorFlag = false;
 
     private Map<String, Object> body;
     private K bodyObject;

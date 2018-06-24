@@ -4,8 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
+import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.common.exception.NotAuthorizedException;
+import com.scrats.rent.entity.Renter;
 import com.scrats.rent.entity.User;
+import com.scrats.rent.entity.WxSns;
+import com.scrats.rent.service.RenterService;
+import com.scrats.rent.service.WxSnsService;
 import com.scrats.rent.util.IOUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -32,6 +37,10 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
 
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private RenterService renterService;
+    @Autowired
+    private WxSnsService wxSnsService;
     /**
      * 在请求处理之前进行调用（Controller方法调用之前）
      *
@@ -68,19 +77,39 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
             apiRequest = new APIRequest();
         }
         User user = (User) redisService.get(token);
+        if(null == user){
+            throw new BusinessException("请求的tokenId无效, 请重新获取");
+        }
         apiRequest.setUser(user);
         apiRequest.setTokenId(token);
-//        if(httpServletRequest.getMethod().equalsIgnoreCase("GET")){
-//            String page = httpServletRequest.getParameter("page");
-//            if(StringUtils.isNotBlank(page)){
-//                apiRequest.setPage(Integer.parseInt(page));
-//            }
-//            String rows = httpServletRequest.getParameter("page");
-//            if(StringUtils.isNotBlank(rows)){
-//                apiRequest.setPage(Integer.parseInt(rows));
-//            }
-//            apiRequest.setSearchText(httpServletRequest.getParameter("searchText"));
-//        }
+        switch (user.getType()){
+            //租客
+            case "0":
+                Renter renter = renterService.findBy("userId",user.getUserId());
+                WxSns wxSns = wxSnsService.findBy("userId",user.getUserId());
+                apiRequest.setRenterId(renter.getRenterId());
+                if(null != wxSns){
+                    apiRequest.setOpenId(wxSns.getOpenid());
+                }
+                break;
+                //房东
+            case "1":
+                apiRequest.setLanlordId(user.getUserId());
+                break;
+                //管理员
+            case "2":
+                apiRequest.setAdminId(user.getUserId());
+                break;
+                //巡管员
+            case "3":
+                apiRequest.setGuardId(user.getUserId());
+                break;
+                //超级管理员
+            case "4":
+                apiRequest.setAdminId(user.getUserId());
+                apiRequest.setAdministratorFlag(true);
+                break;
+        }
         httpServletRequest.setAttribute("apiRequest", apiRequest);
         return true;
     }

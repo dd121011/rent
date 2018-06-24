@@ -27,4 +27,6 @@ public interface RoomService extends BaseService<Room, RoomMapper> {
     int deleteRoomByIds(Integer... ids);
 
     boolean rent(Bargin bargin, List<DictionaryIterm> extras, List<DepositIterm> depositIterms);
+
+    Room detail(Integer roomId);
 }

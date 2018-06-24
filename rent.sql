@@ -124,6 +124,21 @@ CREATE TABLE `renter` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for WxSns
+-- ----------------------------
+DROP TABLE IF EXISTS `WxSns`;
+CREATE TABLE `WxSns` (
+    `openid` varchar(64) NOT NULL COMMENT 'wx openid',
+    `unionid` varchar(64) DEFAULT '' COMMENT 'wx unionid',
+    `user_id` int(10) unsigned COMMENT 'userId',
+    `remark` varchar(256) DEFAULT '' COMMENT '备注',
+    `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
+    `update_ts` bigint unsigned DEFAULT '0' COMMENT '更新时间, 13位时间戳',
+    `delete_ts` bigint unsigned DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    PRIMARY KEY (`openid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for building
 -- ----------------------------
 DROP TABLE IF EXISTS `building`;

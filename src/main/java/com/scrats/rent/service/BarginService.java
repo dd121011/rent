@@ -4,6 +4,8 @@ import com.scrats.rent.base.service.BaseService;
 import com.scrats.rent.entity.Bargin;
 import com.scrats.rent.mapper.BarginMapper;
 
+import java.util.List;
+
 /**
  * Created with scrat.
  * Description: ${DESCRIPTION}.
@@ -13,4 +15,7 @@ import com.scrats.rent.mapper.BarginMapper;
  */
 public interface BarginService extends BaseService<Bargin, BarginMapper> {
 
+    List<Bargin> getBarginValidByRoomIdAndUserId(Integer roomId, Integer userId);
+
+    List<Bargin> getBarginInvalidByRoomIdAndUserId(Integer roomId, Integer userId);
 }

@@ -1,9 +1,9 @@
 package com.scrats.rent.util.weixin.sns;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.scrats.rent.entity.User;
+import com.scrats.rent.entity.WxSns;
 import com.scrats.rent.util.HttpRequestUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -31,21 +31,16 @@ public class WxAuthorize {
     private static final String OPENID = "openid";
     private static final String UNIONID = "unionid";
 
-    public User checkUserInfoFromWx(String code) {
-        User user = null;
+    public WxSns checkUserInfoFromWx(String code) {
+        WxSns wxSns = null;
         String checkUrl = String.format(AUTHORIZE_URL, appId, secret, code);
         logger.info("========checkUrl========" + checkUrl);
         JSONObject infoObj = HttpRequestUtil.httpGet2Json(checkUrl);
         if (infoObj != null) {
             logger.info(infoObj.toString());
-            String openid = infoObj.getString(OPENID);
-            if(StringUtils.isNotEmpty(openid)){
-                user = new User();
-                user.setOpenid(openid);
-                user.setUnionid(infoObj.getString(UNIONID));
-            }
+            wxSns = JSON.parseObject(infoObj.toJSONString(),WxSns.class);
         }
-        return user;
+        return wxSns;
     }
 
 }

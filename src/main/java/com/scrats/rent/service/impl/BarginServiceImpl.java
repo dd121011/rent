@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created with scrat.
  * Description: ${DESCRIPTION}.
@@ -20,4 +22,13 @@ public class BarginServiceImpl extends BaseServiceImpl<Bargin, BarginMapper> imp
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Override
+    public List<Bargin> getBarginValidByRoomIdAndUserId(Integer roomId, Integer userId) {
+        return dao.getBarginValidByRoomIdAndUserId(roomId, userId);
+    }
+
+    @Override
+    public List<Bargin> getBarginInvalidByRoomIdAndUserId(Integer roomId, Integer userId) {
+        return dao.getBarginInvalidByRoomIdAndUserId(roomId, userId);
+    }
 }

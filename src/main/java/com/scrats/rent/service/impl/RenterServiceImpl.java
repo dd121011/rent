@@ -69,6 +69,7 @@ public class RenterServiceImpl extends BaseServiceImpl<Renter, RenterMapper> imp
         if(null == wxSns){
             checkSns.setCreateTs(System.currentTimeMillis());
             wxSnsService.insertSelective(checkSns);
+            checkSns.setUserId(-1);
             result.put("wxSns", checkSns);
             redisService.set(checkSns.getOpenid(),tokenId, GlobalConst.SNS_FIRST_ACCESS_TOKEN_EXPIRE);
             return new JsonResult<JSONObject>(result);
@@ -78,6 +79,7 @@ public class RenterServiceImpl extends BaseServiceImpl<Renter, RenterMapper> imp
                 User user = userService.selectByPrimaryKey(wxSns.getUserId());
                 redisService.set(tokenId,user, GlobalConst.ACCESS_TOKEN_EXPIRE);
             }else{
+                wxSns.setUserId(-1);
                 redisService.set(checkSns.getOpenid(),tokenId, GlobalConst.SNS_FIRST_ACCESS_TOKEN_EXPIRE);
             }
             result.put("wxSns", wxSns);

@@ -2,7 +2,9 @@ package com.scrats.rent.api;
 
 import com.alibaba.fastjson.JSON;
 import com.scrats.rent.base.service.RedisService;
+import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
+import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.Bargin;
@@ -78,10 +80,10 @@ public class RenterApi {
         return JSON.toJSONString(new JsonResult<User>(user));
     }
 
-    @GetMapping("/roomList/{userId}")
-    public String roomList(@PathVariable(name="userId") Integer userId){
+    @GetMapping("/roomList")
+    public String roomList(@APIRequestControl APIRequest apiRequest){
 
-        List<Bargin> barginList = barginService.getBarginValidByRoomIdAndUserId(null,userId);
+        List<Bargin> barginList = barginService.getBarginValidByRoomIdAndUserId(null,apiRequest.getUser().getUserId());
         List<Room> list = new ArrayList<Room>();
         for(Bargin bargin : barginList){
             Room room = roomService.detail(bargin.getRoomId());
@@ -90,11 +92,16 @@ public class RenterApi {
         return JSON.toJSONString(new JsonResult<List>(list));
     }
 
-    @GetMapping("/bargin/{userId}/{roomId}")
-    public String bargin(@PathVariable(name="userId") Integer userId, @PathVariable(name="roomId") Integer roomId){
-        List<Bargin> list = barginService.getBarginValidByRoomIdAndUserId(roomId, userId);
+    @GetMapping(value={"/bargin/{roomId}", "/bargin"})
+    public String bargin(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId",required = false) Integer roomId){
+        List<Bargin> list = barginService.getBarginValidByRoomIdAndUserId(roomId, apiRequest.getUser().getUserId());
         return JSON.toJSONString(new JsonResult<List>(list));
 
+    }
+
+    @GetMapping(value={"/unpay/{roomId}", "/unpay"})
+    public String unpay(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
+        return null;
     }
 
 

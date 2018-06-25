@@ -69,8 +69,11 @@
         $.post("${base}/login",{username:username,pwd:pwd},function(result){
             if(result.code == 1){
                 tokenId = result.data.tokenId;
+                userId = result.data.userId;
                 header["tokenId"] = tokenId;
+                header["userId"] = userId;
                 $.cookie("rent_tokenId",tokenId,{expires: 7, path: '/rent'})
+                $.cookie("rent_userId",tokenId,{expires: 7, path: '/rent'})
                 window.location.href = "${base}/building/goBuilding?tokenId=" + tokenId;
             }else{
                 alert(result.msg);

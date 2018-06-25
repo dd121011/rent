@@ -73,6 +73,9 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
         if (StringUtils.isBlank(token)) {
             throw new NotAuthorizedException("非法请求, 请登陆");
         }
+        if (StringUtils.isBlank(userId)) {
+            throw new NotAuthorizedException("非法请求, 请登陆");
+        }
         APIRequest apiRequest = JSON.parseObject(json,APIRequest.class);
         if(null == apiRequest){
             apiRequest = new APIRequest();

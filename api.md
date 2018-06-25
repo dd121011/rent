@@ -285,31 +285,29 @@ RETURN
 
 ### 获取房间列表
 
-> /api/renterroomList/{userId}
+> /api/renterroomList
 
 Get
 
 | 参数 | 类型 | 是否必填 | 描述 |
 | --- | --- | --- | --- |
 | tokenId | String | 必填 | 登录获取的tokenId |
-| userId | Integer | 必填 | userId |
 
 RETURN
 
 ### 获取某一个房间的合同
 
-> /api/renter/bargin/{userId}/{roomId}
+> /api/renter/bargin/{roomId}
 
 Get
 
 | 参数 | 类型 | 是否必填 | 描述 |
 | --- | --- | --- | --- |
 | tokenId | String | 必填 | 登录获取的tokenId |
-| userId | Integer | 必填 | userId |
-| roomId | Integer | 必填 | roomId |
+| roomId | Integer | 非必填 | roomId |
 
 RETURN
 
-绑定租客、上传身份信息
-查看合同、押金单
+上传身份信息
+查押金单
 查看水电、缴费记录

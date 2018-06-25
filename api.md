@@ -285,13 +285,14 @@ RETURN
 
 ### 获取房间列表
 
-> /api/renterroomList
+> /api/renter/roomList
 
 Get
 
 | 参数 | 类型 | 是否必填 | 描述 |
 | --- | --- | --- | --- |
 | tokenId | String | 必填 | 登录获取的tokenId |
+| userId | Integer | 必填 | userId放在header中 |
 
 RETURN
 
@@ -304,6 +305,7 @@ Get
 | 参数 | 类型 | 是否必填 | 描述 |
 | --- | --- | --- | --- |
 | tokenId | String | 必填 | 登录获取的tokenId |
+| userId | Integer | 必填 | userId放在header中 |
 | roomId | Integer | 非必填 | roomId |
 
 RETURN

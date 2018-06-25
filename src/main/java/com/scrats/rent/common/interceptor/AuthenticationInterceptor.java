@@ -109,6 +109,8 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
                 apiRequest.setAdminId(user.getUserId());
                 apiRequest.setAdministratorFlag(true);
                 break;
+            default:
+                throw new BusinessException("数据有误,请联系系统管理员");
         }
         httpServletRequest.setAttribute("apiRequest", apiRequest);
         return true;

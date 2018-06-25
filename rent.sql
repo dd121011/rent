@@ -257,6 +257,7 @@ CREATE TABLE `room_renter` (
 -- ----------------------------
 DROP TABLE IF EXISTS `bargin`;
 CREATE TABLE `bargin` (
+    `bargin_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `bargin_no` char(32) NOT NULL COMMENT '合同编号',
     `name` varchar(64) NOT NULL COMMENT '姓名',
     `sex` char(1) NOT NULL DEFAULT '0' COMMENT '性別, 0-保密, 1-男, 2-女',
@@ -284,7 +285,8 @@ CREATE TABLE `bargin` (
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
     `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`bargin_no`)
+    UNIQUE KEY (`bargin_no`),
+    PRIMARY KEY (`bargin_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -311,6 +313,7 @@ CREATE TABLE `bargin_extra` (
 -- ----------------------------
 DROP TABLE IF EXISTS `deposit`;
 CREATE TABLE `deposit` (
+    `deposit_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `deposit_no` char(32) NOT NULL COMMENT '押金编号',
     `room_no` varchar(10) NOT NULL COMMENT '房间编号',
     `fee` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '总费用',
@@ -323,7 +326,8 @@ CREATE TABLE `deposit` (
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
     `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`deposit_no`)
+    UNIQUE KEY (`deposit_no`),
+    PRIMARY KEY (`deposit_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -353,7 +357,7 @@ CREATE TABLE `deposit_iterm` (
 DROP TABLE IF EXISTS `rent`;
 CREATE TABLE `rent` (
     `rent_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `rent_no` varchar(32) NOT NULL COMMENT '房租收据单号',
+    `rent_no` char(32) NOT NULL COMMENT '房租收据单号',
     `rent_month` char(6) NOT NULL COMMENT '房租月份, eg 201806',
     `fee` int(10) unsigned NOT NULL COMMENT '总费用',
     `count` int(10) unsigned NOT NULL default '0' COMMENT '折扣费用',

@@ -11,7 +11,7 @@ layui.use(['layer', 'table', 'form'], function () {
         elem: '#lay_table_room_renter'//指定原始表格元素选择器（
         , url: requestBaseUrl + '/room/renterAll/' + $('#roomId').val()
         , method: 'get'
-        , headers: {tokenId: tokenId}
+        , headers: header
         , request: {
             pageName: 'page' //页码的参数名称，默认：page
             , limitName: 'rows' //每页数据量的参数名，默认：limit
@@ -70,7 +70,7 @@ layui.use(['layer', 'table', 'form'], function () {
                         elem: '#extraTable'//指定原始表格元素选择器（
                         , url: requestBaseUrl + '/room/extra/' + $('#roomId').val()
                         , method: 'get'
-                        , headers: {tokenId: tokenId}
+                        , headers: header
                         , request: {
                             pageName: 'page' //页码的参数名称，默认：page
                             , limitName: 'rows' //每页数据量的参数名，默认：limit
@@ -109,7 +109,7 @@ layui.use(['layer', 'table', 'form'], function () {
                         elem: '#depositTable'//指定原始表格元素选择器（
                         , url: requestBaseUrl + '/room/depositIterm/' + $('#roomId').val()
                         , method: 'get'
-                        , headers: {tokenId: tokenId}
+                        , headers: header
                         , request: {
                             pageName: 'page' //页码的参数名称，默认：page
                             , limitName: 'rows' //每页数据量的参数名，默认：limit

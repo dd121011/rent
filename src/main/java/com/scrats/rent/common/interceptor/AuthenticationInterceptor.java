@@ -67,6 +67,7 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
         }
 
         String token = httpServletRequest.getHeader("tokenId");
+        String userId = httpServletRequest.getHeader("userId");
         String json = IOUtil.getInputStreamAsText(httpServletRequest.getInputStream(),"UTF-8");
         logger.debug("token: " + token);
         if (StringUtils.isBlank(token)) {
@@ -79,6 +80,9 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
         User user = (User) redisService.get(token);
         if(null == user){
             throw new BusinessException("请求的tokenId无效, 请重新获取");
+        }
+        if(!userId.equals(user.getUserId())){
+            throw new BusinessException("请求的tokenId和userId验证不通过");
         }
         apiRequest.setUser(user);
         apiRequest.setTokenId(token);

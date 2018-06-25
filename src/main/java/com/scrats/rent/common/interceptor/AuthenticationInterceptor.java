@@ -84,7 +84,7 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
         if(null == user){
             throw new BusinessException("请求的tokenId无效, 请重新获取");
         }
-        if(!userId.equals(user.getUserId())){
+        if(!userId.equals(user.getUserId().toString())){
             throw new BusinessException("请求的tokenId和userId验证不通过");
         }
         apiRequest.setUser(user);

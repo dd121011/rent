@@ -97,10 +97,8 @@ public class RenterApi {
     }
 
     @GetMapping(value={"/bargin/{roomId}"})
-    @IgnoreSecurity
-    public String bargin(@PathVariable(name="roomId") Integer roomId){
-//        List<Bargin> list = barginService.getBarginValidByRoomIdAndUserId(roomId, apiRequest.getUser().getUserId());
-        List<Bargin> list = barginService.getBarginValidByRoomIdAndUserId(roomId, 9);
+    public String bargin(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
+        List<Bargin> list = barginService.getBarginValidByRoomIdAndUserId(roomId, apiRequest.getUser().getUserId());
         Bargin bargin = list.get(0);
         Building building = buildingService.selectByPrimaryKey(bargin.getBuildingId());
         List<DictionaryIterm> facilities = null;

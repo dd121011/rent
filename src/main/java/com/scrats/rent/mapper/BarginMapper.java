@@ -16,9 +16,9 @@ import java.util.List;
  */
 public interface BarginMapper extends BaseMapper<Bargin> {
 
-    @Select("<script>select b.* from bargin b where 1=1 <if test='roomId != null'>and b.room_id = #{roomId}</if> <if test='userId != null'>and b.renter_id = #{userId}</if> and b.delete_ts = 0</script>")
+    @Select("<script>select b.* from bargin b where 1=1 <if test='roomId != null'>and b.room_id = #{roomId}</if> <if test='userId != null'>and b.user_id = #{userId}</if> and b.delete_ts = 0</script>")
     List<Bargin> getBarginValidByRoomIdAndUserId(@Param("roomId") Integer roomId, @Param("userId") Integer userId);
 
-    @Select("<script>select b.* from bargin b where 1=1 <if test='roomId != null'>and b.room_id = #{roomId}</if> <if test='userId != null'>and b.renter_id = #{userId}</if> and b.delete_ts > 0</script>")
+    @Select("<script>select b.* from bargin b where 1=1 <if test='roomId != null'>and b.room_id = #{roomId}</if> <if test='userId != null'>and b.user_id = #{userId}</if> and b.delete_ts > 0</script>")
     List<Bargin> getBarginInvalidByRoomIdAndUserId(@Param("roomId") Integer roomId, @Param("userId") Integer userId);
 }

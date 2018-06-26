@@ -8,10 +8,7 @@ import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
-import com.scrats.rent.entity.BuildingLandlord;
-import com.scrats.rent.entity.Renter;
-import com.scrats.rent.entity.Room;
-import com.scrats.rent.entity.User;
+import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -46,6 +43,10 @@ public class RoomApi {
     private RenterService renterService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AccountService accountService;
+    @Autowired
+    private RoomRenterService roomRenterService;
 
     @PostMapping("/list/{buildingId}")
     public String list(@APIRequestControl APIRequest apiRequest, @PathVariable(name="buildingId") Integer buildingId, Room room) {
@@ -113,13 +114,17 @@ public class RoomApi {
     @GetMapping("/renterAll/{roomId}")
     public String renterAll(@PathVariable(name="roomId") Integer roomId){
 
-        List<Renter> list = renterService.findListBy("roomId", roomId);
+        List<RoomRenter> list = roomRenterService.findListBy("roomId", roomId);
         JSONArray jsonArray = new JSONArray();
-        for(Renter renter : list){
-            User user = userService.selectByPrimaryKey(renter.getUserId());
+        for(RoomRenter roomRenter : list){
+            User user = userService.selectByPrimaryKey(roomRenter.getUserId());
+            Account account = accountService.selectByPrimaryKey(user.getAccountId());
+            Renter renter = renterService.selectByPrimaryKey(roomRenter.getRenterId());
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("renter",renter);
+            jsonObject.put("idCard",renter.getIdCard());
             jsonObject.put("user",user);
+            jsonObject.put("phone",account.getPhone());
+            jsonObject.put("roomRenterId",roomRenter.getRoomRenterId());
             jsonArray.add(jsonObject);
         }
         return JSON.toJSONString(new JsonResult<JSONArray>(jsonArray));

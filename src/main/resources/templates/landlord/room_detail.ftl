@@ -77,5 +77,5 @@
 <script src="${base}/static/js/landlord/room_detail.js" charset="utf-8"></script>
 
 <#include "landlord/room_renter.ftl"/>
-<div id="qrcode" style="margin: 20px; display: none"></div>
+
 </html>

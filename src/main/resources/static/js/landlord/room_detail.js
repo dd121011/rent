@@ -126,7 +126,7 @@ layui.use(['layer', 'table', 'form'], function () {
                         , id: 'extraTable'
                         // , width: 550
                         , cols: [[//表头
-                            {field: 'name', title: '项目', edit: 'text', templet: function(d){
+                            {field: 'value', title: '项目', edit: 'text', templet: function(d){
                                     return d.value;
                                 }}
                             , {field: 'unit', title: '单位', edit: 'text', templet: function(d){

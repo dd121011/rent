@@ -24,8 +24,8 @@ public class BarginExtra extends BaseEntity {
     private Integer barginExtraId;//主键
     private Integer barginId;//合同Id
     private Integer roomId;//房间Id
-    private Integer extraId;//额外收费项Id
-    private String name;//名称
+    private String dicItermCode;//额外收费项Id
+    private String value;//名称
     private String unit;//单位
     private Integer price;//价格
 

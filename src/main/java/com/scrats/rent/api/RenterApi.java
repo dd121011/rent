@@ -83,7 +83,7 @@ public class RenterApi {
         if(null == barginList || barginList.size()>1){
             return JSON.toJSONString(new JsonResult("该房间还未出租,无法绑定"));
         }
-        User user = userService.selectByPrimaryKey(barginList.get(0).getRenterId());
+        User user = userService.selectByPrimaryKey(barginList.get(0).getUserId());
         WxSns wxSns = wxSnsService.selectByPrimaryKey(openid);
         wxSns.setUserId(user.getUserId());
         wxSns.setUpdateTs(System.currentTimeMillis());

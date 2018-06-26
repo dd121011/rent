@@ -149,14 +149,24 @@ layui.use(['layer', 'table', 'form'], function () {
             });
         },
         qrcodeRenter: function () {
-            new QRCode($("#qrcode"), "http://www.baidu.com");
+            // new QRCode(document.getElementById("qrcode"), "https://scrats.cn/rent/qr?method=bindUser&data=" + $('#roomId').val());
+            // 设置参数方式
+            var qrcode = new QRCode('qrcode', {
+                text: 'https://scrats.cn/rent/qr?method=bindUser&data=' + $('#roomId').val(),
+                width: 256,
+                height: 256,
+                colorDark : '#000000',
+                colorLight : '#ffffff',
+                correctLevel : QRCode.CorrectLevel.H
+            });
+            console.log(123);
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "房间二维码"
                 , area: '300px'
-                , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                , offset: 'auto' //
                 , id: 'layerQrcodeRoom'  //防止重复弹出
-                , content: $('#qrcodeShow')
+                , content: $('#qrcode')
                 , btn: '关闭全部'
                 , btnAlign: 'c' //按钮居中
                 // , shade: 0 //不显示遮罩

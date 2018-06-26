@@ -9,7 +9,9 @@ import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
+import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.constant.GlobalConst;
+import com.scrats.rent.constant.UserType;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
 import org.apache.commons.lang3.StringUtils;
@@ -175,14 +177,78 @@ public class RoomController {
         List<RoomRenter> list = roomRenterService.findListBy("roomId", roomId);
         JSONArray jsonArray = new JSONArray();
         for(RoomRenter roomRenter : list){
-            User user = userService.selectByPrimaryKey(roomRenter.getRenterId());
-            Renter renter = renterService.findBy("userId",user.getUserId());
+            User user = userService.selectByPrimaryKey(roomRenter.getUserId());
+            Account account = accountService.selectByPrimaryKey(user.getAccountId());
+            Renter renter = renterService.selectByPrimaryKey(roomRenter.getRenterId());
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("renter",renter);
+            jsonObject.put("idCard",renter.getIdCard());
             jsonObject.put("user",user);
+            jsonObject.put("phone",account.getPhone());
+            jsonObject.put("roomRenterId",roomRenter.getRoomRenterId());
             jsonArray.add(jsonObject);
         }
         return JSON.toJSONString(new JsonResult<List>(jsonArray));
+    }
+
+    @PostMapping("/renterEdit/{roomId}")
+    @ResponseBody
+    public JsonResult renterEdit(@PathVariable(name="roomId") Integer roomId, @RequestParam(name= "roomRenterId", required= false) int roomRenterId, String idCard, String phone, User user){
+        long updatTs = System.currentTimeMillis();
+        if(roomRenterId > 0){
+            RoomRenter roomRenter = roomRenterService.selectByPrimaryKey(roomRenterId);
+            User oldUser = userService.selectByPrimaryKey(roomRenter.getUserId());
+            Account account = accountService.selectByPrimaryKey(oldUser.getAccountId());
+            if(!account.getPhone().equals(phone)){
+                account.setPhone(phone);
+                account.setUpdateTs(updatTs);
+                accountService.updateByPrimaryKeySelective(account);
+            }
+        }else{
+            //创建account
+            Account account = new Account();
+            account.setPhone(phone);
+            account.setPwd(phone);
+            account.setUsername(phone);
+            account.setCreateTs(updatTs);
+            accountService.insertSelective(account);
+            //创建user
+            user.setType(UserType.renter.getValue());
+            user.setAccountId(account.getAccountId());
+            user.setCreateTs(updatTs);
+            userService.insertSelective(user);
+            //创建renter
+            Renter newRenter = new Renter(idCard);
+            newRenter.setCreateTs(updatTs);
+            newRenter.setUserId(user.getUserId());
+            renterService.insertSelective(newRenter);
+
+            RoomRenter newRoomRenter = new RoomRenter(roomId, user.getUserId(), newRenter.getRenterId());
+            newRenter.setCreateTs(updatTs);
+            roomRenterService.insertSelective(newRoomRenter);
+        }
+
+        return new JsonResult<>();
+    }
+
+    @GetMapping("/renterDelete/{roomId}/{roomRenterId}")
+    @ResponseBody
+    public JsonResult renterDelete(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomRenterId") Integer roomRenterId, @PathVariable(name="roomId") Integer roomId){
+        //检查是否是本人名下的删除
+        RoomRenter roomRenter = roomRenterService.selectByPrimaryKey(roomRenterId);
+        Room room = roomService.selectByPrimaryKey(roomId);
+        if(room.getRoomId() - roomRenter.getRoomId() != 0){
+            throw new BusinessException("请求数据不正确");
+        }
+
+        List<BuildingLandlord> list = buildingLandlordService.findListBy("landlordId", apiRequest.getUser().getUserId());
+        for(BuildingLandlord buildingLandlord : list){
+            if(buildingLandlord.getBuildingId() - room.getBuildingId() == 0){
+                roomRenterService.deleteRoomRenterById(roomRenter.getRenterId());
+                return new JsonResult();
+            }
+        }
+
+        throw new BusinessException("请求数据不正确");
     }
 
     @GetMapping("/extra/{roomId}")

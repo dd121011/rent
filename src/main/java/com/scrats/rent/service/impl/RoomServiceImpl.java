@@ -111,10 +111,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         }
 
         //创建roomRenter
-        RoomRenter roomRenter = new RoomRenter();
-        roomRenter.setRoomId(bargin.getRoomId());
-        roomRenter.setRenterId(bargin.getRenterId());
-        roomRenter.setUserId(bargin.getUserId());
+        RoomRenter roomRenter = new RoomRenter(bargin.getRoomId(), bargin.getUserId(), bargin.getRenterId());
         roomRenter.setCreateTs(bargin.getLiveTs());
         roomRenterService.insertSelective(roomRenter);
 

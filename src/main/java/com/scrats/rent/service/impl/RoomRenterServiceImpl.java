@@ -20,4 +20,9 @@ public class RoomRenterServiceImpl extends BaseServiceImpl<RoomRenter, RoomRente
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Override
+    public int deleteRoomRenterById(Integer... ids) {
+        long ts = System.currentTimeMillis();
+        return dao.deleteRoomRenterById(ts, ids);
+    }
 }

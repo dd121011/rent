@@ -1,31 +1,21 @@
-layui.use(['layer', 'form', 'laydate', 'table'], function () {
+layui.use(['layer', 'form'], function () {
     var $ = layui.jquery;
     var layer = layui.layer;
     var form = layui.form;
-    var laydate = layui.laydate;
-    var table = layui.table;
-
-    //日期
-    laydate.render({
-        elem: '#liveTs'
-    });
-    laydate.render({
-        elem: '#leaveTs'
-    });
 
     //监听提交
-    form.on('submit(rentEditFormSubmitFilter)', function(data){
+    form.on('submit(renterEditFormSubmitFilter)', function(data){
         var params = $(data.form).serializeObject();
-        params.rentFee = params.rentFee * 100;
-        params.liveTs = (new Date(params.liveTs)).getTime()/1000;
-        params.leaveTs = (new Date(params.leaveTs)).getTime()/1000;
-        params.extras = JSON.stringify(extraTableData);
-        params.depositIterms = JSON.stringify(depositItermTableData);
-        var jhxhr = $.ajax({url: requestBaseUrl + "/room/rent", data: params, headers: header, type: "POST"});
+        var jhxhr = $.ajax({url: requestBaseUrl + "/room/renterEdit/" + $('#roomId').val(), data: params, headers: header, type: "POST"});
         jhxhr.done(function (res) {
             if(res.code == 1){
+                if(params.roomRenterId){
+                    layer.alert("修改成功");
+
+                }else{
+                    layer.alert("添加成功");
+                }
                 layer.close(1);
-                location.href= requestBaseUrl + "/room/goRoomDetail/" + $('#roomId').val() + "?tokenId=" + tokenId;
             }else{
                 layer.alert(res.msg)
             }

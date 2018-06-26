@@ -42,10 +42,10 @@ layui.use(['layer', 'table', 'form'], function () {
                     return d.user.sexName;
                 }}
             , {field: 'phone', title: '手机号', templet: function(d){
-                    return d.user.name;
+                    return d.phone;
                 }}
             , {field: 'idCard', title: '身份证号', templet: function(d){
-                    return d.renter.idCard == undefined ? "" : d.renter.idCard;
+                    return d.idCard == undefined ? "" : d.idCard;
                 }}
             , {field: 'wechat', title: '微信号', templet: function(d){
                     return d.user.wechat;
@@ -53,20 +53,51 @@ layui.use(['layer', 'table', 'form'], function () {
             , {field: 'qq', title: 'QQ号', templet: function(d){
                     return d.user.qq;
                 }}
+            , {field: '', title: '操作', align: 'center', toolbar: '#renterListBar'}
         ]]
         , done: function (res, curr, count) {
         }
     });
 
+    //监听工具条
+    table.on('tool(renterRoomTableFilter)', function (obj) {
+        var data = obj.data;
+        if (obj.event === 'detail') {
+            location.href= requestBaseUrl + "/room/goRoom/" + data.buildingId + "?tokenId=" + tokenId;
+        } else if (obj.event === 'del') {
+            layer.confirm('真的删除行么', function (index) {
+                var jhxhr = $.ajax({url: requestBaseUrl + "/renterDelete/" + $('#roomId').val() + "/" + data.roomRenterId, headers: header, type: "GET"});
+                jhxhr.done(function (res) {
+                    if(res.code == 1){
+                        obj.del();
+                    }else{
+                        layer.alert(res.msg)
+                    }
+                });
+                layer.close(index);
+            });
+        } else if (obj.event === 'edit') {
+            form.val("renterEditFormFilter", {
+                "roomRenterId": data.roomRenterId
+                ,"name": data.user.name
+                ,"sex": data.user.sex
+                ,"phone": data.phone
+                ,"idCard": data.idCard
+                ,"remark": data.user.remark
+            });
+            active.renterEdit();
+        }
+    });
+
     var active = {
-        addBargin: function () {
+        rentAdd: function () {
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "添加租客"
                 , area: '500px'
                 , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
                 , id: 'layerRentEdit'  //防止重复弹出
-                , content: $('#addRenterDiv')
+                , content: $('#addRentDiv')
                 , btn: '关闭全部'
                 , btnAlign: 'c' //按钮居中
                 // , shade: 0 //不显示遮罩
@@ -155,6 +186,44 @@ layui.use(['layer', 'table', 'form'], function () {
                             console.log(depositItermTableData)
                         }
                     });
+                }
+            });
+        },
+        renterAdd: function () {
+            $("input[type!=checkbox]").val("");
+            $("select").val("");
+            $("[name='remark']").val("");
+            layer.open({
+                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                ,title: "添加租客"
+                , area: '500px'
+                , offset: 'auto' //
+                , id: 'layerRenterEdit'  //防止重复弹出
+                , content: $('#addRenterDiv')
+                , btn: '关闭全部'
+                , btnAlign: 'c' //按钮居中
+                // , shade: 0 //不显示遮罩
+                , yes: function () {
+                    layer.closeAll();
+                }
+            });
+        },
+        renterEdit: function () {
+            $("input[name='name']").attr("readonly","readonly");
+            $("input[name='sex']").attr("disabled","disabled");
+            $("input[name='idCard']").attr("readonly",true);
+            layer.open({
+                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                ,title: "修改租客"
+                , area: '500px'
+                , offset: 'auto' //
+                , id: 'layerRenterEdit'  //防止重复弹出
+                , content: $('#addRenterDiv')
+                , btn: '关闭全部'
+                , btnAlign: 'c' //按钮居中
+                // , shade: 0 //不显示遮罩
+                , yes: function () {
+                    layer.closeAll();
                 }
             });
         },

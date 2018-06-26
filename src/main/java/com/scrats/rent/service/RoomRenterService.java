@@ -13,4 +13,5 @@ import com.scrats.rent.mapper.RoomRenterMapper;
  */
 public interface RoomRenterService extends BaseService<RoomRenter, RoomRenterMapper> {
 
+    int deleteRoomRenterById(Integer... ids);
 }

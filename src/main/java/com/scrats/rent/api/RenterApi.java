@@ -7,6 +7,7 @@ import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
+import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -49,6 +51,8 @@ public class RenterApi {
     private DictionaryItermService dictionaryItermService;
     @Autowired
     private BarginExtraService barginExtraService;
+    @Autowired
+    private RoomRenterService roomRenterService;
 
     @IgnoreSecurity
     @PostMapping("/snsLogin")
@@ -87,29 +91,55 @@ public class RenterApi {
     @GetMapping("/roomList")
     public String roomList(@APIRequestControl APIRequest apiRequest){
 
-        List<Bargin> barginList = barginService.getBarginValidByRoomIdAndUserId(null,apiRequest.getUser().getUserId());
+        List<RoomRenter> rrlist = roomRenterService.findListBy("userId", apiRequest.getUser().getUserId());
+        HashSet<Integer> roomIdSet = new HashSet<>();
+        for(RoomRenter rr :  rrlist){
+            roomIdSet.add(rr.getRoomId());
+        }
         List<Room> list = new ArrayList<Room>();
-        for(Bargin bargin : barginList){
-            Room room = roomService.detail(bargin.getRoomId());
+        for(Integer id : roomIdSet){
+            Room room = roomService.detail(id);
             list.add(room);
         }
+
         return JSON.toJSONString(new JsonResult<List>(list));
     }
 
     @GetMapping(value={"/bargin/{roomId}"})
     public String bargin(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
+        List<Bargin> list = barginService.getBarginValidByRoomIdAndUserId(roomId, null);
+        Bargin bargin = list.get(0);
+        List<RoomRenter> rrlist = roomRenterService.findListBy("userId", apiRequest.getUser().getUserId());
+        for(RoomRenter rr :  rrlist){
+            if(rr.getRoomId() - bargin.getRoomId() == 0 ){
+                Building building = buildingService.selectByPrimaryKey(bargin.getBuildingId());
+                List<DictionaryIterm> facilities = new ArrayList<DictionaryIterm>();
+                if(StringUtils.isNotEmpty(bargin.getFacilities())){
+                    facilities = dictionaryItermService.selectByIds(bargin.getFacilities());
+                }
+                List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBuildingId());
+                JSONObject result = new JSONObject();
+                result.put("bargin",bargin);
+                result.put("building",building);
+                result.put("facilities",facilities);
+                result.put("extras",extras == null ? new ArrayList<>() : extras);
+                return JSON.toJSONString(new JsonResult<JSONObject>(result));
+            }
+        }
+
+        throw new BusinessException("数据有误");
+
+    }
+
+    @GetMapping(value={"/deposit/{roomId}"})
+    public String deposit(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
         List<Bargin> list = barginService.getBarginValidByRoomIdAndUserId(roomId, apiRequest.getUser().getUserId());
         Bargin bargin = list.get(0);
         Building building = buildingService.selectByPrimaryKey(bargin.getBuildingId());
-        List<DictionaryIterm> facilities = null;
-        if(StringUtils.isNotEmpty(bargin.getFacilities())){
-            facilities = dictionaryItermService.selectByIds(bargin.getFacilities());
-        }
         List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBuildingId());
         JSONObject result = new JSONObject();
         result.put("bargin",bargin);
         result.put("building",building);
-        result.put("facilities",facilities);
         result.put("extras",extras);
         return JSON.toJSONString(new JsonResult<JSONObject>(result));
 

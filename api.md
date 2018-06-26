@@ -306,7 +306,7 @@ Get
 | --- | --- | --- | --- |
 | tokenId | String | 必填 | 登录获取的tokenId |
 | userId | Integer | 必填 | userId放在header中 |
-| roomId | Integer | 非必填 | roomId |
+| roomId | Integer | 必填 | roomId |
 
 RETURN
 

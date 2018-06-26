@@ -1,16 +1,14 @@
 package com.scrats.rent.api;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.constant.GlobalConst;
-import com.scrats.rent.entity.Bargin;
-import com.scrats.rent.entity.Room;
-import com.scrats.rent.entity.User;
-import com.scrats.rent.entity.WxSns;
+import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -45,6 +43,8 @@ public class RenterApi {
     private WxSnsService wxSnsService;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private BuildingService buildingService;
 
     @IgnoreSecurity
     @PostMapping("/snsLogin")
@@ -92,10 +92,14 @@ public class RenterApi {
         return JSON.toJSONString(new JsonResult<List>(list));
     }
 
-    @GetMapping(value={"/bargin/{roomId}", "/bargin"})
-    public String bargin(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId",required = false) Integer roomId){
+    @GetMapping(value={"/bargin/{roomId}"})
+    public String bargin(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
         List<Bargin> list = barginService.getBarginValidByRoomIdAndUserId(roomId, apiRequest.getUser().getUserId());
-        return JSON.toJSONString(new JsonResult<List>(list));
+        Building building = buildingService.selectByPrimaryKey(list.get(0).getBuildingId());
+        JSONObject result = new JSONObject();
+        result.put("bargin",list.get(0));
+        result.put("building",building);
+        return JSON.toJSONString(new JsonResult<JSONObject>(result));
 
     }
 

@@ -272,7 +272,7 @@ public class RoomController {
         Room room = roomService.selectByPrimaryKey(roomId);
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("name","租金");
+        jsonObject.put("value","租金");
         jsonObject.put("unit","月");
         jsonObject.put("price",room.getRentFee());
         jsonObject.put("number",room.getGuaranty());

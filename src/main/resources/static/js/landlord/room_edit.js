@@ -11,6 +11,12 @@ layui.use(['layer', 'form'], function () {
         var jhxhr = $.ajax({url: requestBaseUrl + "/room/edit", data: params, headers: header, type: "POST"});
         jhxhr.done(function (res) {
             if(res.code == 1){
+                if(params.roomId){
+                    layer.alert("修改成功");
+
+                }else{
+                    layer.alert("添加成功");
+                }
                 layer.close(1);
                 var buildingId = $("select[name=buildingId]").val();
                 location.href= requestBaseUrl + "/room/goRoom/" + buildingId + "?tokenId=" + tokenId;

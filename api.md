@@ -310,6 +310,20 @@ Get
 
 RETURN
 
+### 获取某一个房间的押金
+
+> /api/renter/deposit/{roomId}
+
+Get
+
+| 参数 | 类型 | 是否必填 | 描述 |
+| --- | --- | --- | --- |
+| tokenId | String | 必填 | 登录获取的tokenId |
+| userId | Integer | 必填 | userId放在header中 |
+| roomId | Integer | 必填 | roomId |
+
+RETURN
+
 上传身份信息
 查押金单
 查看水电、缴费记录

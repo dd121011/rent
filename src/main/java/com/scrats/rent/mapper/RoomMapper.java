@@ -34,4 +34,10 @@ public interface RoomMapper extends BaseMapper<Room> {
 
     @Update("<script>update room t set t.delete_ts = #{deleteTs} where 1=1 and t.room_id in <foreach item='item' index='index' collection='ids' open='(' separator=',' close=')'> #{item} </foreach></script>")
     int deleteRoomByIds(@Param("deleteTs")long deleteTs, @Param("ids") Integer... ids);
+
+    @Select("<script>select r.* from room r " +
+            "where 1=1 " +
+            "<if test='roomNo != null and roomNo != \"\"'>and r.room_no = #{roomNo}</if> " +
+            "<if test='roomNo != null and roomNo != \"\"'>and t.room_no = #{roomNo}</if><script>")
+    List<Room> getRoomByRoomNoAndBuildingId(@Param("roomNo") String roomNo, @Param("buildingId") Integer buildingId);
 }

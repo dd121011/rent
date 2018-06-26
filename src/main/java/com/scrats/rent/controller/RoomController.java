@@ -106,6 +106,10 @@ public class RoomController {
             room.setUpdateTs(System.currentTimeMillis());
             roomService.updateByPrimaryKeySelective(room);
         }else{
+            List<Room> rlist = roomService.getRoomByRoomNoAndBuildingId(room.getRoomNo(),room.getBuildingId());
+            if(null != rlist && rlist.size() > 1){
+                return new JsonResult<>("创建失败,该房间号已存在");
+            }
             room.setCreateTs(System.currentTimeMillis());
             roomService.insertSelective(room);
         }

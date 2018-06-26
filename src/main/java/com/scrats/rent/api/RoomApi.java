@@ -7,7 +7,6 @@ import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
-import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
 import org.apache.commons.lang3.StringUtils;
@@ -67,6 +66,10 @@ public class RoomApi {
             room.setUpdateTs(System.currentTimeMillis());
             roomService.updateByPrimaryKeySelective(room);
         }else{
+            List<Room> rlist = roomService.getRoomByRoomNoAndBuildingId(room.getRoomNo(),room.getBuildingId());
+            if(null != rlist && rlist.size() > 1){
+                return JSON.toJSONString(new JsonResult<>("创建失败,该房间号已存在"));
+            }
             room.setCreateTs(System.currentTimeMillis());
             roomService.insertSelective(room);
         }
@@ -101,7 +104,6 @@ public class RoomApi {
     }
 
     @GetMapping("/detail/{roomId}")
-    @IgnoreSecurity
     public String detail(@PathVariable(name="roomId") Integer roomId) {
         //获取所有房子select数据
         Room room = roomService.detail(roomId);

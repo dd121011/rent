@@ -29,4 +29,6 @@ public interface RoomService extends BaseService<Room, RoomMapper> {
     boolean rent(Bargin bargin, List<DictionaryIterm> extras, List<DepositIterm> depositIterms);
 
     Room detail(Integer roomId);
+
+    List<Room> getRoomByRoomNoAndBuildingId(String roomNo, Integer buildingId);
 }

@@ -159,4 +159,9 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
 
         return room;
     }
+
+    @Override
+    public List<Room> getRoomByRoomNoAndBuildingId(String roomNo, Integer buildingId) {
+        return dao.getRoomByRoomNoAndBuildingId(roomNo, buildingId);
+    }
 }

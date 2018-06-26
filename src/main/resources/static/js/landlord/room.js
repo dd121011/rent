@@ -199,6 +199,7 @@ layui.use(['layer', 'table', 'form'], function () {
             });
         },
         edit: function () {
+            $("input[name='roomNo']").attr("readonly","readonly");
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "编辑房间"

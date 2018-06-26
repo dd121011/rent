@@ -4,11 +4,11 @@ import com.github.pagehelper.PageHelper;
 import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.PageInfo;
-import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.constant.UserType;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.mapper.RoomMapper;
 import com.scrats.rent.service.*;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,9 +147,15 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         //获取装修情况name
         DictionaryIterm decoration = dictionaryItermService.selectByPrimaryKey(room.getDecoration());
         //获取所有配套设施
-        List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(room.getFacilities());
+        List<DictionaryIterm> facilities = null;
+        if(StringUtils.isNotEmpty(room.getFacilities())){
+            facilities = dictionaryItermService.selectByIds(room.getFacilities());
+        }
         //获取所有额外收费项
-        List<DictionaryIterm> extras = dictionaryItermService.findListBy("dicCode", GlobalConst.EXTRA_CODE);
+        List<DictionaryIterm> extras = null;
+        if(StringUtils.isNotEmpty(room.getExtraFee())){
+            extras = dictionaryItermService.selectByIds(room.getExtraFee());
+        }
 
         room.setBuilding(building);
         room.setOrientationName(orientation.getValue());

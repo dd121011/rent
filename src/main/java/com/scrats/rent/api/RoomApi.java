@@ -142,7 +142,10 @@ public class RoomApi {
     @GetMapping(value={"/extras/{roomId}"})
     public String extras(@PathVariable(name="roomId") Integer roomId){
         Room room = roomService.selectByPrimaryKey(roomId);
-        List<DictionaryIterm> extras = dictionaryItermService.selectByIds(room.getExtraFee());
+        List<DictionaryIterm> extras = null;
+        if(StringUtils.isNotEmpty(room.getExtraFee())){
+            extras = dictionaryItermService.selectByIds(room.getExtraFee());
+        }
         return JSON.toJSONString(new JsonResult<List>(extras));
 
     }
@@ -150,7 +153,10 @@ public class RoomApi {
     @GetMapping(value={"/facilities/{roomId}"})
     public String facilities(@PathVariable(name="roomId") Integer roomId){
         Room room = roomService.selectByPrimaryKey(roomId);
-        List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(room.getFacilities());
+        List<DictionaryIterm> facilities = null;
+        if(StringUtils.isNotEmpty(room.getFacilities())){
+            facilities = dictionaryItermService.selectByIds(room.getFacilities());
+        }
         return JSON.toJSONString(new JsonResult<List>(facilities));
 
     }

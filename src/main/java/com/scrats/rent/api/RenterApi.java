@@ -97,11 +97,16 @@ public class RenterApi {
     }
 
     @GetMapping(value={"/bargin/{roomId}"})
-    public String bargin(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
-        List<Bargin> list = barginService.getBarginValidByRoomIdAndUserId(roomId, apiRequest.getUser().getUserId());
+    @IgnoreSecurity
+    public String bargin(@PathVariable(name="roomId") Integer roomId){
+//        List<Bargin> list = barginService.getBarginValidByRoomIdAndUserId(roomId, apiRequest.getUser().getUserId());
+        List<Bargin> list = barginService.getBarginValidByRoomIdAndUserId(roomId, 9);
         Bargin bargin = list.get(0);
         Building building = buildingService.selectByPrimaryKey(bargin.getBuildingId());
-        List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(bargin.getFacilities());
+        List<DictionaryIterm> facilities = null;
+        if(StringUtils.isNotEmpty(bargin.getFacilities())){
+            facilities = dictionaryItermService.selectByIds(bargin.getFacilities());
+        }
         List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBuildingId());
         JSONObject result = new JSONObject();
         result.put("bargin",bargin);

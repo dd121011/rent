@@ -4,6 +4,8 @@ import com.scrats.rent.base.service.BaseService;
 import com.scrats.rent.entity.Deposit;
 import com.scrats.rent.mapper.DepositMapper;
 
+import java.util.List;
+
 /**
  * Created with scrat.
  * Description: ${DESCRIPTION}.
@@ -13,4 +15,7 @@ import com.scrats.rent.mapper.DepositMapper;
  */
 public interface DepositService extends BaseService<Deposit, DepositMapper> {
 
+    List<Deposit> getDepositValidByRoomIdAndUserId(Integer roomId, Integer userId);
+
+    List<Deposit> getDepositInvalidByRoomIdAndUserId(Integer roomId, Integer userId);
 }

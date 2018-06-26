@@ -24,6 +24,7 @@ public class BarginServiceImpl extends BaseServiceImpl<Bargin, BarginMapper> imp
 
     @Override
     public List<Bargin> getBarginValidByRoomIdAndUserId(Integer roomId, Integer userId) {
+
         return dao.getBarginValidByRoomIdAndUserId(roomId, userId);
     }
 

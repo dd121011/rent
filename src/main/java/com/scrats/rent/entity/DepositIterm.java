@@ -21,7 +21,7 @@ public class DepositIterm extends BaseEntity {
     private Integer depositItermId;//
     private Integer depositId;//主键
     private Integer roomId;//房间Id
-    private String name;//押金项目名称
+    private String value;//押金项目名称
     private Integer price;//押金项目单价[分]
     private String unit;//押金项目单位
     private Integer number;//押金项目数量

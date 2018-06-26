@@ -53,6 +53,10 @@ public class RenterApi {
     private BarginExtraService barginExtraService;
     @Autowired
     private RoomRenterService roomRenterService;
+    @Autowired
+    private DepositService depositService;
+    @Autowired
+    private DepositItermService depositItermService;
 
     @IgnoreSecurity
     @PostMapping("/snsLogin")
@@ -117,7 +121,7 @@ public class RenterApi {
                 if(StringUtils.isNotEmpty(bargin.getFacilities())){
                     facilities = dictionaryItermService.selectByIds(bargin.getFacilities());
                 }
-                List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBuildingId());
+                List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBarginId());
                 JSONObject result = new JSONObject();
                 result.put("bargin",bargin);
                 result.put("building",building);
@@ -133,15 +137,22 @@ public class RenterApi {
 
     @GetMapping(value={"/deposit/{roomId}"})
     public String deposit(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
-        List<Bargin> list = barginService.getBarginValidByRoomIdAndUserId(roomId, apiRequest.getUser().getUserId());
-        Bargin bargin = list.get(0);
-        Building building = buildingService.selectByPrimaryKey(bargin.getBuildingId());
-        List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBuildingId());
-        JSONObject result = new JSONObject();
-        result.put("bargin",bargin);
-        result.put("building",building);
-        result.put("extras",extras);
-        return JSON.toJSONString(new JsonResult<JSONObject>(result));
+        List<Deposit> list = depositService.getDepositValidByRoomIdAndUserId(roomId, null);
+        Deposit deposit = list.get(0);
+        List<RoomRenter> rrlist = roomRenterService.findListBy("userId", apiRequest.getUser().getUserId());
+        for(RoomRenter rr :  rrlist){
+            if(rr.getRoomId() - deposit.getRoomId() == 0 ){
+                Building building = buildingService.selectByPrimaryKey(deposit.getBuildingId());
+                List<DepositIterm> depositIterms = depositItermService.findListBy("depositId", deposit.getDepositId());
+                JSONObject result = new JSONObject();
+                result.put("deposit",deposit);
+                result.put("building",building);
+                result.put("depositIterms",depositIterms == null ? new ArrayList<>() : depositIterms);
+                return JSON.toJSONString(new JsonResult<JSONObject>(result));
+            }
+        }
+
+        throw new BusinessException("数据有误");
 
     }
 

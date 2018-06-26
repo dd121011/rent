@@ -246,6 +246,8 @@ CREATE TABLE `room_renter` (
     `user_id` int(10) unsigned NOT NULL COMMENT '租客的user_id',
     `renter_id` int(10) unsigned NOT NULL COMMENT '租客的renter_id',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
+    `live_ts` bigint unsigned NOT NULL COMMENT '入住时间，13位时间戳',
+    `leave_ts` bigint unsigned NOT NULL COMMENT '退租时间，13位时间戳',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
     `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
@@ -403,7 +405,7 @@ CREATE TABLE `rent_iterm` (
 DROP TABLE IF EXISTS `water_history`;
 CREATE TABLE `water_history` (
     `water_history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `room_id` varchar(10) NOT NULL COMMENT '房间Id',
+    `room_id` int(10) NOT NULL COMMENT '房间Id',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `count` int(10) unsigned NOT NULL COMMENT '水表读数, 单位KG',
     `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
@@ -420,7 +422,7 @@ CREATE TABLE `water_history` (
 DROP TABLE IF EXISTS `electric_history`;
 CREATE TABLE `electric_history` (
     `electric_history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `room_id` varchar(10) NOT NULL COMMENT '房间Id',
+    `room_id` int(10) NOT NULL COMMENT '房间Id',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `count` int(10) unsigned NOT NULL COMMENT '电表读数, 单位Kwh',
     `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
@@ -437,7 +439,7 @@ CREATE TABLE `electric_history` (
 DROP TABLE IF EXISTS `electric_three_history`;
 CREATE TABLE `electric_three_history` (
     `electric_three_history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `room_id` varchar(10) NOT NULL COMMENT '房间Id',
+    `room_id` int(10) NOT NULL COMMENT '房间Id',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `count` int(10) unsigned NOT NULL COMMENT '三相电表读数, 单位Kwh',
     `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
@@ -454,7 +456,7 @@ CREATE TABLE `electric_three_history` (
 DROP TABLE IF EXISTS `gas_history`;
 CREATE TABLE `gas_history` (
     `gas_history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `room_id` varchar(10) NOT NULL COMMENT '房间Id',
+    `room_id` int(10) NOT NULL COMMENT '房间Id',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `count` int(10) unsigned NOT NULL COMMENT '天然气读数, 单位m2',
     `month` char(6) NOT NULL COMMENT '统计月, eg 201805',

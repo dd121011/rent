@@ -26,6 +26,16 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">收租日</label>
+            <div class="layui-input-inline">
+                <select name="sex" lay-filter="rentDay">
+                    <#list 1..31 as t>
+                            <option value="${t}">${t}</option>
+                    </#list>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">押付方式</label>
                 <div class="layui-form-mid">押</div>

@@ -246,11 +246,9 @@ CREATE TABLE `room_renter` (
     `user_id` int(10) unsigned NOT NULL COMMENT '租客的user_id',
     `renter_id` int(10) unsigned NOT NULL COMMENT '租客的renter_id',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
-    `live_ts` bigint unsigned NOT NULL COMMENT '入住时间，13位时间戳',
-    `leave_ts` bigint unsigned NOT NULL COMMENT '退租时间，13位时间戳',
-    `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
+    `create_ts` bigint unsigned NOT NULL COMMENT '创建时间/入住时间，13位时间戳',
     `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
+    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间/离开时间, 13位时间戳',
     PRIMARY KEY (room_renter_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

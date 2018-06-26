@@ -64,8 +64,8 @@
         <blockquote class="layui-elem-quote">
             租客列表&nbsp;&nbsp;&nbsp;&nbsp;
             <div class="layui-inline" id="layerRenter">
-                <a data-method="addBargin" data-type="add" class="layui-btn layui-btn-normal">办理入住</a>
-                <a data-method="addRenter" data-type="add" class="layui-btn layui-btn-normal">添加租客</a>
+                <a data-method="rentAdd" data-type="add" class="layui-btn layui-btn-normal">办理入住</a>
+                <a data-method="renterAdd" data-type="add" class="layui-btn layui-btn-normal">添加租客</a>
                 <a data-method="qrcodeRenter" data-type="qrcode" class="layui-btn layui-btn-normal">二维码绑定</a>
             </div>
         </blockquote>
@@ -73,9 +73,14 @@
     </div>
 
 <#include "landlord/footer.ftl"/>
+<script type="text/html" id="renterListBar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 <script src="${base}/static/js/extends/qrcode.min.js" charset="utf-8"></script>
 <script src="${base}/static/js/landlord/room_detail.js" charset="utf-8"></script>
 
+<#include "landlord/room_rent.ftl"/>
 <#include "landlord/room_renter.ftl"/>
 
 </html>

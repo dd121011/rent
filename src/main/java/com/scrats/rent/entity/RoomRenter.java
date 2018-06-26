@@ -23,5 +23,6 @@ public class RoomRenter extends BaseEntity {
     @KeySql(dialect = IdentityDialect.MYSQL)
     private Integer roomRenterId;//主键
     private Integer roomId;//房间Id
-    private Integer renterId;//租客Id
+    private Integer userId;//租客的userId
+    private Integer renterId;//租客的renterId
 }

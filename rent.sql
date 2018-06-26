@@ -243,12 +243,12 @@ DROP TABLE IF EXISTS `room_renter`;
 CREATE TABLE `room_renter` (
     room_renter_id int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_id` int(10) unsigned NOT NULL COMMENT '房间Id',
-    `renter_id` int(10) unsigned NOT NULL COMMENT '租客Id',
+    `user_id` int(10) unsigned NOT NULL COMMENT '租客的user_id',
+    `renter_id` int(10) unsigned NOT NULL COMMENT '租客的renter_id',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
     `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    UNIQUE KEY (`room_id`,`renter_id`),
     PRIMARY KEY (room_renter_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -277,8 +277,9 @@ CREATE TABLE `bargin` (
     `facilities` varchar(256) DEFAULT '' COMMENT '配套设施id字符串[,隔开]',
     `room_id` int(10) unsigned NOT NULL COMMENT '房间id,一个合同对应一个房间，一个房间对应多个合同',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
-    `renter_id` int(10) unsigned NOT NULL COMMENT '一个合同对应一个租客',
-    `landlord_id` int(10) unsigned NOT NULL COMMENT '一个合同对应一个房东',
+    `user_id` int(10) unsigned NOT NULL COMMENT '一个合同对应一个租客,租客的user_id',
+    `renter_id` int(10) unsigned NOT NULL COMMENT '一个合同对应一个租客,租客的renter_id',
+    `landlord_id` int(10) unsigned NOT NULL COMMENT '一个合同对应一个房东,房东的user_id',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `live_ts` bigint unsigned NOT NULL COMMENT '入住时间，13位时间戳',
     `leave_ts` bigint unsigned NOT NULL COMMENT '退租时间，13位时间戳',
@@ -321,7 +322,8 @@ CREATE TABLE `deposit` (
     `pay_no` varchar(256) DEFAULT '' COMMENT '支付订单号',
     `channel` char(2) DEFAULT '99' COMMENT '支付渠道，99-未支付; 0-线下支付; 1-微信支付; 2-支付宝支付',
     `room_id` int(10) unsigned NOT NULL COMMENT '房间id,一个押金对应一个roomId,一个roomId可能对应多个押金Id',
-    `renter_id` int(10) unsigned NOT NULL COMMENT '一个押金对应一个租客',
+    `user_id` int(10) unsigned NOT NULL COMMENT '一个押金对应一个租客,租客的user_id',
+    `renter_id` int(10) unsigned NOT NULL COMMENT '一个押金对应一个租客,租客的renter_id',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',

@@ -39,6 +39,8 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     private BuildingService buildingService;
     @Autowired
     private DictionaryItermService dictionaryItermService;
+    @Autowired
+    private RoomRenterService roomRenterService;
 
     @Override
     public PageInfo<Room> getRoomList(APIRequest apiRequest, Room room) {
@@ -80,32 +82,42 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         //TODO 填充renterId
         Renter renter = renterService.findBy("idCard", bargin.getIdCard());
         if(null == renter){
+            //创建account
             Account account = new Account();
             account.setPhone(bargin.getPhone());
             account.setPwd(bargin.getPhone());
             account.setUsername(bargin.getPhone());
             account.setCreateTs(createTs);
             accountService.insertSelective(account);
-
+            //创建user
             User user = new User(UserType.renter.getValue());
             user.setAccountId(account.getAccountId());
             user.setName(bargin.getName());
             user.setSex(bargin.getSex());
             user.setCreateTs(createTs);
             userService.insertSelective(user);
-
+            //创建renter
             Renter newRenter = new Renter(bargin.getIdCard());
             newRenter.setCreateTs(createTs);
             newRenter.setUserId(user.getUserId());
             renterService.insertSelective(newRenter);
 
             //补齐renterId字段
-            bargin.setRenterId(user.getUserId());
-
-
+            bargin.setUserId(user.getUserId());
+            bargin.setRenterId(newRenter.getRenterId());
         }else{
+            bargin.setUserId(renter.getUserId());
             bargin.setRenterId(renter.getRenterId());
         }
+
+        //创建roomRenter
+        RoomRenter roomRenter = new RoomRenter();
+        roomRenter.setRoomId(bargin.getRoomId());
+        roomRenter.setRenterId(bargin.getRenterId());
+        roomRenter.setUserId(bargin.getUserId());
+        roomRenter.setCreateTs(bargin.getLiveTs());
+        roomRenterService.insertSelective(roomRenter);
+
 
         //TODO 保存合同额外收费项，便于以后计算每月房租，另外还要获取水、电、三相电、天然气的初始读数
         for (DictionaryIterm extra: extras) {

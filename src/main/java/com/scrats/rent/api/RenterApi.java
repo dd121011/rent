@@ -45,6 +45,10 @@ public class RenterApi {
     private RedisService redisService;
     @Autowired
     private BuildingService buildingService;
+    @Autowired
+    private DictionaryItermService dictionaryItermService;
+    @Autowired
+    private BarginExtraService barginExtraService;
 
     @IgnoreSecurity
     @PostMapping("/snsLogin")
@@ -95,10 +99,15 @@ public class RenterApi {
     @GetMapping(value={"/bargin/{roomId}"})
     public String bargin(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
         List<Bargin> list = barginService.getBarginValidByRoomIdAndUserId(roomId, apiRequest.getUser().getUserId());
-        Building building = buildingService.selectByPrimaryKey(list.get(0).getBuildingId());
+        Bargin bargin = list.get(0);
+        Building building = buildingService.selectByPrimaryKey(bargin.getBuildingId());
+        List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(bargin.getFacilities());
+        List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBuildingId());
         JSONObject result = new JSONObject();
-        result.put("bargin",list.get(0));
+        result.put("bargin",bargin);
         result.put("building",building);
+        result.put("facilities",facilities);
+        result.put("extras",extras);
         return JSON.toJSONString(new JsonResult<JSONObject>(result));
 
     }
@@ -107,6 +116,7 @@ public class RenterApi {
     public String unpay(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
         return null;
     }
+
 
 
 }

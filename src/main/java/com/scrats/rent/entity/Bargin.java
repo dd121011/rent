@@ -47,4 +47,6 @@ public class Bargin extends BaseEntity {
     private Long liveTs;//入住时间，13位时间戳
     private Long leaveTs;//退租时间，13位时间戳
 
+    private Integer rentDay;//交租日
+
 }

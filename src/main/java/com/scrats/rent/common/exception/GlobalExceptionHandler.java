@@ -62,21 +62,30 @@ public class GlobalExceptionHandler implements ApplicationContextAware {
         String contentTypeHeader = req.getHeader("Content-Type");
         String acceptHeader = req.getHeader("Accept");
         String xRequestedWith = req.getHeader("X-Requested-With");
-        if ((contentTypeHeader != null && contentTypeHeader.contains("application/json"))
-                || (acceptHeader != null && acceptHeader.contains("application/json"))
-                || "XMLHttpRequest".equalsIgnoreCase(xRequestedWith)) {
+
+        if("XMLHttpRequest".equalsIgnoreCase(xRequestedWith)){
             HttpStatus httpStatus = HttpStatus.OK;
             if (response.getCode() == ErrorInfo.STATUS_CODE_SYSTEM_ERROR) {
                 httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             }
             return new ResponseEntity<>(response, httpStatus);
-        } else {
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject("msg", response.getMessage());
-            modelAndView.addObject("url", req.getRequestURL());
-            modelAndView.addObject("code", response.getCode());
-            modelAndView.setViewName("/error");
-            return modelAndView;
         }
+        if(contentTypeHeader != null && (contentTypeHeader.contains("application/json") || contentTypeHeader.contains("application/x-www-form-urlencoded"))){
+            if(acceptHeader != null){
+                HttpStatus httpStatus = HttpStatus.OK;
+                if (response.getCode() == ErrorInfo.STATUS_CODE_SYSTEM_ERROR) {
+                    httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+                }
+                return new ResponseEntity<>(response, httpStatus);
+            }
+
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("msg", response.getMessage());
+        modelAndView.addObject("url", req.getRequestURL());
+        modelAndView.addObject("code", response.getCode());
+        modelAndView.setViewName("/error");
+        return modelAndView;
     }
 }

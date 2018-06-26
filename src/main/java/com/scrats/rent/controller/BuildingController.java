@@ -89,6 +89,10 @@ public class BuildingController {
             building.setUpdateTs(System.currentTimeMillis());
             buildingService.updateByPrimaryKeySelective(building);
         }else{
+            Building b = buildingService.findBy("name",building.getName());
+            if(null != b){
+                return new JsonResult<>("创建失败,该房源已存在");
+            }
             building.setCreateTs(System.currentTimeMillis());
             buildingService.insertSelective(building);
             BuildingLandlord buildingLandlord = new BuildingLandlord(apiRequest.getUser().getUserId(), building.getBuildingId());

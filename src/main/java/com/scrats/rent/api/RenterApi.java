@@ -69,7 +69,7 @@ public class RenterApi {
 
         List<Bargin> barginList = barginService.getBarginValidByRoomIdAndUserId(roomId,null);
         if(null == barginList || barginList.size()>1){
-            return JSON.toJSONString(new JsonResult("roomId有误"));
+            return JSON.toJSONString(new JsonResult("该房间还未出租,无法绑定"));
         }
         User user = userService.selectByPrimaryKey(barginList.get(0).getRenterId());
         WxSns wxSns = wxSnsService.selectByPrimaryKey(openid);

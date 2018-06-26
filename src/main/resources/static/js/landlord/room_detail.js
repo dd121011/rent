@@ -6,6 +6,16 @@ layui.use(['layer', 'table', 'form'], function () {
     var table = layui.table;
     var form = layui.form;
 
+    //生成房间二维码
+    var qrcode = new QRCode('qrcode', {
+        text: 'https://scrats.cn/rent/qr?method=bindUser&data=' + $('#roomId').val(),
+        width: 256,
+        height: 256,
+        colorDark : '#000000',
+        colorLight : '#ffffff',
+        correctLevel : QRCode.CorrectLevel.H
+    });
+
     //租客Table
     table.render({
         elem: '#lay_table_room_renter'//指定原始表格元素选择器（
@@ -149,17 +159,6 @@ layui.use(['layer', 'table', 'form'], function () {
             });
         },
         qrcodeRenter: function () {
-            // new QRCode(document.getElementById("qrcode"), "https://scrats.cn/rent/qr?method=bindUser&data=" + $('#roomId').val());
-            // 设置参数方式
-            var qrcode = new QRCode('qrcode', {
-                text: 'https://scrats.cn/rent/qr?method=bindUser&data=' + $('#roomId').val(),
-                width: 256,
-                height: 256,
-                colorDark : '#000000',
-                colorLight : '#ffffff',
-                correctLevel : QRCode.CorrectLevel.H
-            });
-            console.log(123);
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "房间二维码"

@@ -1,6 +1,5 @@
 package com.scrats.rent.api;
 
-import com.alibaba.fastjson.JSON;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
@@ -40,14 +39,14 @@ public class BuildingApi {
     private DictionaryItermService dictionaryItermService;
 
     @PostMapping("/list")
-    public String list(@APIRequestControl APIRequest apiRequest, Building building) {
+    public JsonResult list(@APIRequestControl APIRequest apiRequest, Building building) {
         PageInfo<Building> pageInfo = buildingService.getBuildingListWithUserId(apiRequest, building, apiRequest.getUser().getUserId(), true);
 
-        return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
+        return new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal());
     }
 
     @PostMapping("/edit")
-    public String edit(@APIRequestControl APIRequest apiRequest, Building building, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds) {
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Building building, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds) {
         String facilityId = StringUtils.join(facilityIds, ",");
         String extraId = StringUtils.join(extraIds, ",");
         building.setFacilities(facilityId);
@@ -59,7 +58,7 @@ public class BuildingApi {
         }else{
             Building b = buildingService.findBy("name",building.getName());
             if(null != b){
-                return JSON.toJSONString(new JsonResult<>("创建失败,该房源已存在"));
+                return new JsonResult<>("创建失败,该房源已存在");
             }
             building.setCreateTs(System.currentTimeMillis());
             buildingService.insertSelective(building);
@@ -68,11 +67,11 @@ public class BuildingApi {
             buildingLandlordService.insertSelective(buildingLandlord);
         }
 
-        return JSON.toJSONString(new JsonResult<>());
+        return new JsonResult<>();
     }
 
     @PostMapping("/delete")
-    public String delete(@APIRequestControl APIRequest apiRequest, Integer... ids){
+    public JsonResult delete(@APIRequestControl APIRequest apiRequest, Integer... ids){
         //校验是否是本人名下的删除
         List<BuildingLandlord> list = buildingLandlordService.findListBy("landlordId", apiRequest.getUser().getUserId());
         for(int id : ids){
@@ -84,7 +83,7 @@ public class BuildingApi {
                 }
             }
             if(flag){
-                return JSON.toJSONString(new JsonResult<>("删除失败"));
+                return new JsonResult<>("删除失败");
             }
         }
 
@@ -92,19 +91,19 @@ public class BuildingApi {
         buildingLandlordService.deleteBuildingByLandloordIds(ids);
         buildingService.deleteBuildingByIds(ids);
 
-        return JSON.toJSONString(new JsonResult<>());
+        return new JsonResult<>();
     }
 
     @PostMapping("/buildingAll")
-    public String buildingAll(@APIRequestControl APIRequest apiRequest) {
+    public JsonResult buildingAll(@APIRequestControl APIRequest apiRequest) {
         //获取所有房子select数据
         PageInfo<Building> pageInfo = buildingService.getBuildingListWithUserId(null, null, apiRequest.getUser().getUserId(), false);
-        return JSON.toJSONString(new JsonResult<List>(pageInfo.getList()));
+        return new JsonResult<List>(pageInfo.getList());
     }
 
     @GetMapping("/detail/{buildingId}")
     @IgnoreSecurity
-    public String detail(@PathVariable(name="buildingId") Integer buildingId) {
+    public JsonResult detail(@PathVariable(name="buildingId") Integer buildingId) {
         //获取所有房子select数据
         Building building = buildingService.selectByPrimaryKey(buildingId);
         //获取所有配套设施
@@ -115,6 +114,6 @@ public class BuildingApi {
         building.setFacilitiesIterm(facilities);
         building.setExtraFeeIterm(extras);
 
-        return JSON.toJSONString(new JsonResult<Building>(building));
+        return new JsonResult<Building>(building);
     }
 }

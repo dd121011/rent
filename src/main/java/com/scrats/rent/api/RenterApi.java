@@ -1,6 +1,5 @@
 package com.scrats.rent.api;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.APIRequest;
@@ -60,28 +59,28 @@ public class RenterApi {
 
     @IgnoreSecurity
     @PostMapping("/snsLogin")
-    public String snsLogin(String code, String signature, String rawData){
+    public JsonResult snsLogin(String code, String signature, String rawData){
         if(StringUtils.isEmpty(code)){
-            return JSON.toJSONString(new JsonResult("获取的微信code为空"));
+            return new JsonResult("获取的微信code为空");
         }
-        return JSON.toJSONString(renterService.snsLogin(code, signature, rawData));
+        return renterService.snsLogin(code, signature, rawData);
     }
 
     @IgnoreSecurity
     @PostMapping("/bindUser")
-    public String bindUser(String tokenId, String openid, Integer roomId){
+    public JsonResult bindUser(String tokenId, String openid, Integer roomId){
 
         String checkTokeId = (String) redisService.get(openid);
         if(StringUtils.isEmpty(checkTokeId)){
-            return JSON.toJSONString(new JsonResult("请求的openid有误"));
+            return new JsonResult("请求的openid有误");
         }
         if(!checkTokeId.equals(tokenId)){
-            return JSON.toJSONString(new JsonResult("请求的tokenId有误"));
+            return new JsonResult("请求的tokenId有误");
         }
 
         List<Bargin> barginList = barginService.getBarginValidByRoomIdAndUserId(roomId,null);
         if(null == barginList || barginList.size()>1){
-            return JSON.toJSONString(new JsonResult("该房间还未出租,无法绑定"));
+            return new JsonResult("该房间还未出租,无法绑定");
         }
         User user = userService.selectByPrimaryKey(barginList.get(0).getUserId());
         WxSns wxSns = wxSnsService.selectByPrimaryKey(openid);
@@ -89,11 +88,11 @@ public class RenterApi {
         wxSns.setUpdateTs(System.currentTimeMillis());
         wxSnsService.updateByPrimaryKeySelective(wxSns);
         redisService.set(tokenId,user, GlobalConst.ACCESS_TOKEN_EXPIRE);
-        return JSON.toJSONString(new JsonResult<User>(user));
+        return new JsonResult<User>(user);
     }
 
     @GetMapping("/roomList")
-    public String roomList(@APIRequestControl APIRequest apiRequest){
+    public JsonResult roomList(@APIRequestControl APIRequest apiRequest){
 
         List<RoomRenter> rrlist = roomRenterService.findListBy("userId", apiRequest.getUser().getUserId());
         HashSet<Integer> roomIdSet = new HashSet<>();
@@ -106,11 +105,11 @@ public class RenterApi {
             list.add(room);
         }
 
-        return JSON.toJSONString(new JsonResult<List>(list));
+        return new JsonResult<List>(list);
     }
 
     @GetMapping(value={"/bargin/{roomId}"})
-    public String bargin(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
+    public JsonResult bargin(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
         List<Bargin> list = barginService.getBarginValidByRoomIdAndUserId(roomId, null);
         Bargin bargin = list.get(0);
         List<RoomRenter> rrlist = roomRenterService.findListBy("userId", apiRequest.getUser().getUserId());
@@ -127,7 +126,7 @@ public class RenterApi {
                 result.put("building",building);
                 result.put("facilities",facilities);
                 result.put("extras",extras == null ? new ArrayList<>() : extras);
-                return JSON.toJSONString(new JsonResult<JSONObject>(result));
+                return new JsonResult<JSONObject>(result);
             }
         }
 
@@ -136,7 +135,7 @@ public class RenterApi {
     }
 
     @GetMapping(value={"/deposit/{roomId}"})
-    public String deposit(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
+    public JsonResult deposit(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
         List<Deposit> list = depositService.getDepositValidByRoomIdAndUserId(roomId, null);
         Deposit deposit = list.get(0);
         List<RoomRenter> rrlist = roomRenterService.findListBy("userId", apiRequest.getUser().getUserId());
@@ -148,7 +147,7 @@ public class RenterApi {
                 result.put("deposit",deposit);
                 result.put("building",building);
                 result.put("depositIterms",depositIterms == null ? new ArrayList<>() : depositIterms);
-                return JSON.toJSONString(new JsonResult<JSONObject>(result));
+                return new JsonResult<JSONObject>(result);
             }
         }
 

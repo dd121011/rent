@@ -1,6 +1,5 @@
 package com.scrats.rent.api;
 
-import com.alibaba.fastjson.JSON;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.Dictionary;
@@ -35,41 +34,41 @@ public class DictionaryApi {
     private DictionaryItermService dictionaryItermService;
 
     @GetMapping("/dicListAll")
-    public String dicListAll() {
+    public JsonResult dicListAll() {
 
         List<Dictionary> list = dictionaryService.selectAll();
 
-        return JSON.toJSONString(new JsonResult<List>(list));
+        return new JsonResult<List>(list);
     }
 
     @GetMapping("/dicItermListAll")
-    public String dicItermListAll(String dicCode) {
+    public JsonResult dicItermListAll(String dicCode) {
         List<DictionaryIterm> list = dictionaryItermService.findListBy("dicCode", dicCode);
-        return JSON.toJSONString(new JsonResult<List>(list));
+        return new JsonResult<List>(list);
     }
 
     @GetMapping("/facilitiestAll")
-    public String facilitiestAll() {
+    public JsonResult facilitiestAll() {
         List<DictionaryIterm> facilities = dictionaryItermService.findListBy("dicCode", GlobalConst.FACILITY_CODE);
-        return JSON.toJSONString(new JsonResult<List>(facilities));
+        return new JsonResult<List>(facilities);
     }
 
     @GetMapping("/decorationAll")
-    public String decorationAll() {
+    public JsonResult decorationAll() {
         List<DictionaryIterm> decorations = dictionaryItermService.findListBy("dicCode", GlobalConst.DECORATION_CODE);
-        return JSON.toJSONString(new JsonResult<List>(decorations));
+        return new JsonResult<List>(decorations);
     }
 
     @GetMapping("/orientationAll")
-    public String orientationAll() {
+    public JsonResult orientationAll() {
         List<DictionaryIterm> orientations = dictionaryItermService.findListBy("dicCode", GlobalConst.ORIENTATION_CODE);;
-        return JSON.toJSONString(new JsonResult<List>(orientations));
+        return new JsonResult<List>(orientations);
     }
 
     @GetMapping("/extrasAll")
-    public String extrasAll() {
+    public JsonResult extrasAll() {
         List<DictionaryIterm> extras = dictionaryItermService.findListBy("dicCode", GlobalConst.EXTRA_CODE);
-        return JSON.toJSONString(new JsonResult<List>(extras));
+        return new JsonResult<List>(extras);
     }
 
 }

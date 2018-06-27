@@ -17,7 +17,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Created with scrat.
@@ -74,15 +77,10 @@ public class BuildingApi {
     public JsonResult delete(@APIRequestControl APIRequest apiRequest, Integer... ids){
         //校验是否是本人名下的删除
         List<BuildingLandlord> list = buildingLandlordService.findListBy("landlordId", apiRequest.getUser().getUserId());
-        for(int id : ids){
-            boolean flag = true;
-            for(BuildingLandlord buildingLandlord : list){
-                if((buildingLandlord.getBuildingId() - id) == 0){
-                    flag = false;
-                    break;
-                }
-            }
-            if(flag){
+        Set<Integer> idSet = new HashSet<>(Arrays.asList(ids));
+
+        for(BuildingLandlord buildingLandlord : list){
+            if(!idSet.contains(buildingLandlord.getBuildingId())){
                 return new JsonResult<>("删除失败");
             }
         }

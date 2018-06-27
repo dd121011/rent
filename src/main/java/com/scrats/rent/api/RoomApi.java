@@ -54,12 +54,14 @@ public class RoomApi {
     }
 
     @PostMapping("/edit")
-    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Room room, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds) {
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Room room, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds, @RequestParam("depositIds[]") String[] depositIds) {
 
         String facilityId = StringUtils.join(facilityIds, ",");
         String extraId = StringUtils.join(extraIds, ",");
+        String depositItermId = StringUtils.join(depositIds, ",");
         room.setFacilities(facilityId);
         room.setExtraFee(extraId);
+        room.setDeposits(depositItermId);
 
         if(null != room.getRoomId()){
             room.setUpdateTs(System.currentTimeMillis());

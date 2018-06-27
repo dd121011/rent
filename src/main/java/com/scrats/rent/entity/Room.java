@@ -35,6 +35,7 @@ public class Room extends BaseEntity {
     private String description;//描述
     private String facilities;//配套设施id字符串[,隔开]
     private String extraFee;//额外收费项id字符串[,隔开]
+    private String deposits;//押金项id字符串[,隔开]
     private Long rentTs;//是否出租,0- 未出租,1-已出租
 
     private Integer buildingId;//房子id,一个房间对应一个房子id
@@ -49,6 +50,8 @@ public class Room extends BaseEntity {
     private List<DictionaryIterm> facilitiesIterm;
     @Transient
     private List<DictionaryIterm> extraFeeIterm;
+    @Transient
+    private List<DictionaryIterm> depositIterm;
     @Transient
     private Building building;
 

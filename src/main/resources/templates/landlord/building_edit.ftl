@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">押金项项</label>
+            <label class="layui-form-label">押金项</label>
             <div class="layui-input-block">
                 <#list depositItermList as item>
                     <input type="checkbox" lay-filter="testt" name="depositIds" value="${item.dicItermCode}" title="${item.value}">

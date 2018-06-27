@@ -156,12 +156,18 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         if(StringUtils.isNotEmpty(room.getExtraFee())){
             extras = dictionaryItermService.selectByIds(room.getExtraFee());
         }
+        //获取所有押金项
+        List<DictionaryIterm> deposits = null;
+        if(StringUtils.isNotEmpty(room.getDeposits())){
+            deposits = dictionaryItermService.selectByIds(room.getDeposits());
+        }
 
         room.setBuilding(building);
         room.setOrientationName(orientation.getValue());
         room.setDecorationName(decoration.getValue());
         room.setFacilitiesIterm(facilities);
         room.setExtraFeeIterm(extras);
+        room.setDepositIterm(deposits);
 
         return room;
     }

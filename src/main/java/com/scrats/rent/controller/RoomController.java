@@ -73,6 +73,7 @@ public class RoomController {
         List<DictionaryIterm> facilities = dictionaryItermService.findListBy("dicCode", GlobalConst.FACILITY_CODE);
         //获取所有额外收费项
         List<DictionaryIterm> extras = dictionaryItermService.findListBy("dicCode", GlobalConst.EXTRA_CODE);
+        List<DictionaryIterm> deposits = dictionaryItermService.findListBy("dicCode", GlobalConst.DEPOSIT_ITERM_CODE);
 
         map.put("user",user);
         map.put("buildingId",buildingId);
@@ -81,6 +82,7 @@ public class RoomController {
         map.put("decorations",decorations);
         map.put("extraList",extras);
         map.put("facilityList",facilities);
+        map.put("depositList",deposits);
 
         return "landlord/room_list";
     }
@@ -95,12 +97,14 @@ public class RoomController {
 
     @PostMapping("/edit")
     @ResponseBody
-    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Room room, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds) {
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Room room, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds, @RequestParam("depositIds[]") String[] depositIds) {
 
         String facilityId = StringUtils.join(facilityIds, ",");
         String extraId = StringUtils.join(extraIds, ",");
+        String depositItermId = StringUtils.join(depositIds, ",");
         room.setFacilities(facilityId);
         room.setExtraFee(extraId);
+        room.setDeposits(depositItermId);
 
         if(null != room.getRoomId()){
             room.setUpdateTs(System.currentTimeMillis());

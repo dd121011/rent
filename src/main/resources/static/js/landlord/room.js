@@ -113,6 +113,15 @@ layui.use(['layer', 'table', 'form'], function () {
                     }
                 }
             });
+            var deposit = data.deposits.split(",");
+            $.each($('input[type=checkbox][name=depositIds]'),function(){
+                for(j = 0, len=extra.length; j < len; j++) {
+                    if(deposit[j] == $(this).val()){
+                        $(this).attr("checked",true);
+                        $(this).next().addClass("layui-form-checked");
+                    }
+                }
+            });
             active.edit();
         }else if (obj.event === 'rentHistoty') {
             //出租记录

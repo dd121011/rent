@@ -140,6 +140,14 @@
                 </#list>
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">押金项</label>
+            <div class="layui-input-block">
+                <#list depositList as item>
+                    <input type="checkbox" lay-filter="testt" name="depositIds" value="${item.dicItermCode}" title="${item.value}">
+                </#list>
+            </div>
+        </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">描述</label>
             <div class="layui-input-block">

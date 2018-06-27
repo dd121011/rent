@@ -50,10 +50,10 @@ public class BuildingApi {
     }
 
     @PostMapping("/edit")
-    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Building building, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds, @RequestParam("depositIterms[]") String[] depositIterms) {
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Building building, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds, @RequestParam("depositIds[]") String[] depositIds) {
         String facilityId = StringUtils.join(facilityIds, ",");
         String extraId = StringUtils.join(extraIds, ",");
-        String depositItermId = StringUtils.join(depositIterms, ",");
+        String depositItermId = StringUtils.join(depositIds, ",");
         building.setFacilities(facilityId);
         building.setExtraFee(extraId);
         building.setDeposits(depositItermId);

@@ -49,8 +49,10 @@
                                 <td><#list room.extraFeeIterm as iterm>${iterm.value},</#list></td>
                             </tr>
                             <tr>
+                                <th>押金项：</th>
+                                <td><#list room.depositIterm as iterm>${iterm.value},</#list></td>
                                 <th>描述：</th>
-                                <td colspan="3">${room.description}</td>
+                                <td >${room.description}</td>
                             </tr>
                         </tbody>
                     </table>

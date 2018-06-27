@@ -12,7 +12,10 @@ import com.scrats.rent.entity.Building;
 import com.scrats.rent.entity.BuildingLandlord;
 import com.scrats.rent.entity.DictionaryIterm;
 import com.scrats.rent.entity.User;
-import com.scrats.rent.service.*;
+import com.scrats.rent.service.BuildingLandlordService;
+import com.scrats.rent.service.BuildingService;
+import com.scrats.rent.service.DictionaryItermService;
+import com.scrats.rent.service.DictionaryService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.naming.AuthenticationException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with scrat.
@@ -108,16 +110,10 @@ public class BuildingController {
     public JsonResult delete(@APIRequestControl APIRequest apiRequest, Integer... ids){
         //校验是否是本人名下的删除
         List<BuildingLandlord> list = buildingLandlordService.findListBy("landlordId", apiRequest.getUser().getUserId());
-        for(int id : ids){
-            boolean flag = true;
-            for(BuildingLandlord buildingLandlord : list){
-                if((buildingLandlord.getBuildingId() - id) == 0){
-                    flag = false;
-                    break;
-                }
-            }
-            if(flag){
-                return new JsonResult("删除失败");
+        Set<Integer> idSet = new HashSet<>(Arrays.asList(ids));
+        for(BuildingLandlord buildingLandlord : list){
+            if(!idSet.contains(buildingLandlord.getBuildingId())){
+                return new JsonResult<>("删除失败");
             }
         }
 

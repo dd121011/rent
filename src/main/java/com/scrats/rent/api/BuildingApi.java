@@ -77,8 +77,8 @@ public class BuildingApi {
     public JsonResult delete(@APIRequestControl APIRequest apiRequest, Integer... ids){
         //校验是否是本人名下的删除
         List<BuildingLandlord> list = buildingLandlordService.findListBy("landlordId", apiRequest.getUser().getUserId());
-        Set<Integer> idSet = new HashSet<>(Arrays.asList(ids));
 
+        Set<Integer> idSet = new HashSet<>(Arrays.asList(ids));
         for(BuildingLandlord buildingLandlord : list){
             if(!idSet.contains(buildingLandlord.getBuildingId())){
                 return new JsonResult<>("删除失败");

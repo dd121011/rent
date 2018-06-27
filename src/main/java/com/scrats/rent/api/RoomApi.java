@@ -1,6 +1,5 @@
 package com.scrats.rent.api;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.common.APIRequest;
@@ -48,14 +47,14 @@ public class RoomApi {
     private RoomRenterService roomRenterService;
 
     @PostMapping("/list/{buildingId}")
-    public String list(@APIRequestControl APIRequest apiRequest, @PathVariable(name="buildingId") Integer buildingId, Room room) {
+    public JsonResult list(@APIRequestControl APIRequest apiRequest, @PathVariable(name="buildingId") Integer buildingId, Room room) {
         room.setBuildingId(buildingId);
         PageInfo<Room> pageInfo = roomService.getRoomList(apiRequest, room);
-        return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
+        return new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal());
     }
 
     @PostMapping("/edit")
-    public String edit(@APIRequestControl APIRequest apiRequest, Room room, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds) {
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Room room, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds) {
 
         String facilityId = StringUtils.join(facilityIds, ",");
         String extraId = StringUtils.join(extraIds, ",");
@@ -68,17 +67,17 @@ public class RoomApi {
         }else{
             List<Room> rlist = roomService.getRoomByRoomNoAndBuildingId(room.getRoomNo(),room.getBuildingId());
             if(null != rlist && rlist.size() > 1){
-                return JSON.toJSONString(new JsonResult<>("创建失败,该房间号已存在"));
+                return new JsonResult<>("创建失败,该房间号已存在");
             }
             room.setCreateTs(System.currentTimeMillis());
             roomService.insertSelective(room);
         }
 
-        return JSON.toJSONString(new JsonResult());
+        return new JsonResult();
     }
 
     @PostMapping("/delete")
-    public String delete(@APIRequestControl APIRequest apiRequest, Integer... ids){
+    public JsonResult delete(@APIRequestControl APIRequest apiRequest, Integer... ids){
         //校验是否是本人名下的删除
         List<BuildingLandlord> list = buildingLandlordService.findListBy("landlordId", apiRequest.getUser().getUserId());
 
@@ -94,27 +93,27 @@ public class RoomApi {
                 }
             }
             if(flag){
-                return JSON.toJSONString(new JsonResult("删除失败"));
+                return new JsonResult("删除失败");
             }
         }
 
         roomService.deleteRoomByIds(ids);
 
-        return JSON.toJSONString(new JsonResult());
+        return new JsonResult();
     }
 
     @GetMapping("/detail/{roomId}")
-    public String detail(@PathVariable(name="roomId") Integer roomId) {
+    public JsonResult detail(@PathVariable(name="roomId") Integer roomId) {
         //获取所有房子select数据
         Room room = roomService.detail(roomId);
         if(null == room){
-            return JSON.toJSONString(new JsonResult("获取房间详情失败"));
+            return new JsonResult("获取房间详情失败");
         }
-        return JSON.toJSONString(new JsonResult<Room>(room));
+        return new JsonResult<Room>(room);
     }
 
     @GetMapping("/renterAll/{roomId}")
-    public String renterAll(@PathVariable(name="roomId") Integer roomId){
+    public JsonResult renterAll(@PathVariable(name="roomId") Integer roomId){
 
         List<RoomRenter> list = roomRenterService.findListBy("roomId", roomId);
         JSONArray jsonArray = new JSONArray();
@@ -129,35 +128,35 @@ public class RoomApi {
             jsonObject.put("roomRenterId",roomRenter.getRoomRenterId());
             jsonArray.add(jsonObject);
         }
-        return JSON.toJSONString(new JsonResult<JSONArray>(jsonArray));
+        return new JsonResult<JSONArray>(jsonArray);
     }
 
     @GetMapping(value={"/buildingInfo/{roomId}"})
-    public String buildingInfo(@PathVariable(name="roomId") Integer roomId){
+    public JsonResult buildingInfo(@PathVariable(name="roomId") Integer roomId){
         Building building = buildingService.getBuildingByRoomId(roomId);
-        return JSON.toJSONString(new JsonResult<Building>(building));
+        return new JsonResult<Building>(building);
 
     }
 
     @GetMapping(value={"/extras/{roomId}"})
-    public String extras(@PathVariable(name="roomId") Integer roomId){
+    public JsonResult extras(@PathVariable(name="roomId") Integer roomId){
         Room room = roomService.selectByPrimaryKey(roomId);
         List<DictionaryIterm> extras = null;
         if(StringUtils.isNotEmpty(room.getExtraFee())){
             extras = dictionaryItermService.selectByIds(room.getExtraFee());
         }
-        return JSON.toJSONString(new JsonResult<List>(extras));
+        return new JsonResult<List>(extras);
 
     }
 
     @GetMapping(value={"/facilities/{roomId}"})
-    public String facilities(@PathVariable(name="roomId") Integer roomId){
+    public JsonResult facilities(@PathVariable(name="roomId") Integer roomId){
         Room room = roomService.selectByPrimaryKey(roomId);
         List<DictionaryIterm> facilities = null;
         if(StringUtils.isNotEmpty(room.getFacilities())){
             facilities = dictionaryItermService.selectByIds(room.getFacilities());
         }
-        return JSON.toJSONString(new JsonResult<List>(facilities));
+        return new JsonResult<List>(facilities);
 
     }
 }

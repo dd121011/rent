@@ -66,7 +66,7 @@ public class BuildingController {
         map.put("user",user);
         map.put("extraList",extras);
         map.put("facilityList",facilities);
-        map.put("depositIterms",depositIterms);
+        map.put("depositItermList",depositIterms);
 
         return "landlord/building_list";
     }

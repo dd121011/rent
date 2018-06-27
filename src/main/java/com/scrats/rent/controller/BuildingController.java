@@ -61,10 +61,12 @@ public class BuildingController {
 
         List<DictionaryIterm> facilities = dictionaryItermService.findListBy("dicCode", GlobalConst.FACILITY_CODE);
         List<DictionaryIterm> extras = dictionaryItermService.findListBy("dicCode", GlobalConst.EXTRA_CODE);
+        List<DictionaryIterm> depositIterms = dictionaryItermService.findListBy("dicCode", GlobalConst.DEPOSIT_ITERM_CODE);
 
         map.put("user",user);
         map.put("extraList",extras);
         map.put("facilityList",facilities);
+        map.put("depositIterms",depositIterms);
 
         return "landlord/building_list";
     }
@@ -80,12 +82,14 @@ public class BuildingController {
 
     @PostMapping("/edit")
     @ResponseBody
-    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Building building, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds) {
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Building building, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds, @RequestParam("depositIds[]") String[] depositIds) {
 
         String facilityId = StringUtils.join(facilityIds, ",");
         String extraId = StringUtils.join(extraIds, ",");
+        String depositItermId = StringUtils.join(depositIds, ",");
         building.setFacilities(facilityId);
         building.setExtraFee(extraId);
+        building.setDeposits(depositItermId);
 
         if(null != building.getBuildingId()){
             building.setUpdateTs(System.currentTimeMillis());

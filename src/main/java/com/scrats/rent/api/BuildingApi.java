@@ -5,6 +5,7 @@ import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
+import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.Building;
 import com.scrats.rent.entity.BuildingLandlord;
 import com.scrats.rent.entity.DictionaryIterm;
@@ -49,11 +50,13 @@ public class BuildingApi {
     }
 
     @PostMapping("/edit")
-    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Building building, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds) {
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Building building, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds, @RequestParam("depositIterms[]") String[] depositIterms) {
         String facilityId = StringUtils.join(facilityIds, ",");
         String extraId = StringUtils.join(extraIds, ",");
+        String depositItermId = StringUtils.join(depositIterms, ",");
         building.setFacilities(facilityId);
         building.setExtraFee(extraId);
+        building.setDeposits(depositItermId);
 
         if(null != building.getBuildingId()){
             building.setUpdateTs(System.currentTimeMillis());
@@ -108,9 +111,10 @@ public class BuildingApi {
         List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(building.getFacilities());
         //获取所有额外收费项
         List<DictionaryIterm> extras = dictionaryItermService.selectByIds(building.getExtraFee());
-
+        List<DictionaryIterm> depositIterms = dictionaryItermService.findListBy("dicCode", GlobalConst.DEPOSIT_ITERM_CODE);
         building.setFacilitiesIterm(facilities);
         building.setExtraFeeIterm(extras);
+        building.setDepositIterm(depositIterms);
 
         return new JsonResult<Building>(building);
     }

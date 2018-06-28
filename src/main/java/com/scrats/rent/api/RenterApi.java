@@ -11,6 +11,7 @@ import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
+import com.scrats.rent.util.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,6 +104,7 @@ public class RenterApi {
 
     @GetMapping("/roomList")
     public JsonResult roomList(@APIRequestControl APIRequest apiRequest){
+        Date date = new Date();
 
         List<RoomRenter> rrlist = roomRenterService.findListBy("userId", apiRequest.getUser().getUserId());
         HashSet<Integer> roomIdSet = new HashSet<>();
@@ -113,12 +115,13 @@ public class RenterApi {
         for(Integer id : roomIdSet){
             JSONObject jsonObject = new JSONObject();
             Room room = roomService.detailForRenter(id);
+            Date rentDay = DateUtils.modifyDay(date,room.getBarginList().get(0).getRentDay());
             jsonObject.put("roomId", room.getRoomId());
             jsonObject.put("roomNo", room.getRoomNo());
             jsonObject.put("buildingName", room.getBuilding().getName());
             jsonObject.put("buildingCover", "https://scrats.cn/rent/static/images/face.jpg");
-            jsonObject.put("nextTime", room.getBarginList().get(0).getRentDay());
-            jsonObject.put("payTime", room.getBarginList().get(0).getRentDay());
+            jsonObject.put("nextTime", rentDay.getTime()-date.getTime());
+            jsonObject.put("payTime", rentDay.getTime());
             jsonObject.put("payStatus", room.getRentList().get(0).getPayTs() > 0 ? "pay" : "unpay");
             result.add(jsonObject);
         }
@@ -149,7 +152,6 @@ public class RenterApi {
         }
 
         throw new BusinessException("数据有误");
-
     }
 
     @GetMapping("/deposit/{roomId}")
@@ -170,7 +172,6 @@ public class RenterApi {
         }
 
         throw new BusinessException("数据有误");
-
     }
 
     @GetMapping("/rent/{roomId}")

@@ -66,8 +66,8 @@ public class RenterApi {
         String code = APIRequest.getParameterValue(apiRequest,"code",String.class);
         String signature = APIRequest.getParameterValue(apiRequest,"signature",String.class);
         String rawData = APIRequest.getParameterValue(apiRequest,"rawData",String.class);
-        if(StringUtils.isEmpty(code)){
-            return new JsonResult("请求的微信code为空");
+        if(StringUtils.isEmpty(code) || StringUtils.isEmpty(signature) || StringUtils.isEmpty(rawData)){
+            return new JsonResult("请求的信息有误");
         }
         return renterService.snsLogin(code, signature, rawData);
     }
@@ -75,6 +75,10 @@ public class RenterApi {
     @IgnoreSecurity
     @PostMapping("/bindUser")
     public JsonResult bindUser(@RequestBody APIRequest apiRequest){
+
+        if(StringUtils.isEmpty(apiRequest.getOpenid()) || StringUtils.isEmpty(apiRequest.getTokenId()) || null == apiRequest.getRoomId()){
+            return new JsonResult("请求的信息有误");
+        }
 
         String checkTokeId = (String) redisService.get(apiRequest.getOpenid());
         if(StringUtils.isEmpty(checkTokeId)){

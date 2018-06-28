@@ -62,35 +62,38 @@ public class RenterApi {
 
     @IgnoreSecurity
     @PostMapping("/snsLogin")
-    public JsonResult snsLogin(String code, String signature, String rawData){
+    public JsonResult snsLogin(@RequestBody APIRequest apiRequest){
+        String code = APIRequest.getParameterValue(apiRequest,"code",String.class);
+        String signature = APIRequest.getParameterValue(apiRequest,"signature",String.class);
+        JSONObject rawData = APIRequest.getParameterValue(apiRequest,"rawData",JSONObject.class);
         if(StringUtils.isEmpty(code)){
-            return new JsonResult("获取的微信code为空");
+            return new JsonResult("请求的微信code为空");
         }
-        return renterService.snsLogin(code, signature, rawData);
+        return renterService.snsLogin(code, signature, rawData.toJSONString());
     }
 
     @IgnoreSecurity
     @PostMapping("/bindUser")
-    public JsonResult bindUser(String tokenId, String openid, Integer roomId){
+    public JsonResult bindUser(@RequestBody APIRequest apiRequest){
 
-        String checkTokeId = (String) redisService.get(openid);
+        String checkTokeId = (String) redisService.get(apiRequest.getOpenid());
         if(StringUtils.isEmpty(checkTokeId)){
             return new JsonResult("请求的openid有误");
         }
-        if(!checkTokeId.equals(tokenId)){
+        if(!checkTokeId.equals(apiRequest.getTokenId())){
             return new JsonResult("请求的tokenId有误");
         }
 
-        List<Bargin> barginList = barginService.getBarginByRoomId(roomId, false);
+        List<Bargin> barginList = barginService.getBarginByRoomId(apiRequest.getRoomId(), false);
         if(null == barginList || barginList.size()>1){
             return new JsonResult("该房间还未出租,无法绑定");
         }
         User user = userService.selectByPrimaryKey(barginList.get(0).getUserId());
-        WxSns wxSns = wxSnsService.selectByPrimaryKey(openid);
+        WxSns wxSns = wxSnsService.selectByPrimaryKey(apiRequest.getOpenid());
         wxSns.setUserId(user.getUserId());
         wxSns.setUpdateTs(System.currentTimeMillis());
         wxSnsService.updateByPrimaryKeySelective(wxSns);
-        redisService.set(tokenId,user, GlobalConst.ACCESS_TOKEN_EXPIRE);
+        redisService.set(apiRequest.getTokenId(),user, GlobalConst.ACCESS_TOKEN_EXPIRE);
         return new JsonResult<User>(user);
     }
 

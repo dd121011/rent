@@ -135,12 +135,10 @@ public class RenterApi {
     }
 
     @GetMapping(value={"/deposit/{roomId}"})
-    @IgnoreSecurity
-    public JsonResult deposit( @PathVariable(name="roomId") Integer roomId){
+    public JsonResult deposit(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
         List<Deposit> list = depositService.getDepositByRoomId(roomId, false);
         Deposit deposit = list.get(0);
-//        List<RoomRenter> rrlist = roomRenterService.findListBy("userId", apiRequest.getUser().getUserId());
-        List<RoomRenter> rrlist = roomRenterService.findListBy("userId", 9);
+        List<RoomRenter> rrlist = roomRenterService.findListBy("userId", apiRequest.getUser().getUserId());
         for(RoomRenter rr :  rrlist){
             if(rr.getRoomId() - deposit.getRoomId() == 0 ){
                 Building building = buildingService.selectByPrimaryKey(deposit.getBuildingId());

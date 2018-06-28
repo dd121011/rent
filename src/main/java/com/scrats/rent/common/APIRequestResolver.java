@@ -45,7 +45,7 @@ public class APIRequestResolver implements HandlerMethodArgumentResolver {
                     WxSns wxSns = wxSnsService.findBy("userId",apiRequest.getUser().getUserId());
                     apiRequest.setRenterId(renter.getRenterId());
                     if(null != wxSns){
-                        apiRequest.setOpenId(wxSns.getOpenid());
+                        apiRequest.setOpenid(wxSns.getOpenid());
                     }
                     break;
                 //房东

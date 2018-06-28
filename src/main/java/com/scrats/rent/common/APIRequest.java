@@ -30,6 +30,8 @@ public class APIRequest<K> {
     private int adminId = 0;
     private int guardId = 0;
     private boolean administratorFlag = false;
+    private Integer roomId;
+    private Integer buildingId;
 
     private Map<String, Object> body;
     private K bodyObject;

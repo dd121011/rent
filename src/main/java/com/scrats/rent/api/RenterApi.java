@@ -109,13 +109,21 @@ public class RenterApi {
         for(RoomRenter rr :  rrlist){
             roomIdSet.add(rr.getRoomId());
         }
-        List<Room> list = new ArrayList<Room>();
+        JSONArray result = new JSONArray();
         for(Integer id : roomIdSet){
-            Room room = roomService.detail(id);
-            list.add(room);
+            JSONObject jsonObject = new JSONObject();
+            Room room = roomService.detailForRenter(id);
+            jsonObject.put("roomId", room.getRoomId());
+            jsonObject.put("roomNo", room.getRoomNo());
+            jsonObject.put("buildingName", room.getBuilding().getName());
+            jsonObject.put("buildingCover", "https://scrats.cn/rent/static/images/face.jpg");
+            jsonObject.put("nextTime", room.getBarginList().get(0).getRentDay());
+            jsonObject.put("payTime", room.getBarginList().get(0).getRentDay());
+            jsonObject.put("payStatus", room.getRentList().get(0).getPayTs());
+            result.add(jsonObject);
         }
 
-        return new JsonResult<List>(list);
+        return new JsonResult<JSONArray>(result);
     }
 
     @GetMapping("/bargin/{roomId}")

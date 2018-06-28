@@ -41,6 +41,8 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     private DictionaryItermService dictionaryItermService;
     @Autowired
     private RoomRenterService roomRenterService;
+    @Autowired
+    private RentService rentService;
 
     @Override
     public PageInfo<Room> getRoomList(APIRequest apiRequest, Room room) {
@@ -168,6 +170,25 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         room.setFacilitiesIterm(facilities);
         room.setExtraFeeIterm(extras);
         room.setDepositIterm(deposits);
+
+        return room;
+    }
+
+    @Override
+    public Room detailForRenter(Integer roomId) {
+        //获取所有房子select数据
+        Room room = dao.selectByPrimaryKey(roomId);
+        if(null == room){
+            return room;
+        }
+        //获取房子
+        Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
+        List<Bargin> barginList = barginService.getBarginByRoomId(room.getRoomId(), false);
+        List<Rent> rentList = rentService.getRentByRoomId(room.getRoomId(), false);
+
+        room.setBuilding(building);
+        room.setBarginList(barginList);
+        room.setRentList(rentList);
 
         return room;
     }

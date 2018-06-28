@@ -119,7 +119,7 @@ public class RenterApi {
             jsonObject.put("buildingCover", "https://scrats.cn/rent/static/images/face.jpg");
             jsonObject.put("nextTime", room.getBarginList().get(0).getRentDay());
             jsonObject.put("payTime", room.getBarginList().get(0).getRentDay());
-            jsonObject.put("payStatus", room.getRentList().get(0).getPayTs());
+            jsonObject.put("payStatus", room.getRentList().get(0).getPayTs() > 0 ? "pay" : "unpay");
             result.add(jsonObject);
         }
 

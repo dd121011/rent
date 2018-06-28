@@ -384,9 +384,7 @@ DROP TABLE IF EXISTS `rent_iterm`;
 CREATE TABLE `rent_iterm` (
     `rent_iterm_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `rent_id` int(10) unsigned NOT NULL COMMENT '房租Id',
-    `room_id` int(10) unsigned NOT NULL COMMENT '房间Id',
-    `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
-    `name` varchar(32) NOT NULL COMMENT '房租项目名称',
+    `value` varchar(32) NOT NULL COMMENT '房租项目名称',
     `price` int(10) unsigned NOT NULL COMMENT '房租项目单价[分]',
     `unit` varchar(32) DEFAULT '' COMMENT '房租项目单位,从合同获得',
     `number` int(10) unsigned NOT NULL COMMENT '房租项目数量',

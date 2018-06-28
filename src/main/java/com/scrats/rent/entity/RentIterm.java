@@ -20,9 +20,7 @@ public class RentIterm extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer rentItermId;//主键
     private Integer rentId;//房租Id
-    private Integer roomId;//房间Id
-    private Integer buildingId;//房子Id
-    private String name;//房租项目名称
+    private String value;//房租项目名称
     private Integer price;//房租项目单价[分]
     private String unit;//房租项目单位,从合同获得
     private Integer number;//房租项目数量

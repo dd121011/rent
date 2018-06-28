@@ -1,5 +1,6 @@
 package com.scrats.rent.api;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.APIRequest;
@@ -16,9 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Created with scrat.
@@ -56,6 +55,10 @@ public class RenterApi {
     private DepositService depositService;
     @Autowired
     private DepositItermService depositItermService;
+    @Autowired
+    private RentService rentService;
+    @Autowired
+    private RentItermService rentItermService;
 
     @IgnoreSecurity
     @PostMapping("/snsLogin")
@@ -108,7 +111,7 @@ public class RenterApi {
         return new JsonResult<List>(list);
     }
 
-    @GetMapping(value={"/bargin/{roomId}"})
+    @GetMapping("/bargin/{roomId}")
     public JsonResult bargin(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
         List<Bargin> list = barginService.getBarginByRoomId(roomId, false);
         Bargin bargin = list.get(0);
@@ -134,7 +137,7 @@ public class RenterApi {
 
     }
 
-    @GetMapping(value={"/deposit/{roomId}"})
+    @GetMapping("/deposit/{roomId}")
     public JsonResult deposit(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
         List<Deposit> list = depositService.getDepositByRoomId(roomId, false);
         Deposit deposit = list.get(0);
@@ -146,7 +149,7 @@ public class RenterApi {
                 JSONObject result = new JSONObject();
                 result.put("deposit",deposit);
                 result.put("building",building);
-                result.put("depositIterms",depositIterms == null ? new ArrayList<>() : depositIterms);
+                result.put("depositIterms",depositIterms);
                 return new JsonResult<JSONObject>(result);
             }
         }
@@ -155,9 +158,19 @@ public class RenterApi {
 
     }
 
-    @GetMapping(value={"/unpay/{roomId}", "/unpay"})
-    public String unpay(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
-        return null;
+    @GetMapping("/rent/{roomId}")
+    public JsonResult unpay(@PathVariable(name="roomId") Integer roomId){
+        JSONArray result = new JSONArray();
+        List<Rent> list = rentService.getRentByRoomId(roomId,false);
+        for(Rent rent : list){
+            JSONObject jsonObject = new JSONObject();
+            List<RentIterm> rentIterm = rentItermService.findListBy("rentId",rent.getRentId());
+            jsonObject.put("rent",rent);
+            jsonObject.put("rentIterms",rentIterm);
+            result.add(jsonObject);
+        }
+
+        return new JsonResult<JSONArray>(result);
     }
 
 

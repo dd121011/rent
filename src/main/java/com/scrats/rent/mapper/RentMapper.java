@@ -16,6 +16,6 @@ import java.util.List;
  */
 public interface RentMapper extends BaseMapper<Rent> {
 
-    @Select("<script>select r.* from bargin b where 1=1 <if test='roomId != null'>and r.room_id = #{roomId}</if> <if test='userId != null'>and r.user_id = #{userId}</if> <if test='deleteFlag == false'>and r.delete_ts = 0</if>  <if test='deleteFlag == true'>and r.delete_ts > 0</if></script>")
+    @Select("<script>select r.* from rent r where 1=1 <if test='roomId != null'>and r.room_id = #{roomId}</if> <if test='payFlag == false'>and r.pay_ts = 0</if>  <if test='payFlag == true'>and r.pay_ts > 0</if> and r.delete_ts = 0</script>")
     List<Rent> getRentByRoomId(@Param("roomId") Integer roomId, @Param("payFlag") boolean payFlag);
 }

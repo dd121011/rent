@@ -65,11 +65,11 @@ public class RenterApi {
     public JsonResult snsLogin(@RequestBody APIRequest apiRequest){
         String code = APIRequest.getParameterValue(apiRequest,"code",String.class);
         String signature = APIRequest.getParameterValue(apiRequest,"signature",String.class);
-        JSONObject rawData = APIRequest.getParameterValue(apiRequest,"rawData",JSONObject.class);
+        String rawData = APIRequest.getParameterValue(apiRequest,"rawData",String.class);
         if(StringUtils.isEmpty(code)){
             return new JsonResult("请求的微信code为空");
         }
-        return renterService.snsLogin(code, signature, rawData.toJSONString());
+        return renterService.snsLogin(code, signature, rawData);
     }
 
     @IgnoreSecurity

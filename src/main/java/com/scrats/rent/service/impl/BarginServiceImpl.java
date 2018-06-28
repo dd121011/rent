@@ -23,13 +23,9 @@ public class BarginServiceImpl extends BaseServiceImpl<Bargin, BarginMapper> imp
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public List<Bargin> getBarginValidByRoomIdAndUserId(Integer roomId, Integer userId) {
+    public List<Bargin> getBarginByRoomId(Integer roomId, boolean deleteFlag) {
 
-        return dao.getBarginValidByRoomIdAndUserId(roomId, userId);
+        return dao.getBarginByRoomId(roomId, deleteFlag);
     }
 
-    @Override
-    public List<Bargin> getBarginInvalidByRoomIdAndUserId(Integer roomId, Integer userId) {
-        return dao.getBarginInvalidByRoomIdAndUserId(roomId, userId);
-    }
 }

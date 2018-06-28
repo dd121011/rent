@@ -78,7 +78,7 @@ public class RenterApi {
             return new JsonResult("请求的tokenId有误");
         }
 
-        List<Bargin> barginList = barginService.getBarginValidByRoomIdAndUserId(roomId,null);
+        List<Bargin> barginList = barginService.getBarginByRoomId(roomId, false);
         if(null == barginList || barginList.size()>1){
             return new JsonResult("该房间还未出租,无法绑定");
         }
@@ -110,7 +110,7 @@ public class RenterApi {
 
     @GetMapping(value={"/bargin/{roomId}"})
     public JsonResult bargin(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
-        List<Bargin> list = barginService.getBarginValidByRoomIdAndUserId(roomId, null);
+        List<Bargin> list = barginService.getBarginByRoomId(roomId, false);
         Bargin bargin = list.get(0);
         List<RoomRenter> rrlist = roomRenterService.findListBy("userId", apiRequest.getUser().getUserId());
         for(RoomRenter rr :  rrlist){
@@ -135,10 +135,12 @@ public class RenterApi {
     }
 
     @GetMapping(value={"/deposit/{roomId}"})
-    public JsonResult deposit(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
-        List<Deposit> list = depositService.getDepositValidByRoomIdAndUserId(roomId, null);
+    @IgnoreSecurity
+    public JsonResult deposit( @PathVariable(name="roomId") Integer roomId){
+        List<Deposit> list = depositService.getDepositByRoomId(roomId, false);
         Deposit deposit = list.get(0);
-        List<RoomRenter> rrlist = roomRenterService.findListBy("userId", apiRequest.getUser().getUserId());
+//        List<RoomRenter> rrlist = roomRenterService.findListBy("userId", apiRequest.getUser().getUserId());
+        List<RoomRenter> rrlist = roomRenterService.findListBy("userId", 9);
         for(RoomRenter rr :  rrlist){
             if(rr.getRoomId() - deposit.getRoomId() == 0 ){
                 Building building = buildingService.selectByPrimaryKey(deposit.getBuildingId());

@@ -15,7 +15,6 @@ import java.util.List;
  */
 public interface DepositService extends BaseService<Deposit, DepositMapper> {
 
-    List<Deposit> getDepositValidByRoomIdAndUserId(Integer roomId, Integer userId);
+    List<Deposit> getDepositByRoomId(Integer roomId, boolean deleteFlag);
 
-    List<Deposit> getDepositInvalidByRoomIdAndUserId(Integer roomId, Integer userId);
 }

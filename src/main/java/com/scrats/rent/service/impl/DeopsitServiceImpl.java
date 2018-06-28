@@ -23,12 +23,8 @@ public class DeopsitServiceImpl extends BaseServiceImpl<Deposit, DepositMapper> 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public List<Deposit> getDepositValidByRoomIdAndUserId(Integer roomId, Integer userId) {
-        return dao.getDepositValidByRoomIdAndUserId(roomId, userId);
+    public List<Deposit> getDepositByRoomId(Integer roomId, boolean deleteFlag) {
+        return dao.getDepositByRoomId(roomId, deleteFlag);
     }
 
-    @Override
-    public List<Deposit> getDepositInvalidByRoomIdAndUserId(Integer roomId, Integer userId) {
-        return getDepositInvalidByRoomIdAndUserId(roomId, userId);
-    }
 }

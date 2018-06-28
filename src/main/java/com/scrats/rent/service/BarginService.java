@@ -15,7 +15,6 @@ import java.util.List;
  */
 public interface BarginService extends BaseService<Bargin, BarginMapper> {
 
-    List<Bargin> getBarginValidByRoomIdAndUserId(Integer roomId, Integer userId);
+    List<Bargin> getBarginByRoomId(Integer roomId, boolean deleteFlag);
 
-    List<Bargin> getBarginInvalidByRoomIdAndUserId(Integer roomId, Integer userId);
 }

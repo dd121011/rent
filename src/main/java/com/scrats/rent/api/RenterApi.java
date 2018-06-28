@@ -116,13 +116,17 @@ public class RenterApi {
             JSONObject jsonObject = new JSONObject();
             Room room = roomService.detailForRenter(id);
             Date rentDay = DateUtils.modifyDay(date,room.getBarginList().get(0).getRentDay());
+            String payStatus = "pay";
+            if(null != room.getRentList() && room.getRentList().size() > 0){
+                payStatus = "unpay";
+            }
             jsonObject.put("roomId", room.getRoomId());
             jsonObject.put("roomNo", room.getRoomNo());
             jsonObject.put("buildingName", room.getBuilding().getName());
             jsonObject.put("buildingCover", "https://scrats.cn/rent/static/images/face.jpg");
             jsonObject.put("nextTime", rentDay.getTime()-date.getTime());
             jsonObject.put("payTime", rentDay.getTime());
-            jsonObject.put("payStatus", room.getRentList().get(0).getPayTs() > 0 ? "pay" : "unpay");
+            jsonObject.put("payStatus", payStatus);
             result.add(jsonObject);
         }
 

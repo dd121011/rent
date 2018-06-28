@@ -343,3 +343,34 @@ RETURN
 上传身份信息
 
 查看水电、缴费记录
+
+## 发送短信
+
+[POST] **application/json** `/account/sms`
+
+### Param
+
+| param | type | require | description |
+| --- | :---: | :---: | --- |
+| tel | string | true | 11位有效的电话号码 |
+
+### Response
+
+```
+{
+    "code": 500,
+    "msg": "手机号格式错误",
+    "data": {
+        "result": "1016",
+        "errmsg": "手机号格式错误",
+        "ext": ""
+    }
+}
+
+```
+
+### Sample
+
+```
+curl -X POST -H "Content-type: application/json" -d '{"tel":"15018329815"}' 'http://localhost:8082/account/sms'
+```

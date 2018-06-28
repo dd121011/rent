@@ -6,11 +6,7 @@ import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.common.exception.NotAuthorizedException;
-import com.scrats.rent.entity.Renter;
 import com.scrats.rent.entity.User;
-import com.scrats.rent.entity.WxSns;
-import com.scrats.rent.service.RenterService;
-import com.scrats.rent.service.WxSnsService;
 import com.scrats.rent.util.IOUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -37,10 +33,7 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
 
     @Autowired
     private RedisService redisService;
-    @Autowired
-    private RenterService renterService;
-    @Autowired
-    private WxSnsService wxSnsService;
+
     /**
      * 在请求处理之前进行调用（Controller方法调用之前）
      *
@@ -56,6 +49,7 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
+
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
         String requestPath = httpServletRequest.getRequestURI();
@@ -89,36 +83,7 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
         }
         apiRequest.setUser(user);
         apiRequest.setTokenId(token);
-        switch (user.getType()){
-            //租客
-            case "0":
-                Renter renter = renterService.findBy("userId",user.getUserId());
-                WxSns wxSns = wxSnsService.findBy("userId",user.getUserId());
-                apiRequest.setRenterId(renter.getRenterId());
-                if(null != wxSns){
-                    apiRequest.setOpenId(wxSns.getOpenid());
-                }
-                break;
-                //房东
-            case "1":
-                apiRequest.setLanlordId(user.getUserId());
-                break;
-                //管理员
-            case "2":
-                apiRequest.setAdminId(user.getUserId());
-                break;
-                //巡管员
-            case "3":
-                apiRequest.setGuardId(user.getUserId());
-                break;
-                //超级管理员
-            case "4":
-                apiRequest.setAdminId(user.getUserId());
-                apiRequest.setAdministratorFlag(true);
-                break;
-            default:
-                throw new BusinessException("数据有误,请联系系统管理员");
-        }
+
         httpServletRequest.setAttribute("apiRequest", apiRequest);
         return true;
     }

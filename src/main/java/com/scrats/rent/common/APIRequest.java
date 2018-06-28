@@ -26,7 +26,7 @@ public class APIRequest<K> {
     private User user;
     private int lanlordId = 0;
     private int renterId = 0;
-    private String openId = "";
+    private String openid = "";
     private int adminId = 0;
     private int guardId = 0;
     private boolean administratorFlag = false;

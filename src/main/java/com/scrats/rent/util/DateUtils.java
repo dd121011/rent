@@ -103,23 +103,6 @@ public class DateUtils {
         }
     }
 
-    public static Date modifyDay(Date date, int day){
-        Date rentDate = null;
-        Date last = lastDayOfThisMonth(date);
-        Calendar calendarInstance = Calendar.getInstance();
-        calendarInstance.setTime(last);
-        int lastDay = calendarInstance.getActualMaximum(Calendar.DAY_OF_MONTH);
-        if(day > lastDay){
-            calendarInstance.setTime(date);
-            calendarInstance.set(Calendar.DAY_OF_MONTH, day);
-            rentDate = calendarInstance.getTime();
-        }else{
-            rentDate = firstDayOfNextMonth(last);
-
-        }
-        return rentDate;
-    }
-
     // 获取当前月的第一天
     public static Date firstDayOfThisMonth(Date date){
         if(null == date){
@@ -152,6 +135,29 @@ public class DateUtils {
         calendar.setTime(date);
         calendar.add(Calendar.MONTH, 1);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
+        return calendar.getTime();
+    }
+
+    public static Date oneDayOfThisMonth(Date date, int number){
+        if(null == date){
+            return date;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        calendar.set(Calendar.DAY_OF_MONTH, number > lastDay ? lastDay : number);
+        return calendar.getTime();
+    }
+
+    public static Date oneDayOfNextMonth(Date date, int number){
+        if(null == date){
+            return date;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MONTH, 1);
+        int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        calendar.set(Calendar.DAY_OF_MONTH, number > lastDay ? lastDay : number);
         return calendar.getTime();
     }
 

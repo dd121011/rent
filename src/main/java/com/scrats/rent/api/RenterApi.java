@@ -115,7 +115,7 @@ public class RenterApi {
         for(Integer id : roomIdSet){
             JSONObject jsonObject = new JSONObject();
             Room room = roomService.detailForRenter(id);
-            Date rentDay = DateUtils.modifyDay(date,room.getBarginList().get(0).getRentDay());
+            Date rentDay = this.getPayTime(date,room.getBarginList().get(0).getRentDay());
             String payStatus = "pay";
             if(null != room.getRentList() && room.getRentList().size() > 0){
                 payStatus = "unpay";
@@ -192,6 +192,12 @@ public class RenterApi {
         return new JsonResult<JSONArray>(result);
     }
 
-
+    private Date getPayTime(Date date, int rentDay){
+        Date rent = DateUtils.oneDayOfThisMonth(date, rentDay);
+        if(rent.getTime() - date.getTime() < 0){
+            rent = DateUtils.oneDayOfNextMonth(date, rentDay);
+        }
+        return rent;
+    }
 
 }

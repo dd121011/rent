@@ -123,7 +123,6 @@ public class RenterApi {
             jsonObject.put("roomId", room.getRoomId());
             jsonObject.put("roomNo", room.getRoomNo());
             jsonObject.put("buildingName", room.getBuilding().getName());
-            jsonObject.put("buildingCover", "https://scrats.cn/rent/static/images/face.jpg");
             jsonObject.put("nextTime", rentDay.getTime()-date.getTime());
             jsonObject.put("payTime", rentDay.getTime());
             jsonObject.put("payStatus", payStatus);

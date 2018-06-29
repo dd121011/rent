@@ -94,7 +94,7 @@ layui.use(['layer', 'table', 'form'], function () {
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "添加租客"
-                , area: '500px'
+                , area: '600px'
                 , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
                 , id: 'layerRentEdit'  //防止重复弹出
                 , content: $('#addRentDiv')
@@ -126,10 +126,10 @@ layui.use(['layer', 'table', 'form'], function () {
                         , id: 'extraTable'
                         // , width: 550
                         , cols: [[//表头
-                            {field: 'value', title: '项目', edit: 'text', templet: function(d){
+                            {field: 'value', title: '项目', templet: function(d){
                                     return d.value;
                                 }}
-                            , {field: 'unit', title: '单位', edit: 'text', templet: function(d){
+                            , {field: 'unit', title: '单位', templet: function(d){
                                     return d.unit;
                                 }}
                             , {field: 'price', title: '单价', edit: 'text', templet: function(d){
@@ -165,21 +165,15 @@ layui.use(['layer', 'table', 'form'], function () {
                         , id: 'depositTable'
                         // , width: 550
                         , cols: [[//表头
-                            {field: 'name', title: '项目', edit: 'text', templet: function(d){
-                                    return d.name;
+                            {field: 'value', title: '项目', templet: function(d){
+                                    return d.value;
                                 }}
-                            , {field: 'unit', title: '单位', edit: 'text', templet: function(d){
+                            , {field: 'unit', title: '单位', templet: function(d){
                                     return d.unit;
                                 }}
-                            , {field: 'price', title: '单价', edit: 'text', templet: function(d){
-                                    return d.price/100;
-                                }}
-                            , {field: 'number', title: '数量', edit: 'text', templet: function(d){
-                                    return d.number;
-                                }}
-                            , {field: 'money', title: '金额', edit: 'text', templet: function(d){
-                                    return d.money/100;
-                                }}
+                            , {field: 'price', title: '单价', edit: 'text'}
+                            , {field: 'number', title: '数量', edit: 'text'}
+                            , {field: 'money', title: '金额', edit: 'text'}
                         ]]
                         , done: function (res, curr, count) {
                             depositItermTableData = res.data;

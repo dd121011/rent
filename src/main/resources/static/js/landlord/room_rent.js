@@ -18,8 +18,8 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
         var params = $(data.form).serializeObject();
         params.roomId = $('#roomId').val();
         params.rentFee = params.rentFee * 100;
-        params.liveTs = (new Date(params.liveTs)).getTime()/1000;
-        params.leaveTs = (new Date(params.leaveTs)).getTime()/1000;
+        params.liveTs = (new Date(params.liveTs)).getTime();
+        params.leaveTs = (new Date(params.leaveTs)).getTime();
         params.extras = JSON.stringify(extraTableData);
         params.depositIterms = JSON.stringify(depositItermTableData);
         var jhxhr = $.ajax({url: requestBaseUrl + "/room/rent", data: params, headers: header, type: "POST"});

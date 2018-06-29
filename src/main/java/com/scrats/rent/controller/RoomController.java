@@ -274,16 +274,10 @@ public class RoomController {
     public String depositIterm(@PathVariable(name="roomId") Integer roomId){
 
         Room room = roomService.selectByPrimaryKey(roomId);
-        JSONArray jsonArray = new JSONArray();
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("value","租金");
-        jsonObject.put("unit","月");
-        jsonObject.put("price",room.getRentFee());
-        jsonObject.put("number",room.getGuaranty());
-        jsonObject.put("money",room.getRentFee()*room.getGuaranty());
-        jsonArray.add(jsonObject);
+        //获取所有额外收费项
+        List<DictionaryIterm> deposits = dictionaryItermService.selectByIds(room.getDeposits());
 
-        return JSON.toJSONString(new JsonResult<JSONArray>(jsonArray));
+        return JSON.toJSONString(new JsonResult<List>(deposits));
     }
 
 }

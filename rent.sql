@@ -404,7 +404,6 @@ CREATE TABLE `extra_history` (
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `count` int(10) unsigned NOT NULL COMMENT '水表读数, 单位KG',
     `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
-    `bargin_extra_id` int(10) NOT NULL COMMENT '额外Id',
     `dic_iterm_code` char(4) NOT NULL COMMENT '额外收费项code',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',

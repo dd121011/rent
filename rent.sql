@@ -273,10 +273,6 @@ CREATE TABLE `bargin` (
     `rent_fee` int(10) unsigned NOT NULL COMMENT '租金[分/月]',
     `guaranty_fee` int(10) unsigned NOT NULL COMMENT '押金[分]',
     `total` int(10) unsigned NOT NULL COMMENT '首次缴费[分]',
-    `water` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '水表初始读数, 单位KG',
-    `electric` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '电表初始读数, 单位Kwh',
-    `electric_three` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '三相电表初始读数, 单位Kwh',
-    `gas` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '天然气初始读数, 单位m2',
     `facilities` varchar(256) DEFAULT '' COMMENT '配套设施id字符串[,隔开]',
     `room_id` int(10) unsigned NOT NULL COMMENT '房间id,一个合同对应一个房间，一个房间对应多个合同',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
@@ -401,69 +397,20 @@ CREATE TABLE `rent_iterm` (
 -- ----------------------------
 -- Table structure for water_history
 -- ----------------------------
-DROP TABLE IF EXISTS `water_history`;
-CREATE TABLE `water_history` (
-    `water_history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `extra_history`;
+CREATE TABLE `extra_history` (
+    `extra_history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_id` int(10) NOT NULL COMMENT '房间Id',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `count` int(10) unsigned NOT NULL COMMENT '水表读数, 单位KG',
     `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
+    `bargin_extra_id` int(10) NOT NULL COMMENT '额外Id',
+    `dic_iterm_code` char(4) NOT NULL COMMENT '额外收费项code',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
     `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`water_history_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for electric_history
--- ----------------------------
-DROP TABLE IF EXISTS `electric_history`;
-CREATE TABLE `electric_history` (
-    `electric_history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `room_id` int(10) NOT NULL COMMENT '房间Id',
-    `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
-    `count` int(10) unsigned NOT NULL COMMENT '电表读数, 单位Kwh',
-    `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
-    `remark` varchar(256) DEFAULT '' COMMENT '备注',
-    `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`electric_history_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for electric_three_history
--- ----------------------------
-DROP TABLE IF EXISTS `electric_three_history`;
-CREATE TABLE `electric_three_history` (
-    `electric_three_history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `room_id` int(10) NOT NULL COMMENT '房间Id',
-    `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
-    `count` int(10) unsigned NOT NULL COMMENT '三相电表读数, 单位Kwh',
-    `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
-    `remark` varchar(256) DEFAULT '' COMMENT '备注',
-    `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`electric_three_history_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for gas
--- ----------------------------
-DROP TABLE IF EXISTS `gas_history`;
-CREATE TABLE `gas_history` (
-    `gas_history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `room_id` int(10) NOT NULL COMMENT '房间Id',
-    `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
-    `count` int(10) unsigned NOT NULL COMMENT '天然气读数, 单位m2',
-    `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
-    `remark` varchar(256) DEFAULT '' COMMENT '备注',
-    `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
-    `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
-    `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`gas_history_id`)
+    PRIMARY KEY (`extra_history_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

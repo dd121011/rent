@@ -28,5 +28,6 @@ public class BarginExtra extends BaseEntity {
     private String value;//名称
     private String unit;//单位
     private Integer price;//价格
+    private Integer number;//初始数量
 
 }

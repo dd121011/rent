@@ -15,15 +15,16 @@ import javax.persistence.Id;
  * @Date: 2018/6/18 09:31.
  */
 @Data
-public class ElectricHistory extends BaseEntity {
+public class ExtraHistory extends BaseEntity {
 
-    private static final long serialVersionUID = -6046288070660937109L;
+    private static final long serialVersionUID = -6563910655403236128L;
 
     @Id
     @KeySql(dialect = IdentityDialect.MYSQL)
-    private Integer electricHistoryId;//主键
+    private Integer waterHistoryId;//主键
     private Integer roomId;//房间Id
     private Integer buildingId;//房子Id
-    private Integer count;//电表读数, 单位Kwh
+    private Integer count;//水表读数, 单位KG
     private String month;//统计月, eg 201805
+    private String dicItermCode;//额外收费项Id
 }

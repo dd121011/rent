@@ -1,8 +1,8 @@
 package com.scrats.rent.service;
 
 import com.scrats.rent.base.service.BaseService;
-import com.scrats.rent.entity.ElectricThreeHistory;
-import com.scrats.rent.mapper.ElectricThreeHistoryMapper;
+import com.scrats.rent.entity.ExtraHistory;
+import com.scrats.rent.mapper.ExtraHistoryMapper;
 
 /**
  * Created with scrat.
@@ -11,6 +11,6 @@ import com.scrats.rent.mapper.ElectricThreeHistoryMapper;
  * Author:   lol.
  * Date:     2018/6/6 22:33.
  */
-public interface ElectricThreeHistoryService extends BaseService<ElectricThreeHistory, ElectricThreeHistoryMapper> {
+public interface ExtraHistoryService extends BaseService<ExtraHistory, ExtraHistoryMapper> {
 
 }

@@ -1,7 +1,7 @@
 package com.scrats.rent.mapper;
 
 import com.scrats.rent.base.mapper.BaseMapper;
-import com.scrats.rent.entity.ElectricHistory;
+import com.scrats.rent.entity.ExtraHistory;
 
 /**
  * Created with scrat.
@@ -10,6 +10,6 @@ import com.scrats.rent.entity.ElectricHistory;
  * Author:   lol.
  * Date:     2018/5/24 00:12.
  */
-public interface ElectricHistoryMapper extends BaseMapper<ElectricHistory> {
+public interface ExtraHistoryMapper extends BaseMapper<ExtraHistory> {
 
 }

@@ -118,6 +118,11 @@ public class RoomController {
             }
             room.setCreateTs(System.currentTimeMillis());
             roomService.insertSelective(room);
+
+            Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
+            building.setRooms(building.getRooms() + 1);
+            building.setRoomAble(building.getRoomAble() + 1);
+            buildingService.updateByPrimaryKeySelective(building);
         }
 
         return new JsonResult();
@@ -146,6 +151,10 @@ public class RoomController {
         }
 
         roomService.deleteRoomByIds(ids);
+        Building building = buildingService.selectByPrimaryKey(ids[0]);
+        building.setRooms(building.getRooms() - 1);
+        building.setRoomAble(building.getRoomAble() - 1);
+        buildingService.updateByPrimaryKeySelective(building);
 
         return new JsonResult();
     }

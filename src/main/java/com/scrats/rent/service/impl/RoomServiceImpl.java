@@ -162,6 +162,8 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         room.setRentTs(createTs);
         dao.updateByPrimaryKeySelective(room);
 
+        building.setRoomAble(building.getRoomAble() - 1);
+        buildingService.updateByPrimaryKeySelective(building);
         return new JsonResult();
     }
 

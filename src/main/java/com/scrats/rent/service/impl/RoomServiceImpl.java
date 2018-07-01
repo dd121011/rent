@@ -131,7 +131,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         bargin.setCreateTs(createTs);
         barginService.insertSelective(bargin);
 
-        //TODO 保存合同额外收费项，便于以后计算每月房租，另外还要获取水、电、三相电、天然气的初始读数
+        //保存合同额外收费项，便于以后计算每月房租
         for (BarginExtra extra: bargin.getBarginExtraList()) {
             extra.setRoomId(bargin.getRoomId());
             extra.setBarginId(bargin.getBarginId());
@@ -139,7 +139,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
             barginExtraService.insertSelective(extra);
         }
 
-        //TODO 保存押金项和生成押金
+        //保存押金项和生成押金
         Deposit deposit = new Deposit();
         deposit.setRoomId(bargin.getRoomId());
         deposit.setBuildingId(building.getBuildingId());

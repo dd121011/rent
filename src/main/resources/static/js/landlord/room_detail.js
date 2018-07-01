@@ -59,36 +59,6 @@ layui.use(['layer', 'table', 'form'], function () {
         }
     });
 
-    //监听工具条
-    table.on('tool(renterRoomTableFilter)', function (obj) {
-        var data = obj.data;
-        if (obj.event === 'detail') {
-            location.href= requestBaseUrl + "/room/goRoom/" + data.buildingId + "?tokenId=" + tokenId;
-        } else if (obj.event === 'del') {
-            layer.confirm('真的删除行么', function (index) {
-                var jhxhr = $.ajax({url: requestBaseUrl + "/renterDelete/" + $('#roomId').val() + "/" + data.roomRenterId, headers: header, type: "GET"});
-                jhxhr.done(function (res) {
-                    if(res.code == 1){
-                        obj.del();
-                    }else{
-                        layer.alert(res.msg)
-                    }
-                });
-                layer.close(index);
-            });
-        } else if (obj.event === 'edit') {
-            form.val("renterEditFormFilter", {
-                "roomRenterId": data.roomRenterId
-                ,"name": data.user.name
-                ,"sex": data.user.sex
-                ,"phone": data.phone
-                ,"idCard": data.idCard
-                ,"remark": data.user.remark
-            });
-            active.renterEdit();
-        }
-    });
-
     var active = {
         rentAdd: function () {
             layer.open({
@@ -162,7 +132,7 @@ layui.use(['layer', 'table', 'form'], function () {
                             , countName: 'count' //数据总数的字段名称，默认：count
                             , dataName: 'data' //数据列表的字段名称，默认：data
                         } //如果无需自定义数据响应名称，可不加该参数
-                        , id: 'depositTable'
+                        , id: 'depositTableEdit'
                         // , width: 550
                         , cols: [[//表头
                             {field: 'value', title: '项目', templet: function(d){
@@ -171,9 +141,15 @@ layui.use(['layer', 'table', 'form'], function () {
                             , {field: 'unit', title: '单位', templet: function(d){
                                     return d.unit;
                                 }}
-                            , {field: 'price', title: '单价', edit: 'text'}
-                            , {field: 'number', title: '数量', edit: 'text'}
-                            , {field: 'money', title: '金额', edit: 'text'}
+                            , {field: 'price', title: '单价', edit: 'text', templet: function(d){
+                                    return undefined == d.price ? "" : d.price;
+                            }}
+                            , {field: 'number', title: '数量', edit: 'text', templet: function(d){
+                                    return undefined == d.number ? "" : d.number;
+                                }}
+                            , {field: 'money', title: '金额', edit: 'text', templet: function(d){
+                                    return undefined == d.money ? "" : d.money;
+                                }}
                         ]]
                         , done: function (res, curr, count) {
                             depositItermTableData = res.data;
@@ -243,5 +219,78 @@ layui.use(['layer', 'table', 'form'], function () {
     $('.childrenBody .layui-btn').on('click', function () {
         var othis = $(this), method = othis.data('method');
         active[method] ? active[method].call(this, othis) : '';
+    });
+
+    //监听工具条
+    table.on('tool(renterRoomTableFilter)', function (obj) {
+        var data = obj.data;
+        if (obj.event === 'detail') {
+            location.href= requestBaseUrl + "/room/goRoom/" + data.buildingId + "?tokenId=" + tokenId;
+        } else if (obj.event === 'del') {
+            layer.confirm('真的删除行么', function (index) {
+                var jhxhr = $.ajax({url: requestBaseUrl + "/renterDelete/" + $('#roomId').val() + "/" + data.roomRenterId, headers: header, type: "GET"});
+                jhxhr.done(function (res) {
+                    if(res.code == 1){
+                        obj.del();
+                    }else{
+                        layer.alert(res.msg)
+                    }
+                });
+                layer.close(index);
+            });
+        } else if (obj.event === 'edit') {
+            form.val("renterEditFormFilter", {
+                "roomRenterId": data.roomRenterId
+                ,"name": data.user.name
+                ,"sex": data.user.sex
+                ,"phone": data.phone
+                ,"idCard": data.idCard
+                ,"remark": data.user.remark
+            });
+            active.renterEdit();
+        }
+    });
+
+    table.on('edit(extraTableFilter)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+        console.log(extraTableData);
+
+    });
+
+    table.on('edit(depositTableFilter)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var othis = $(this);
+        if(obj.field == "number" || obj.field == "price"){
+            if(undefined != obj.data.number && undefined != obj.data.price){
+                obj.data.money = Number(obj.data.number) * Number(obj.data.price)/1;
+                console.log(depositItermTableData);
+                console.log(depositItermTableData.length);
+
+                table.render({
+                    elem: '#depositTable'//指定原始表格元素选择器（
+                    , data: depositItermTableData
+                    , id: 'depositTableEdit'
+                    , cols: [[//表头
+                        {field: 'value', title: '项目', templet: function(d){
+                                return d.value;
+                            }}
+                        , {field: 'unit', title: '单位', templet: function(d){
+                                return d.unit;
+                            }}
+                        , {field: 'price', title: '单价', edit: 'text', templet: function(d){
+                                return undefined == d.price ? "" : d.price;
+                            }}
+                        , {field: 'number', title: '数量', edit: 'text', templet: function(d){
+                                return undefined == d.number ? "" : d.number;
+                            }}
+                        , {field: 'money', title: '金额', edit: 'text', templet: function(d){
+                                return undefined == d.money ? "" : d.money;
+                            }}
+                    ]]
+                    , done: function (res, curr, count) {
+                        depositItermTableData = res.data;
+                        console.log(depositItermTableData)
+                    }
+                });
+            }
+        }
     });
 });

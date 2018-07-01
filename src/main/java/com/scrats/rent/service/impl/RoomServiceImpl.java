@@ -3,16 +3,19 @@ package com.scrats.rent.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.common.APIRequest;
+import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.constant.UserType;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.mapper.RoomMapper;
 import com.scrats.rent.service.*;
+import com.scrats.rent.util.RandomUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -43,6 +46,12 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     private RoomRenterService roomRenterService;
     @Autowired
     private RentService rentService;
+    @Autowired
+    private DepositService depositService;
+    @Autowired
+    private DepositItermService depositItermService;
+    @Autowired
+    private BarginExtraService barginExtraService;
 
     @Override
     public PageInfo<Room> getRoomList(APIRequest apiRequest, Room room) {
@@ -74,14 +83,15 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     }
 
     @Override
-    public boolean rent(Bargin bargin, List<DictionaryIterm> extras, List<DepositIterm> depositIterms) {
+    @Transactional//添加食物一致性注解
+    public JsonResult rent(Bargin bargin) {
         Long createTs = System.currentTimeMillis();
 
         //填充buildingId
         Building building = buildingService.getBuildingByRoomId(bargin.getRoomId());
         bargin.setBuildingId(building.getBuildingId());
 
-        //TODO 填充renterId
+        //填充renterId
         Renter renter = renterService.findBy("idCard", bargin.getIdCard());
         if(null == renter){
             //创建account
@@ -117,22 +127,42 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         roomRenter.setCreateTs(bargin.getLiveTs());
         roomRenterService.insertSelective(roomRenter);
 
-
-        //TODO 保存合同额外收费项，便于以后计算每月房租，另外还要获取水、电、三相电、天然气的初始读数
-        for (DictionaryIterm extra: extras) {
-            
-        }
-        //TODO 保存押金项和生成押金，填充bargin的guarantyFee字段和total字段
-        bargin.setGuarantyFee(20000);
-        bargin.setTotal(50000);
-
+        bargin.setBarginNo("haozu-bargin-" + RandomUtil.generateLowerString(5) + "-" + createTs);
         bargin.setCreateTs(createTs);
         barginService.insertSelective(bargin);
+
+        //TODO 保存合同额外收费项，便于以后计算每月房租，另外还要获取水、电、三相电、天然气的初始读数
+        for (BarginExtra extra: bargin.getBarginExtraList()) {
+            extra.setRoomId(bargin.getRoomId());
+            extra.setBarginId(bargin.getBarginId());
+            extra.setCreateTs(createTs);
+            barginExtraService.insertSelective(extra);
+        }
+
+        //TODO 保存押金项和生成押金
+        Deposit deposit = new Deposit();
+        deposit.setRoomId(bargin.getRoomId());
+        deposit.setBuildingId(building.getBuildingId());
+        deposit.setDepositNo("haozu-deposit-" + RandomUtil.generateLowerString(4) + "-" + createTs);
+        deposit.setFee(bargin.getGuarantyFee());
+        deposit.setRenterId(bargin.getRenterId());
+        deposit.setUserId(bargin.getUserId());
+        deposit.setCreateTs(createTs);
+        depositService.insertSelective(deposit);
+
+        for (DepositIterm iterm: bargin.getDepositItermList()) {
+            iterm.setRoomId(bargin.getRoomId());
+            iterm.setDepositId(deposit.getDepositId());
+            iterm.setCreateTs(createTs);
+            depositItermService.insertSelective(iterm);
+        }
 
         //更新房间状态
         Room room = dao.selectByPrimaryKey(bargin.getRoomId());
         room.setRentTs(createTs);
-        return false;
+        dao.updateByPrimaryKeySelective(room);
+
+        return new JsonResult();
     }
 
     @Override

@@ -57,6 +57,8 @@ public class RoomController {
     private AccountService accountService;
     @Autowired
     private RoomRenterService roomRenterService;
+    @Autowired
+    private RentService rentService;
 
     @IgnoreSecurity
     @GetMapping("/goRoom/{buildingId}")
@@ -150,19 +152,18 @@ public class RoomController {
 
     @PostMapping("/rent")
     @ResponseBody
-    public JsonResult rentAdd(@APIRequestControl APIRequest apiRequest, Bargin bargin, String extras, String depositIterms) {
+    public JsonResult rent(@APIRequestControl APIRequest apiRequest) {
+        Bargin bargin = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Bargin.class);
         //补齐landlordId字段
-        bargin.setLandlordId(apiRequest.getUser().getUserId());
+        bargin.setLandlordId(apiRequest.getLanlordId());
+        bargin.setRoomId(apiRequest.getRoomId());
+        Room room = roomService.selectByPrimaryKey(bargin.getRoomId());
+        if(room.getRentTs() != null && room.getRentTs() > 0){
+            return new JsonResult("办理入住失败, 请先办理退房");
+        }
 
-        //TODO 保存合同额外收费项，便于以后计算每月房租，另外还要获取水、电、三相电、天然气的初始读数
-        List<DictionaryIterm> extraList = JSON.parseArray(extras,DictionaryIterm.class);
 
-        //TODO 保存押金项和生成押金，填充bargin的guarantyFee字段和total字段
-        List<DepositIterm> depositItermList = JSON.parseArray(depositIterms,DepositIterm.class);
-
-        roomService.rent(bargin, extraList, depositItermList);
-
-        return new JsonResult();
+        return roomService.rent(bargin);
     }
 
     @IgnoreSecurity

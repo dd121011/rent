@@ -6,6 +6,8 @@ import tk.mybatis.mapper.annotation.KeySql;
 import tk.mybatis.mapper.code.IdentityDialect;
 
 import javax.persistence.Id;
+import javax.persistence.Transient;
+import java.util.List;
 
 /**
  * @Created with scrat.
@@ -22,7 +24,7 @@ public class Bargin extends BaseEntity {
     @Id
     @KeySql(dialect = IdentityDialect.MYSQL)
     private Integer barginId;//主键
-    private String bargin_no;//合同编号,32位
+    private String barginNo;//合同编号,32位
     private String name;//姓名
     private String sex;//性別, 0-保密, 1-男, 2-女
     private String phone;//手机号码
@@ -34,10 +36,6 @@ public class Bargin extends BaseEntity {
     private Integer rentFee;//租金[分/月]
     private Integer guarantyFee;//押金[分]
     private Integer total;//首次缴费[分]
-    private Integer water;//水表初始读数, 单位KG
-    private Integer electric;//电表初始读数, 单位Kwh
-    private Integer electricThree;//三相电表初始读数, 单位Kwh
-    private Integer gas;//天然气初始读数, 单位m2
     private String facilities;//配套设施id字符串[,隔开]
     private Integer roomId;//房间id,一个合同对应一个房间，一个房间对应多个合同
     private Integer buildingId;//房子Id
@@ -48,5 +46,10 @@ public class Bargin extends BaseEntity {
     private Long leaveTs;//退租时间，13位时间戳
 
     private Integer rentDay;//交租日
+
+    @Transient
+    private List<BarginExtra> barginExtraList;
+    @Transient
+    private List<DepositIterm> depositItermList;
 
 }

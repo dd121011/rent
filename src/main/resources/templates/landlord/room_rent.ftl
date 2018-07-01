@@ -28,7 +28,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">收租日</label>
             <div class="layui-input-inline">
-                <select name="sex" lay-filter="rentDay">
+                <select name="rentDay" lay-filter="rentDay">
                     <#list 1..31 as t>
                             <option value="${t}">${t}</option>
                     </#list>
@@ -90,7 +90,7 @@
             <label class="layui-form-label">配套设施</label>
             <div class="layui-input-block">
                 <#list room.facilitiesIterm as item>
-                    <input type="checkbox" lay-filter="testt" name="facilityIds" value="${item.dicItermId}" title="${item.value}" checked>
+                    <input type="checkbox" lay-filter="testt" name="facilities" value="${item.dicItermCode}" title="${item.value}" checked>
                 </#list>
             </div>
         </div>

@@ -1,7 +1,5 @@
 package com.scrats.rent.common;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.util.BaseUtil;
@@ -17,7 +15,7 @@ import java.util.Map;
  * @Date: 2018/6/10 19:59.
  */
 @Data
-public class APIRequest<K> {
+public class APIRequest {
 
     private String tokenId;
     private int page = 1;
@@ -34,8 +32,6 @@ public class APIRequest<K> {
     private Integer buildingId;
 
     private Map<String, Object> body;
-    private K bodyObject;
-    private Class bodyObjectClass;
 
     public int getRows() {
         return rows > 0 ? rows : 10;
@@ -43,14 +39,6 @@ public class APIRequest<K> {
 
     public int getPage() {
         return page > 0 ? page : 1;
-    }
-
-    public K getBodyObject() {
-        if (bodyObject == null && bodyObjectClass != null && body != null) {
-            Object object = JSON.toJavaObject(new JSONObject(body), bodyObjectClass);
-            bodyObject = (K) object;
-        }
-        return bodyObject;
     }
 
     public static <T> T getParameterValue(APIRequest request, String key, T defaultValue, Class<T> clazz) {

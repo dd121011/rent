@@ -401,7 +401,6 @@ DROP TABLE IF EXISTS `extra_history`;
 CREATE TABLE `extra_history` (
     `extra_history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_id` int(10) NOT NULL COMMENT '房间Id',
-    `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `count` int(10) unsigned NOT NULL COMMENT '水表读数, 单位KG',
     `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
     `dic_iterm_code` char(4) NOT NULL COMMENT '额外收费项code',

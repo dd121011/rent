@@ -287,9 +287,9 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
                 rentIterm.setMoney(rentIterm.getPrice() * rentIterm.getNumber());
                 extraHistories.add(extra);
             }else{
-                rentIterm.setPrice(origin.getCount());
+                rentIterm.setPrice(origin.getCount()*100);
                 rentIterm.setNumber(1);
-                rentIterm.setMoney(origin.getCount());
+                rentIterm.setMoney(rentIterm.getPrice());
             }
             fee += rentIterm.getMoney();
             rentItermList.add(rentIterm);

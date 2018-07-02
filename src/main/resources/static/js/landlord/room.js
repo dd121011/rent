@@ -1,8 +1,10 @@
-layui.use(['layer', 'table', 'form'], function () {
+var chageExtra;
+layui.use(['layer', 'table', 'form', 'laytpl'], function () {
     var $ = layui.$;
     var layer = layui.layer;
     var table = layui.table;
     var form = layui.form;
+    var laytpl = layui.laytpl;
 
     //方法级渲染
     table.render({
@@ -167,6 +169,23 @@ layui.use(['layer', 'table', 'form'], function () {
             //续约
         } else if (obj.event === 'detail'){
             location.href= requestBaseUrl + "/room/goRoomDetail/" + data.roomId + "?tokenId=" + tokenId;
+        } else if (obj.event === 'charge'){
+            var jhxhr = $.ajax({url: requestBaseUrl + "/room/barginExtra/" + data.roomId, headers: header, type: "GET"});
+            jhxhr.done(function (res) {
+                if(res.code == 1){
+                    chageExtra = res.data;
+                    chageExtra.roomId = data.roomId;
+                    var getTpl = roomChargeTemplete.innerHTML;
+                    var view = document.getElementById('chargeView');
+                    laytpl(getTpl).render(res.data, function(html){
+                        view.innerHTML = html;
+                    });
+                    active.charge();
+                }else{
+                    layer.alert(res.msg)
+                }
+            });
+
         }
     });
 
@@ -235,6 +254,23 @@ layui.use(['layer', 'table', 'form'], function () {
                 , btn: '关闭全部'
                 , btnAlign: 'c' //按钮居中
                 // , shade: 0 //不显示遮罩
+                , yes: function () {
+                    layer.closeAll();
+                }
+            });
+        },
+        charge: function () {
+            $("input[name='roomNo']").attr("readonly","readonly");
+            layer.open({
+                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                ,title: "录入房租"
+                , area: '500px'
+                , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                , id: 'layerRoomCharge'  //防止重复弹出
+                , content: $('#addChargeDiv')
+                , btn: '关闭全部'
+                , btnAlign: 'c' //按钮居中
+//                    ,shade: 0 //不显示遮罩
                 , yes: function () {
                     layer.closeAll();
                 }

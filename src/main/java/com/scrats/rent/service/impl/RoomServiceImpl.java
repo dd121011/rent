@@ -9,6 +9,7 @@ import com.scrats.rent.constant.UserType;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.mapper.RoomMapper;
 import com.scrats.rent.service.*;
+import com.scrats.rent.util.DateUtils;
 import com.scrats.rent.util.RandomUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -17,7 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with scrat.
@@ -52,6 +56,10 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     private DepositItermService depositItermService;
     @Autowired
     private BarginExtraService barginExtraService;
+    @Autowired
+    private ExtraHistoryService extraHistoryService;
+    @Autowired
+    private RentItermService rentItermService;
 
     @Override
     public PageInfo<Room> getRoomList(APIRequest apiRequest, Room room) {
@@ -83,7 +91,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     }
 
     @Override
-    @Transactional//添加食物一致性注解
+    @Transactional//添加事物一致性注解
     public JsonResult rent(Bargin bargin) {
         Long createTs = System.currentTimeMillis();
 
@@ -228,5 +236,79 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     @Override
     public List<Room> getRoomByRoomNoAndBuildingId(String roomNo, Integer buildingId) {
         return dao.getRoomByRoomNoAndBuildingId(roomNo, buildingId);
+    }
+
+    @Override
+    @Transactional
+    public JsonResult charge(List<ExtraHistory> chargeList, String month, Integer barginId, Integer roomId) {
+        Long createTs = System.currentTimeMillis();
+        List<BarginExtra> list = barginExtraService.findListBy("barginId",barginId);
+        Map<Integer, ExtraHistory> extraHistoryMap = new HashMap<>();
+        for(ExtraHistory extraHistory : chargeList){
+            extraHistoryMap.put(extraHistory.getBarginExtraId(),extraHistory);
+        }
+
+        Rent rent = new Rent();
+        List<RentIterm> rentItermList = new ArrayList<>();
+        rent.setRentMonth(month);
+        rent.setRoomId(roomId);
+        rent.setRentNo("haozu-rent-" + month + RandomUtil.generateLowerString(1) + "-" + createTs);
+
+        Integer fee = 0;
+        List<ExtraHistory> extraHistories = new ArrayList<>();
+        for(BarginExtra barginExtra : list){
+            RentIterm rentIterm = new RentIterm();
+            rentIterm.setBarginExtraId(barginExtra.getBarginExtraId());
+            rentIterm.setValue(barginExtra.getValue());
+            rentIterm.setUnit(barginExtra.getUnit());
+            rentIterm.setCreateTs(createTs);
+            ExtraHistory origin = extraHistoryMap.get(barginExtra.getBarginExtraId());
+            if(barginExtra.getNumber() > -1){
+                //找上一个月的读数
+                int beforeCount = 0;
+                ExtraHistory query = new ExtraHistory();
+                query.setBarginExtraId(barginExtra.getBarginExtraId());
+                query.setMonth(DateUtils.beforeMonth(month));
+                List<ExtraHistory> before = extraHistoryService.select(query);
+                //没有记录
+                if(null == before || before.size() < 1){
+                    beforeCount = barginExtra.getNumber();
+                }else{
+                    beforeCount = before.get(0).getCount();
+                }
+                ExtraHistory extra = new ExtraHistory(roomId, origin.getCount(),month, origin.getDicItermCode(), origin.getBarginExtraId());
+                extra.setCreateTs(createTs);
+                int nowCount = origin.getCount() - beforeCount;
+                if(nowCount < 0){
+                    return new JsonResult(rentIterm.getValue() + "数据录入有误, 请核查, 上月数据为" + beforeCount);
+                }
+                rentIterm.setPrice(barginExtra.getPrice());
+                rentIterm.setNumber(nowCount);
+                rentIterm.setMoney(rentIterm.getPrice() * rentIterm.getNumber());
+                extraHistories.add(extra);
+            }else{
+                rentIterm.setPrice(origin.getCount());
+                rentIterm.setNumber(1);
+                rentIterm.setMoney(origin.getCount());
+            }
+            fee += rentIterm.getMoney();
+            rentItermList.add(rentIterm);
+        }
+
+        rent.setFee(fee);
+        rent.setCount(0);
+        rent.setRealFee(fee);
+        rent.setCreateTs(createTs);
+        rentService.insertSelective(rent);
+
+        for(RentIterm iterm : rentItermList){
+            iterm.setRentId(rent.getRentId());
+            rentItermService.insertSelective(iterm);
+        }
+
+        for(ExtraHistory ext : extraHistories){
+            extraHistoryService.insertSelective(ext);
+        }
+        return new JsonResult();
     }
 }

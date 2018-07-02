@@ -21,10 +21,22 @@ public class ExtraHistory extends BaseEntity {
 
     @Id
     @KeySql(dialect = IdentityDialect.MYSQL)
-    private Integer waterHistoryId;//主键
+    private Integer extraHistoryId;//主键
     private Integer roomId;//房间Id
-    private Integer buildingId;//房子Id
     private Integer count;//水表读数, 单位KG
     private String month;//统计月, eg 201805
-    private String dicItermCode;//额外收费项Id
+    private String dicItermCode;//额外收费项code
+    private Integer barginExtraId;//额外收费项Id
+
+    public ExtraHistory() {
+
+    }
+
+    public ExtraHistory(Integer roomId, Integer count, String month, String dicItermCode, Integer barginExtraId) {
+        this.roomId = roomId;
+        this.count = count;
+        this.month = month;
+        this.dicItermCode = dicItermCode;
+        this.barginExtraId = barginExtraId;
+    }
 }

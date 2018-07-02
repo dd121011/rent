@@ -161,4 +161,16 @@ public class DateUtils {
         return calendar.getTime();
     }
 
+    public static String beforeMonth(String month){
+        try {
+            Date date = sdfMonth.parse(month);
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH, -1);
+            return getMonth(calendar.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

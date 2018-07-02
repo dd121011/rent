@@ -5,6 +5,7 @@ import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Bargin;
+import com.scrats.rent.entity.ExtraHistory;
 import com.scrats.rent.entity.Room;
 import com.scrats.rent.mapper.RoomMapper;
 
@@ -32,4 +33,6 @@ public interface RoomService extends BaseService<Room, RoomMapper> {
     Room detailForRenter(Integer roomId);
 
     List<Room> getRoomByRoomNoAndBuildingId(String roomNo, Integer buildingId);
+
+    JsonResult charge(List<ExtraHistory> chargeList, String month, Integer barginId, Integer roomId);
 }

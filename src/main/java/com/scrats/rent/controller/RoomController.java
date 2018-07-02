@@ -59,6 +59,8 @@ public class RoomController {
     private RoomRenterService roomRenterService;
     @Autowired
     private RentService rentService;
+    @Autowired
+    private BarginExtraService barginExtraService;
 
     @IgnoreSecurity
     @GetMapping("/goRoom/{buildingId}")
@@ -288,6 +290,25 @@ public class RoomController {
         List<DictionaryIterm> deposits = dictionaryItermService.selectByIds(room.getDeposits());
 
         return JSON.toJSONString(new JsonResult<List>(deposits));
+    }
+
+    @GetMapping("/barginExtra/{roomId}")
+    @ResponseBody
+    public JsonResult barginExtra(@PathVariable(name="roomId") Integer roomId){
+
+        List<Bargin> barginList = barginService.getBarginByRoomId(roomId, false);
+        List<BarginExtra> list = barginExtraService.findListBy("barginId",barginList.get(0).getBarginId());
+        return new JsonResult<List>(list);
+    }
+
+    @PostMapping("/charge")
+    @ResponseBody
+    public JsonResult charge(@APIRequestControl APIRequest apiRequest){
+        Integer barginId = APIRequest.getParameterValue(apiRequest,"barginId",Integer.class);
+        String month = APIRequest.getParameterValue(apiRequest,"month",String.class);
+        List<ExtraHistory> list = JSON.parseArray(JSON.toJSONString(apiRequest.getBody().get("barginExtraList")),ExtraHistory.class);
+
+        return roomService.charge(list, month, barginId, apiRequest.getRoomId());
     }
 
 }

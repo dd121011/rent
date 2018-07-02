@@ -44,6 +44,7 @@
 
 <script type="text/html" id="roomListBar">
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="detail">详情</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="charge">生成房租</a>
     {{#  if(d.rentTs > 0){ }}
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="continue">续约</a>
     {{#  } else { }}
@@ -57,5 +58,6 @@
 <script src="${base}/static/js/landlord/room.js" charset="utf-8"></script>
 
 <#include "landlord/room_edit.ftl"/>
+<#include "landlord/room_charge.ftl"/>
 
 </html>

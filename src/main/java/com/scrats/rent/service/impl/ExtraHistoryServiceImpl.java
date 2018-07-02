@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created with scrat.
  * Description: ${DESCRIPTION}.
@@ -20,4 +22,8 @@ public class ExtraHistoryServiceImpl extends BaseServiceImpl<ExtraHistory, Extra
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Override
+    public List<ExtraHistory> getListByExtraHistory(ExtraHistory extraHistory) {
+        return dao.getListByExtraHistory(extraHistory);
+    }
 }

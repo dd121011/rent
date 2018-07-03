@@ -649,6 +649,30 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 }
 ```
 
+### 获取某一个房间额外收费项的明细数据
+
+> [GET] **application/json** `/api/renter/extraHistory/{barginExtraId}` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| tokenId | String | true | 登录获取的tokenId |
+| userId | Integer | true | userId放在header中 |
+
+#### Sample
+```
+curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/renter/extraHistory/1'
+```
+#### Response
+```
+{
+    "code": 1,
+    "count": 0,
+    "data": {
+        "tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff",
+        "userId": "9",
+    }
+}
+```
 
 
 上传身份信息

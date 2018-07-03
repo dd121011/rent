@@ -34,5 +34,5 @@ public interface RoomService extends BaseService<Room, RoomMapper> {
 
     List<Room> getRoomByRoomNoAndBuildingId(String roomNo, Integer buildingId);
 
-    JsonResult charge(List<ExtraHistory> chargeList, String month, Integer barginId, Integer roomId);
+    JsonResult charge(List<ExtraHistory> chargeList, String month, Integer barginId, Integer roomId, String remark);
 }

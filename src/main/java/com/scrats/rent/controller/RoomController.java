@@ -306,9 +306,18 @@ public class RoomController {
     public JsonResult charge(@APIRequestControl APIRequest apiRequest){
         Integer barginId = APIRequest.getParameterValue(apiRequest,"barginId",Integer.class);
         String month = APIRequest.getParameterValue(apiRequest,"month",String.class);
+        String remark = APIRequest.getParameterValue(apiRequest,"remark",String.class);
         List<ExtraHistory> list = JSON.parseArray(JSON.toJSONString(apiRequest.getBody().get("barginExtraList")),ExtraHistory.class);
 
-        return roomService.charge(list, month, barginId, apiRequest.getRoomId());
+        Rent rent = new Rent();
+        rent.setRentMonth(month);
+        rent.setRoomId(apiRequest.getRoomId());
+        List<Rent> rentList  = rentService.getListByRent(rent);
+        if(null != list && list.size() > 0){
+            return new JsonResult("已经计算房租, 请勿重复生成");
+        }
+
+        return roomService.charge(list, month, barginId, apiRequest.getRoomId(), remark);
     }
 
 }

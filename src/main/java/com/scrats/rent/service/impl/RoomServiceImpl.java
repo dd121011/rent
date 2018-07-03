@@ -240,7 +240,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
 
     @Override
     @Transactional
-    public JsonResult charge(List<ExtraHistory> chargeList, String month, Integer barginId, Integer roomId) {
+    public JsonResult charge(List<ExtraHistory> chargeList, String month, Integer barginId, Integer roomId, String remark) {
         Long createTs = System.currentTimeMillis();
         List<BarginExtra> list = barginExtraService.findListBy("barginId",barginId);
         Map<Integer, ExtraHistory> extraHistoryMap = new HashMap<>();
@@ -253,6 +253,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         rent.setRentMonth(month);
         rent.setRoomId(roomId);
         rent.setRentNo("haozu-rent-" + month + RandomUtil.generateLowerString(1) + "-" + createTs);
+        rent.setRemark(remark);
 
         Integer fee = 0;
         List<ExtraHistory> extraHistories = new ArrayList<>();

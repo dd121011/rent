@@ -26,6 +26,7 @@ layui.use(['layer', 'form', 'laydate'], function () {
         bodyParams.barginExtraList=barginExtraList;
         bodyParams.barginId=chageExtra[0].barginId;
         bodyParams.month=$('#addChargeDiv input[name=month]').val();
+        bodyParams.remark=$('#addChargeDiv textarea[name=remark]').val();
         params.body = bodyParams;
 
         var jhxhr = $.ajax({url: requestBaseUrl + "/room/charge", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST"});

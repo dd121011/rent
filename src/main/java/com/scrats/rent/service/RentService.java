@@ -16,4 +16,6 @@ import java.util.List;
 public interface RentService extends BaseService<Rent, RentMapper> {
 
     List<Rent> getRentByRoomId(Integer roomId, boolean payFlag);
+
+    List<Rent> getListByRent(Rent rent);
 }

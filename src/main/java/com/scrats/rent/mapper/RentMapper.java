@@ -18,4 +18,13 @@ public interface RentMapper extends BaseMapper<Rent> {
 
     @Select("<script>select r.* from rent r where 1=1 <if test='roomId != null'>and r.room_id = #{roomId}</if> <if test='payFlag == false'>and r.pay_ts = 0</if>  <if test='payFlag == true'>and r.pay_ts > 0</if> and r.delete_ts = 0</script>")
     List<Rent> getRentByRoomId(@Param("roomId") Integer roomId, @Param("payFlag") boolean payFlag);
+
+    @Select("<script>select r.* from rent r where 1=1 " +
+            "<if test='rent.rentId != null'>and r.rent_id = #{rent.rentId}</if> " +
+            "<if test='rent.roomId != null'>and r.room_id = #{rent.roomId}</if> " +
+            "<if test='rent.roomNo != null and rent.roomNo != \"\"'>and r.room_no = #{rent.roomNo}</if> " +
+            "<if test='rent.month != null and rent.month != \"\"'>and r.month = #{rent.month}</if> " +
+            "<if test='rent.payTs != null'>and r.pay_ts > 0</if> " +
+            "<if test='rent.deleteTs != null'>and r.delete_ts > 0</if></script>")
+    List<Rent> getListByRent(@Param("rent") Rent rent);
 }

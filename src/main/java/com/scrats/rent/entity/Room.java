@@ -53,6 +53,12 @@ public class Room extends BaseEntity {
     @Transient
     private List<DictionaryIterm> depositIterm;
     @Transient
+    private List<String> facilityIds;
+    @Transient
+    private List<String> extraIds;
+    @Transient
+    private List<String> depositIds;
+    @Transient
     private Building building;
     @Transient
     private List<Bargin> barginList;

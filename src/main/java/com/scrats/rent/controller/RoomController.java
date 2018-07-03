@@ -101,14 +101,19 @@ public class RoomController {
 
     @PostMapping("/edit")
     @ResponseBody
-    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Room room, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds, @RequestParam("depositIds[]") String[] depositIds) {
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest) {
 
-        String facilityId = StringUtils.join(facilityIds, ",");
-        String extraId = StringUtils.join(extraIds, ",");
-        String depositItermId = StringUtils.join(depositIds, ",");
-        room.setFacilities(facilityId);
-        room.setExtraFee(extraId);
-        room.setDeposits(depositItermId);
+        Room room = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Room.class);
+
+        if(null != room.getFacilityIds() && room.getFacilityIds().size()>0){
+            room.setFacilities(String.join(",", room.getFacilityIds()));
+        }
+        if(null != room.getExtraIds() && room.getExtraIds().size()>0){
+            room.setExtraFee(String.join(",", room.getExtraIds()));
+        }
+        if(null != room.getDepositIds() && room.getDepositIds().size()>0){
+            room.setDeposits(String.join(",", room.getDepositIds()));
+        }
 
         if(null != room.getRoomId()){
             room.setUpdateTs(System.currentTimeMillis());

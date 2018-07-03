@@ -5,10 +5,13 @@ layui.use(['layer', 'form'], function () {
 
     //监听提交
     form.on('submit(roomEditFormSubmitFilter)', function(data){
-        var params = $(data.form).serializeObject();
-        params.rentFee = params.rentFee * 100;
-        params.area = params.area * 10000;
-        var jhxhr = $.ajax({url: requestBaseUrl + "/room/edit", data: params, headers: header, type: "POST"});
+        var params = {};
+        var fromParams = $(data.form).serializeObject();
+        fromParams.rentFee = fromParams.rentFee * 100;
+        fromParams.area = fromParams.area * 10000;
+        params.body = fromParams;
+        console.log(params);
+        var jhxhr = $.ajax({url: requestBaseUrl + "/room/edit", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST"});
         jhxhr.done(function (res) {
             if(res.code == 1){
                 if(params.roomId){

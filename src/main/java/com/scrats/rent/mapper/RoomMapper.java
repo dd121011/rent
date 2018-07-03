@@ -38,6 +38,6 @@ public interface RoomMapper extends BaseMapper<Room> {
     @Select("<script>select r.* from room r " +
             "where 1=1 " +
             "<if test='roomNo != null and roomNo != \"\"'>and r.room_no = #{roomNo}</if> " +
-            "<if test='roomNo != null and roomNo != \"\"'>and t.room_no = #{roomNo}</if></script>")
+            "<if test='buildingId != null'>and r.building_id = #{buildingId}</if></script>")
     List<Room> getRoomByRoomNoAndBuildingId(@Param("roomNo") String roomNo, @Param("buildingId") Integer buildingId);
 }

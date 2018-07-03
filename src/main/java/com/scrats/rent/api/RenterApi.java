@@ -177,7 +177,7 @@ public class RenterApi {
         throw new BusinessException("数据有误");
     }
 
-    @GetMapping("/rent/{roomId}")
+    @GetMapping("/unpay/{roomId}")
     public JsonResult unpay(@PathVariable(name="roomId") Integer roomId){
         JSONArray result = new JSONArray();
         List<Rent> list = rentService.getRentByRoomId(roomId,false);

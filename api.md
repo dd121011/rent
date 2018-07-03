@@ -626,7 +626,7 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 
 ### 获取某一个房间的未缴费房租
 
-> [GET] **application/json** `/api/renter/rent/{roomId}` 
+> [GET] **application/json** `/api/renter/unpay/{roomId}` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
@@ -635,7 +635,7 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 
 #### Sample
 ```
-curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/renter/rent/3'
+curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/renter/unpay/3'
 ```
 #### Response
 ```

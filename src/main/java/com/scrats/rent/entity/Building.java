@@ -33,6 +33,14 @@ public class Building extends BaseEntity {
     private List<Attachment> attachmentList;//一个房子对应多个attachment
 
     @Transient
+    private List<String> facilityIds;
+    @Transient
+    private List<String> extraIds;
+    @Transient
+    private List<String> depositIds;
+
+
+    @Transient
     private List<DictionaryIterm> facilitiesIterm;
     @Transient
     private List<DictionaryIterm> extraFeeIterm;

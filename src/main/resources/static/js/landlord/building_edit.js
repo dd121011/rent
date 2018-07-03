@@ -5,16 +5,11 @@ layui.use(['layer', 'form'], function () {
 
     //监听提交
     form.on('submit(buildingEditFormSubmitFilter)', function(data){
-        // var facility=[];
-        // $.each($('input:checkbox[name=dicItermIds]:checked'),function(){
-        //     facility.push($(this).val());
-        // });
-        // var extra=[];
-        // $.each($('input[type=checkbox][name=extraIds]:checked'),function(){
-        //     extra.push($(this).val());
-        // });
-        var params = $(data.form).serializeObject();
-        var jhxhr = $.ajax({url: requestBaseUrl + "/building/edit", data: params, headers: header, type: "POST"});
+        var params = {};
+        var fromParams = $(data.form).serializeObject();
+        params.body = fromParams;
+        console.log(params);
+        var jhxhr = $.ajax({url: requestBaseUrl + "/building/edit", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST"});
         jhxhr.done(function (res) {
             if(res.code == 1){
                 if(params.buildingId){

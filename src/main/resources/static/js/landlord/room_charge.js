@@ -13,7 +13,7 @@ layui.use(['layer', 'form', 'laydate'], function () {
     //监听提交
     form.on('submit(roomChargeFormSubmitFilter)', function(data){
         var params = {};
-        var bodyParams = {}
+        var bodyParams = {};
         var barginExtraList = [];
         params.roomId = chageExtra.roomId;
         for(i=0, len=chageExtra.length; i< len; i++){

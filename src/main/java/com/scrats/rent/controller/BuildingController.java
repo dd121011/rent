@@ -16,12 +16,14 @@ import com.scrats.rent.service.BuildingLandlordService;
 import com.scrats.rent.service.BuildingService;
 import com.scrats.rent.service.DictionaryItermService;
 import com.scrats.rent.service.DictionaryService;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.naming.AuthenticationException;
 import java.util.*;
@@ -82,14 +84,18 @@ public class BuildingController {
 
     @PostMapping("/edit")
     @ResponseBody
-    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Building building, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds, @RequestParam("depositIds[]") String[] depositIds) {
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest) {
+        Building building = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Building.class);
 
-        String facilityId = StringUtils.join(facilityIds, ",");
-        String extraId = StringUtils.join(extraIds, ",");
-        String depositItermId = StringUtils.join(depositIds, ",");
-        building.setFacilities(facilityId);
-        building.setExtraFee(extraId);
-        building.setDeposits(depositItermId);
+        if(null != building.getFacilityIds() && building.getFacilityIds().size()>0){
+            building.setFacilities(String.join(",", building.getFacilityIds()));
+        }
+        if(null != building.getExtraIds() && building.getExtraIds().size()>0){
+            building.setExtraFee(String.join(",", building.getExtraIds()));
+        }
+        if(null != building.getDepositIds() && building.getDepositIds().size()>0){
+            building.setDeposits(String.join(",", building.getDepositIds()));
+        }
 
         if(null != building.getBuildingId()){
             building.setUpdateTs(System.currentTimeMillis());

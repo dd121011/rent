@@ -60,6 +60,8 @@ public class RenterApi {
     private RentService rentService;
     @Autowired
     private RentItermService rentItermService;
+    @Autowired
+    private ExtraHistoryService extraHistoryService;
 
     @IgnoreSecurity
     @PostMapping("/snsLogin")
@@ -191,6 +193,13 @@ public class RenterApi {
 
         return new JsonResult<JSONArray>(result);
     }
+
+    @GetMapping("/extraHistory/{barginExtraId}")
+    public JsonResult extraHistory(@PathVariable(name="barginExtraId") Integer barginExtraId){
+        List<ExtraHistory> list = extraHistoryService.findListBy("barginExtraId", barginExtraId);
+        return new JsonResult<List>(list);
+    }
+
 
     private Date getPayTime(Date date, int rentDay){
         Date rent = DateUtils.oneDayOfThisMonth(date, rentDay);

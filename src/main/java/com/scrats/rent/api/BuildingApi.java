@@ -1,5 +1,6 @@
 package com.scrats.rent.api;
 
+import com.alibaba.fastjson.JSON;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
@@ -12,7 +13,6 @@ import com.scrats.rent.entity.DictionaryIterm;
 import com.scrats.rent.service.BuildingLandlordService;
 import com.scrats.rent.service.BuildingService;
 import com.scrats.rent.service.DictionaryItermService;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,13 +50,18 @@ public class BuildingApi {
     }
 
     @PostMapping("/edit")
-    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Building building, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds, @RequestParam("depositIds[]") String[] depositIds) {
-        String facilityId = StringUtils.join(facilityIds, ",");
-        String extraId = StringUtils.join(extraIds, ",");
-        String depositItermId = StringUtils.join(depositIds, ",");
-        building.setFacilities(facilityId);
-        building.setExtraFee(extraId);
-        building.setDeposits(depositItermId);
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest) {
+        Building building = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Building.class);
+
+        if(null != building.getFacilityIds() && building.getFacilityIds().size()>0){
+            building.setFacilities(String.join(",", building.getFacilityIds()));
+        }
+        if(null != building.getExtraIds() && building.getExtraIds().size()>0){
+            building.setExtraFee(String.join(",", building.getExtraIds()));
+        }
+        if(null != building.getDepositIds() && building.getDepositIds().size()>0){
+            building.setDeposits(String.join(",", building.getDepositIds()));
+        }
 
         if(null != building.getBuildingId()){
             building.setUpdateTs(System.currentTimeMillis());

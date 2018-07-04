@@ -1,5 +1,6 @@
 package com.scrats.rent.api;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.common.APIRequest;
@@ -45,6 +46,8 @@ public class RoomApi {
     private AccountService accountService;
     @Autowired
     private RoomRenterService roomRenterService;
+    @Autowired
+    private RentService rentService;
 
     @PostMapping("/list/{buildingId}")
     public JsonResult list(@APIRequestControl APIRequest apiRequest, @PathVariable(name="buildingId") Integer buildingId, Room room) {
@@ -54,14 +57,19 @@ public class RoomApi {
     }
 
     @PostMapping("/edit")
-    public JsonResult edit(@APIRequestControl APIRequest apiRequest, Room room, @RequestParam("facilityIds[]") String[] facilityIds, @RequestParam("extraIds[]") String[] extraIds, @RequestParam("depositIds[]") String[] depositIds) {
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest) {
 
-        String facilityId = StringUtils.join(facilityIds, ",");
-        String extraId = StringUtils.join(extraIds, ",");
-        String depositItermId = StringUtils.join(depositIds, ",");
-        room.setFacilities(facilityId);
-        room.setExtraFee(extraId);
-        room.setDeposits(depositItermId);
+        Room room = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Room.class);
+
+        if(null != room.getFacilityIds() && room.getFacilityIds().size()>0){
+            room.setFacilities(String.join(",", room.getFacilityIds()));
+        }
+        if(null != room.getExtraIds() && room.getExtraIds().size()>0){
+            room.setExtraFee(String.join(",", room.getExtraIds()));
+        }
+        if(null != room.getDepositIds() && room.getDepositIds().size()>0){
+            room.setDeposits(String.join(",", room.getDepositIds()));
+        }
 
         if(null != room.getRoomId()){
             room.setUpdateTs(System.currentTimeMillis());
@@ -73,6 +81,11 @@ public class RoomApi {
             }
             room.setCreateTs(System.currentTimeMillis());
             roomService.insertSelective(room);
+
+            Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
+            building.setRooms(building.getRooms() + 1);
+            building.setRoomAble(building.getRoomAble() + 1);
+            buildingService.updateByPrimaryKeySelective(building);
         }
 
         return new JsonResult();
@@ -160,5 +173,41 @@ public class RoomApi {
         }
         return new JsonResult<List>(facilities);
 
+    }
+
+
+    @PostMapping("/rent")
+    @ResponseBody
+    public JsonResult rent(@APIRequestControl APIRequest apiRequest) {
+        Bargin bargin = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Bargin.class);
+        //补齐landlordId字段
+        bargin.setLandlordId(apiRequest.getLanlordId());
+        bargin.setRoomId(apiRequest.getRoomId());
+        Room room = roomService.selectByPrimaryKey(bargin.getRoomId());
+        if(room.getRentTs() != null && room.getRentTs() > 0){
+            return new JsonResult("办理入住失败, 请先办理退房");
+        }
+
+
+        return roomService.rent(bargin);
+    }
+
+    @PostMapping("/charge")
+    @ResponseBody
+    public JsonResult charge(@APIRequestControl APIRequest apiRequest){
+        Integer barginId = APIRequest.getParameterValue(apiRequest,"barginId",Integer.class);
+        String month = APIRequest.getParameterValue(apiRequest,"month",String.class);
+        String remark = APIRequest.getParameterValue(apiRequest,"remark",String.class);
+        List<ExtraHistory> list = JSON.parseArray(JSON.toJSONString(apiRequest.getBody().get("barginExtraList")),ExtraHistory.class);
+
+        Rent rent = new Rent();
+        rent.setRentMonth(month);
+        rent.setRoomId(apiRequest.getRoomId());
+        List<Rent> rentList  = rentService.getListByRent(rent);
+        if(null != list && list.size() > 0){
+            return new JsonResult("已经计算房租, 请勿重复生成");
+        }
+
+        return roomService.charge(list, month, barginId, apiRequest.getRoomId(), remark);
     }
 }

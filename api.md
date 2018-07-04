@@ -497,6 +497,14 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 
 ## 小程序
 
+公共Header
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| tokenId | String | true | 登录获取的tokenId |
+| userId | Integer | true | userId放在header中 |
+
+
 ### 小程序登录
 
 > [POST] **application/json** `/api/renter/snsLogin` 
@@ -508,10 +516,13 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 | rawData | String | true | 被校验rawData |
 
 #### Sample
+
 ```
 curl  X POST  H 'Content type: application/json' --data-binary '{"code":"011a4IcW1Iu8OV0mWt9W12c4dW1a4IcQ", "signature":"fe9ddbd1db6beb82c022c127f34f45e4e4cbb1a5", "rawData":"{\\"nickName\\":\\"\u590f\u5929\\",\\"gender\\":1,\\"language\\":\\"zh_CN\\",\\"city\\":\\"Zhuhai\\",\\"province\\":\\"Guangdong\\",\\"country\\":\\"China\\",\\"avatarUrl\\":\\"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKbVPzJ2iab2mnxY5nX9icHwud9ueQrDm2O2icJAv69RCHT0NvIUscjC9AcooQSm3KotuQicyr2kuCic6w/132\\"}",}' 'https://scrats.cn/rent/api/renter/snsLogin'
 ```
+
 #### Response
+
 ```
 {
     "code": 1,
@@ -534,10 +545,13 @@ curl  X POST  H 'Content type: application/json' --data-binary '{"code":"011a4Ic
 | roomId | Integer | true | 带绑定的房间Id |
 
 #### Sample
+
 ```
 curl  X POST  H 'Content type: application/json' --data-binary '{"tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff", "openid": "xxxxxx", roomId":3}' 'https://scrats.cn/rent/api/renter/bindUser'
 ```
+
 #### Response
+
 ```
 {
     "code": 1,
@@ -551,18 +565,16 @@ curl  X POST  H 'Content type: application/json' --data-binary '{"tokenId": "399
 
 ### 获取房间列表
 
-> [GET] **application/json** `/api/renter/roomList` 
-
-| param | type | require | description |
-| --- | --- | --- | --- |
-| tokenId | String | true | 登录获取的tokenId |
-| userId | Integer | true | userId放在header中 |
+> [GET] `/api/renter/roomList` 
 
 #### Sample
+
 ```
 curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/enter/roomList'
 ```
+
 #### Response
+
 ```
 {
     "code": 1,
@@ -576,12 +588,11 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 
 ### 获取某一个房间的合同
 
-> [GET] **application/json** `/api/renter/bargin/{roomId}` 
+> [GET] `/api/renter/bargin/{roomId}` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| tokenId | String | true | 登录获取的tokenId |
-| userId | Integer | true | userId放在header中 |
+| roomId | String | true | 房间ID |
 
 #### Sample
 ```
@@ -601,12 +612,11 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 
 ### 获取某一个房间的押金
 
-> [GET] **application/json** `/api/renter/deposit/{roomId}` 
+> [GET] `/api/renter/deposit/{roomId}` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| tokenId | String | true | 登录获取的tokenId |
-| userId | Integer | true | userId放在header中 |
+| roomId | String | true | 房间ID |
 
 #### Sample
 ```
@@ -626,51 +636,216 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 
 ### 获取某一个房间的未缴费房租
 
-> [GET] **application/json** `/api/renter/unpay/{roomId}` 
+> [GET] `/api/renter/unpay/{roomId}` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| tokenId | String | true | 登录获取的tokenId |
-| userId | Integer | true | userId放在header中 |
+| roomId | String | true | 房间ID |
 
 #### Sample
 ```
-curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/renter/unpay/3'
+curl 'https://scrats.cn/rent/api/renter/unpay/3' -H 'Pragma: no-cache' -H 'Accept-Encoding: gzip, deflate, br' -H 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1 wechatdevtools/1.02.1804120 MicroMessenger/6.5.7 Language/zh_CN webview/' -H 'content-type: application/json' -H 'Accept: */*' -H 'Cache-Control: no-cache' -H 'userId: 9' -H 'Referer: https://servicewechat.com/wxba42a8644a5548fd/devtools/page-frame.html' -H 'Connection: keep-alive' -H 'tokenId: 58115c918cd444bcae3679578e64e91c' --compressed | jq
 ```
 #### Response
 ```
 {
-    "code": 1,
-    "count": 0,
-    "data": {
-        "tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff",
-        "userId": "9",
+  "code": 1,
+  "msg": null,
+  "data": [
+    {
+      "rentIterms": [
+        {
+          "createTs": 543,
+          "updateTs": 0,
+          "remark": "",
+          "deleteTs": 0,
+          "rentItermId": 1,
+          "rentId": 1,
+          "barginExtraId": 0,
+          "value": "房租",
+          "price": 40000,
+          "unit": "月",
+          "number": 1,
+          "money": 40000,
+          "description": ""
+        },
+        {
+          "createTs": 6543,
+          "updateTs": 0,
+          "remark": "",
+          "deleteTs": 0,
+          "rentItermId": 2,
+          "rentId": 1,
+          "barginExtraId": 1,
+          "value": "水费",
+          "price": 700,
+          "unit": "方",
+          "number": 5,
+          "money": 3500,
+          "description": ""
+        },
+        {
+          "createTs": 87654,
+          "updateTs": 0,
+          "remark": "",
+          "deleteTs": 0,
+          "rentItermId": 3,
+          "rentId": 1,
+          "barginExtraId": 2,
+          "value": "电费",
+          "price": 120,
+          "unit": "度",
+          "number": 100,
+          "money": 12000,
+          "description": ""
+        },
+        {
+          "createTs": 5443,
+          "updateTs": 0,
+          "remark": "",
+          "deleteTs": 0,
+          "rentItermId": 4,
+          "rentId": 1,
+          "barginExtraId": 3,
+          "value": "卫生费",
+          "price": 1000,
+          "unit": "月",
+          "number": 1,
+          "money": 1000,
+          "description": ""
+        }
+      ],
+      "rent": {
+        "createTs": 876543,
+        "updateTs": 0,
+        "remark": "",
+        "deleteTs": 0,
+        "rentId": 1,
+        "rentNo": "999999999",
+        "rentMonth": "201805",
+        "fee": 56500,
+        "count": 0,
+        "realFee": 56500,
+        "payTs": 0,
+        "payNo": "",
+        "channel": "99",
+        "roomId": 3
+      }
+    },
+    {
+      "rentIterms": [
+        {
+          "createTs": 1530550719935,
+          "updateTs": 0,
+          "remark": "",
+          "deleteTs": 0,
+          "rentItermId": 20,
+          "rentId": 7,
+          "barginExtraId": 1,
+          "value": "水费",
+          "price": 700,
+          "unit": "吨",
+          "number": 22,
+          "money": 15400,
+          "description": ""
+        },
+        {
+          "createTs": 1530550719935,
+          "updateTs": 0,
+          "remark": "",
+          "deleteTs": 0,
+          "rentItermId": 21,
+          "rentId": 7,
+          "barginExtraId": 2,
+          "value": "电费",
+          "price": 120,
+          "unit": "度",
+          "number": 13,
+          "money": 1560,
+          "description": ""
+        },
+        {
+          "createTs": 1530550719935,
+          "updateTs": 0,
+          "remark": "",
+          "deleteTs": 0,
+          "rentItermId": 22,
+          "rentId": 7,
+          "barginExtraId": 3,
+          "value": "卫生费",
+          "price": 1000,
+          "unit": "月",
+          "number": 1,
+          "money": 1000,
+          "description": ""
+        }
+      ],
+      "rent": {
+        "createTs": 1530550719935,
+        "updateTs": 0,
+        "remark": "",
+        "deleteTs": 0,
+        "rentId": 7,
+        "rentNo": "haozu-rent-201807p-1530550719935",
+        "rentMonth": "201807",
+        "fee": 17960,
+        "count": 0,
+        "realFee": 17960,
+        "payTs": 0,
+        "payNo": "",
+        "channel": "99",
+        "roomId": 3
+      }
     }
+  ],
+  "count": 0
 }
 ```
 
 ### 获取某一个房间额外收费项的明细数据
 
-> [GET] **application/json** `/api/renter/extraHistory/{barginExtraId}` 
+> [GET] `/api/renter/extraHistory/{barginExtraId}` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| tokenId | String | true | 登录获取的tokenId |
-| userId | Integer | true | userId放在header中 |
+| barginExtraId | String | true | 未缴费ID |
 
 #### Sample
 ```
-curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/renter/extraHistory/1'
+curl 'https://scrats.cn/rent/api/renter/extraHistory/1' -H 'Pragma: no-cache' -H 'Accept-Encoding: gzip, deflate, br' -H 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1 wechatdevtools/1.02.1804120 MicroMessenger/6.5.7 Language/zh_CN webview/' -H 'content-type: application/json' -H 'Accept: */*' -H 'Cache-Control: no-cache' -H 'userId: 9' -H 'Referer: https://servicewechat.com/wxba42a8644a5548fd/devtools/page-frame.html' -H 'Connection: keep-alive' -H 'tokenId: 58115c918cd444bcae3679578e64e91c' --compressed | jq
 ```
 #### Response
 ```
 {
-    "code": 1,
-    "count": 0,
-    "data": {
-        "tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff",
-        "userId": "9",
+  "code": 1,
+  "msg": null,
+  "data": [
+    {
+      "createTs": 76543,
+      "updateTs": 0,
+      "remark": "",
+      "deleteTs": 0,
+      "extraHistoryId": 1,
+      "roomId": 9,
+      "count": 87,
+      "month": "201806",
+      "dicItermCode": "4001",
+      "barginExtraId": 1
+    },
+    {
+      "createTs": 1530550719935,
+      "updateTs": 0,
+      "remark": "",
+      "deleteTs": 0,
+      "extraHistoryId": 17,
+      "roomId": 3,
+      "count": 109,
+      "month": "201807",
+      "dicItermCode": "4001",
+      "barginExtraId": 1
     }
+  ],
+  "count": 0
 }
 ```
 

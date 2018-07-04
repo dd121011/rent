@@ -4,6 +4,8 @@ import com.scrats.rent.base.service.BaseService;
 import com.scrats.rent.entity.RoomRenter;
 import com.scrats.rent.mapper.RoomRenterMapper;
 
+import java.util.List;
+
 /**
  * Created with scrat.
  * Description: ${DESCRIPTION}.
@@ -14,4 +16,6 @@ import com.scrats.rent.mapper.RoomRenterMapper;
 public interface RoomRenterService extends BaseService<RoomRenter, RoomRenterMapper> {
 
     int deleteRoomRenterById(Integer... ids);
+
+    List<RoomRenter> getListByRoomrenter(RoomRenter roomRenter);
 }

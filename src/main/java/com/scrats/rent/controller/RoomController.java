@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +62,8 @@ public class RoomController {
     private RentService rentService;
     @Autowired
     private BarginExtraService barginExtraService;
+    @Autowired
+    private DepositService depositService;
 
     @IgnoreSecurity
     @GetMapping("/goRoom/{buildingId}")
@@ -75,11 +78,20 @@ public class RoomController {
         //获取所有装修情况
         List<DictionaryIterm> decorations = dictionaryItermService.findListBy("dicCode", GlobalConst.DECORATION_CODE);
         //获取当前房源的所有配套设施
-        List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(building.getFacilities());
+        List<DictionaryIterm> facilities = new ArrayList<>();
+        List<DictionaryIterm> extras = new ArrayList<>();
+        List<DictionaryIterm> deposits = new ArrayList<>();
+        if(StringUtils.isNotEmpty(building.getFacilities())){
+            facilities = dictionaryItermService.selectByIds(building.getFacilities());
+        }
         //获取当前房源的所有额外收费项
-        List<DictionaryIterm> extras = dictionaryItermService.selectByIds(building.getExtraFee());
+        if(StringUtils.isNotEmpty(building.getFacilities())){
+            extras = dictionaryItermService.selectByIds(building.getExtraFee());
+        }
         //获取当前房源的所有押金项
-        List<DictionaryIterm> deposits = dictionaryItermService.selectByIds(building.getDeposits());
+        if(StringUtils.isNotEmpty(building.getFacilities())){
+            deposits = dictionaryItermService.selectByIds(building.getDeposits());
+        }
 
         map.put("user",user);
         map.put("buildingId",buildingId);
@@ -168,6 +180,13 @@ public class RoomController {
         return new JsonResult();
     }
 
+    /**
+     * @description: 办理入住
+     * @author: lol
+     * @date: 2018/7/4 23:05
+     * @param: null
+     * @return: JsonResult
+     */
     @PostMapping("/rent")
     @ResponseBody
     public JsonResult rent(@APIRequestControl APIRequest apiRequest) {
@@ -308,6 +327,13 @@ public class RoomController {
         return new JsonResult<List>(list);
     }
 
+    /**
+     * @description: 计算房租
+     * @author: lol
+     * @date: 2018/7/4 23:04
+     * @param: null
+     * @return: JsonResult
+     */
     @PostMapping("/charge")
     @ResponseBody
     public JsonResult charge(@APIRequestControl APIRequest apiRequest){
@@ -325,6 +351,42 @@ public class RoomController {
         }
 
         return roomService.charge(list, month, barginId, apiRequest.getRoomId(), remark);
+    }
+
+    /**
+     * @description: 退房
+     * @author: lol
+     * @date: 2018/7/4 23:04
+     * @param: roomId
+     * @return: JsonResult
+     */
+    @GetMapping("/rentLeave/{roomId}")
+    @ResponseBody
+    public JsonResult rentLeave(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
+        Long deleteTs = System.currentTimeMillis();
+        //修改房间状态为未出租
+        Room room = new Room();
+        room.setRoomId(roomId);
+        room.setRentTs(0L);
+        roomService.updateByPrimaryKeySelective(room);
+        //退还押金、取消合同
+        List<Bargin> barginList = barginService.getBarginByRoomId(roomId, false);
+        barginList.get(0).setDeleteTs(deleteTs);
+        barginService.updateByPrimaryKeySelective(barginList.get(0));
+
+        List<Deposit> depositList = depositService.getDepositByRoomId(roomId, false);
+        depositList.get(0).setDeleteTs(deleteTs);
+        depositService.updateByPrimaryKeySelective(depositList.get(0));
+
+        RoomRenter roomRenter = new RoomRenter();
+        roomRenter.setRoomId(roomId);
+        List<RoomRenter> roomRenterList = roomRenterService.getListByRoomrenter(roomRenter);
+        for(RoomRenter rr : roomRenterList){
+            rr.setDeleteTs(deleteTs);
+            roomRenterService.updateByPrimaryKeySelective(rr);
+        }
+//        return roomService.charge(list, month, barginId, apiRequest.getRoomId(), remark);
+        return new JsonResult();
     }
 
 }

@@ -16,6 +16,7 @@ layui.use(['layer', 'form'], function () {
                     layer.alert("添加成功");
                 }
                 layer.close(1);
+                location.href= requestBaseUrl + "/room/goRoomDetail/" + $('#roomId').val() + "?tokenId=" + tokenId;
             }else{
                 layer.alert(res.msg)
             }

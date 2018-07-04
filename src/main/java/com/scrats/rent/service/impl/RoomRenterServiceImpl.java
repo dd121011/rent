@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created with scrat.
  * Description: ${DESCRIPTION}.
@@ -24,5 +26,10 @@ public class RoomRenterServiceImpl extends BaseServiceImpl<RoomRenter, RoomRente
     public int deleteRoomRenterById(Integer... ids) {
         long ts = System.currentTimeMillis();
         return dao.deleteRoomRenterById(ts, ids);
+    }
+
+    @Override
+    public List<RoomRenter> getListByRoomrenter(RoomRenter roomRenter) {
+        return dao.getListByRoomrenter(roomRenter);
     }
 }

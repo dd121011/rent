@@ -34,8 +34,6 @@ layui.use(['layer', 'form', 'laydate'], function () {
             if(res.code == 1){
                 layer.alert("录入成功");
                 layer.close(1);
-                // var buildingId = $("select[name=buildingId]").val();
-                // location.href= requestBaseUrl + "/room/goRoom/" + buildingId + "?tokenId=" + tokenId;
             }else{
                 layer.alert(res.msg)
             }

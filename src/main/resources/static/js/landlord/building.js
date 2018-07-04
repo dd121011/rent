@@ -117,7 +117,6 @@ layui.use(['layer', 'table', 'form'], function () {
 
     var active = {
         search: function () {
-            var demoReload = $('#demoReload');
             //执行重载
             table.reload('lay_table_building', {
                 page: {

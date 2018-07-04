@@ -213,6 +213,20 @@ layui.use(['layer', 'table', 'form'], function () {
                 }
             });
         },
+        rentLeave: function () {
+            layer.confirm('真的要办理退房吗, 请先退还押金', function (index) {
+                var jhxhr = $.ajax({url: requestBaseUrl + "/room/rentLeave/" + $('#roomId').val(), headers: header, type: "GET"});
+                jhxhr.done(function (res) {
+                    if(res.code == 1){
+                        //执行重载
+                        table.reload('lay_table_room_renter', { });
+                    }else{
+                        layer.alert(res.msg)
+                    }
+                });
+                layer.close(index);
+            });
+        },
     };
 
     //绑定搜索点击事件
@@ -228,7 +242,7 @@ layui.use(['layer', 'table', 'form'], function () {
             location.href= requestBaseUrl + "/room/goRoom/" + data.buildingId + "?tokenId=" + tokenId;
         } else if (obj.event === 'del') {
             layer.confirm('真的删除行么', function (index) {
-                var jhxhr = $.ajax({url: requestBaseUrl + "/renterDelete/" + $('#roomId').val() + "/" + data.roomRenterId, headers: header, type: "GET"});
+                var jhxhr = $.ajax({url: requestBaseUrl + "/room/renterDelete/" + $('#roomId').val() + "/" + data.roomRenterId, headers: header, type: "GET"});
                 jhxhr.done(function (res) {
                     if(res.code == 1){
                         obj.del();

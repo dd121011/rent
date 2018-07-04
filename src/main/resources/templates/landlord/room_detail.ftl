@@ -60,15 +60,14 @@
                 </div>
                 <div class="layui-tab-item">
                     <blockquote class="layui-elem-quote">
-                        租客列表&nbsp;&nbsp;&nbsp;&nbsp;
                         <div class="layui-inline" id="layerRenter">
-            <#if room.rentTs>
-                <a data-method="renterAdd" data-type="renterAdd" class="layui-btn layui-btn-normal">添加租客</a>
-                <a data-method="qrcodeRenter" data-type="qrcode" class="layui-btn layui-btn-normal">二维码绑定</a>
-                <a data-method="rentLeave" data-type="rentLeave" class="layui-btn layui-btn-normal">办理退房</a>
-            <#else>
-<a data-method="rentAdd" data-type="rentAdd" class="layui-btn layui-btn-normal">办理入住</a>
-            </#if>
+                            <#if room.rentTs>
+                            <a data-method="renterAdd" data-type="renterAdd" class="layui-btn layui-btn-normal">添加租客</a>
+                            <a data-method="qrcodeRenter" data-type="qrcode" class="layui-btn layui-btn-normal">二维码绑定</a>
+                            <a data-method="rentLeave" data-type="rentLeave" class="layui-btn layui-btn-normal">办理退房</a>
+                        <#else>
+            <a data-method="rentAdd" data-type="rentAdd" class="layui-btn layui-btn-normal">办理入住</a>
+                        </#if>
                         </div>
                     </blockquote>
                     <table class="layui-hide" id="lay_table_room_renter" lay-filter="renterRoomTableFilter"></table>

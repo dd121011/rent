@@ -11,7 +11,7 @@
             <div class="layui-input-block">
                 <select name="buildingId" lay-filter="buildingId">
                     <#list buildings as item>
-                    <option value="${item.buildingId}">${item.name}</option>
+                    <option value="${item.buildingId}" <#if item.buildingId == buildingId>selected</#if>>${item.name}</option>
                     </#list>
                 </select>
             </div>

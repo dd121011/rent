@@ -99,29 +99,50 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             });
             var facility = data.facilities.split(",");
             $.each($('input[type=checkbox][name=facilityIds]'),function(){
+                var flag = 1;
                 for(j = 0, len=facility.length; j < len; j++) {
                     if(facility[j] == $(this).val()){
+                        flag = 0;
                         $(this).attr("checked",true);
                         $(this).next().addClass("layui-form-checked");
+                        break;
                     }
+                }
+                if(flag){
+                    $(this).attr("checked",false);
+                    $(this).next().removeClass("layui-form-checked");
                 }
             });
             var extra = data.extraFee.split(",");
             $.each($('input[type=checkbox][name=extraIds]'),function(){
+                var flag = 1;
                 for(j = 0, len=extra.length; j < len; j++) {
                     if(extra[j] == $(this).val()){
+                        flag = 0;
                         $(this).attr("checked",true);
                         $(this).next().addClass("layui-form-checked");
+                        break;
                     }
+                }
+                if(flag){
+                    $(this).attr("checked",false);
+                    $(this).next().removeClass("layui-form-checked");
                 }
             });
             var deposit = data.deposits.split(",");
             $.each($('input[type=checkbox][name=depositIds]'),function(){
+                var flag = 1;
                 for(j = 0, len=extra.length; j < len; j++) {
                     if(deposit[j] == $(this).val()){
+                        flag = 0;
                         $(this).attr("checked",true);
                         $(this).next().addClass("layui-form-checked");
+                        break;
                     }
+                }
+                if(flag){
+                    $(this).attr("checked",false);
+                    $(this).next().removeClass("layui-form-checked");
                 }
             });
             active.edit();
@@ -208,8 +229,8 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             // // $("select").val("");
             $("[name='description']").val("");
             $.each($('input[type=checkbox]'),function(){
-                $(this).attr("checked",false);
-                $(this).next().removeClass("layui-form-checked");
+                $(this).attr("checked",true);
+                $(this).next().addClass("layui-form-checked");
             });
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）

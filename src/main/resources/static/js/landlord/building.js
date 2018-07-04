@@ -87,6 +87,7 @@ layui.use(['layer', 'table', 'form'], function () {
                     if(facility[j] == $(this).val()){
                         $(this).attr("checked",true);
                         $(this).next().addClass("layui-form-checked");
+                        break;
                     }
                 }
             });
@@ -96,6 +97,7 @@ layui.use(['layer', 'table', 'form'], function () {
                     if(extra[j] == $(this).val()){
                         $(this).attr("checked",true);
                         $(this).next().addClass("layui-form-checked");
+                        break;
                     }
                 }
             });
@@ -105,6 +107,7 @@ layui.use(['layer', 'table', 'form'], function () {
                     if(deposit[j] == $(this).val()){
                         $(this).attr("checked",true);
                         $(this).next().addClass("layui-form-checked");
+                        break;
                     }
                 }
             });

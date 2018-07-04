@@ -67,17 +67,19 @@ public class RoomController {
     public String goRoom(String tokenId, @PathVariable(name="buildingId") Integer buildingId, Map<String, Object> map){
 
         User user = (User)redisService.get(tokenId);
+        Building building = buildingService.selectByPrimaryKey(buildingId);
         //获取所有房子select数据
         PageInfo<Building> pageInfo = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
         //获取所有房间朝向
         List<DictionaryIterm> orientations = dictionaryItermService.findListBy("dicCode", GlobalConst.ORIENTATION_CODE);
         //获取所有装修情况
         List<DictionaryIterm> decorations = dictionaryItermService.findListBy("dicCode", GlobalConst.DECORATION_CODE);
-        //获取所有配套设施
-        List<DictionaryIterm> facilities = dictionaryItermService.findListBy("dicCode", GlobalConst.FACILITY_CODE);
-        //获取所有额外收费项
-        List<DictionaryIterm> extras = dictionaryItermService.findListBy("dicCode", GlobalConst.EXTRA_CODE);
-        List<DictionaryIterm> deposits = dictionaryItermService.findListBy("dicCode", GlobalConst.DEPOSIT_ITERM_CODE);
+        //获取当前房源的所有配套设施
+        List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(building.getFacilities());
+        //获取当前房源的所有额外收费项
+        List<DictionaryIterm> extras = dictionaryItermService.selectByIds(building.getExtraFee());
+        //获取当前房源的所有押金项
+        List<DictionaryIterm> deposits = dictionaryItermService.selectByIds(building.getDeposits());
 
         map.put("user",user);
         map.put("buildingId",buildingId);

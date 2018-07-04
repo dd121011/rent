@@ -11,6 +11,7 @@
             <input type="hidden" id="roomId" autocomplete="off" class="layui-input" value="${room.roomId}">
             <ul class="layui-tab-title">
                 <li class="layui-this">房子详情</li>
+                <li>租客列表</li>
                 <li>租赁历史</li>
             </ul>
             <div class="layui-tab-content">
@@ -27,7 +28,7 @@
                                 <th>房间朝向：</th>
                                 <td>${room.orientationName}</td>
                                 <th>装修情况：</th>
-                                <td>${room.decoration}</td>
+                                <td>${room.decorationName}</td>
                             </tr>
                             <tr>
                                 <th>使用面积：</th>
@@ -58,20 +59,25 @@
                     </table>
                 </div>
                 <div class="layui-tab-item">
+                    <blockquote class="layui-elem-quote">
+                        租客列表&nbsp;&nbsp;&nbsp;&nbsp;
+                        <div class="layui-inline" id="layerRenter">
+            <#if room.rentTs>
+                <a data-method="renterAdd" data-type="renterAdd" class="layui-btn layui-btn-normal">添加租客</a>
+                <a data-method="qrcodeRenter" data-type="qrcode" class="layui-btn layui-btn-normal">二维码绑定</a>
+                <a data-method="rentLeave" data-type="rentLeave" class="layui-btn layui-btn-normal">办理退房</a>
+            <#else>
+<a data-method="rentAdd" data-type="rentAdd" class="layui-btn layui-btn-normal">办理入住</a>
+            </#if>
+                        </div>
+                    </blockquote>
+                    <table class="layui-hide" id="lay_table_room_renter" lay-filter="renterRoomTableFilter"></table>
+                </div>
+                <div class="layui-tab-item">
                     租赁历史内容
                 </div>
             </div>
         </div>
-        <hr class="layui-bg-green">
-        <blockquote class="layui-elem-quote">
-            租客列表&nbsp;&nbsp;&nbsp;&nbsp;
-            <div class="layui-inline" id="layerRenter">
-                <a data-method="rentAdd" data-type="add" class="layui-btn layui-btn-normal">办理入住</a>
-                <a data-method="renterAdd" data-type="add" class="layui-btn layui-btn-normal">添加租客</a>
-                <a data-method="qrcodeRenter" data-type="qrcode" class="layui-btn layui-btn-normal">二维码绑定</a>
-            </div>
-        </blockquote>
-        <table class="layui-hide" id="lay_table_room_renter" lay-filter="renterRoomTableFilter"></table>
     </div>
 
 <#include "landlord/footer.ftl"/>

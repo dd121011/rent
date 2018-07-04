@@ -204,7 +204,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             });
         },
         add: function () {
-            // $("input[type!=checkbox][type!=select]").val("");
+            $(".rmcl").val("");
             // // $("select").val("");
             $("[name='description']").val("");
             $.each($('input[type=checkbox]'),function(){

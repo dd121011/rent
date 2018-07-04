@@ -19,7 +19,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">房间号</label>
             <div class="layui-input-block">
-                <input type="text" name="roomNo" required  lay-verify="required" placeholder="请输入房间号" autocomplete="off" class="layui-input">
+                <input type="text" name="roomNo" required  lay-verify="required" placeholder="请输入房间号" autocomplete="off" class="layui-input rmcl">
             </div>
         </div>
         <div class="layui-form-item">
@@ -110,7 +110,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">租金</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="rentFee" required  lay-verify="required" placeholder="请输入租金" autocomplete="off" class="layui-input">
+                    <input type="text" name="rentFee" required  lay-verify="required" placeholder="请输入租金" autocomplete="off" class="layui-input rmcl">
                 </div>
                 <div class="layui-form-mid">元/月</div>
             </div>
@@ -119,7 +119,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">使用面积</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="area" required  lay-verify="required" placeholder="请输入使用面积" autocomplete="off" class="layui-input">
+                    <input type="text" name="area" required  lay-verify="required" placeholder="请输入使用面积" autocomplete="off" class="layui-input rmcl">
                 </div>
                 <div class="layui-form-mid">平方米</div>
             </div>
@@ -151,7 +151,7 @@
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">描述</label>
             <div class="layui-input-block">
-                <textarea name="description" placeholder="请输入内容" class="layui-textarea"></textarea>
+                <textarea name="description" placeholder="请输入内容" class="layui-textarea rmcl"></textarea>
             </div>
         </div>
         <div class="layui-form-item">

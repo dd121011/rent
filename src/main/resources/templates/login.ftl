@@ -14,6 +14,7 @@
     <script src="${base}/static/plugins/login/js/jquery.js"></script>
     <script src="${base}/static/plugins/login/js/verificationNumbers.js"></script>
     <script src="${base}/static/plugins/login/js/Particleground.js"></script>
+    <script src="${base}/static/layui/layui.js" charset="utf-8"></script>
     <script src="${base}/static/js/extends/jquery.cookie.js"></script>
     <script src="${base}/static/js/public.js"></script>
 </head>
@@ -44,7 +45,12 @@
 </body>
 
 <script>
-    if(undefined != tokenId){
+    layui.use(['element', 'layer', 'table', 'form'], function () {
+        var $ = layui.$;
+        var element = layui.element;
+        var layer = layui.layer;
+    });
+    if(undefined != tokenId && tokenId != null && tokenId != 'null'){
         window.location.href = "${base}/building/goBuilding?tokenId=" + tokenId;
     }
 
@@ -68,14 +74,14 @@
 
         $.post("${base}/login",{username:username,pwd:pwd},function(result){
             if(result.code == 1){
-                $.cookie("rent_tokenId",result.data.tokenId,{expires: 7, path: '/rent'})
-                $.cookie("rent_userId",result.data.userId,{expires: 7, path: '/rent'})
+                $.cookie("rent_tokenId",result.data.tokenId,{expires: 7, path: '/rent'});
+                $.cookie("rent_userId",result.data.userId,{expires: 7, path: '/rent'});
                 window.location.href = "${base}/building/goBuilding?tokenId=" + result.data.tokenId;
             }else{
-                alert(result.msg);
+                layer.alert(result.msg);
             }
         }).error(function (result) {
-            alert("系统错误");
+            layer.alert("系统错误");
         });
     }
 </script>

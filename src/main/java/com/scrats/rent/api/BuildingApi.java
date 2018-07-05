@@ -100,7 +100,7 @@ public class BuildingApi {
         return new JsonResult<>();
     }
 
-    @PostMapping("/buildingAll")
+    @GetMapping("/buildingAll")
     public JsonResult buildingAll(@APIRequestControl APIRequest apiRequest) {
         //获取所有房子select数据
         PageInfo<Building> pageInfo = buildingService.getBuildingListWithUserId(null, null, apiRequest.getUser().getUserId(), false);

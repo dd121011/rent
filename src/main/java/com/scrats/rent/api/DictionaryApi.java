@@ -72,4 +72,10 @@ public class DictionaryApi {
         return new JsonResult<List>(extras);
     }
 
+    @GetMapping("/depositAll")
+    public JsonResult depositAll() {
+        List<DictionaryIterm> depositIterms = dictionaryItermService.findListBy("dicCode", GlobalConst.DEPOSIT_ITERM_CODE);
+        return new JsonResult<List>(depositIterms);
+    }
+
 }

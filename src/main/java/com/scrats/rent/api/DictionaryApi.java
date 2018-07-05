@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,8 +42,8 @@ public class DictionaryApi {
         return new JsonResult<List>(list);
     }
 
-    @GetMapping("/dicItermListAll")
-    public JsonResult dicItermListAll(String dicCode) {
+    @GetMapping("/dicItermListAll/{dicCode}")
+    public JsonResult dicItermListAll(@PathVariable String dicCode) {
         List<DictionaryIterm> list = dictionaryItermService.findListBy("dicCode", dicCode);
         return new JsonResult<List>(list);
     }

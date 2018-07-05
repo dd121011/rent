@@ -13,7 +13,7 @@
 
 #### Sample
 ```
-curl  X POST  H 'Content type: application/json'  --data-binary '{"username":"123123", "pwd":"111111"}' 'https://scrats.cn/rent/login'
+curl -X POST -H "Accept: application/json" -H "Content-type: application/json" -d '{"username":"admin", "pwd":"111111"}' localhost:8083/rent/login
 ```
 #### Response
 

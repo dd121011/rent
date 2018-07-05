@@ -2,12 +2,14 @@ package com.scrats.rent.controller;
 
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
+import com.scrats.rent.entity.Account;
 import com.scrats.rent.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -28,9 +30,9 @@ public class LoginController {
     @IgnoreSecurity
     @PostMapping("/login")
     @ResponseBody
-    public JsonResult login(String username, String pwd) {
+    public JsonResult login(@RequestBody Account account) {
 
-        return accountService.login(username, pwd);
+        return accountService.login(account.getUsername(), account.getPwd());
     }
 
 }

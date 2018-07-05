@@ -49,40 +49,42 @@
         var $ = layui.$;
         var element = layui.element;
         var layer = layui.layer;
+        if(undefined != tokenId && tokenId != null && tokenId != 'null'){
+            window.location.href = "${base}/building/goBuilding?tokenId=" + tokenId;
+        }
+
+        $(document).ready(function () {
+            //粒子背景特效
+            $('body').particleground({
+                dotColor: '#5cbdaa',
+                lineColor: '#5cbdaa'
+            });
+            //验证码
+            createCode();
+            //测试提交，对接程序删除即可
+            $(".submit_btn").click(function () {
+                login();
+            });
+        });
+
+        var login = function () {
+            var username = $("input[type='text']").val();
+            var pwd = $("input[type='password']").val();
+            var params = {};
+            params.username = username;
+            params.pwd = pwd;
+            var jhxhr = $.ajax({url: "${base}/login", data: JSON.stringify(params), contentType: 'application/json', type: "POST"});
+            jhxhr.done(function (res) {
+                if(res.code == 1){
+                    $.cookie("rent_tokenId",res.data.tokenId,{expires: 7, path: '/rent'});
+                    $.cookie("rent_userId",res.data.userId,{expires: 7, path: '/rent'});
+                    window.location.href = "${base}/building/goBuilding?tokenId=" + res.data.tokenId;
+                }else{
+                    layer.alert(res.msg);
+                }
+            });
+        }
     });
-    if(undefined != tokenId && tokenId != null && tokenId != 'null'){
-        window.location.href = "${base}/building/goBuilding?tokenId=" + tokenId;
-    }
 
-    $(document).ready(function () {
-        //粒子背景特效
-        $('body').particleground({
-            dotColor: '#5cbdaa',
-            lineColor: '#5cbdaa'
-        });
-        //验证码
-        createCode();
-        //测试提交，对接程序删除即可
-        $(".submit_btn").click(function () {
-            login();
-        });
-    });
-
-    var login = function () {
-        var username = $("input[type='text']").val();
-        var pwd = $("input[type='password']").val();
-
-        $.post("${base}/login",{username:username,pwd:pwd},function(result){
-            if(result.code == 1){
-                $.cookie("rent_tokenId",result.data.tokenId,{expires: 7, path: '/rent'});
-                $.cookie("rent_userId",result.data.userId,{expires: 7, path: '/rent'});
-                window.location.href = "${base}/building/goBuilding?tokenId=" + result.data.tokenId;
-            }else{
-                layer.alert(result.msg);
-            }
-        }).error(function (result) {
-            layer.alert("系统错误");
-        });
-    }
 </script>
 </html>

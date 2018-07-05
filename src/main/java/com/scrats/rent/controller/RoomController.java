@@ -219,8 +219,9 @@ public class RoomController {
     @GetMapping("/renterAll/{roomId}")
     @ResponseBody
     public String renterAll(@PathVariable(name="roomId") Integer roomId){
-
-        List<RoomRenter> list = roomRenterService.findListBy("roomId", roomId);
+        RoomRenter params = new RoomRenter();
+        params.setRoomId(roomId);
+        List<RoomRenter> list = roomRenterService.getListByRoomrenter(params);
         JSONArray jsonArray = new JSONArray();
         for(RoomRenter roomRenter : list){
             User user = userService.selectByPrimaryKey(roomRenter.getUserId());

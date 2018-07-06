@@ -7,6 +7,7 @@ import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
+import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.Building;
 import com.scrats.rent.entity.BuildingLandlord;
@@ -20,10 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.naming.AuthenticationException;
 import java.util.*;
@@ -53,12 +51,15 @@ public class BuildingController {
     private BuildingLandlordService buildingLandlordService;
 
     @IgnoreSecurity
-    @GetMapping("/goBuilding")
-    public String goBuilding(String tokenId, Map<String, Object> map) throws AuthenticationException {
+    @GetMapping("/goBuilding/{landlordId}")
+    public String goBuilding(@PathVariable Integer landlordId, String tokenId, Map<String, Object> map) throws AuthenticationException {
 
         User user = (User)redisService.get(tokenId);
         if(null == user){
             throw new AuthenticationException("非法请求, 请登陆");
+        }
+        if(user.getUserId() - landlordId != 0){
+            throw new BusinessException("请求参数错误, 请检查");
         }
 
         List<DictionaryIterm> facilities = dictionaryItermService.findListBy("dicCode", GlobalConst.FACILITY_CODE);

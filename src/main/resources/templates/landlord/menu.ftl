@@ -15,7 +15,7 @@
         <div class="layui-logo">房屋出租</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a data-method="dashboardManage" class="scratMenu" href="javascript:;">控制台</a></li>
+            <li class="layui-nav-item"><a data-method="dashboardManage" class="scratMenu" href="javascript:;">首页</a></li>
             <li class="layui-nav-item"><a data-method="buildingManage" class="scratMenu" href="javascript:;">楼盘管理</a></li>
             <li class="layui-nav-item"><a data-method="userManage" class="scratMenu"href="javascript:;">用户</a></li>
             <li class="layui-nav-item">

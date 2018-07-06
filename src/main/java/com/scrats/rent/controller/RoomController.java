@@ -199,7 +199,6 @@ public class RoomController {
             return new JsonResult("办理入住失败, 请先办理退房");
         }
 
-
         return roomService.rent(bargin);
     }
 

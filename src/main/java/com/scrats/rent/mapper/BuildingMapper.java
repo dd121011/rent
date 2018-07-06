@@ -25,7 +25,8 @@ public interface BuildingMapper extends BaseMapper<Building> {
             "<if test = 'null != building'>" +
             "   <if test='building.buildingId != null and building.buildingId > 0'>and t.building_id = #{building.buildingId}</if>" +
                 "<if test='building.name != null and building.name != \"\"'>and t.name = #{building.name}</if>" +
-                "<if test='building.deleteTs != null and building.deleteTs > 0'>and t.delete_ts > #{building.deleteTs}</if>" +
+                "<if test='building.deleteTs != null and building.deleteTs > 0'>and t.delete_ts > 0</if>" +
+                "<if test='building.deleteTs == null or building.deleteTs == 0'>and t.delete_ts = 0</if>" +
             "</if>" +
             "</script>")
     List<Building> getBuildingListWithUserId(@Param("building")Building building, @Param("userId")Integer userId);

@@ -8,6 +8,7 @@ import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
+import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.Building;
 import com.scrats.rent.entity.BuildingLandlord;
@@ -23,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.naming.AuthenticationException;
 import java.util.*;
 
 /**
@@ -52,11 +52,11 @@ public class BuildingController {
 
     @IgnoreSecurity
     @GetMapping("/goBuilding/{landlordId}")
-    public String goBuilding(@PathVariable Integer landlordId, String tokenId, Map<String, Object> map) throws AuthenticationException {
+    public String goBuilding(@PathVariable Integer landlordId, String tokenId, Map<String, Object> map) {
 
         User user = (User)redisService.get(tokenId);
         if(null == user){
-            throw new AuthenticationException("非法请求, 请登陆");
+            throw new NotAuthorizedException("非法请求, 请登陆");
         }
         if(user.getUserId() - landlordId != 0){
             throw new BusinessException("请求参数错误, 请检查");

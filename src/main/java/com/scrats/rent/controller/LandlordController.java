@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * @Created with scrat.
- * @Description: ${DESCRIPTION}.
+ * @Description: 房东首页.
  * @Email: guosq@scrats.cn.
  * @Author: lol.
  * @Date: 2018/7/6 12:56.

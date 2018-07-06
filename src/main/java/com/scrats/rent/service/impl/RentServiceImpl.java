@@ -29,6 +29,11 @@ public class RentServiceImpl extends BaseServiceImpl<Rent, RentMapper> implement
 
     @Override
     public List<Rent> getListByRent(Rent rent) {
-        return null;
+        return dao.getListByRent(rent);
+    }
+
+    @Override
+    public List<Rent> getRentByBuildingIdandPayFlag(Integer buildingId, boolean payFlag) {
+        return dao.getRentByBuildingIdandPayFlag(buildingId, payFlag);
     }
 }

@@ -32,4 +32,9 @@ public class RoomRenterServiceImpl extends BaseServiceImpl<RoomRenter, RoomRente
     public List<RoomRenter> getListByRoomrenter(RoomRenter roomRenter) {
         return dao.getListByRoomrenter(roomRenter);
     }
+
+    @Override
+    public List<RoomRenter> getRoomRenterByBuildingId(Integer buildingId) {
+        return dao.getRoomRenterByBuildingId(buildingId);
+    }
 }

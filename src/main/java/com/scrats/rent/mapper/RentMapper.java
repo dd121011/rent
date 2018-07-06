@@ -24,7 +24,12 @@ public interface RentMapper extends BaseMapper<Rent> {
             "<if test='rent.roomId != null'>and r.room_id = #{rent.roomId}</if> " +
             "<if test='rent.roomNo != null and rent.roomNo != \"\"'>and r.room_no = #{rent.roomNo}</if> " +
             "<if test='rent.month != null and rent.month != \"\"'>and r.month = #{rent.month}</if> " +
-            "<if test='rent.payTs != null'>and r.pay_ts > 0</if> " +
-            "<if test='rent.deleteTs != null'>and r.delete_ts > 0</if></script>")
+            "<if test='rent.payTs != null and rent.payTs > 0'>and r.pay_ts > 0</if> " +
+            "<if test='rent.payTs == null and rent.payTs == 0'>and r.pay_ts = 0</if> " +
+            "<if test='rent.deleteTs != null and rent.deleteTs >0'>and r.delete_ts > 0</if>" +
+            "<if test='rent.deleteTs == null or rent.deleteTs ==0'>and r.delete_ts = 0</if></script>")
     List<Rent> getListByRent(@Param("rent") Rent rent);
+
+    @Select("<script>select r.* from rent r left join room rr on r.room_id = rr.room_id where 1=1 and rr.building_id = #{buildingId} <if test='payFlag == false'>and r.pay_ts = 0</if> <if test='payFlag == true'>and r.pay_ts > 0</if> and r.delete_ts = 0 and rr.delete_ts = 0</script>")
+    List<Rent> getRentByBuildingIdandPayFlag(@Param("buildingId") Integer buildingId, @Param("payFlag") boolean payFlag);
 }

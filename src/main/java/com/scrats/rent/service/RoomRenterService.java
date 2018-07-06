@@ -18,4 +18,6 @@ public interface RoomRenterService extends BaseService<RoomRenter, RoomRenterMap
     int deleteRoomRenterById(Integer... ids);
 
     List<RoomRenter> getListByRoomrenter(RoomRenter roomRenter);
+
+    List<RoomRenter> getRoomRenterByBuildingId(Integer buildingId);
 }

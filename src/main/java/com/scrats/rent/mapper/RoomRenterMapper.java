@@ -31,4 +31,9 @@ public interface RoomRenterMapper extends BaseMapper<RoomRenter> {
             "<if test='roomRenter.deleteTs == null or roomRenter.deleteTs == 0'>and r.delete_ts = 0</if>" +
             "</script>")
     List<RoomRenter> getListByRoomrenter(@Param("roomRenter") RoomRenter roomRenter);
+
+    @Select("select b.* from room_renter b " +
+            "left join room r on r.room_id = b.room_id " +
+            "where r.building_id = #{buildingId} and b.delete_ts = 0 and r.delete_ts = 0")
+    List<RoomRenter> getRoomRenterByBuildingId(Integer buildingId);
 }

@@ -50,7 +50,7 @@
         var element = layui.element;
         var layer = layui.layer;
         if(undefined != tokenId && tokenId != null && tokenId != 'null'){
-            window.location.href = "${base}/building/goBuilding?tokenId=" + tokenId;
+            window.location.href = "${base}/building/goBuilding/" + userId + "?tokenId=" + tokenId;
         }
 
         $(document).ready(function () {

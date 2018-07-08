@@ -61,7 +61,7 @@ layui.use(['layer', 'table', 'form'], function () {
     table.on('tool(buildingTableFilter)', function (obj) {
         var data = obj.data;
         if (obj.event === 'detail') {
-            location.href= requestBaseUrl + "/room/goRoom/" + data.buildingId + "?tokenId=" + tokenId;
+            location.href= requestBaseUrl + "/room/goRoom/" + userId + "/" + data.buildingId + "?tokenId=" + tokenId;
         } else if (obj.event === 'del') {
             layer.confirm('真的删除行么', function (index) {
                 var jhxhr = $.ajax({url: requestBaseUrl + "/building/delete", data:{"ids": data.buildingId}, headers: header, type: "POST"});

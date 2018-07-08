@@ -10,6 +10,7 @@ import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
+import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.constant.UserType;
 import com.scrats.rent.entity.*;
@@ -66,13 +67,24 @@ public class RoomController {
     private DepositService depositService;
 
     @IgnoreSecurity
-    @GetMapping("/goRoom/{buildingId}")
-    public String goRoom(String tokenId, @PathVariable(name="buildingId") Integer buildingId, Map<String, Object> map){
+    @GetMapping(value = {"/goRoom/{userId}/{buildingId}","/goRoom/{userId}"})
+    public String goRoom(String tokenId, @PathVariable(name="userId") Integer userId, @PathVariable(name="buildingId", required = false) Integer buildingId, Map<String, Object> map){
 
         User user = (User)redisService.get(tokenId);
-        Building building = buildingService.selectByPrimaryKey(buildingId);
+        if(null == user || (userId -  user.getUserId() != 0)){
+            throw new NotAuthorizedException("参数错误");
+        }
+
         //获取所有房子select数据
         PageInfo<Building> pageInfo = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
+        Building building = null;
+        if(buildingId == null){
+            if(pageInfo.getList() != null && pageInfo.getList().size() > 0){
+                building = pageInfo.getList().get(0);
+            }
+        }else{
+            building = buildingService.selectByPrimaryKey(buildingId);
+        }
         //获取所有房间朝向
         List<DictionaryIterm> orientations = dictionaryItermService.findListBy("dicCode", GlobalConst.ORIENTATION_CODE);
         //获取所有装修情况

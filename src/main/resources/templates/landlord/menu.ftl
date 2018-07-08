@@ -49,7 +49,7 @@
         <div class="layui-side-scroll">
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a href="javascript:;" data-method="userLogout" class="scratMenu"><i class="layui-icon layui-icon-home"></i> <cite>商品管理</cite></a>
+                    <a href="javascript:;" data-method="buildingManage" class="scratMenu"><i class="layui-icon layui-icon-home"></i> <cite>楼盘管理</cite></a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;">列表一</a></dd>
                         <dd><a href="javascript:;">列表二</a></dd>
@@ -58,7 +58,7 @@
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;">房屋管理</a>
+                    <a href="javascript:;" data-method="roomManage" class="scratMenu"><i class="layui-icon layui-icon-home"></i> <cite>房间管理</cite></a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;">出租</a></dd>
                         <dd><a href="javascript:;">收租</a></dd>

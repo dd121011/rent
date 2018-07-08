@@ -78,7 +78,7 @@
                 if(res.code == 1){
                     $.cookie("rent_tokenId",res.data.tokenId,{expires: 7, path: '/rent'});
                     $.cookie("rent_userId",res.data.userId,{expires: 7, path: '/rent'});
-                    window.location.href = requestBaseUrl +  "/building/goBuilding/" + res.data.tokenId.userId + "?tokenId=" + res.data.tokenId;
+                    window.location.href = requestBaseUrl +  "/building/goBuilding/" + res.data.userId + "?tokenId=" + res.data.tokenId;
                 }else{
                     layer.alert(res.msg);
                 }

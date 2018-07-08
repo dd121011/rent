@@ -33,10 +33,8 @@ layui.use(['layer', 'table', 'form'], function () {
             , {field: 'name', title: '楼盘', width: 200}
             , {field: 'rooms', title: '总的房间数', sort: true, width: 110}
             , {field: 'roomAble', title: '可用房间数', sort: true, width: 120}
-            , {field: 'facilities', title: '配套设施', width: 100}
-            , {field: 'extraFee', title: '额外收费项', width: 100}
-            , {field: 'description', title: '描述', width: 80}
-            , {field: 'address', title: '地址', width: 80}
+            , {field: 'description', title: '描述'}
+            , {field: 'address', title: '地址'}
             , {field: '', title: '操作', align: 'center', toolbar: '#buildingListBar'}
         ]]
         , done: function (res, curr, count) {

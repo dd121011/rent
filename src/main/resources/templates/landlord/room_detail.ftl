@@ -61,7 +61,7 @@
                 <div class="layui-tab-item">
                     <blockquote class="layui-elem-quote">
                         <div class="layui-inline" id="layerRenter">
-                            <#if room.rentTs>
+                            <#if room.rentTs gt 0>
                             <a data-method="renterAdd" data-type="renterAdd" class="layui-btn layui-btn-normal">添加租客</a>
                             <a data-method="qrcodeRenter" data-type="qrcode" class="layui-btn layui-btn-normal">二维码绑定</a>
                             <a data-method="rentLeave" data-type="rentLeave" class="layui-btn layui-btn-normal">办理退房</a>

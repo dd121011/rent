@@ -266,7 +266,7 @@ CREATE TABLE `bargin` (
     `id_card_pic_back` varchar(64) DEFAULT '' COMMENT '身份证反面',
     `guaranty` int(2) unsigned NOT NULL DEFAULT '0' COMMENT '押金月份',
     `pay` int(2) unsigned NOT NULL DEFAULT '0' COMMENT '租金月份',
-    `rent_Day` int(2) unsigned NOT NULL COMMENT '交租日',
+    `rent_day` int(2) unsigned NOT NULL COMMENT '交租日',
     `rent_fee` int(10) unsigned NOT NULL COMMENT '租金[分/月]',
     `guaranty_fee` int(10) unsigned NOT NULL COMMENT '押金[分]',
     `total` int(10) unsigned NOT NULL COMMENT '首次缴费[分]',

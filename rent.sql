@@ -145,9 +145,6 @@ DROP TABLE IF EXISTS `building`;
 CREATE TABLE `building` (
     `building_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `name` varchar(256) NOT NULL COMMENT '房子名称',
-    `facilities` varchar(256) DEFAULT '' COMMENT '配套设施id字符串[,隔开]',
-    `extra_fee` varchar(256) DEFAULT '' COMMENT '额外收费项id字符串[,隔开]',
-    `deposits` varchar(256) DEFAULT '' COMMENT '押金项id字符串[,隔开]',
     `rooms` int(10) unsigned DEFAULT '0' COMMENT '总的房间数',
     `room_able` int(10) unsigned DEFAULT '0' COMMENT '可用房间数,通过总的房间数和可用房间数可以计算出出租房间数',
     `description` varchar(256) DEFAULT '' COMMENT '描述',

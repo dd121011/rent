@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -90,20 +89,11 @@ public class RoomController {
         //获取所有装修情况
         List<DictionaryIterm> decorations = dictionaryItermService.findListBy("dicCode", GlobalConst.DECORATION_CODE);
         //获取当前房源的所有配套设施
-        List<DictionaryIterm> facilities = new ArrayList<>();
-        List<DictionaryIterm> extras = new ArrayList<>();
-        List<DictionaryIterm> deposits = new ArrayList<>();
-        if(StringUtils.isNotEmpty(building.getFacilities())){
-            facilities = dictionaryItermService.selectByIds(building.getFacilities());
-        }
+        List<DictionaryIterm> facilities = dictionaryItermService.findListBy("dicCode", GlobalConst.FACILITY_CODE);
         //获取当前房源的所有额外收费项
-        if(StringUtils.isNotEmpty(building.getFacilities())){
-            extras = dictionaryItermService.selectByIds(building.getExtraFee());
-        }
+        List<DictionaryIterm> extras = dictionaryItermService.findListBy("dicCode", GlobalConst.EXTRA_CODE);
         //获取当前房源的所有押金项
-        if(StringUtils.isNotEmpty(building.getFacilities())){
-            deposits = dictionaryItermService.selectByIds(building.getDeposits());
-        }
+        List<DictionaryIterm> depositIterms = dictionaryItermService.findListBy("dicCode", GlobalConst.DEPOSIT_ITERM_CODE);
 
         map.put("user",user);
         map.put("buildingId",buildingId);
@@ -112,7 +102,7 @@ public class RoomController {
         map.put("decorations",decorations);
         map.put("extraList",extras);
         map.put("facilityList",facilities);
-        map.put("depositList",deposits);
+        map.put("depositList",depositIterms);
 
         return "landlord/room_list";
     }

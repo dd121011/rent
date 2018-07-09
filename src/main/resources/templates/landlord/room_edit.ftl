@@ -124,7 +124,6 @@
                 <div class="layui-form-mid">平方米</div>
             </div>
         </div>
-        <#if facilityIds?? && (facilityIds?size > 0) >
         <div class="layui-form-item">
             <label class="layui-form-label">配套设施</label>
             <div class="layui-input-block">
@@ -133,8 +132,6 @@
                         </#list>
             </div>
         </div>
-        </#if>
-        <#if extraIds?? && (extraIds?size > 0) >
         <div class="layui-form-item">
             <label class="layui-form-label">额外收费项</label>
             <div class="layui-input-block">
@@ -143,8 +140,6 @@
                         </#list>
             </div>
         </div>
-        </#if>
-        <#if depositList?? && (depositList?size > 0) >
         <div class="layui-form-item">
             <label class="layui-form-label">押金项</label>
             <div class="layui-input-block">
@@ -153,7 +148,6 @@
                         </#list>
             </div>
         </div>
-        </#if>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">描述</label>
             <div class="layui-input-block">

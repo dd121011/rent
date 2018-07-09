@@ -30,6 +30,6 @@ public interface RentMapper extends BaseMapper<Rent> {
             "<if test='rent.deleteTs == null or rent.deleteTs ==0'>and r.delete_ts = 0</if></script>")
     List<Rent> getListByRent(@Param("rent") Rent rent);
 
-    @Select("<script>select r.* from rent r left join room rr on r.room_id = rr.room_id where 1=1 and rr.building_id = #{buildingId} <if test='payFlag == false'>and r.pay_ts = 0</if> <if test='payFlag == true'>and r.pay_ts > 0</if> and r.delete_ts = 0 and rr.delete_ts = 0</script>")
+    @Select("<script>select r.* from rent r where 1=1 and r.building_id = #{buildingId} <if test='payFlag == false'>and r.pay_ts = 0</if> <if test='payFlag == true'>and r.pay_ts > 0</if> and r.delete_ts = 0</script>")
     List<Rent> getRentByBuildingIdandPayFlag(@Param("buildingId") Integer buildingId, @Param("payFlag") boolean payFlag);
 }

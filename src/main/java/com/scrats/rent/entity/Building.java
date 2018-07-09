@@ -6,7 +6,6 @@ import tk.mybatis.mapper.annotation.KeySql;
 import tk.mybatis.mapper.code.IdentityDialect;
 
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import java.util.List;
 
 /**
@@ -24,27 +23,9 @@ public class Building extends BaseEntity {
     private String name;//房子名称
     private Integer rooms;//总的房间数
     private Integer roomAble;//可用房间数,通过总的房间数和可用房间数可以计算出出租房间数
-    private String facilities;//配套设施id字符串[,隔开]
-    private String extraFee;//额外收费项id字符串[,隔开]
-    private String deposits;//押金项id字符串[,隔开]
     private String description;//描述
     private String address;//地址
 
     private List<Attachment> attachmentList;//一个房子对应多个attachment
-
-    @Transient
-    private List<String> facilityIds;
-    @Transient
-    private List<String> extraIds;
-    @Transient
-    private List<String> depositIds;
-
-
-    @Transient
-    private List<DictionaryIterm> facilitiesIterm;
-    @Transient
-    private List<DictionaryIterm> extraFeeIterm;
-    @Transient
-    private List<DictionaryIterm> depositIterm;
 
 }

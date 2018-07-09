@@ -79,36 +79,6 @@ layui.use(['layer', 'table', 'form'], function () {
                 ,"address": data.address
                 ,"description": data.description
             });
-            var facility = data.facilities.split(",");
-            $.each($('input[type=checkbox][name=facilityIds]'),function(){
-                for(j = 0, len=facility.length; j < len; j++) {
-                    if(facility[j] == $(this).val()){
-                        $(this).attr("checked",true);
-                        $(this).next().addClass("layui-form-checked");
-                        break;
-                    }
-                }
-            });
-            var extra = data.extraFee.split(",");
-            $.each($('input[type=checkbox][name=extraIds]'),function(){
-                for(j = 0, len=extra.length; j < len; j++) {
-                    if(extra[j] == $(this).val()){
-                        $(this).attr("checked",true);
-                        $(this).next().addClass("layui-form-checked");
-                        break;
-                    }
-                }
-            });
-            var deposit = data.deposits.split(",");
-            $.each($('input[type=checkbox][name=depositIds]'),function(){
-                for(j = 0, len=extra.length; j < len; j++) {
-                    if(deposit[j] == $(this).val()){
-                        $(this).attr("checked",true);
-                        $(this).next().addClass("layui-form-checked");
-                        break;
-                    }
-                }
-            });
             active.edit();
         }
     });
@@ -154,7 +124,7 @@ layui.use(['layer', 'table', 'form'], function () {
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "编辑楼盘"
-                , area: '800px'
+                , area: '500px'
                 , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
                 , id: 'layerBuildingEdit'  //防止重复弹出
                 , content: $('#addDiv')

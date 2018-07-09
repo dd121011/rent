@@ -6,10 +6,8 @@ import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
-import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.Building;
 import com.scrats.rent.entity.BuildingLandlord;
-import com.scrats.rent.entity.DictionaryIterm;
 import com.scrats.rent.service.BuildingLandlordService;
 import com.scrats.rent.service.BuildingService;
 import com.scrats.rent.service.DictionaryItermService;
@@ -52,16 +50,6 @@ public class BuildingApi {
     @PostMapping("/edit")
     public JsonResult edit(@APIRequestControl APIRequest apiRequest) {
         Building building = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Building.class);
-
-        if(null != building.getFacilityIds() && building.getFacilityIds().size()>0){
-            building.setFacilities(String.join(",", building.getFacilityIds()));
-        }
-        if(null != building.getExtraIds() && building.getExtraIds().size()>0){
-            building.setExtraFee(String.join(",", building.getExtraIds()));
-        }
-        if(null != building.getDepositIds() && building.getDepositIds().size()>0){
-            building.setDeposits(String.join(",", building.getDepositIds()));
-        }
 
         if(null != building.getBuildingId()){
             building.setUpdateTs(System.currentTimeMillis());
@@ -112,14 +100,6 @@ public class BuildingApi {
     public JsonResult detail(@PathVariable(name="buildingId") Integer buildingId) {
         //获取所有房子select数据
         Building building = buildingService.selectByPrimaryKey(buildingId);
-        //获取所有配套设施
-        List<DictionaryIterm> facilities = dictionaryItermService.selectByIds(building.getFacilities());
-        //获取所有额外收费项
-        List<DictionaryIterm> extras = dictionaryItermService.selectByIds(building.getExtraFee());
-        List<DictionaryIterm> depositIterms = dictionaryItermService.findListBy("dicCode", GlobalConst.DEPOSIT_ITERM_CODE);
-        building.setFacilitiesIterm(facilities);
-        building.setExtraFeeIterm(extras);
-        building.setDepositIterm(depositIterms);
 
         return new JsonResult<Building>(building);
     }

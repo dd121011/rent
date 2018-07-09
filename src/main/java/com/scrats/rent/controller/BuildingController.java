@@ -10,7 +10,6 @@ import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.common.exception.NotAuthorizedException;
-import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
 import org.slf4j.Logger;
@@ -63,14 +62,7 @@ public class BuildingController {
             throw new BusinessException("请求参数错误, 请检查");
         }
 
-        List<DictionaryIterm> facilities = dictionaryItermService.findListBy("dicCode", GlobalConst.FACILITY_CODE);
-        List<DictionaryIterm> extras = dictionaryItermService.findListBy("dicCode", GlobalConst.EXTRA_CODE);
-        List<DictionaryIterm> depositIterms = dictionaryItermService.findListBy("dicCode", GlobalConst.DEPOSIT_ITERM_CODE);
-
         map.put("user",user);
-        map.put("extraList",extras);
-        map.put("facilityList",facilities);
-        map.put("depositItermList",depositIterms);
 
         return "landlord/building_list";
     }
@@ -88,16 +80,6 @@ public class BuildingController {
     @ResponseBody
     public JsonResult edit(@APIRequestControl APIRequest apiRequest) {
         Building building = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Building.class);
-
-        if(null != building.getFacilityIds() && building.getFacilityIds().size()>0){
-            building.setFacilities(String.join(",", building.getFacilityIds()));
-        }
-        if(null != building.getExtraIds() && building.getExtraIds().size()>0){
-            building.setExtraFee(String.join(",", building.getExtraIds()));
-        }
-        if(null != building.getDepositIds() && building.getDepositIds().size()>0){
-            building.setDeposits(String.join(",", building.getDepositIds()));
-        }
 
         if(null != building.getBuildingId()){
             building.setUpdateTs(System.currentTimeMillis());

@@ -13,30 +13,6 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">配套设施</label>
-            <div class="layui-input-block">
-                <#list facilityList as item>
-                    <input type="checkbox" lay-filter="testt" name="facilityIds" value="${item.dicItermCode}" title="${item.value}">
-                </#list>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">额外收费项</label>
-            <div class="layui-input-block">
-                <#list extraList as item>
-                    <input type="checkbox" lay-filter="testt" name="extraIds" value="${item.dicItermCode}" title="${item.value}">
-                </#list>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">押金项</label>
-            <div class="layui-input-block">
-                <#list depositItermList as item>
-                    <input type="checkbox" lay-filter="testt" name="depositIds" value="${item.dicItermCode}" title="${item.value}">
-                </#list>
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">地址</label>
             <div class="layui-input-block">
                 <input type="text" name="address"  lay-verify="required" placeholder="请输入地址" autocomplete="off" class="layui-input">

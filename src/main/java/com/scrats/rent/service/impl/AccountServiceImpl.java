@@ -10,11 +10,13 @@ import com.scrats.rent.entity.User;
 import com.scrats.rent.mapper.AccountMapper;
 import com.scrats.rent.service.AccountService;
 import com.scrats.rent.service.UserService;
+import com.scrats.rent.view.LandlordView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -56,5 +58,10 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, AccountMapper> 
         }
         return new JsonResult("账号密码错误");
 
+    }
+
+    @Override
+    public List<LandlordView> getPhoneByBuildingId(Integer building_id) {
+        return dao.getPhoneByBuildingId(building_id);
     }
 }

@@ -2,7 +2,10 @@ package com.scrats.rent.mapper;
 
 import com.scrats.rent.base.mapper.BaseMapper;
 import com.scrats.rent.entity.Account;
+import com.scrats.rent.view.LandlordView;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * Created with scrat.
@@ -17,4 +20,7 @@ public interface AccountMapper extends BaseMapper<Account> {
             "    where 1=1 and username = #{username} and pwd = #{pwd}\n" +
             "    limit 1")
     Account login(Account account);
+
+    @Select("select a.phone, u.name from building_landlord bl left join user u on u.user_id = bl.landlord_id left join account a on a.account_id = u.account_id where bl.building_id = #{building_id}")
+    List<LandlordView> getPhoneByBuildingId(Integer building_id);
 }

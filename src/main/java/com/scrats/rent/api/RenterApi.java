@@ -62,6 +62,8 @@ public class RenterApi {
     private RentItermService rentItermService;
     @Autowired
     private ExtraHistoryService extraHistoryService;
+    @Autowired
+    private AccountService accountService;
 
     @IgnoreSecurity
     @PostMapping("/snsLogin")
@@ -147,8 +149,11 @@ public class RenterApi {
                     facilities = dictionaryItermService.selectByIds(bargin.getFacilities());
                 }
                 List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBarginId());
+                Room room = roomService.selectByPrimaryKey(roomId);
                 JSONObject result = new JSONObject();
                 result.put("bargin",bargin);
+                result.put("landlord",accountService.getPhoneByBuildingId(building.getBuildingId()));
+                result.put("roomNo",room.getRoomNo());
                 result.put("building",building);
                 result.put("facilities",facilities);
                 result.put("extras",extras == null ? new ArrayList<>() : extras);

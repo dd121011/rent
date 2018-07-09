@@ -4,6 +4,9 @@ import com.scrats.rent.base.service.BaseService;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.entity.Account;
 import com.scrats.rent.mapper.AccountMapper;
+import com.scrats.rent.view.LandlordView;
+
+import java.util.List;
 
 /**
  * Created with scrat.
@@ -15,4 +18,6 @@ import com.scrats.rent.mapper.AccountMapper;
 public interface AccountService extends BaseService<Account, AccountMapper> {
 
     JsonResult login(String username, String pwd);
+
+    List<LandlordView> getPhoneByBuildingId(Integer building_id);
 }

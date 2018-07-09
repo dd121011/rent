@@ -8,6 +8,7 @@ import lombok.Data;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  * 用户实体类
@@ -33,6 +34,9 @@ public class User extends BaseEntity {
     private String hometown;//籍贯
     private String address;//地址
     private Integer accountId;//账号Id
+
+    @Transient
+    private String phone;//电话号码
 
     public User() {
         super();

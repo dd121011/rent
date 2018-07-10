@@ -270,7 +270,9 @@ public class RoomController {
             newRenter.setUserId(user.getUserId());
             renterService.insertSelective(newRenter);
 
-            RoomRenter newRoomRenter = new RoomRenter(roomId, user.getUserId(), newRenter.getRenterId());
+            List<Bargin> list = barginService.getBarginByRoomId(roomId, false);
+            Bargin bargin = list.get(0);
+            RoomRenter newRoomRenter = new RoomRenter(roomId, user.getUserId(), newRenter.getRenterId(), bargin.getBarginId());
             newRenter.setCreateTs(updatTs);
             roomRenterService.insertSelective(newRoomRenter);
         }

@@ -130,14 +130,14 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
             bargin.setRenterId(renter.getRenterId());
         }
 
-        //创建roomRenter
-        RoomRenter roomRenter = new RoomRenter(bargin.getRoomId(), bargin.getUserId(), bargin.getRenterId());
-        roomRenter.setCreateTs(bargin.getLiveTs());
-        roomRenterService.insertSelective(roomRenter);
-
         bargin.setBarginNo("haozu-bargin-" + RandomUtil.generateLowerString(5) + "-" + createTs);
         bargin.setCreateTs(createTs);
         barginService.insertSelective(bargin);
+
+        //创建roomRenter
+        RoomRenter roomRenter = new RoomRenter(bargin.getRoomId(), bargin.getUserId(), bargin.getRenterId(), bargin.getBarginId());
+        roomRenter.setCreateTs(bargin.getLiveTs());
+        roomRenterService.insertSelective(roomRenter);
 
         //保存合同额外收费项，便于以后计算每月房租
         for (BarginExtra extra: bargin.getBarginExtraList()) {
@@ -277,7 +277,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
                 }else{
                     beforeCount = before.get(0).getCount();
                 }
-                ExtraHistory extra = new ExtraHistory(roomId, origin.getCount(),month, origin.getDicItermCode(), origin.getBarginExtraId());
+                ExtraHistory extra = new ExtraHistory(roomId, origin.getCount(),month, origin.getDicItermCode(), origin.getBarginExtraId(), barginId);
                 extra.setCreateTs(createTs);
                 int nowCount = origin.getCount() - beforeCount;
                 if(nowCount < 0){
@@ -288,7 +288,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
                 rentIterm.setMoney(rentIterm.getPrice() * rentIterm.getNumber());
                 extraHistories.add(extra);
             }else{
-                ExtraHistory extra = new ExtraHistory(roomId, origin.getCount()*100, month, origin.getDicItermCode(), origin.getBarginExtraId());
+                ExtraHistory extra = new ExtraHistory(roomId, origin.getCount()*100, month, origin.getDicItermCode(), origin.getBarginExtraId(), barginId);
                 extra.setCreateTs(createTs);
                 extraHistories.add(extra);
                 rentIterm.setPrice(origin.getCount()*100);

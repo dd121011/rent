@@ -28,6 +28,7 @@ public class Deposit extends BaseEntity {
     private Integer userId;//租客的userId
     private Integer renterId;//租客的renterId
     private Integer buildingId;//buildingId
+    private Integer barginId;//合同Id
 
 
 }

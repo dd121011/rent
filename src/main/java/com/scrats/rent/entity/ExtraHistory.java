@@ -27,16 +27,18 @@ public class ExtraHistory extends BaseEntity {
     private String month;//统计月, eg 201805
     private String dicItermCode;//额外收费项code
     private Integer barginExtraId;//额外收费项Id
+    private Integer barginId;//合同Id
 
     public ExtraHistory() {
 
     }
 
-    public ExtraHistory(Integer roomId, Integer count, String month, String dicItermCode, Integer barginExtraId) {
+    public ExtraHistory(Integer roomId, Integer count, String month, String dicItermCode, Integer barginExtraId, Integer barginId) {
         this.roomId = roomId;
         this.count = count;
         this.month = month;
         this.dicItermCode = dicItermCode;
         this.barginExtraId = barginExtraId;
+        this.barginId = barginId;
     }
 }

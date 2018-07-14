@@ -28,7 +28,8 @@ public interface RoomMapper extends BaseMapper<Room> {
             "<if test='roomNo != null and roomNo != \"\"'>and t.room_no = #{roomNo}</if>" +
             "<if test='rentTs != null and rentTs > 0'>and t.rent_ts > #{rentTs}</if>" +
             "<if test='rentTs != null and rentTs == 0'>and t.rent_ts = #{rentTs}</if>" +
-            "<if test='deleteTs != null and deleteTs > 0'>and t.delete_ts > #{deleteTs}</if>" +
+            "<if test='deleteTs != null and deleteTs > 0'>and t.delete_ts > 0</if>" +
+            "<if test='deleteTs == null or deleteTs = 0'>and t.delete_ts = 0</if>" +
             "</script>")
     List<Room> getRoomList(Room room);
 

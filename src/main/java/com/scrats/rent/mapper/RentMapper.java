@@ -25,7 +25,7 @@ public interface RentMapper extends BaseMapper<Rent> {
             "<if test='rent.roomNo != null and rent.roomNo != \"\"'>and r.room_no = #{rent.roomNo}</if> " +
             "<if test='rent.month != null and rent.month != \"\"'>and r.month = #{rent.month}</if> " +
             "<if test='rent.payTs != null and rent.payTs > 0'>and r.pay_ts > 0</if> " +
-            "<if test='rent.payTs == null and rent.payTs == 0'>and r.pay_ts = 0</if> " +
+            "<if test='rent.payTs == null or rent.payTs == 0'>and r.pay_ts = 0</if> " +
             "<if test='rent.deleteTs != null and rent.deleteTs >0'>and r.delete_ts > 0</if>" +
             "<if test='rent.deleteTs == null or rent.deleteTs ==0'>and r.delete_ts = 0</if></script>")
     List<Rent> getListByRent(@Param("rent") Rent rent);

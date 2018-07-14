@@ -22,6 +22,8 @@ public interface ExtraHistoryMapper extends BaseMapper<ExtraHistory> {
             "<if test='extraHistory.barginEtraId != null'>and r.bargin_etra_id = #{extraHistory.barginEtraId}</if> " +
             "<if test='extraHistory.month != null and extraHistory.month != \"\" '>and r.month = #{extraHistory.month}</if> " +
             "<if test='extraHistory.dicItermCode != null and extraHistory.dicItermCode != \"\" '>and r.dic_iterm_code = #{extraHistory.dicItermCode}</if> " +
-            "and r.delete_ts = 0</script>")
+            "<if test='extraHistory.deleteTs != null and extraHistory.deleteTs > 0'>and r.delete_ts > 0</if> " +
+            "<if test='extraHistory.deleteTs == null or extraHistory.deleteTs = 0'>and r.delete_ts = 0</if> " +
+            "</script>")
     List<ExtraHistory> getListByExtraHistory(@Param("extraHistory") ExtraHistory extraHistory);
 }

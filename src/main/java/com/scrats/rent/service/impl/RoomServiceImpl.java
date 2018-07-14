@@ -242,6 +242,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     @Transactional
     public JsonResult charge(List<ExtraHistory> chargeList, String month, Integer barginId, Integer roomId, String remark) {
         Long createTs = System.currentTimeMillis();
+        Bargin bargin = barginService.selectByPrimaryKey(barginId);
         List<BarginExtra> list = barginExtraService.findListBy("barginId",barginId);
         Map<Integer, ExtraHistory> extraHistoryMap = new HashMap<>();
         for(ExtraHistory extraHistory : chargeList){
@@ -252,10 +253,11 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         List<RentIterm> rentItermList = new ArrayList<>();
         rent.setRentMonth(month);
         rent.setRoomId(roomId);
+        rent.setBuildingId(bargin.getBuildingId());
         rent.setRentNo("haozu-rent-" + month + RandomUtil.generateLowerString(1) + "-" + createTs);
         rent.setRemark(remark);
 
-        Integer fee = 0;
+        int fee = bargin.getRentFee();
         List<ExtraHistory> extraHistories = new ArrayList<>();
         for(BarginExtra barginExtra : list){
             RentIterm rentIterm = new RentIterm();
@@ -277,7 +279,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
                 }else{
                     beforeCount = before.get(0).getCount();
                 }
-                ExtraHistory extra = new ExtraHistory(roomId, origin.getCount(),month, origin.getDicItermCode(), origin.getBarginExtraId(), barginId);
+                ExtraHistory extra = new ExtraHistory(roomId, origin.getCount(),month, origin.getDicItermCode(), origin.getBarginExtraId(), barginId, bargin.getBuildingId());
                 extra.setCreateTs(createTs);
                 int nowCount = origin.getCount() - beforeCount;
                 if(nowCount < 0){
@@ -288,7 +290,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
                 rentIterm.setMoney(rentIterm.getPrice() * rentIterm.getNumber());
                 extraHistories.add(extra);
             }else{
-                ExtraHistory extra = new ExtraHistory(roomId, origin.getCount()*100, month, origin.getDicItermCode(), origin.getBarginExtraId(), barginId);
+                ExtraHistory extra = new ExtraHistory(roomId, origin.getCount()*100, month, origin.getDicItermCode(), origin.getBarginExtraId(), barginId, bargin.getBuildingId());
                 extra.setCreateTs(createTs);
                 extraHistories.add(extra);
                 rentIterm.setPrice(origin.getCount()*100);

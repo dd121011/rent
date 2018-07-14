@@ -1,6 +1,9 @@
 package com.scrats.rent.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.scrats.rent.base.service.BaseServiceImpl;
+import com.scrats.rent.common.APIRequest;
+import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Rent;
 import com.scrats.rent.mapper.RentMapper;
 import com.scrats.rent.service.RentService;
@@ -35,5 +38,25 @@ public class RentServiceImpl extends BaseServiceImpl<Rent, RentMapper> implement
     @Override
     public List<Rent> getRentByBuildingIdandPayFlag(Integer buildingId, boolean payFlag) {
         return dao.getRentByBuildingIdandPayFlag(buildingId, payFlag);
+    }
+
+    @Override
+    public PageInfo<Rent> getRentPageList(APIRequest apiRequest, Rent rent) {
+        return this.getRentPageList(apiRequest, rent, true);
+    }
+
+    @Override
+    public PageInfo<Rent> getRentPageList(APIRequest apiRequest, Rent rent, boolean pageFlag) {
+        List<Rent> list;
+        if(pageFlag){
+            PageHelper.startPage(apiRequest.getPage(), apiRequest.getRows());
+            list = dao.getListByRent(rent);
+            return new PageInfo<Rent>(list);
+        }
+
+        list = dao.getListByRent(rent);
+        PageInfo pageInfo = new PageInfo();
+        pageInfo.setList(list);
+        return pageInfo;
     }
 }

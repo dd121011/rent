@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
+import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
@@ -18,7 +19,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * @Created with scrat.
@@ -205,6 +209,15 @@ public class RenterApi {
         return new JsonResult<List>(list);
     }
 
+    @GetMapping("/rent/{roomId}")
+    public JsonResult rent(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
+        Rent rent = new Rent();
+        rent.setRoomId(roomId);
+        rent.setPayTs(-1L);
+        PageInfo<Rent> pageInfo = rentService.getRentPageList(apiRequest, rent);
+
+        return new JsonResult<PageInfo>(pageInfo);
+    }
 
     private Date getPayTime(Date date, int rentDay){
         Date rent = DateUtils.oneDayOfThisMonth(date, rentDay);

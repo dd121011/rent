@@ -20,15 +20,17 @@ public interface RentMapper extends BaseMapper<Rent> {
     List<Rent> getRentByRoomId(@Param("roomId") Integer roomId, @Param("payFlag") boolean payFlag);
 
     @Select("<script>select r.* from rent r where 1=1 " +
-            "<if test='rent.rentId != null'>and r.rent_id = #{rent.rentId}</if> " +
-            "<if test='rent.roomId != null'>and r.room_id = #{rent.roomId}</if> " +
-            "<if test='rent.roomNo != null and rent.roomNo != \"\"'>and r.room_no = #{rent.roomNo}</if> " +
-            "<if test='rent.month != null and rent.month != \"\"'>and r.month = #{rent.month}</if> " +
-            "<if test='rent.payTs != null and rent.payTs > 0'>and r.pay_ts > 0</if> " +
-            "<if test='rent.payTs == null or rent.payTs == 0'>and r.pay_ts = 0</if> " +
-            "<if test='rent.deleteTs != null and rent.deleteTs >0'>and r.delete_ts > 0</if>" +
-            "<if test='rent.deleteTs == null or rent.deleteTs ==0'>and r.delete_ts = 0</if></script>")
-    List<Rent> getListByRent(@Param("rent") Rent rent);
+            "<if test='rentId != null'>and r.rent_id = #{rentId}</if> " +
+            "<if test='roomId != null'>and r.room_id = #{roomId}</if> " +
+            "<if test='buildingId != null'>and r.building_id = #{buildingId}</if> " +
+            "<if test='barginId != null'>and r.bargin_id = #{barginId}</if> " +
+            "<if test='roomNo != null and roomNo != \"\"'>and r.room_no = #{roomNo}</if> " +
+            "<if test='month != null and month != \"\"'>and r.month = #{month}</if> " +
+            "<if test='payTs != null and payTs > 0'>and r.pay_ts > 0</if> " +
+            "<if test='payTs == null or payTs == 0'>and r.pay_ts = 0</if> " +
+            "<if test='deleteTs != null and deleteTs >0'>and r.delete_ts > 0</if>" +
+            "<if test='deleteTs == null or deleteTs ==0'>and r.delete_ts = 0</if></script>")
+    List<Rent> getListByRent(Rent rent);
 
     @Select("<script>select r.* from rent r where 1=1 and r.building_id = #{buildingId} <if test='payFlag == false'>and r.pay_ts = 0</if> <if test='payFlag == true'>and r.pay_ts > 0</if> and r.delete_ts = 0</script>")
     List<Rent> getRentByBuildingIdandPayFlag(@Param("buildingId") Integer buildingId, @Param("payFlag") boolean payFlag);

@@ -1,6 +1,8 @@
 package com.scrats.rent.service;
 
 import com.scrats.rent.base.service.BaseService;
+import com.scrats.rent.common.APIRequest;
+import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Rent;
 import com.scrats.rent.mapper.RentMapper;
 
@@ -20,4 +22,8 @@ public interface RentService extends BaseService<Rent, RentMapper> {
     List<Rent> getListByRent(Rent rent);
 
     List<Rent> getRentByBuildingIdandPayFlag(Integer buildingId, boolean payFlag);
+
+    PageInfo<Rent> getRentPageList(APIRequest apiRequest, Rent rent);
+
+    PageInfo<Rent> getRentPageList(APIRequest apiRequest, Rent rent, boolean pageFlag);
 }

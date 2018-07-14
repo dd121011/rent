@@ -73,7 +73,7 @@
                     <table class="layui-hide" id="lay_table_room_renter" lay-filter="renterRoomTableFilter"></table>
                 </div>
                 <div class="layui-tab-item">
-                    租赁历史内容
+                    <table class="layui-hide" id="lay_table_bargin_room" lay-filter="barginRoomTableFilter"></table>
                 </div>
             </div>
         </div>
@@ -83,6 +83,9 @@
 <script type="text/html" id="renterListBar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="barginRoomListBar">
+    <a class="layui-btn layui-btn-xs" lay-event="barginDetail">详情</a>
 </script>
 <script src="${base}/static/js/extends/qrcode.min.js" charset="utf-8"></script>
 <script src="${base}/static/js/landlord/room_detail.js" charset="utf-8"></script>

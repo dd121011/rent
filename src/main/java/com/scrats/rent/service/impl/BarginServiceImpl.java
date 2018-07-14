@@ -1,6 +1,9 @@
 package com.scrats.rent.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.scrats.rent.base.service.BaseServiceImpl;
+import com.scrats.rent.common.APIRequest;
+import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Bargin;
 import com.scrats.rent.mapper.BarginMapper;
 import com.scrats.rent.service.BarginService;
@@ -26,6 +29,26 @@ public class BarginServiceImpl extends BaseServiceImpl<Bargin, BarginMapper> imp
     public List<Bargin> getBarginByRoomId(Integer roomId, boolean deleteFlag) {
 
         return dao.getBarginByRoomId(roomId, deleteFlag);
+    }
+
+    @Override
+    public PageInfo<Bargin> getBarginList(APIRequest apiRequest, Bargin bargin) {
+        return getBarginList(apiRequest, bargin, true);
+    }
+
+    @Override
+    public PageInfo<Bargin> getBarginList(APIRequest apiRequest, Bargin bargin, boolean pageFlag) {
+        List<Bargin> list;
+        if(pageFlag){
+            PageHelper.startPage(apiRequest.getPage(), apiRequest.getRows());
+            list = dao.getBarginList(bargin);
+            return new PageInfo<Bargin>(list);
+        }
+
+        list = dao.getBarginList(bargin);
+        PageInfo pageInfo = new PageInfo();
+        pageInfo.setList(list);
+        return pageInfo;
     }
 
 }

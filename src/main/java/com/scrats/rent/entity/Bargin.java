@@ -1,6 +1,7 @@
 package com.scrats.rent.entity;
 
 import com.scrats.rent.base.entity.BaseEntity;
+import com.scrats.rent.constant.SexType;
 import lombok.Data;
 import tk.mybatis.mapper.annotation.KeySql;
 import tk.mybatis.mapper.code.IdentityDialect;
@@ -51,5 +52,9 @@ public class Bargin extends BaseEntity {
     private List<BarginExtra> barginExtraList;
     @Transient
     private List<DepositIterm> depositItermList;
+
+    public String getSexName(){
+        return null == sex ? "" : SexType.fromValue(sex).getName();
+    }
 
 }

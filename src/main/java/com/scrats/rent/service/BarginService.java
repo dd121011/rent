@@ -1,6 +1,8 @@
 package com.scrats.rent.service;
 
 import com.scrats.rent.base.service.BaseService;
+import com.scrats.rent.common.APIRequest;
+import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Bargin;
 import com.scrats.rent.mapper.BarginMapper;
 
@@ -16,5 +18,9 @@ import java.util.List;
 public interface BarginService extends BaseService<Bargin, BarginMapper> {
 
     List<Bargin> getBarginByRoomId(Integer roomId, boolean deleteFlag);
+
+    PageInfo<Bargin> getBarginList(APIRequest apiRequest, Bargin bargin);
+
+    PageInfo<Bargin> getBarginList(APIRequest apiRequest, Bargin bargin, boolean pageFlag);
 
 }

@@ -59,6 +59,58 @@ layui.use(['layer', 'table', 'form'], function () {
         }
     });
 
+    //租客Table
+    table.render({
+        elem: '#lay_table_bargin_room'//指定原始表格元素选择器（
+        , url: requestBaseUrl + '/bargin/list'
+        , method: 'post'
+        , headers: header
+        , request: {
+            pageName: 'page' //页码的参数名称，默认：page
+            , limitName: 'rows' //每页数据量的参数名，默认：limit
+        } //如果无需自定义请求参数，可不加该参数
+        , response: {
+            statusName: 'code' //数据状态的字段名称，默认：code
+            , statusCode: 1 //成功的状态码，默认：0
+            , msgName: 'msg' //状态信息的字段名称，默认：msg
+            , countName: 'count' //数据总数的字段名称，默认：count
+            , dataName: 'data' //数据列表的字段名称，默认：data
+        } //如果无需自定义数据响应名称，可不加该参数
+        , where: {
+            roomId: $('#roomId').val(),
+            deleteTs: -1
+        }//传参*/
+        , id: 'lay_table_bargin_room'
+        , page: true//开启分页
+        , cols: [[//表头
+            {field: 'name', title: '姓名', templet: function(d){
+                return d.name;
+            }}
+            , {field: 'phone', title: '手机号', templet: function(d){
+                    return d.phone;
+                }}
+            , {field: 'idCard', title: '身份证号', width: 180, templet: function(d){
+                    return d.idCard == undefined ? "" : d.idCard;
+                }}
+            , {field: 'rentFee', title: '租金', width: 90, templet: function(d){
+                    return d.rentFee/100;
+                }}
+            , {field: 'guarantyAndPay', title: '押付方式', width: 100, templet: function(d){
+                    return "押" + d.guaranty + "付" + d.pay;
+                }}
+            , {field: 'liveTs', title: '入住时间', templet: function(d){
+                    return new Date(d.liveTs).Format('yyyy-MM-dd');
+                }}
+            , {field: 'leaveTs', title: '退租时间', templet: function(d){
+                    return new Date(d.leaveTs).Format('yyyy-MM-dd');
+                }}
+            , {field: '', title: '操作', align: 'center', toolbar: '#barginRoomListBar'}
+        ]]
+        , done: function (res, curr, count) {
+
+        }
+    });
+
     var active = {
         rentAdd: function () {
             layer.open({

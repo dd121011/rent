@@ -254,6 +254,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         rent.setRentMonth(month);
         rent.setRoomId(roomId);
         rent.setBuildingId(bargin.getBuildingId());
+        rent.setBarginId(barginId);
         rent.setRentNo("haozu-rent-" + month + RandomUtil.generateLowerString(1) + "-" + createTs);
         rent.setRemark(remark);
 

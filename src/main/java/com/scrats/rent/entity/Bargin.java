@@ -34,6 +34,7 @@ public class Bargin extends BaseEntity {
     private String idCardPicBack;//身份证反面
     private Integer guaranty;//押金月份
     private Integer pay;//租金月份
+    private Integer rentDay;//交租日
     private Integer rentFee;//租金[分/月]
     private Integer guarantyFee;//押金[分]
     private Integer total;//首次缴费[分]
@@ -45,8 +46,6 @@ public class Bargin extends BaseEntity {
     private Integer landlordId;//房东Id,签署合同的房东
     private Long liveTs;//入住时间，13位时间戳
     private Long leaveTs;//退租时间，13位时间戳
-
-    private Integer rentDay;//交租日
 
     @Transient
     private List<BarginExtra> barginExtraList;

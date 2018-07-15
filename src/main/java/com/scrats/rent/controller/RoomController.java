@@ -350,7 +350,7 @@ public class RoomController {
         rent.setRentMonth(month);
         rent.setRoomId(apiRequest.getRoomId());
         List<Rent> rentList  = rentService.getListByRent(rent);
-        if(null != list && list.size() > 0){
+        if(null != rentList && rentList.size() > 0){
             return new JsonResult("已经计算房租, 请勿重复生成");
         }
 

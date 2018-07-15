@@ -24,12 +24,13 @@ public interface RentMapper extends BaseMapper<Rent> {
             "<if test='roomId != null'>and r.room_id = #{roomId}</if> " +
             "<if test='buildingId != null'>and r.building_id = #{buildingId}</if> " +
             "<if test='barginId != null'>and r.bargin_id = #{barginId}</if> " +
-            "<if test='roomNo != null and roomNo != \"\"'>and r.room_no = #{roomNo}</if> " +
-            "<if test='month != null and month != \"\"'>and r.month = #{month}</if> " +
+            "<if test='rentNo != null'>and r.rent_no = #{rentNo}</if> " +
+            "<if test='rentMonth != null and rentMonth != \"\"'>and r.rent_month = #{rentMonth}</if> " +
             "<if test='payTs != null and payTs > 0'>and r.pay_ts > 0</if> " +
             "<if test='payTs == null or payTs == 0'>and r.pay_ts = 0</if> " +
             "<if test='deleteTs != null and deleteTs >0'>and r.delete_ts > 0</if>" +
-            "<if test='deleteTs == null or deleteTs ==0'>and r.delete_ts = 0</if></script>")
+            "<if test='deleteTs == null or deleteTs ==0'>and r.delete_ts = 0</if>" +
+            "order by r.rent_month desc</script>")
     List<Rent> getListByRent(Rent rent);
 
     @Select("<script>select r.* from rent r where 1=1 and r.building_id = #{buildingId} <if test='payFlag == false'>and r.pay_ts = 0</if> <if test='payFlag == true'>and r.pay_ts > 0</if> and r.delete_ts = 0</script>")

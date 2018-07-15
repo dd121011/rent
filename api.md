@@ -1665,13 +1665,15 @@ curl 'https://scrats.cn/rent/api/renter/extraHistory/1' -H 'Pragma: no-cache' -H
 }
 ```
 
-### 获取某一个房间额外收费项的明细数据
+### 获取某一个房间的所有房租
 
 > [GET] `/api/renter/rent/{roomId}?page=1&rows=10` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
 | roomId | Integer | true | 未缴费ID |
+| page | Integer | false | 分页显示页码 |
+| rows | Integer | false | 每页显示数量 |
 
 #### Sample
 ```

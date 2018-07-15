@@ -1408,7 +1408,7 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| roomId | String | true | 房间ID |
+| roomId | Integer | true | 房间ID |
 
 #### Sample
 ```
@@ -1432,7 +1432,7 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| roomId | String | true | 房间ID |
+| roomId | Integer | true | 房间ID |
 
 #### Sample
 ```
@@ -1456,7 +1456,7 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| roomId | String | true | 房间ID |
+| roomId | Integer | true | 房间ID |
 
 #### Sample
 ```
@@ -1624,7 +1624,7 @@ curl 'https://scrats.cn/rent/api/renter/unpay/3' -H 'Pragma: no-cache' -H 'Accep
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| barginExtraId | String | true | 未缴费ID |
+| barginExtraId | Integer | true | 未缴费ID |
 
 #### Sample
 ```
@@ -1665,6 +1665,71 @@ curl 'https://scrats.cn/rent/api/renter/extraHistory/1' -H 'Pragma: no-cache' -H
 }
 ```
 
+### 获取某一个房间额外收费项的明细数据
+
+> [GET] `/api/renter/rent/{roomId}?page=1&rows=10` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| roomId | Integer | true | 未缴费ID |
+
+#### Sample
+```
+curl  -X GET -H 'tokenId: 58115c918cd444bcae3679578e64e91c' -H 'userId: 9' 'https://scrats.cn/rent/api/renter/rent/3'
+```
+#### Response
+```
+{
+    "code": 1,
+    "msg": null,
+    "data": {
+        "total": 2,
+        "list": [
+            {
+                "createTs": 1531631108000,
+                "updateTs": 0,
+                "remark": "",
+                "deleteTs": 0,
+                "rentId": 1,
+                "rentNo": "haozu-rent-201807e-1531631108000",
+                "rentMonth": "201807",
+                "fee": 73836,
+                "count": 0,
+                "realFee": 73836,
+                "payTs": 0,
+                "payNo": "",
+                "channel": "99",
+                "roomId": 3,
+                "buildingId": 1,
+                "barginId": 8
+            },
+            {
+                "createTs": 1531631154187,
+                "updateTs": 0,
+                "remark": "",
+                "deleteTs": 0,
+                "rentId": 2,
+                "rentNo": "haozu-rent-201806j-1531631154187",
+                "rentMonth": "201806",
+                "fee": 760296,
+                "count": 0,
+                "realFee": 760296,
+                "payTs": 0,
+                "payNo": "",
+                "channel": "99",
+                "roomId": 3,
+                "buildingId": 1,
+                "barginId": 8
+            }
+        ],
+        "pageNum": 1,
+        "pageSize": 10,
+        "pages": 1,
+        "size": 2
+    },
+    "count": 0
+}
+```
 
 上传身份信息
 

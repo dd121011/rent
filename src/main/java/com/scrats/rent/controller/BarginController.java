@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,11 +44,6 @@ public class BarginController {
     @PostMapping("/list")
     public String list(@APIRequestControl APIRequest apiRequest, Bargin bargin) {
         PageInfo<Bargin> pageInfo = barginService.getBarginList(apiRequest, bargin);
-        Date date = new Date(pageInfo.getList().get(0).getLiveTs());
-        System.out.println(date);
-        long ll = System.currentTimeMillis();
-        Date date2 = new Date(ll);
-        System.out.println(date2);
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
     }
 

@@ -30,7 +30,7 @@ public interface BarginMapper extends BaseMapper<Bargin> {
             "<if test = 'null != rentDay'> and b.rent_day = #{rentDay}</if>" +
             "<if test = 'null != deleteTs and deleteTs > 0'> and b.delete_ts > 0</if>" +
             "<if test = 'null == deleteTs or deleteTs = 0'> and b.delete_ts = 0</if>" +
-            "</script>")
+            "order by b.live_ts desc</script>")
     List<Bargin> getBarginList(Bargin bargin);
 
 }

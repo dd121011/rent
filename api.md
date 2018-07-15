@@ -1677,7 +1677,7 @@ curl 'https://scrats.cn/rent/api/renter/extraHistory/1' -H 'Pragma: no-cache' -H
 
 #### Sample
 ```
-curl  -X GET -H 'tokenId: 58115c918cd444bcae3679578e64e91c' -H 'userId: 9' 'https://scrats.cn/rent/api/renter/rent/3'
+curl  -X GET -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' 'https://scrats.cn/rent/api/renter/rent/3'
 ```
 #### Response
 ```

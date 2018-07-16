@@ -18,6 +18,9 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
         roomManage: function () {
             window.location.href = requestBaseUrl +  "/room/goRoom/" + userId + "?tokenId=" + tokenId;
         },
+        rentManage: function () {
+            window.location.href = requestBaseUrl +  "/rent/goRent/" + userId + "?tokenId=" + tokenId;
+        },
 
     };
 

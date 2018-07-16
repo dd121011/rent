@@ -19,7 +19,9 @@ public interface RentMapper extends BaseMapper<Rent> {
     @Select("<script>select r.* from rent r where 1=1 <if test='roomId != null'>and r.room_id = #{roomId}</if> <if test='payFlag == false'>and r.pay_ts = 0</if>  <if test='payFlag == true'>and r.pay_ts > 0</if> and r.delete_ts = 0</script>")
     List<Rent> getRentByRoomId(@Param("roomId") Integer roomId, @Param("payFlag") boolean payFlag);
 
-    @Select("<script>select r.* from rent r where 1=1 " +
+    @Select("<script>select r.*,ro.room_no from rent r " +
+            "left join room ro on r.room_id = ro.room_id " +
+            "where 1=1 " +
             "<if test='rentId != null'>and r.rent_id = #{rentId}</if> " +
             "<if test='roomId != null'>and r.room_id = #{roomId}</if> " +
             "<if test='buildingId != null'>and r.building_id = #{buildingId}</if> " +

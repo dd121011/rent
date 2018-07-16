@@ -6,6 +6,7 @@ import tk.mybatis.mapper.annotation.KeySql;
 import tk.mybatis.mapper.code.IdentityDialect;
 
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  * 房租实体类
@@ -31,4 +32,6 @@ public class Rent extends BaseEntity {
     private Integer buildingId;//房间id,一个房租对应一个roomId
     private Integer barginId;//合同Id
 
+    @Transient
+    private String roomNo;//房号
 }

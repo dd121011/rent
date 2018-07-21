@@ -13,14 +13,14 @@
             <form class="layui-form" lay-filter="roomSearchFormFilter" action="">
                 <div class="layui-inline">
                     <div class="layui-input-inline">
-                        <input type="text" id="searchRoomNo" placeholder="请输入房间号" autocomplete="off" class="layui-input">
-                    </div>
-                    <div class="layui-input-inline">
                         <select id="searchBuildingId" lay-verify="required" lay-search>
                         <#list buildings as item>
                             <option value="${item.buildingId}"<#if item.buildingId == buildingId>selected</#if>>${item.name}</option>
                         </#list>
                         </select>
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="text" id="searchRoomNo" placeholder="请输入房间号" autocomplete="off" class="layui-input">
                     </div>
                     <div class="layui-input-inline">
                         <select id="searchRoomRentTs"  lay-search="">

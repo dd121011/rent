@@ -12,7 +12,6 @@ import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
-import com.scrats.rent.util.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -112,32 +109,7 @@ public class RenterApi {
 
     @GetMapping("/roomList")
     public JsonResult roomList(@APIRequestControl APIRequest apiRequest){
-        Date date = new Date();
-
-        List<RoomRenter> rrlist = roomRenterService.findListBy("userId", apiRequest.getUser().getUserId());
-        HashSet<Integer> roomIdSet = new HashSet<>();
-        for(RoomRenter rr :  rrlist){
-            roomIdSet.add(rr.getRoomId());
-        }
-        JSONArray result = new JSONArray();
-        for(Integer id : roomIdSet){
-            JSONObject jsonObject = new JSONObject();
-            Room room = roomService.detailForRenter(id);
-            Date rentDay = this.getPayTime(date,room.getBarginList().get(0).getRentDay());
-            String payStatus = "pay";
-            if(null != room.getRentList() && room.getRentList().size() > 0){
-                payStatus = "unpay";
-            }
-            jsonObject.put("roomId", room.getRoomId());
-            jsonObject.put("roomNo", room.getRoomNo());
-            jsonObject.put("buildingName", room.getBuilding().getName());
-            jsonObject.put("nextTime", rentDay.getTime()-date.getTime());
-            jsonObject.put("payTime", rentDay.getTime());
-            jsonObject.put("payStatus", payStatus);
-            result.add(jsonObject);
-        }
-
-        return new JsonResult<JSONArray>(result);
+        return new JsonResult<JSONArray>(renterService.getRoomList(apiRequest.getUser().getUserId()));
     }
 
     @GetMapping("/bargin/{roomId}")
@@ -217,14 +189,6 @@ public class RenterApi {
         PageInfo<Rent> pageInfo = rentService.getRentPageList(apiRequest, rent);
 
         return new JsonResult<PageInfo>(pageInfo);
-    }
-
-    private Date getPayTime(Date date, int rentDay){
-        Date rent = DateUtils.oneDayOfThisMonth(date, rentDay);
-        if(rent.getTime() - date.getTime() < 0){
-            rent = DateUtils.oneDayOfNextMonth(date, rentDay);
-        }
-        return rent;
     }
 
 }

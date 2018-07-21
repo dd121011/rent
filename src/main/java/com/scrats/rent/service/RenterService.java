@@ -1,5 +1,6 @@
 package com.scrats.rent.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.scrats.rent.base.service.BaseService;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.entity.Renter;
@@ -16,4 +17,5 @@ public interface RenterService extends BaseService<Renter, RenterMapper> {
 
     JsonResult snsLogin(String code, String signature, String rawData);
 
+    JSONArray getRoomList(Integer userId);
 }

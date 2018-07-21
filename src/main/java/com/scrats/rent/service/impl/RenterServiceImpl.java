@@ -1,25 +1,26 @@
 package com.scrats.rent.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.constant.GlobalConst;
-import com.scrats.rent.entity.Renter;
-import com.scrats.rent.entity.User;
-import com.scrats.rent.entity.WxSns;
+import com.scrats.rent.entity.*;
 import com.scrats.rent.mapper.RenterMapper;
-import com.scrats.rent.service.RenterService;
-import com.scrats.rent.service.UserService;
-import com.scrats.rent.service.WxSnsService;
+import com.scrats.rent.service.*;
 import com.scrats.rent.util.BaseUtil;
+import com.scrats.rent.util.DateUtils;
 import com.scrats.rent.util.weixin.sns.WxAuthorize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -44,6 +45,10 @@ public class RenterServiceImpl extends BaseServiceImpl<Renter, RenterMapper> imp
     private RedisService redisService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoomService roomService;
+    @Autowired
+    private RoomRenterService roomRenterService;
 
     @Override
     public JsonResult snsLogin(String code, String signature, String rawData) {
@@ -85,5 +90,42 @@ public class RenterServiceImpl extends BaseServiceImpl<Renter, RenterMapper> imp
             result.put("wxSns", wxSns);
             return new JsonResult<JSONObject>(result);
         }
+    }
+
+    @Override
+    public JSONArray getRoomList(Integer userId) {
+        Date date = new Date();
+
+        List<RoomRenter> rrlist = roomRenterService.findListBy("userId", userId);
+        HashSet<Integer> roomIdSet = new HashSet<>();
+        for(RoomRenter rr :  rrlist){
+            roomIdSet.add(rr.getRoomId());
+        }
+        JSONArray result = new JSONArray();
+        for(Integer id : roomIdSet){
+            JSONObject jsonObject = new JSONObject();
+            Room room = roomService.detailForRenter(id);
+            Date rentDay = this.getPayTime(date,room.getBarginList().get(0).getRentDay());
+            String payStatus = "pay";
+            if(null != room.getRentList() && room.getRentList().size() > 0){
+                payStatus = "unpay";
+            }
+            jsonObject.put("roomId", room.getRoomId());
+            jsonObject.put("roomNo", room.getRoomNo());
+            jsonObject.put("buildingName", room.getBuilding().getName());
+            jsonObject.put("nextTime", rentDay.getTime()-date.getTime());
+            jsonObject.put("payTime", rentDay.getTime());
+            jsonObject.put("payStatus", payStatus);
+            result.add(jsonObject);
+        }
+        return result;
+    }
+
+    private Date getPayTime(Date date, int rentDay){
+        Date rent = DateUtils.oneDayOfThisMonth(date, rentDay);
+        if(rent.getTime() - date.getTime() < 0){
+            rent = DateUtils.oneDayOfNextMonth(date, rentDay);
+        }
+        return rent;
     }
 }

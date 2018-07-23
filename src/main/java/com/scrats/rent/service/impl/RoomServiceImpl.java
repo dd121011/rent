@@ -139,6 +139,12 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         roomRenter.setCreateTs(bargin.getLiveTs());
         roomRenterService.insertSelective(roomRenter);
 
+        //生成租金的extra
+        BarginExtra barginExtra = new BarginExtra(bargin.getBarginId(), bargin.getRoomId(), "0000", "租金", "月", bargin.getRentFee(), -1);
+        barginExtra.setCreateTs(createTs);
+        barginExtraService.insertSelective(barginExtra);
+
+
         //保存合同额外收费项，便于以后计算每月房租
         for (BarginExtra extra: bargin.getBarginExtraList()) {
             extra.setRoomId(bargin.getRoomId());
@@ -258,7 +264,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         rent.setRentNo("haozu-rent-" + month + RandomUtil.generateLowerString(1) + "-" + createTs);
         rent.setRemark(remark);
 
-        int fee = bargin.getRentFee();
+        int fee = 0;
         List<ExtraHistory> extraHistories = new ArrayList<>();
         for(BarginExtra barginExtra : list){
             RentIterm rentIterm = new RentIterm();
@@ -286,10 +292,10 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
                 if(nowCount < 0){
                     return new JsonResult(rentIterm.getValue() + "数据录入有误, 请核查, 上月数据为" + beforeCount);
                 }
+                rentIterm.setValue(rentIterm.getValue() + "[" + beforeCount + "---" + origin.getCount() + "]");
                 rentIterm.setPrice(barginExtra.getPrice());
                 rentIterm.setNumber(nowCount);
                 rentIterm.setMoney(rentIterm.getPrice() * rentIterm.getNumber());
-                rentIterm.setRemark(beforeCount + "---" + origin.getCount());
                 extraHistories.add(extra);
             }else{
                 ExtraHistory extra = new ExtraHistory(roomId, origin.getCount()*100, month, origin.getDicItermCode(), origin.getBarginExtraId(), barginId, bargin.getBuildingId());

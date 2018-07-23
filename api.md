@@ -1733,6 +1733,88 @@ curl  -X GET -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' 'http
 }
 ```
 
+### 获取某一个房租的明细
+
+> [GET] `/api/renter/rentDetail/{rentId}?` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| rentId | Integer | true | 房租ID |
+
+#### Sample
+```
+curl  -X GET -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' 'https://scrats.cn/rent/api/renter/rentDetail/1'
+```
+#### Response
+```
+{
+    "code": 1,
+    "msg": null,
+    "data": [
+        {
+            "createTs": 1531631154187,
+            "updateTs": 0,
+            "remark": "",
+            "deleteTs": 0,
+            "rentItermId": 24,
+            "rentId": 2,
+            "barginExtraId": 15,
+            "value": "水费",
+            "price": 800,
+            "unit": "吨",
+            "number": 845,
+            "money": 676000,
+            "description": ""
+        },
+        {
+            "createTs": 1531631154187,
+            "updateTs": 0,
+            "remark": "",
+            "deleteTs": 0,
+            "rentItermId": 25,
+            "rentId": 2,
+            "barginExtraId": 16,
+            "value": "电费",
+            "price": 130,
+            "unit": "度",
+            "number": 234,
+            "money": 30420,
+            "description": ""
+        },
+        {
+            "createTs": 1531631154187,
+            "updateTs": 0,
+            "remark": "",
+            "deleteTs": 0,
+            "rentItermId": 26,
+            "rentId": 2,
+            "barginExtraId": 17,
+            "value": "卫生费",
+            "price": 1000,
+            "unit": "月",
+            "number": 1,
+            "money": 1000,
+            "description": ""
+        },
+        {
+            "createTs": 1531631154187,
+            "updateTs": 0,
+            "remark": "",
+            "deleteTs": 0,
+            "rentItermId": 27,
+            "rentId": 2,
+            "barginExtraId": 18,
+            "value": "物业费",
+            "price": 3000,
+            "unit": "月",
+            "number": 1,
+            "money": 3000,
+            "description": ""
+        }
+    ],
+    "count": 0
+}
+```
 上传身份信息
 
 查看水电

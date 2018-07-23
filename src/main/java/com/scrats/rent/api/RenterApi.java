@@ -191,4 +191,10 @@ public class RenterApi {
         return new JsonResult<PageInfo>(pageInfo);
     }
 
+    @GetMapping("/rentDetail/{rentId}")
+    public JsonResult rentDetail(@PathVariable(name="rentId") Integer rentId){
+
+        return new JsonResult<>(rentItermService.findListBy("rentId", rentId));
+    }
+
 }

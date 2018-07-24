@@ -37,7 +37,7 @@ public interface RoomMapper extends BaseMapper<Room> {
     int deleteRoomByIds(@Param("deleteTs")long deleteTs, @Param("ids") Integer... ids);
 
     @Select("<script>select r.* from room r " +
-            "where 1=1 " +
+            "where 1=1 and r.delete_ts = 0 " +
             "<if test='roomNo != null and roomNo != \"\"'>and r.room_no = #{roomNo}</if> " +
             "<if test='buildingId != null'>and r.building_id = #{buildingId}</if></script>")
     List<Room> getRoomByRoomNoAndBuildingId(@Param("roomNo") String roomNo, @Param("buildingId") Integer buildingId);

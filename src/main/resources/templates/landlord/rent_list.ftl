@@ -13,16 +13,16 @@
             <form class="layui-form" lay-filter="rentSearchFormFilter" action="">
                 <div class="layui-inline">
                     <div class="layui-input-inline">
-                        <select id="searchRoomId" lay-verify="required" lay-search>
-                        <#list rooms as item>
-                            <option value="${item.roomId}"<#if item.roomId == roomId>selected</#if>>${item.roomNo}</option>
+                        <select id="searchBuildingId" lay-verify="required" lay-filter="rentSearchFormSelectBuildingFilter" lay-search="">
+                        <#list buildings as item>
+                            <option value="${item.buildingId}"<#if item.buildingId == buildingId>selected</#if>>${item.name}</option>
                         </#list>
                         </select>
                     </div>
                     <div class="layui-input-inline">
-                        <select id="searchBuildingId" lay-verify="required" lay-search>
-                        <#list buildings as item>
-                            <option value="${item.buildingId}"<#if item.buildingId == buildingId>selected</#if>>${item.name}</option>
+                        <select id="searchRoomId" lay-verify="required" lay-search="">
+                        <#list rooms as item>
+                            <option value="${item.roomId}"<#if item.roomId == roomId>selected</#if>>${item.roomNo}</option>
                         </#list>
                         </select>
                     </div>

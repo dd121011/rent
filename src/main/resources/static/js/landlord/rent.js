@@ -94,6 +94,27 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
         }
     });
 
+    form.on('select(rentSearchFormSelectBuildingFilter)', function (data) {
+        var jhxhr = $.ajax({url: requestBaseUrl + "/room/roomAll/" + data.value, headers: header, type: "GET"});
+        jhxhr.done(function (res) {
+            if(res.code == 1){
+                $('#searchRoomId').html('');
+                $.each(res.data, function (index, val) {
+                    var option = $('<option>').val(val.roomId).text(val.roomNo);
+                    $('#searchRoomId').append(option)
+                });
+                //重新渲染
+                form.render('select', 'rentSearchFormFilter');
+                $('#searchRoomId').get(0).selectedIndex = 0;
+            }else{
+                layer.alert(res.msg)
+            }
+        });
+        console.log(data.elem);
+        console.log(data.value);
+        console.log(data.othis);
+    });
+
     var active = {
         search: function () {
             //执行重载

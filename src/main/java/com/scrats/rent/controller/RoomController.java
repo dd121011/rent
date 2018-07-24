@@ -393,4 +393,12 @@ public class RoomController {
         return new JsonResult();
     }
 
+    @GetMapping("/roomAll/{buildingId}")
+    @ResponseBody
+    public JsonResult roomAll(@PathVariable(name="buildingId") Integer buildingId){
+
+        List<Room> list = roomService.getRoomByRoomNoAndBuildingId(null, buildingId);
+
+        return new JsonResult<List>(list);
+    }
 }

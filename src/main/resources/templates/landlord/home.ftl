@@ -13,7 +13,7 @@
             <form class="layui-form" lay-filter="landlordHomeSearchFormFilter"  action="">
                 <div class="layui-inline">
                     <div class="layui-input-inline">
-                        <select id="searchBuildingId" lay-verify="required" lay-search>
+                        <select id="searchBuildingId" lay-verify="required" lay-search="">
                         <#list buildingList as item>
                             <option value="${item.buildingId}"<#if item.buildingId == buildingId>selected</#if>>${item.name}</option>
                         </#list>

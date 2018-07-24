@@ -83,7 +83,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">退租时间</label>
             <div class="layui-input-block">
-                <input type="text" name="leaveTs" required  lay-verify="required" id="leaveTs" placeholder="请选择退租时间" autocomplete="off" class="layui-input">
+                <input type="text" class="layui-input" name="leaveTs" required  lay-verify="required" id="leaveTs" placeholder="请选择退租时间">
             </div>
         </div>
         <div class="layui-form-item">

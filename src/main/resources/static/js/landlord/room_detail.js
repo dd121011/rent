@@ -115,7 +115,7 @@ layui.use(['layer', 'table', 'form'], function () {
         rentAdd: function () {
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                ,title: "添加租客"
+                ,title: "办理入住"
                 , area: '600px'
                 , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
                 , id: 'layerRentEdit'  //防止重复弹出

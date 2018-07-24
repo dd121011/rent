@@ -5,24 +5,31 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
     var laydate = layui.laydate;
     var table = layui.table;
 
+    var now = new Date();
+    var nowEnd = new Date();
+    nowEnd.setFullYear(nowEnd.getFullYear()+1);
+    nowEnd.setDate(nowEnd.getDate()-1);
     //日期
     laydate.render({
         elem: '#liveTs'
+        ,value: now
+        ,isInitValue: true
         ,done: function(value, date, endDate){
-            console.log(value); //得到日期生成的值，如：2017-08-18
-            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-            var d2 = new Date(value);
-            d2.setFullYear(d2.getFullYear()+1);
-            d2.setDate(d2.getDate()-1);
+            var leaveTs = new Date(value);
+            leaveTs.setFullYear(leaveTs.getFullYear()+1);
+            leaveTs.setDate(leaveTs.getDate()-1);
             laydate.render({
                 elem: '#leaveTs'
-                , value: d2.getTime()
+                ,value: leaveTs
+                ,isInitValue: true
             });
         }
     });
+
     laydate.render({
         elem: '#leaveTs'
+        ,value: nowEnd
+        ,isInitValue: true
     });
 
     //监听提交

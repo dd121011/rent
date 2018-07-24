@@ -90,7 +90,8 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             });
             active.edit();
         } else if(obj.event === 'detail'){
-            active.detail();
+            console.log(data);
+            // active.detail(data.rentId);
         }
     });
 
@@ -110,9 +111,6 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 layer.alert(res.msg)
             }
         });
-        console.log(data.elem);
-        console.log(data.value);
-        console.log(data.othis);
     });
 
     var active = {
@@ -131,18 +129,8 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             });
         },
         detail: function () {
-            //执行重载
-            table.reload('lay_table_rent', {
-                // url: requestBaseUrl + '/rent/list'
-                page: {
-                    curr: 1 //重新从第 1 页开始
-                }
-                , where: {
-                    roomId: $('#searchRoomId').val(),
-                    buildingId: $('#searchBuildingId').val(),
-                    payTs: $('#searchRoomPayTs').val()
-                }
-            });
+            // TODO 打开一个layer
+
         },
         add: function () {
             $(".rmcl").val("");

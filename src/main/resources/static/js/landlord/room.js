@@ -210,6 +210,26 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
         }
     });
 
+    form.on('select(roomSearchFormSelectBuildingFilter)', function (data) {
+        var jhxhr = $.ajax({url: requestBaseUrl + "/room/roomAll/" + data.value, headers: header, type: "GET"});
+        jhxhr.done(function (res) {
+            if(res.code == 1){
+                $('#searchRoomId').html('');
+                var option = $('<option>').val(-1).text("请选择");
+                $('#searchRoomId').append(option)
+                $.each(res.data, function (index, val) {
+                    var option = $('<option>').val(val.roomId).text(val.roomNo);
+                    $('#searchRoomId').append(option)
+                });
+                //重新渲染
+                form.render('select', 'roomSearchFormFilter');
+                $('#searchRoomId').get(0).selectedIndex = 0;
+            }else{
+                layer.alert(res.msg)
+            }
+        });
+    });
+
     var active = {
         search: function () {
             //执行重载
@@ -219,7 +239,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                     curr: 1 //重新从第 1 页开始
                 }
                 ,where: {
-                    roomNo: $('#searchRoomNo').val(),
+                    roomId: $('#searchRoomId').val(),
                     rentTs: $('#searchRoomRentTs').val()
                 }//传参*/
             });

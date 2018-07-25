@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -84,6 +85,14 @@ public class RoomController {
         }else{
             building = buildingService.selectByPrimaryKey(buildingId);
         }
+        PageInfo<Room> roomPage = null;
+        if(null != building){
+            Room param = new Room();
+            param.setBuildingId(building.getBuildingId());
+            roomPage = roomService.getRoomList(null, param, false);
+        }
+
+
         //获取所有房间朝向
         List<DictionaryIterm> orientations = dictionaryItermService.findListBy("dicCode", GlobalConst.ORIENTATION_CODE);
         //获取所有装修情况
@@ -103,6 +112,7 @@ public class RoomController {
         map.put("extraList",extras);
         map.put("facilityList",facilities);
         map.put("depositList",depositIterms);
+        map.put("rooms",null == roomPage ? new ArrayList<Room>() : roomPage.getList());
 
         return "landlord/room_list";
     }

@@ -25,6 +25,7 @@ public interface RoomMapper extends BaseMapper<Room> {
             "left join dictionary_iterm d on t.orientation = d.dic_iterm_code " +
             "where 1=1 " +
             "<if test='buildingId != null'>and t.building_id = #{buildingId}</if>" +
+            "<if test='roomId != null'>and t.room_id = #{roomId}</if>" +
             "<if test='roomNo != null and roomNo != \"\"'>and t.room_no = #{roomNo}</if>" +
             "<if test='rentTs != null and rentTs > 0'>and t.rent_ts > #{rentTs}</if>" +
             "<if test='rentTs != null and rentTs == 0'>and t.rent_ts = #{rentTs}</if>" +

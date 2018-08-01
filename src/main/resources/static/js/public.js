@@ -125,3 +125,10 @@ Date.prototype.Format = function(formatStr)
 
     return str;
 };
+
+function isEmpty(str) {
+    if(undefined == str || null == str || str.trim().length == 0){
+        return true;
+    }
+    return false;
+}

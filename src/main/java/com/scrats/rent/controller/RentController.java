@@ -19,8 +19,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,23 +59,30 @@ public class RentController {
 
         //获取所有房子select数据
         PageInfo<Building> buildingPage = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
-        PageInfo<Room> roomPage = null;
+        List<Room> roomList = new ArrayList<Room>();
         Integer buildingId = buildingPage.getList().get(0).getBuildingId();
         if(null == roomId){
             Room param = new Room();
             param.setBuildingId(buildingPage.getList().get(0).getBuildingId());
-            roomPage = roomService.getRoomList(null, param, false);
-            roomId = roomPage.getList().get(0).getRoomId();
+            PageInfo<Room> roomPage = roomService.getRoomList(null, param, false);
+            roomList = roomPage.getList();
+            if(!CollectionUtils.isEmpty(roomList)){
+                roomId = roomPage.getList().get(0).getRoomId();
+            }
         }else{
             Room room = roomService.selectByPrimaryKey(roomId);
-            buildingId = room.getBuildingId();
+
+            if(null != room){
+                buildingId = room.getBuildingId();
+                roomList.add(room);
+            }
         }
 
         map.put("user",user);
         map.put("roomId",roomId);
-        map.put("buildingId",roomId);
+        map.put("buildingId",buildingId);
         map.put("buildings",buildingPage.getList());
-        map.put("rooms",roomPage.getList());
+        map.put("rooms",roomList);
 
         return "landlord/rent_list";
     }

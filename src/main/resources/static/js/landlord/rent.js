@@ -133,25 +133,37 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
 
         },
         add: function () {
-            $(".rmcl").val("");
-            // // $("select").val("");
-            $("[name='description']").val("");
-            $.each($('input[type=checkbox]'),function(){
-                $(this).attr("checked",true);
-                $(this).next().addClass("layui-form-checked");
-            });
-            layer.open({
-                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                ,title: "新增房间"
-                , area: '500px'
-                , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
-                , id: 'layerRoomAdd' //防止重复弹出
-                , content: $('#addDiv')
-                , btn: '关闭全部'
-                , btnAlign: 'c' //按钮居中
+            if(isEmpty($('#searchRoomId option:selected').val())){
+                layer.alert("请先选择一个房间!")
+            }
+            var jhxhr = $.ajax({url: requestBaseUrl + "/room/barginExtra/" + $('#searchRoomId option:selected').val(), headers: header, type: "GET"});
+            jhxhr.done(function (res) {
+                if(res.code == 1){
+                    chageExtra = res.data;
+                    chageExtra.roomId = $('#searchRoomId option:selected').val();
+                    $('#chargeRoomNo').val($('#searchRoomId option:selected').text());
+                    $('#chargeBuilding').val($('#searchBuildingId option:selected').text());
+                    var getTpl = roomChargeTemplete.innerHTML;
+                    var view = document.getElementById('chargeView');
+                    laytpl(getTpl).render(res.data, function(html){
+                        view.innerHTML = html;
+                    });
+                    layer.open({
+                        type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                        ,title: "录入房租"
+                        , area: '500px'
+                        , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                        , id: 'layerRoomCharge'  //防止重复弹出
+                        , content: $('#addChargeDiv')
+                        , btn: '关闭全部'
+                        , btnAlign: 'c' //按钮居中
 //                    ,shade: 0 //不显示遮罩
-                , yes: function () {
-                    layer.closeAll();
+                        , yes: function () {
+                            layer.closeAll();
+                        }
+                    });
+                }else{
+                    layer.alert(res.msg)
                 }
             });
         },

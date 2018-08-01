@@ -2,6 +2,18 @@
 <div id="addChargeDiv" style="padding: 20px 0; padding-right: 40px; display: none" >
     <form class="layui-form" lay-filter="roomChargeFormFilter" action="">
         <div class="layui-form-item">
+            <label class="layui-form-label">房源</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" required  lay-verify="required" id="chargeBuilding" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">房间号</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" required  lay-verify="required" id="chargeRoomNo" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">统计月</label>
             <div class="layui-input-block">
                 <input type="text" class="layui-input" name="month" required  lay-verify="required" id="month" placeholder="请选择统计月">

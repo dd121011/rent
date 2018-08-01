@@ -196,6 +196,8 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 if(res.code == 1){
                     chageExtra = res.data;
                     chageExtra.roomId = data.roomId;
+                    $('#chargeRoomNo').val(data.roomNo);
+                    $('#chargeBuilding').val($('#searchBuildingId option:selected').text());
                     var getTpl = roomChargeTemplete.innerHTML;
                     var view = document.getElementById('chargeView');
                     laytpl(getTpl).render(res.data, function(html){

@@ -194,6 +194,9 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             var jhxhr = $.ajax({url: requestBaseUrl + "/room/barginExtra/" + data.roomId, headers: header, type: "GET"});
             jhxhr.done(function (res) {
                 if(res.code == 1){
+                    if(res.data < 1){
+                        return layer.alert("该房间尚未出租,无法计算房租!");
+                    }
                     chageExtra = res.data;
                     chageExtra.roomId = data.roomId;
                     $('#chargeRoomNo').val(data.roomNo);

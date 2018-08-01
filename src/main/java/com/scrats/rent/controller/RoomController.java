@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -337,7 +338,11 @@ public class RoomController {
     public JsonResult barginExtra(@PathVariable(name="roomId") Integer roomId){
 
         List<Bargin> barginList = barginService.getBarginByRoomId(roomId, false);
-        List<BarginExtra> list = barginExtraService.findListBy("barginId",barginList.get(0).getBarginId());
+
+        List<BarginExtra> list = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(barginList)){
+            list = barginExtraService.findListBy("barginId",barginList.get(0).getBarginId());
+        }
         return new JsonResult<List>(list);
     }
 

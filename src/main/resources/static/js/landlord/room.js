@@ -76,7 +76,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                     if(res.code == 1){
                         obj.del();
                     }else{
-                        layer.alert(res.msg)
+                        layer.alert(res.msg);
                     }
                 });
                 layer.close(index);

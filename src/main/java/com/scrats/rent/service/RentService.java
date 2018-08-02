@@ -26,4 +26,6 @@ public interface RentService extends BaseService<Rent, RentMapper> {
     PageInfo<Rent> getRentPageList(APIRequest apiRequest, Rent rent);
 
     PageInfo<Rent> getRentPageList(APIRequest apiRequest, Rent rent, boolean pageFlag);
+
+    boolean pay(Integer rentId, String channel);
 }

@@ -47,6 +47,7 @@
 <#include "landlord/footer.ftl"/>
 
 <script type="text/html" id="rentListBar">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="pay">缴费</a>
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="detail">详情</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 </script>

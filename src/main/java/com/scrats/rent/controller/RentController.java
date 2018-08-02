@@ -94,4 +94,15 @@ public class RentController {
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
     }
 
+    @GetMapping("/pay/{rentId}")
+    @ResponseBody
+    public JsonResult pay(@APIRequestControl APIRequest apiRequest, @PathVariable(name="rentId") Integer rentId){
+        boolean res = rentService.pay(rentId, null);
+        if(res){
+            return new JsonResult();
+        }
+        return new JsonResult("缴费失败，请重试");
+
+    }
+
 }

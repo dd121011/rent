@@ -72,7 +72,25 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
     //监听工具条
     table.on('tool(rentTableFilter)', function (obj) {
         var data = obj.data;
-        if (obj.event === 'edit') {
+        if (obj.event === 'pay') {
+            console.log(data);
+            layer.confirm('请确认是否已缴费' + data.realFee/100 + '元', function (index) {
+                var jhxhr = $.ajax({url: requestBaseUrl + "/rent/pay/" + data.rentId, headers: header, type: "GET"});
+                jhxhr.done(function (res) {
+                    if(res.code == 1){
+                        active.search();
+                        layer.alert("缴费成功");
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                });
+                layer.close(index);
+
+            });
+        } else if(obj.event === 'detail'){
+            console.log(data);
+            // active.detail(data.rentId);
+        } else if(obj.event === 'edit'){
             form.val("roomEditFormFilter", {
                 "buildingId": data.buildingId
                 ,"roomId": data.roomId
@@ -89,9 +107,6 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 ,"description": data.description
             });
             active.edit();
-        } else if(obj.event === 'detail'){
-            console.log(data);
-            // active.detail(data.rentId);
         }
     });
 
@@ -127,10 +142,6 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                     payTs: $('#searchRoomPayTs').val()
                 }
             });
-        },
-        detail: function () {
-            // TODO 打开一个layer
-
         },
         add: function () {
             if(isEmpty($('#searchRoomId option:selected').val())){
@@ -169,6 +180,10 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                     layer.alert(res.msg)
                 }
             });
+        },
+        detail: function () {
+            // TODO 打开一个layer
+
         },
         edit: function () {
             $("input[name='roomNo']").attr("readonly","readonly");

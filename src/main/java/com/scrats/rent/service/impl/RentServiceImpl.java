@@ -7,6 +7,8 @@ import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Rent;
 import com.scrats.rent.mapper.RentMapper;
 import com.scrats.rent.service.RentService;
+import com.scrats.rent.util.RandomUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -58,5 +60,19 @@ public class RentServiceImpl extends BaseServiceImpl<Rent, RentMapper> implement
         PageInfo pageInfo = new PageInfo();
         pageInfo.setList(list);
         return pageInfo;
+    }
+
+    @Override
+    public boolean pay(Integer rentId, String channel) {
+        Long payTs = System.currentTimeMillis();
+        Rent rent = new Rent();
+        rent.setRentId(rentId);
+        rent.setPayNo("haozu-payno-" + RandomUtil.generateLowerString(6) + "-" + payTs);
+        rent.setPayTs(payTs);
+        if(StringUtils.isNotEmpty(channel)){
+            rent.setChannel(channel);
+        }
+        int res = dao.updateByPrimaryKeySelective(rent);
+        return res > 0 ? true : false;
     }
 }

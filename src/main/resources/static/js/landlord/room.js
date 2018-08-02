@@ -74,6 +74,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 var jhxhr = $.ajax({url: requestBaseUrl + "/room/delete", data:{"ids": data.roomId}, headers: header, type: "POST"});
                 jhxhr.done(function (res) {
                     if(res.code == 1){
+                        layer.msg("删除成功");
                         obj.del();
                     }else{
                         layer.alert(res.msg);

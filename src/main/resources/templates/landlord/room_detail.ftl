@@ -36,7 +36,6 @@
                                 <th>房间情况：</th>
                                 <td>${room.bedroom}房${room.living}厅${room.toilet}卫</td>
                             </tr>
-                            </tr>
                             <tr>
                                 <th>押付方式：</th>
                                 <td>押${room.guaranty}付${room.pay}</td>

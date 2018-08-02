@@ -4,14 +4,17 @@ import com.github.pagehelper.PageHelper;
 import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.PageInfo;
-import com.scrats.rent.entity.Rent;
-import com.scrats.rent.entity.User;
+import com.scrats.rent.entity.*;
 import com.scrats.rent.mapper.RentMapper;
+import com.scrats.rent.service.BarginService;
+import com.scrats.rent.service.RentItermService;
 import com.scrats.rent.service.RentService;
+import com.scrats.rent.service.RoomService;
 import com.scrats.rent.util.RandomUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +30,13 @@ import java.util.List;
 public class RentServiceImpl extends BaseServiceImpl<Rent, RentMapper> implements RentService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private RoomService roomService;
+    @Autowired
+    private RentItermService rentItermService;
+    @Autowired
+    private BarginService barginService;
 
     @Override
     public List<Rent> getRentByRoomId(Integer roomId, boolean payFlag) {
@@ -76,5 +86,19 @@ public class RentServiceImpl extends BaseServiceImpl<Rent, RentMapper> implement
         }
         int res = dao.updateByPrimaryKeySelective(rent);
         return res > 0 ? true : false;
+    }
+
+    @Override
+    public Rent detail(Integer rentId) {
+        Rent rent = dao.selectByPrimaryKey(rentId);
+        if(null != rent){
+            Room room = roomService.detail(rent.getRentId());
+            Bargin bargin = barginService.selectByPrimaryKey(rent.getBarginId());
+            List<RentIterm> list = rentItermService.findListBy("rentId", rentId);
+            rent.setRoom(room);
+            rent.setRentItermList(list);
+            rent.setBargin(bargin);
+        }
+        return rent;
     }
 }

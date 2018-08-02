@@ -55,4 +55,5 @@
 <script src="${base}/static/js/landlord/rent.js" charset="utf-8"></script>
 
 <#include "landlord/rent_charge.ftl"/>
+<#include "landlord/rent_detail.ftl"/>
 </html>

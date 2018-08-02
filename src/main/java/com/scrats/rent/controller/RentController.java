@@ -105,4 +105,15 @@ public class RentController {
 
     }
 
+    @GetMapping("/detail/{rentId}")
+    @ResponseBody
+    public JsonResult detail(@APIRequestControl APIRequest apiRequest, @PathVariable(name="rentId") Integer rentId){
+        Rent rent = rentService.detail(rentId);
+        if(null != rent){
+            return new JsonResult<Rent>(rent);
+        }
+        return new JsonResult("数据有误,请检查");
+
+    }
+
 }

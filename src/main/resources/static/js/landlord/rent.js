@@ -197,7 +197,19 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             laytpl(getTpl).render(rent, function(html){
                 view.innerHTML = html;
             });
-            //押金项Table
+
+            layer.open({
+                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                ,title: "房租详情"
+                , area: '700px'
+                , offset: '100px' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                , id: 'layerRentDetail'  //防止重复弹出
+                , content: $('#rentDetailDiv')
+//                    ,shade: 0 //不显示遮罩
+                , yes: function () {
+                    layer.closeAll();
+                }
+            });
             table.render({
                 elem: '#rentDetailItermTable'//指定原始表格元素选择器（
                 , data: rent.rentItermList
@@ -207,33 +219,21 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                     {field: 'value', title: '项目', templet: function(d){
                             return d.value;
                         }}
-                    , {field: 'unit', title: '单位', templet: function(d){
+                    , {field: 'unit', title: '单位', width:60, templet: function(d){
                             return d.unit;
                         }}
-                    , {field: 'price', title: '单价', edit: 'text', templet: function(d){
+                    , {field: 'price', title: '单价', width:100, edit: 'text', templet: function(d){
                             return d.price/100;
                         }}
-                    , {field: 'number', title: '数量', edit: 'text', templet: function(d){
+                    , {field: 'number', title: '数量', width:100, edit: 'text', templet: function(d){
                             return undefined == d.number ? "" : d.number;
                         }}
-                    , {field: 'money', title: '金额', edit: 'text', templet: function(d){
+                    , {field: 'money', title: '金额', width:120, edit: 'text', templet: function(d){
                             return d.money/100;
                         }}
                 ]]
                 , done: function (res, curr, count) {
                     console.log(res.data)
-                }
-            });
-            layer.open({
-                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                ,title: "房租详情"
-                , area: '1000px'
-                , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
-                , id: 'layerRentDetail'  //防止重复弹出
-                , content: $('#rentDetailDiv')
-//                    ,shade: 0 //不显示遮罩
-                , yes: function () {
-                    layer.closeAll();
                 }
             });
         },

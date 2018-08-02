@@ -5,6 +5,7 @@ import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Rent;
+import com.scrats.rent.entity.User;
 import com.scrats.rent.mapper.RentMapper;
 import com.scrats.rent.service.RentService;
 import com.scrats.rent.util.RandomUtil;
@@ -63,7 +64,7 @@ public class RentServiceImpl extends BaseServiceImpl<Rent, RentMapper> implement
     }
 
     @Override
-    public boolean pay(Integer rentId, String channel) {
+    public boolean pay(User landlord, Integer rentId, String channel) {
         Long payTs = System.currentTimeMillis();
         Rent rent = new Rent();
         rent.setRentId(rentId);
@@ -71,6 +72,7 @@ public class RentServiceImpl extends BaseServiceImpl<Rent, RentMapper> implement
         rent.setPayTs(payTs);
         if(StringUtils.isNotEmpty(channel)){
             rent.setChannel(channel);
+            //TODO 收款人
         }
         int res = dao.updateByPrimaryKeySelective(rent);
         return res > 0 ? true : false;

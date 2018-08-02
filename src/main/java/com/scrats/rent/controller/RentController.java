@@ -97,7 +97,7 @@ public class RentController {
     @GetMapping("/pay/{rentId}")
     @ResponseBody
     public JsonResult pay(@APIRequestControl APIRequest apiRequest, @PathVariable(name="rentId") Integer rentId){
-        boolean res = rentService.pay(rentId, null);
+        boolean res = rentService.pay(apiRequest.getUser(), rentId, null);
         if(res){
             return new JsonResult();
         }

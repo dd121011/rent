@@ -4,6 +4,7 @@ import com.scrats.rent.base.service.BaseService;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Rent;
+import com.scrats.rent.entity.User;
 import com.scrats.rent.mapper.RentMapper;
 
 import java.util.List;
@@ -27,5 +28,5 @@ public interface RentService extends BaseService<Rent, RentMapper> {
 
     PageInfo<Rent> getRentPageList(APIRequest apiRequest, Rent rent, boolean pageFlag);
 
-    boolean pay(Integer rentId, String channel);
+    boolean pay(User landlord, Integer rentId, String channel);
 }

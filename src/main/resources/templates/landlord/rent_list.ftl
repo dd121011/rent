@@ -56,4 +56,5 @@
 
 <#include "landlord/rent_charge.ftl"/>
 <#include "landlord/rent_detail.ftl"/>
+<#include "landlord/rent_edit.ftl"/>
 </html>

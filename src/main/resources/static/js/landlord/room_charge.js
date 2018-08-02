@@ -32,8 +32,8 @@ layui.use(['layer', 'form', 'laydate'], function () {
         var jhxhr = $.ajax({url: requestBaseUrl + "/room/charge", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST"});
         jhxhr.done(function (res) {
             if(res.code == 1){
-                layer.alert("录入成功");
                 layer.close(1);
+                layer.msg("录入成功");
             }else{
                 layer.alert(res.msg)
             }

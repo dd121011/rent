@@ -14,13 +14,13 @@ layui.use(['layer', 'form'], function () {
         var jhxhr = $.ajax({url: requestBaseUrl + "/room/edit", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST"});
         jhxhr.done(function (res) {
             if(res.code == 1){
+                layer.close(1);
                 if(params.roomId){
-                    layer.alert("修改成功");
+                    layer.msg("修改成功");
 
                 }else{
-                    layer.alert("添加成功");
+                    layer.msg("添加成功");
                 }
-                layer.close(1);
                 var buildingId = $("select[name=buildingId]").val();
                 location.href= requestBaseUrl + "/room/goRoom/" + userId + "/" + buildingId + "?tokenId=" + tokenId;
             }else{

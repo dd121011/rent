@@ -77,9 +77,10 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
         jhxhr.done(function (res) {
             if(res.code == 1){
                 layer.close(1);
+                layer.alert("房间出租成功")
                 location.href= requestBaseUrl + "/room/goRoomDetail/" + $('#roomId').val() + "?tokenId=" + tokenId;
             }else{
-                layer.alert(res.msg)
+                layer.alert(res.msg);
             }
         });
         return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。

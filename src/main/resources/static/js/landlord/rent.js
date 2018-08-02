@@ -79,7 +79,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 jhxhr.done(function (res) {
                     if(res.code == 1){
                         active.search();
-                        layer.alert("缴费成功");
+                        layer.msg("缴费成功");
                     }else{
                         layer.alert(res.msg);
                     }

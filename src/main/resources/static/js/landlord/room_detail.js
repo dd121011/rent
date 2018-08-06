@@ -59,7 +59,7 @@ layui.use(['layer', 'table', 'form'], function () {
         }
     });
 
-    //租客Table
+    //租赁历史Table
     table.render({
         elem: '#lay_table_bargin_room'//指定原始表格元素选择器（
         , url: requestBaseUrl + '/bargin/list'
@@ -128,86 +128,86 @@ layui.use(['layer', 'table', 'form'], function () {
                 }
                 ,success: function(layero, index){
                     console.log(layero, index);
-                    //额外收费项table
-                    table.render({
-                        elem: '#extraTable'//指定原始表格元素选择器（
-                        , url: requestBaseUrl + '/room/extra/' + $('#roomId').val()
-                        , method: 'get'
-                        , headers: header
-                        , request: {
-                            pageName: 'page' //页码的参数名称，默认：page
-                            , limitName: 'rows' //每页数据量的参数名，默认：limit
-                        } //如果无需自定义请求参数，可不加该参数
-                        , response: {
-                            statusName: 'code' //数据状态的字段名称，默认：code
-                            , statusCode: 1 //成功的状态码，默认：0
-                            , msgName: 'msg' //状态信息的字段名称，默认：msg
-                            , countName: 'count' //数据总数的字段名称，默认：count
-                            , dataName: 'data' //数据列表的字段名称，默认：data
-                        } //如果无需自定义数据响应名称，可不加该参数
-                        , id: 'extraTable'
-                        // , width: 550
-                        , cols: [[//表头
-                            {field: 'value', title: '项目', templet: function(d){
-                                    return d.value;
-                                }}
-                            , {field: 'unit', title: '单位', templet: function(d){
-                                    return d.unit;
-                                }}
-                            , {field: 'price', title: '单价', edit: 'text', templet: function(d){
-                                    return '';
-                                }}
-                            , {field: 'number', title: '初始数量', edit: 'text', templet: function(d){
-                                    return '';
-                                }}
-                        ]]
-                        , done: function (res, curr, count) {
-                            extraTableData = res.data;
-                            console.log(extraTableData)
-                        }
-                    });
+                }
+            });
+            //额外收费项table
+            table.render({
+                elem: '#extraTable'//指定原始表格元素选择器（
+                , url: requestBaseUrl + '/room/extra/' + $('#roomId').val()
+                , method: 'get'
+                , headers: header
+                , request: {
+                    pageName: 'page' //页码的参数名称，默认：page
+                    , limitName: 'rows' //每页数据量的参数名，默认：limit
+                } //如果无需自定义请求参数，可不加该参数
+                , response: {
+                    statusName: 'code' //数据状态的字段名称，默认：code
+                    , statusCode: 1 //成功的状态码，默认：0
+                    , msgName: 'msg' //状态信息的字段名称，默认：msg
+                    , countName: 'count' //数据总数的字段名称，默认：count
+                    , dataName: 'data' //数据列表的字段名称，默认：data
+                } //如果无需自定义数据响应名称，可不加该参数
+                , id: 'extraTable'
+                // , width: 550
+                , cols: [[//表头
+                    {field: 'value', title: '项目', templet: function(d){
+                            return d.value;
+                        }}
+                    , {field: 'unit', title: '单位', templet: function(d){
+                            return d.unit;
+                        }}
+                    , {field: 'price', title: '单价', edit: 'text', templet: function(d){
+                            return '';
+                        }}
+                    , {field: 'number', title: '初始数量', edit: 'text', templet: function(d){
+                            return '';
+                        }}
+                ]]
+                , done: function (res, curr, count) {
+                    extraTableData = res.data;
+                    console.log(extraTableData)
+                }
+            });
 
-                    //押金项Table
-                    table.render({
-                        elem: '#depositTable'//指定原始表格元素选择器（
-                        , url: requestBaseUrl + '/room/depositIterm/' + $('#roomId').val()
-                        , method: 'get'
-                        , headers: header
-                        , request: {
-                            pageName: 'page' //页码的参数名称，默认：page
-                            , limitName: 'rows' //每页数据量的参数名，默认：limit
-                        } //如果无需自定义请求参数，可不加该参数
-                        , response: {
-                            statusName: 'code' //数据状态的字段名称，默认：code
-                            , statusCode: 1 //成功的状态码，默认：0
-                            , msgName: 'msg' //状态信息的字段名称，默认：msg
-                            , countName: 'count' //数据总数的字段名称，默认：count
-                            , dataName: 'data' //数据列表的字段名称，默认：data
-                        } //如果无需自定义数据响应名称，可不加该参数
-                        , id: 'depositTableEdit'
-                        // , width: 550
-                        , cols: [[//表头
-                            {field: 'value', title: '项目', templet: function(d){
-                                    return d.value;
-                                }}
-                            , {field: 'unit', title: '单位', templet: function(d){
-                                    return d.unit;
-                                }}
-                            , {field: 'price', title: '单价', edit: 'text', templet: function(d){
-                                    return undefined == d.price ? "" : d.price;
-                            }}
-                            , {field: 'number', title: '数量', edit: 'text', templet: function(d){
-                                    return undefined == d.number ? "" : d.number;
-                                }}
-                            , {field: 'money', title: '金额', edit: 'text', templet: function(d){
-                                    return undefined == d.money ? "" : d.money;
-                                }}
-                        ]]
-                        , done: function (res, curr, count) {
-                            depositItermTableData = res.data;
-                            console.log(depositItermTableData)
-                        }
-                    });
+            //押金项Table
+            table.render({
+                elem: '#depositTable'//指定原始表格元素选择器（
+                , url: requestBaseUrl + '/room/depositIterm/' + $('#roomId').val()
+                , method: 'get'
+                , headers: header
+                , request: {
+                    pageName: 'page' //页码的参数名称，默认：page
+                    , limitName: 'rows' //每页数据量的参数名，默认：limit
+                } //如果无需自定义请求参数，可不加该参数
+                , response: {
+                    statusName: 'code' //数据状态的字段名称，默认：code
+                    , statusCode: 1 //成功的状态码，默认：0
+                    , msgName: 'msg' //状态信息的字段名称，默认：msg
+                    , countName: 'count' //数据总数的字段名称，默认：count
+                    , dataName: 'data' //数据列表的字段名称，默认：data
+                } //如果无需自定义数据响应名称，可不加该参数
+                , id: 'depositTableEdit'
+                // , width: 550
+                , cols: [[//表头
+                    {field: 'value', title: '项目', templet: function(d){
+                            return d.value;
+                        }}
+                    , {field: 'unit', title: '单位', templet: function(d){
+                            return d.unit;
+                        }}
+                    , {field: 'price', title: '单价', edit: 'text', templet: function(d){
+                            return undefined == d.price ? "" : d.price;
+                        }}
+                    , {field: 'number', title: '数量', edit: 'text', templet: function(d){
+                            return undefined == d.number ? "" : d.number;
+                        }}
+                    , {field: 'money', title: '金额', edit: 'text', templet: function(d){
+                            return undefined == d.money ? "" : d.money;
+                        }}
+                ]]
+                , done: function (res, curr, count) {
+                    depositItermTableData = res.data;
+                    console.log(depositItermTableData)
                 }
             });
         },

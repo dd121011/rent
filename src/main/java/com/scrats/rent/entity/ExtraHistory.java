@@ -30,13 +30,13 @@ public class ExtraHistory extends BaseEntity {
     private Integer barginId;//合同Id
     private Integer buildingId;//房子Id
     private Integer rentId;//房租Id
-    private String dvalue;//是否差值计算
+    private String dvalue;//是否差值计算, 0-否, 1-是
 
     public ExtraHistory() {
 
     }
 
-    public ExtraHistory(Integer roomId, Integer count, String month, String dicItermCode, Integer barginExtraId, Integer barginId, Integer buildingId) {
+    public ExtraHistory(Integer roomId, Integer count, String month, String dicItermCode, Integer barginExtraId, Integer barginId, Integer buildingId, String dvalue) {
         this.roomId = roomId;
         this.count = count;
         this.month = month;
@@ -44,5 +44,6 @@ public class ExtraHistory extends BaseEntity {
         this.barginExtraId = barginExtraId;
         this.barginId = barginId;
         this.buildingId = buildingId;
+        this.dvalue = dvalue;
     }
 }

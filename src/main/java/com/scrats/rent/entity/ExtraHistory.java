@@ -30,6 +30,7 @@ public class ExtraHistory extends BaseEntity {
     private Integer barginId;//合同Id
     private Integer buildingId;//房子Id
     private Integer rentId;//房租Id
+    private String dvalue;//是否差值计算
 
     public ExtraHistory() {
 

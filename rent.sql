@@ -409,6 +409,7 @@ CREATE TABLE `extra_history` (
     `dic_iterm_code` char(4) NOT NULL COMMENT '额外收费项code',
     `count` int(10) unsigned NOT NULL COMMENT '水表读数, 单位KG',
     `month` char(6) NOT NULL COMMENT '统计月, eg 201805',
+    `dvalue` char(1) NOT NULL COMMENT '是否差值计算, 0-否, 1-是',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',

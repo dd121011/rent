@@ -292,7 +292,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
                 if(nowCount < 0){
                     return new JsonResult(rentIterm.getValue() + "数据录入有误, 请核查, 上月数据为" + beforeCount);
                 }
-                rentIterm.setValue(rentIterm.getValue() + "[" + beforeCount + "---" + origin.getCount() + "]");
+                rentIterm.setDescription(beforeCount + "---" + origin.getCount());
                 rentIterm.setPrice(barginExtra.getPrice());
                 rentIterm.setNumber(nowCount);
                 rentIterm.setMoney(rentIterm.getPrice() * rentIterm.getNumber());
@@ -321,6 +321,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         }
 
         for(ExtraHistory ext : extraHistories){
+            ext.setRentId(rent.getRentId());
             extraHistoryService.insertSelective(ext);
         }
         return new JsonResult();

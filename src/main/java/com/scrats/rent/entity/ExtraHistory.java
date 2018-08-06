@@ -29,6 +29,7 @@ public class ExtraHistory extends BaseEntity {
     private Integer barginExtraId;//额外收费项Id
     private Integer barginId;//合同Id
     private Integer buildingId;//房子Id
+    private Integer rentId;//房租Id
 
     public ExtraHistory() {
 

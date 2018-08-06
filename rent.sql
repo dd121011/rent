@@ -402,6 +402,7 @@ DROP TABLE IF EXISTS `extra_history`;
 CREATE TABLE `extra_history` (
     `extra_history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_id` int(10) NOT NULL COMMENT '房间Id',
+    `rent_id` int(10) NOT NULL COMMENT '房租Id',
     `building_id` int(10) NOT NULL COMMENT '房子Id',
     `bargin_id` int(10) unsigned NOT NULL COMMENT 'barginId',
     `bargin_extra_id` int(10) NOT NULL COMMENT '额外收费项Id',

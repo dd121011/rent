@@ -3,11 +3,11 @@ package com.scrats.rent.base.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -127,6 +127,20 @@ public class RedisService {
      */
     public Object get(final String key) {
         return key==null?null:redisTemplate.opsForValue().get(key);
+//        Object result = null;
+//        ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
+//        result = operations.get(key);
+//        return result;
+    }
+
+    /**
+     * 读取缓存
+     *
+     * @param keys
+     * @return
+     */
+    public Object gets(final String... keys) {
+        return keys==null?null:redisTemplate.opsForValue().multiGet(Arrays.asList(keys));
 //        Object result = null;
 //        ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
 //        result = operations.get(key);

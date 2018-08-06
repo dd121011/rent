@@ -165,6 +165,7 @@ public class DateUtils {
         try {
             Date date = sdfMonth.parse(month);
             Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
             calendar.add(Calendar.MONTH, -1);
             return getMonth(calendar.getTime());
         } catch (ParseException e) {

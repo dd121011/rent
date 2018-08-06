@@ -92,7 +92,7 @@ public class RentServiceImpl extends BaseServiceImpl<Rent, RentMapper> implement
     public Rent detail(Integer rentId) {
         Rent rent = dao.selectByPrimaryKey(rentId);
         if(null != rent){
-            Room room = roomService.detail(rent.getRentId());
+            Room room = roomService.detail(rent.getRoomId());
             Bargin bargin = barginService.selectByPrimaryKey(rent.getBarginId());
             List<RentIterm> list = rentItermService.findListBy("rentId", rentId);
             rent.setRoom(room);

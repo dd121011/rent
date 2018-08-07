@@ -52,6 +52,7 @@
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="charge">生成房租</a>
     {{#  if(d.rentTs > 0){ }}
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="continue">续约</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="leave">退租</a>
     {{#  } else { }}
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="rent">出租</a>
     {{#  } }}

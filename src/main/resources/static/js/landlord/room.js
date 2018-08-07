@@ -214,6 +214,8 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 }
             });
 
+        } else if (obj.event === 'leave'){
+            active.rentLeave(data.roomId);
         }
     });
 
@@ -322,6 +324,20 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 , yes: function () {
                     layer.closeAll();
                 }
+            });
+        },
+        rentLeave: function (roomId) {
+            layer.confirm('真的要办理退房吗, 请先退还押金', function (index) {
+                var jhxhr = $.ajax({url: requestBaseUrl + "/room/rentLeave/" + roomId, headers: header, type: "GET"});
+                jhxhr.done(function (res) {
+                    if(res.code == 1){
+                        //执行重载
+                        active.search();
+                    }else{
+                        layer.alert(res.msg)
+                    }
+                });
+                layer.close(index);
             });
         },
     };

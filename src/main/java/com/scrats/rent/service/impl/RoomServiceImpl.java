@@ -162,6 +162,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         deposit.setRenterId(bargin.getRenterId());
         deposit.setUserId(bargin.getUserId());
         deposit.setCreateTs(createTs);
+        deposit.setBarginId(bargin.getBarginId());
         depositService.insertSelective(deposit);
 
         for (DepositIterm iterm: bargin.getDepositItermList()) {

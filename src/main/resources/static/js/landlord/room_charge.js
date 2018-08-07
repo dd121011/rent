@@ -15,16 +15,16 @@ layui.use(['layer', 'form', 'laydate'], function () {
         var params = {};
         var bodyParams = {};
         var barginExtraList = [];
-        params.roomId = chageExtra.roomId;
-        for(i=0, len=chageExtra.length; i< len; i++){
+        params.roomId = chargeExtra.roomId;
+        for(i=0, len=chargeExtra.extraList.length; i< len; i++){
             var barginExtra = {};
-            barginExtra.barginExtraId = chageExtra[i].barginExtraId;
-            barginExtra.dicItermCode = chageExtra[i].dicItermCode;
-            barginExtra.count = Number($('#addChargeDiv .barginExtraId' + chageExtra[i].barginExtraId).val());
+            barginExtra.barginExtraId = chargeExtra.extraList[i].barginExtraId;
+            barginExtra.dicItermCode = chargeExtra.extraList[i].dicItermCode;
+            barginExtra.count = Number($('#addChargeDiv .barginExtraId' + chargeExtra.extraList[i].barginExtraId).val());
             barginExtraList.push(barginExtra);
         }
         bodyParams.barginExtraList=barginExtraList;
-        bodyParams.barginId=chageExtra[0].barginId;
+        bodyParams.barginId=chargeExtra.extraList[0].barginId;
         bodyParams.month=$('#addChargeDiv input[name=month]').val();
         bodyParams.remark=$('#addChargeDiv textarea[name=remark]').val();
         params.body = bodyParams;

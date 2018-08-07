@@ -1,4 +1,4 @@
-var chageExtra;
+var chargeExtra;
 layui.use(['layer', 'table', 'form', 'laytpl'], function () {
     var $ = layui.$;
     var layer = layui.layer;
@@ -198,8 +198,9 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                     if(res.data < 1){
                         return layer.alert("该房间尚未出租,无法计算房租!");
                     }
-                    chageExtra = res.data;
-                    chageExtra.roomId = data.roomId;
+                    chargeExtra = {};
+                    chargeExtra.extraList = res.data;
+                    chargeExtra.roomId = data.roomId;
                     $('#chargeRoomNo').val(data.roomNo);
                     $('#chargeBuilding').val($('#searchBuildingId option:selected').text());
                     var getTpl = roomChargeTemplete.innerHTML;

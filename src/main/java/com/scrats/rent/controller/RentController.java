@@ -8,11 +8,9 @@ import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.NotAuthorizedException;
-import com.scrats.rent.entity.Building;
-import com.scrats.rent.entity.Rent;
-import com.scrats.rent.entity.Room;
-import com.scrats.rent.entity.User;
+import com.scrats.rent.entity.*;
 import com.scrats.rent.service.BuildingService;
+import com.scrats.rent.service.ExtraHistoryService;
 import com.scrats.rent.service.RentService;
 import com.scrats.rent.service.RoomService;
 import org.slf4j.Logger;
@@ -47,6 +45,8 @@ public class RentController {
     private BuildingService buildingService;
     @Autowired
     private RentService rentService;
+    @Autowired
+    private ExtraHistoryService extraHistoryService;
 
     @IgnoreSecurity
     @GetMapping(value = {"/goRent/{userId}/{roomId}","/goRent/{userId}"})
@@ -114,6 +114,23 @@ public class RentController {
         }
         return new JsonResult("数据有误,请检查");
 
+    }
+
+    @GetMapping("/editExtra/{rentId}")
+    @ResponseBody
+    public JsonResult extra(@APIRequestControl APIRequest apiRequest, @PathVariable(name="rentId") Integer rentId){
+        List<ExtraHistory> list = extraHistoryService.getRentEditExtraHistory(rentId);
+        return new JsonResult<List>(list);
+
+    }
+
+    @PostMapping("/edit/{rentId}")
+    @ResponseBody
+    public JsonResult edit(@APIRequestControl APIRequest apiRequest, @PathVariable(name="rentId") Integer rentId) {
+        Rent rent = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Rent.class);
+        List<ExtraHistory> list = JSON.parseArray(JSON.toJSONString(apiRequest.getBody().get("extraList")),ExtraHistory.class);
+        return rentService.rentEdit(rent, list);
+        //return new JsonResult<>("123");
     }
 
 }

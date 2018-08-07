@@ -1,4 +1,5 @@
-var chargeExtra;
+var chageExtra;
+var rentItermTableData;
 layui.use(['layer', 'table', 'form', 'laytpl'], function () {
     var $ = layui.$;
     var layer = layui.layer;
@@ -98,12 +99,10 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 }
             });
         } else if(obj.event === 'edit'){
-            var jhxhr = $.ajax({url: requestBaseUrl + "/rent/editExtra/" + data.rentId, headers: header, type: "GET"});
+            var jhxhr = $.ajax({url: requestBaseUrl + "/rent/detail/" + data.rentId, headers: header, type: "GET"});
             jhxhr.done(function (res) {
                 if(res.code == 1){
-                    var rent = data;
-                    rent.extraList = res.data;
-                    active.edit(rent);
+                    active.edit(res.data);
                 }else{
                     layer.alert(res.msg);
                 }
@@ -127,6 +126,47 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 layer.alert(res.msg)
             }
         });
+    });
+
+    table.on('edit(rentEditItermTableFilter)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var othis = $(this);
+        if(obj.field == "number" || obj.field == "price"){
+            if(undefined != obj.data.number && undefined != obj.data.price){
+                obj.data.money = Number(obj.data.number) * Number(obj.data.price)/1;
+                console.log(rentItermTableData);
+                console.log(rentItermTableData.length);
+
+                table.render({
+                    elem: '#rentEditItermTable'//指定原始表格元素选择器（
+                    , data: rentItermTableData
+                    , id: 'rentEditItermTable'
+                    , cols: [[//表头
+                        {field: 'value', title: '项目', templet: function(d){
+                                return d.value;
+                            }}
+                        , {field: 'unit', title: '单位', width:60, templet: function(d){
+                                return d.unit;
+                            }}
+                        , {field: 'price', title: '单价', width:100, edit: 'text', templet: function(d){
+                                return d.price;
+                            }}
+                        , {field: 'number', title: '数量', width:100, edit: 'text', templet: function(d){
+                                return undefined == d.number ? "" : d.number;
+                            }}
+                        , {field: 'money', title: '金额', width:120, edit: 'text', templet: function(d){
+                                return d.money;
+                            }}
+                        , {field: 'description', title: '描述', templet: function(d){
+                                return d.description;
+                            }}
+                    ]]
+                    , done: function (res, curr, count) {
+                        rentItermTableData = res.data;
+                        console.log(rentItermTableData)
+                    }
+                });
+            }
+        }
     });
 
     var active = {
@@ -154,12 +194,11 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                     if(res.data.length < 1){
                         return layer.alert("该房间尚未出租,无法计算房租!");
                     }
-                    chargeExtra = {};
-                    chargeExtra.extraList = res.data;
-                    chargeExtra.roomId = $('#searchRoomId option:selected').val();
+                    chageExtra = res.data;
+                    chageExtra.roomId = $('#searchRoomId option:selected').val();
                     $('#chargeRoomNo').val($('#searchRoomId option:selected').text());
                     $('#chargeBuilding').val($('#searchBuildingId option:selected').text());
-                    var getTpl = rentChargeTemplete.innerHTML;
+                    var getTpl = roomChargeTemplete.innerHTML;
                     var view = document.getElementById('chargeView');
                     laytpl(getTpl).render(res.data, function(html){
                         view.innerHTML = html;
@@ -169,7 +208,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                         ,title: "录入房租"
                         , area: '500px'
                         , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
-                        , id: 'layerRentCharge'  //防止重复弹出
+                        , id: 'layerRoomCharge'  //防止重复弹出
                         , content: $('#addChargeDiv')
                         , btn: '关闭全部'
                         , btnAlign: 'c' //按钮居中
@@ -235,28 +274,64 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             });
         },
         edit: function (rent) {
-            chargeExtra = rent;
-            $('#chargeEditRoomNo').val($('#searchRoomId option:selected').text());
-            $('#chargeEditBuilding').val($('#searchBuildingId option:selected').text());
-            $('#chargeEditMonth').val(rent.rentMonth);
-            $('#chargeEditMonth').attr("disabled",true);
-            var getTpl = rentChargeEditTemplete.innerHTML;
-            var view = document.getElementById('chargeEditView');
-            laytpl(getTpl).render(rent.extraList, function(html){
-                view.innerHTML = html;
+            var rentItermData = [];
+            for(i=0, len=rent.rentItermList.length; i<len; i++){
+                rentItermData.push(rent.rentItermList[i]);
+                rentItermData[i].price = rentItermData[i].price/100;
+                rentItermData[i].money = rentItermData[i].money/100;
+            }
+
+            form.val("rentEditFormFilter", {
+                "rentChargeBuilding": rent.room.building.name
+                ,"rentNo": rent.room.roomNo
+                ,"rentMonth": rent.rentMonth
+                ,"fee": rent.fee/100
+                ,"count": rent.count/100
+                ,"realFee": rent.realFee/100
+                ,"remark": rent.remark
             });
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                ,title: "编辑房租"
-                , area: '500px'
-                , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
-                , id: 'layerRentChargeEdit'  //防止重复弹出
-                , content: $('#rentChargeEditDiv')
+                ,title: "房租编辑"
+                , area: '700px'
+                , offset: '100px' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                , id: 'layerRentEdit'  //防止重复弹出
+                , content: $('#rentEditDiv')
                 , btn: '关闭全部'
                 , btnAlign: 'c' //按钮居中
 //                    ,shade: 0 //不显示遮罩
                 , yes: function () {
                     layer.closeAll();
+                }
+            });
+            table.render({
+                elem: '#rentEditItermTable'//指定原始表格元素选择器（
+                , data: rentItermData
+                , id: 'rentEditItermTable'
+                // , width: 550
+                , cols: [[//表头
+                    {field: 'value', title: '项目', templet: function(d){
+                            return d.value;
+                        }}
+                    , {field: 'unit', title: '单位', width:60, templet: function(d){
+                            return d.unit;
+                        }}
+                    , {field: 'price', title: '单价', width:100, edit: 'text', templet: function(d){
+                            return d.price;
+                        }}
+                    , {field: 'number', title: '数量', width:100, edit: 'text', templet: function(d){
+                            return undefined == d.number ? "" : d.number;
+                        }}
+                    , {field: 'money', title: '金额', width:120, edit: 'text', templet: function(d){
+                            return d.money;
+                        }}
+                    , {field: 'description', title: '描述', templet: function(d){
+                            return d.description;
+                        }}
+                ]]
+                , done: function (res, curr, count) {
+                    rentItermTableData = res.data;
+                    console.log(rentItermTableData)
                 }
             });
         },

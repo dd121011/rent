@@ -16,4 +16,7 @@ import java.util.List;
 public interface ExtraHistoryService extends BaseService<ExtraHistory, ExtraHistoryMapper> {
 
     List<ExtraHistory> getListByExtraHistory(ExtraHistory extraHistory);
+
+    List<ExtraHistory> getRentEditExtraHistory(Integer rentId);
+
 }

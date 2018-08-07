@@ -26,4 +26,9 @@ public class ExtraHistoryServiceImpl extends BaseServiceImpl<ExtraHistory, Extra
     public List<ExtraHistory> getListByExtraHistory(ExtraHistory extraHistory) {
         return dao.getListByExtraHistory(extraHistory);
     }
+
+    @Override
+    public List<ExtraHistory> getRentEditExtraHistory(Integer rentId) {
+        return dao.getRentEditExtraHistory(rentId);
+    }
 }

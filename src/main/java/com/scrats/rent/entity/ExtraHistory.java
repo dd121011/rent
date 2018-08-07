@@ -6,6 +6,7 @@ import tk.mybatis.mapper.annotation.KeySql;
 import tk.mybatis.mapper.code.IdentityDialect;
 
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  * @Created with scrat.
@@ -30,13 +31,17 @@ public class ExtraHistory extends BaseEntity {
     private Integer barginId;//合同Id
     private Integer buildingId;//房子Id
     private Integer rentId;//房租Id
-    private String dvalue;//是否差值计算, 0-否, 1-是
+
+    @Transient
+    private String value;
+    @Transient
+    private Integer number;
 
     public ExtraHistory() {
 
     }
 
-    public ExtraHistory(Integer roomId, Integer count, String month, String dicItermCode, Integer barginExtraId, Integer barginId, Integer buildingId, String dvalue) {
+    public ExtraHistory(Integer roomId, Integer count, String month, String dicItermCode, Integer barginExtraId, Integer barginId, Integer buildingId) {
         this.roomId = roomId;
         this.count = count;
         this.month = month;
@@ -44,6 +49,5 @@ public class ExtraHistory extends BaseEntity {
         this.barginExtraId = barginExtraId;
         this.barginId = barginId;
         this.buildingId = buildingId;
-        this.dvalue = dvalue;
     }
 }

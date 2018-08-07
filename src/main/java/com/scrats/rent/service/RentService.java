@@ -2,7 +2,9 @@ package com.scrats.rent.service;
 
 import com.scrats.rent.base.service.BaseService;
 import com.scrats.rent.common.APIRequest;
+import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
+import com.scrats.rent.entity.ExtraHistory;
 import com.scrats.rent.entity.Rent;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.mapper.RentMapper;
@@ -31,4 +33,6 @@ public interface RentService extends BaseService<Rent, RentMapper> {
     boolean pay(User landlord, Integer rentId, String channel);
 
     Rent detail(Integer rentId);
+
+    JsonResult rentEdit(Rent rent, List<ExtraHistory> extraHistoryList);
 }

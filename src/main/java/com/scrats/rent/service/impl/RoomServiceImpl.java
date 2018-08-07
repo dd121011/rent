@@ -286,7 +286,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
                 }else{
                     beforeCount = before.get(0).getCount();
                 }
-                ExtraHistory extra = new ExtraHistory(roomId, origin.getCount(),month, origin.getDicItermCode(), origin.getBarginExtraId(), barginId, bargin.getBuildingId(), "1");
+                ExtraHistory extra = new ExtraHistory(roomId, origin.getCount(),month, origin.getDicItermCode(), origin.getBarginExtraId(), barginId, bargin.getBuildingId());
                 extra.setCreateTs(createTs);
                 int nowCount = origin.getCount() - beforeCount;
                 if(nowCount < 0){
@@ -298,7 +298,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
                 rentIterm.setMoney(rentIterm.getPrice() * rentIterm.getNumber());
                 extraHistories.add(extra);
             }else{
-                ExtraHistory extra = new ExtraHistory(roomId, origin.getCount()*100, month, origin.getDicItermCode(), origin.getBarginExtraId(), barginId, bargin.getBuildingId(), "0");
+                ExtraHistory extra = new ExtraHistory(roomId, origin.getCount()*100, month, origin.getDicItermCode(), origin.getBarginExtraId(), barginId, bargin.getBuildingId());
                 extra.setCreateTs(createTs);
                 extraHistories.add(extra);
                 rentIterm.setPrice(origin.getCount()*100);

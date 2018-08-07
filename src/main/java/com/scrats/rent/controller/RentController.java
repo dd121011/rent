@@ -60,8 +60,9 @@ public class RentController {
         //获取所有房子select数据
         PageInfo<Building> buildingPage = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
         List<Room> roomList = new ArrayList<Room>();
-        Integer buildingId = buildingPage.getList().get(0).getBuildingId();
+        Integer buildingId = null;
         if(null == roomId){
+            buildingId = buildingPage.getList().get(0).getBuildingId();
             Room param = new Room();
             param.setBuildingId(buildingPage.getList().get(0).getBuildingId());
             PageInfo<Room> roomPage = roomService.getRoomList(null, param, false);
@@ -71,10 +72,12 @@ public class RentController {
             }
         }else{
             Room room = roomService.selectByPrimaryKey(roomId);
-
             if(null != room){
                 buildingId = room.getBuildingId();
-                roomList.add(room);
+                Room param = new Room();
+                param.setBuildingId(buildingPage.getList().get(0).getBuildingId());
+                PageInfo<Room> roomPage = roomService.getRoomList(null, param, false);
+                roomList = roomPage.getList();
             }
         }
 

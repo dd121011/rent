@@ -312,6 +312,17 @@ public class RoomController {
         throw new BusinessException("请求数据不正确");
     }
 
+    @GetMapping("/detail/{roomId}")
+    @ResponseBody
+    public JsonResult detail(@PathVariable(name="roomId") Integer roomId){
+
+        Room room = roomService.detail(roomId);
+        if(null != room){
+            return new JsonResult<Room>(room);
+        }
+        return new JsonResult("数据有误");
+    }
+
     @GetMapping("/extra/{roomId}")
     @ResponseBody
     public String extra(@PathVariable(name="roomId") Integer roomId){
@@ -404,7 +415,6 @@ public class RoomController {
             rr.setDeleteTs(deleteTs);
             roomRenterService.updateByPrimaryKeySelective(rr);
         }
-//        return roomService.charge(list, month, barginId, apiRequest.getRoomId(), remark);
         return new JsonResult();
     }
 

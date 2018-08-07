@@ -1,4 +1,6 @@
 var chargeExtra;
+var extraTableData;
+var depositItermTableData;
 layui.use(['layer', 'table', 'form', 'laytpl'], function () {
     var $ = layui.$;
     var layer = layui.layer;
@@ -151,42 +153,26 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             //出租记录
             layer.msg('ID：' + data.roomId + ' 的查看操作');
         } else if (obj.event === 'rent'){
-            // //出租
-            // form.val("renterFormFilter", {
-            //     "buildingId": data.buildingId
-            //     ,"roomId": data.roomId
-            //     ,"roomNo": data.roomNo
-            //     ,"orientation": data.orientation
-            //     ,"decoration": data.decoration
-            //     ,"bedroom": data.bedroom
-            //     ,"living": data.living
-            //     ,"toilet": data.toilet
-            //     ,"guaranty": data.guaranty
-            //     ,"pay": data.pay
-            //     ,"rentFee": data.rentFee
-            //     ,"area": data.area
-            //     ,"description": data.description
-            // });
-            // var facility = data.facilities.split(",");
-            // $.each($('input[type=checkbox][name=dicItermIds]'),function(){
-            //     for(j = 0, len=facility.length; j < len; j++) {
-            //         if(facility[j] == $(this).val()){
-            //             $(this).attr("checked",true);
-            //             $(this).next().addClass("layui-form-checked");
-            //         }
-            //     }
-            // });
-            // var extra = data.extraFee.split(",");
-            // $.each($('input[type=checkbox][name=extraIds]'),function(){
-            //     for(j = 0, len=extra.length; j < len; j++) {
-            //         if(extra[j] == $(this).val()){
-            //             $(this).attr("checked",true);
-            //             $(this).next().addClass("layui-form-checked");
-            //         }
-            //     }
-            // });
-            active.rent();
-            // active.edit();
+            var jhxhr = $.ajax({url: requestBaseUrl + "/room/detail/" + data.roomId, headers: header, type: "GET"});
+            jhxhr.done(function (res) {
+                if(res.code == 1){
+                    var getTpl = roomRentFacilitiesTemplete.innerHTML;
+                    var view = document.getElementById('roomRentFacilities');
+                    laytpl(getTpl).render(res.data.facilitiesIterm, function(html){
+                        view.innerHTML = html;
+                    });
+                    form.val("rentEditFormFilter", {
+                        "roomId": res.data.roomId
+                        ,"rentFee": res.data.rentFee/100
+                        ,"rentDay": res.data.rentDay
+                        ,"guaranty": res.data.guaranty
+                        ,"pay": res.data.pay
+                    });
+                    active.rent(res.data);
+                }else{
+                    layer.alert(res.msg)
+                }
+            });
         } else if (obj.event === 'continue'){
             //续约
         } else if (obj.event === 'detail'){
@@ -217,26 +203,6 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
         } else if (obj.event === 'leave'){
             active.rentLeave(data.roomId);
         }
-    });
-
-    form.on('select(roomSearchFormSelectBuildingFilter)', function (data) {
-        var jhxhr = $.ajax({url: requestBaseUrl + "/room/roomAll/" + data.value, headers: header, type: "GET"});
-        jhxhr.done(function (res) {
-            if(res.code == 1){
-                $('#searchRoomId').html('');
-                var option = $('<option>').val(-1).text("请选择");
-                $('#searchRoomId').append(option)
-                $.each(res.data, function (index, val) {
-                    var option = $('<option>').val(val.roomId).text(val.roomNo);
-                    $('#searchRoomId').append(option)
-                });
-                //重新渲染
-                form.render('select', 'roomSearchFormFilter');
-                $('#searchRoomId').get(0).selectedIndex = 0;
-            }else{
-                layer.alert(res.msg)
-            }
-        });
     });
 
     var active = {
@@ -293,22 +259,6 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 }
             });
         },
-        rent: function () {
-            layer.open({
-                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                ,title: "添加租客"
-                , area: '500px'
-                , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
-                , id: 'layerRentEdit'  //防止重复弹出
-                , content: $('#addRenterDiv')
-                , btn: '关闭全部'
-                , btnAlign: 'c' //按钮居中
-                // , shade: 0 //不显示遮罩
-                , yes: function () {
-                    layer.closeAll();
-                }
-            });
-        },
         charge: function () {
             $("input[name='roomNo']").attr("readonly","readonly");
             layer.open({
@@ -340,11 +290,148 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 layer.close(index);
             });
         },
+        rent: function (room) {
+            layer.open({
+                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                ,title: "办理入住"
+                , area: '600px'
+                , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                , id: 'layerRentAdd'  //防止重复弹出
+                , content: $('#addRentDiv')
+                , btn: '关闭全部'
+                , btnAlign: 'c' //按钮居中
+                // , shade: 0 //不显示遮罩
+                , yes: function () {
+                    layer.closeAll();
+                }
+                ,success: function(layero, index){
+                    console.log(layero, index);
+                }
+            });
+
+            //额外收费项table
+            table.render({
+                elem: '#extraTable'//指定原始表格元素选择器（
+                , data: room.extraFeeIterm
+                , id: 'extraTable'
+                // , width: 550
+                , cols: [[//表头
+                    {field: 'value', title: '项目', templet: function(d){
+                            return d.value;
+                        }}
+                    , {field: 'unit', title: '单位', templet: function(d){
+                            return d.unit;
+                        }}
+                    , {field: 'price', title: '单价', edit: 'text', templet: function(d){
+                            return '';
+                        }}
+                    , {field: 'number', title: '初始数量', edit: 'text', templet: function(d){
+                            return '';
+                        }}
+                ]]
+                , done: function (res, curr, count) {
+                    extraTableData = res.data;
+                    console.log(extraTableData)
+                }
+            });
+
+            //押金项Table
+            table.render({
+                elem: '#depositTable'//指定原始表格元素选择器（
+                , data: room.depositIterm
+                , id: 'depositTableEdit'
+                // , width: 550
+                , cols: [[//表头
+                    {field: 'value', title: '项目', templet: function(d){
+                            return d.value;
+                        }}
+                    , {field: 'unit', title: '单位', templet: function(d){
+                            return d.unit;
+                        }}
+                    , {field: 'price', title: '单价', edit: 'text', templet: function(d){
+                            return undefined == d.price ? "" : d.price;
+                        }}
+                    , {field: 'number', title: '数量', edit: 'text', templet: function(d){
+                            return undefined == d.number ? "" : d.number;
+                        }}
+                    , {field: 'money', title: '金额', edit: 'text', templet: function(d){
+                            return undefined == d.money ? "" : d.money;
+                        }}
+                ]]
+                , done: function (res, curr, count) {
+                    depositItermTableData = res.data;
+                    console.log(depositItermTableData)
+                }
+            });
+        },
     };
 
     //绑定搜索点击事件
     $('.childrenBody .layui-btn').on('click', function () {
         var othis = $(this), method = othis.data('method');
         active[method] ? active[method].call(this, othis) : '';
+    });
+
+    form.on('select(roomSearchFormSelectBuildingFilter)', function (data) {
+        var jhxhr = $.ajax({url: requestBaseUrl + "/room/roomAll/" + data.value, headers: header, type: "GET"});
+        jhxhr.done(function (res) {
+            if(res.code == 1){
+                $('#searchRoomId').html('');
+                var option = $('<option>').val(-1).text("请选择");
+                $('#searchRoomId').append(option)
+                $.each(res.data, function (index, val) {
+                    var option = $('<option>').val(val.roomId).text(val.roomNo);
+                    $('#searchRoomId').append(option)
+                });
+                //重新渲染
+                form.render('select', 'roomSearchFormFilter');
+                $('#searchRoomId').get(0).selectedIndex = 0;
+            }else{
+                layer.alert(res.msg)
+            }
+        });
+    });
+
+    table.on('edit(extraTableFilter)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+        console.log(extraTableData);
+
+    });
+
+    table.on('edit(depositTableFilter)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var othis = $(this);
+        if(obj.field == "number" || obj.field == "price"){
+            if(undefined != obj.data.number && undefined != obj.data.price){
+                obj.data.money = Number(obj.data.number) * Number(obj.data.price)/1;
+                console.log(depositItermTableData);
+                console.log(depositItermTableData.length);
+
+                table.render({
+                    elem: '#depositTable'//指定原始表格元素选择器（
+                    , data: depositItermTableData
+                    , id: 'depositTableEdit'
+                    , cols: [[//表头
+                        {field: 'value', title: '项目', templet: function(d){
+                                return d.value;
+                            }}
+                        , {field: 'unit', title: '单位', templet: function(d){
+                                return d.unit;
+                            }}
+                        , {field: 'price', title: '单价', edit: 'text', templet: function(d){
+                                return undefined == d.price ? "" : d.price;
+                            }}
+                        , {field: 'number', title: '数量', edit: 'text', templet: function(d){
+                                return undefined == d.number ? "" : d.number;
+                            }}
+                        , {field: 'money', title: '金额', edit: 'text', templet: function(d){
+                                return undefined == d.money ? "" : d.money;
+                            }}
+                    ]]
+                    , done: function (res, curr, count) {
+                        depositItermTableData = res.data;
+                        console.log(depositItermTableData)
+                    }
+                });
+            }
+        }
     });
 });

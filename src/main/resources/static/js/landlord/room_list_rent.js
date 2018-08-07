@@ -78,7 +78,16 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
             if(res.code == 1){
                 layer.close(1);
                 layer.msg("房间出租成功");
-                location.href= requestBaseUrl + "/room/goRoomDetail/" + $('#roomId').val() + "?tokenId=" + tokenId;
+                table.reload('lay_table_room', {
+                    url: requestBaseUrl + '/room/list/' + $('#searchBuildingId').val()//数据接口
+                    ,page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        roomId: $('#searchRoomId').val(),
+                        rentTs: $('#searchRoomRentTs').val()
+                    }//传参*/
+                });
             }else{
                 layer.alert(res.msg);
             }

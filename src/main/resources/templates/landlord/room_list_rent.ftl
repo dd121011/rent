@@ -1,6 +1,6 @@
 <div id="addRentDiv" style="padding: 20px 0; padding-right: 40px; display: none" >
     <form class="layui-form" lay-filter="rentEditFormFilter" action="">
-        <input type="hidden" name="roomId" required lay-verify="required" autocomplete="off" class="layui-input" value="${room.roomId}">
+        <input type="hidden" name="roomId" required lay-verify="required" autocomplete="off" class="layui-input">
         <div class="layui-form-item">
             <label class="layui-form-label">姓名</label>
             <div class="layui-input-block">
@@ -21,7 +21,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">租金</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="rentFee" required  lay-verify="number" placeholder="请输入租金" autocomplete="off" class="layui-input" value="${room.rentFee/100}">
+                    <input type="text" name="rentFee" required  lay-verify="number" placeholder="请输入租金" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid">元/月</div>
             </div>
@@ -42,23 +42,23 @@
                 <div class="layui-form-mid">押</div>
                 <div class="layui-input-inline" style="width: 30%;">
                     <select name="guaranty" lay-filter="guaranty">
-                        <option value="0" <#if room.guaranty == 0>selected</#if>>0</option>
-                        <option value="1" <#if room.guaranty == 1>selected</#if>>1</option>
-                        <option value="2" <#if room.guaranty == 2>selected</#if>>2</option>
-                        <option value="3" <#if room.guaranty == 3>selected</#if>>3</option>
-                        <option value="4" <#if room.guaranty == 4>selected</#if>>4</option>
-                        <option value="5" <#if room.guaranty == 5>selected</#if>>5</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
                     </select>
                 </div>
                 <div class="layui-form-mid">付</div>
                 <div class="layui-input-inline" style="width: 30%;">
                     <select name="pay" lay-filter="pay">
-                        <option value="0" <#if room.pay == 0>selected</#if>>0</option>
-                        <option value="1" <#if room.pay == 1>selected</#if>>1</option>
-                        <option value="2" <#if room.pay == 2>selected</#if>>2</option>
-                        <option value="3" <#if room.pay == 3>selected</#if>>3</option>
-                        <option value="4" <#if room.pay == 4>selected</#if>>4</option>
-                        <option value="5" <#if room.pay == 5>selected</#if>>5</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
                     </select>
                 </div>
             </div>
@@ -89,11 +89,7 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">配套设施</label>
-            <div class="layui-input-block">
-                <#list room.facilitiesIterm as item>
-                    <input type="checkbox" lay-filter="testt" name="facilities" value="${item.dicItermCode}" title="${item.value}" checked>
-                </#list>
-            </div>
+            <div class="layui-input-block" id="roomRentFacilities"></div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">额外收费项</label>
@@ -122,4 +118,10 @@
     </form>
 </div>
 
-<script src="${base}/static/js/landlord/room_rent.js" charset="utf-8"></script>
+<script type="text/html" id="roomRentFacilitiesTemplete">
+    {{#  layui.each(d, function(index, item){ }}
+    <input type="checkbox" lay-filter="testt" name="facilities" value="{{ item.dicItermCode }}" title="{{ item.value }}" checked>
+    {{#  }); }}
+</script>
+
+<script src="${base}/static/js/landlord/room_list_rent.js" charset="utf-8"></script>

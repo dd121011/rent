@@ -65,5 +65,6 @@
 
 <#include "landlord/room_edit.ftl"/>
 <#include "landlord/room_charge.ftl"/>
+<#include "landlord/room_list_rent.ftl"/>
 
 </html>

@@ -130,7 +130,6 @@ public class RentController {
         Rent rent = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Rent.class);
         List<ExtraHistory> list = JSON.parseArray(JSON.toJSONString(apiRequest.getBody().get("extraList")),ExtraHistory.class);
         return rentService.rentEdit(rent, list);
-        //return new JsonResult<>("123");
     }
 
 }

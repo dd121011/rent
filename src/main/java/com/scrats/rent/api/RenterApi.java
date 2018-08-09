@@ -82,7 +82,7 @@ public class RenterApi {
     @PostMapping("/bindUser")
     public JsonResult bindUser(@RequestBody APIRequest apiRequest){
 
-        if(StringUtils.isEmpty(apiRequest.getOpenid()) || StringUtils.isEmpty(apiRequest.getTokenId()) || null == apiRequest.getRoomId()){
+        if(StringUtils.isEmpty(apiRequest.getOpenid()) || StringUtils.isEmpty(apiRequest.getTokenId()) || apiRequest.getRenterId() <1 ){
             return new JsonResult("请求的信息有误");
         }
 
@@ -94,15 +94,12 @@ public class RenterApi {
             return new JsonResult("请求的tokenId有误");
         }
 
-        List<Bargin> barginList = barginService.getBarginByRoomId(apiRequest.getRoomId(), false);
-        if(null == barginList || barginList.size()>1){
-            return new JsonResult("该房间还未出租,无法绑定");
-        }
-        User user = userService.selectByPrimaryKey(barginList.get(0).getUserId());
+        User user = userService.selectByPrimaryKey(apiRequest.getRenterId());
         WxSns wxSns = wxSnsService.selectByPrimaryKey(apiRequest.getOpenid());
         wxSns.setUserId(user.getUserId());
         wxSns.setUpdateTs(System.currentTimeMillis());
         wxSnsService.updateByPrimaryKeySelective(wxSns);
+        //缓存user
         redisService.set(apiRequest.getTokenId(),user, GlobalConst.ACCESS_TOKEN_EXPIRE);
         return new JsonResult<User>(user);
     }

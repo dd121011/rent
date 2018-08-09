@@ -6,16 +6,6 @@ layui.use(['layer', 'table', 'form'], function () {
     var table = layui.table;
     var form = layui.form;
 
-    //生成房间二维码
-    var qrcode = new QRCode('qrcode', {
-        text: 'https://scrats.cn/rent/qr?method=bindUser&data=' + $('#roomId').val(),
-        width: 256,
-        height: 256,
-        colorDark : '#000000',
-        colorLight : '#ffffff',
-        correctLevel : QRCode.CorrectLevel.H
-    });
-
     //租客Table
     table.render({
         elem: '#lay_table_room_renter'//指定原始表格元素选择器（
@@ -248,7 +238,16 @@ layui.use(['layer', 'table', 'form'], function () {
                 }
             });
         },
-        qrcodeRenter: function () {
+        qrcodeRenter: function (userId) {
+            //生成房间二维码
+            new QRCode('qrcode', {
+                text: 'https://scrats.cn/rent/qr?method=bindUser&data=' + userId,
+                width: 256,
+                height: 256,
+                colorDark : '#000000',
+                colorLight : '#ffffff',
+                correctLevel : QRCode.CorrectLevel.H
+            });
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "房间二维码"
@@ -289,8 +288,8 @@ layui.use(['layer', 'table', 'form'], function () {
     //监听工具条
     table.on('tool(renterRoomTableFilter)', function (obj) {
         var data = obj.data;
-        if (obj.event === 'detail') {
-            location.href= requestBaseUrl + "/room/goRoom/" + data.buildingId + "?tokenId=" + tokenId;
+        if (obj.event === 'qrcode') {
+            active.qrcodeRenter(data.user.userId)
         } else if (obj.event === 'del') {
             layer.confirm('真的删除当前租客么', function (index) {
                 var jhxhr = $.ajax({url: requestBaseUrl + "/room/renterDelete/" + $('#roomId').val() + "/" + data.roomRenterId, headers: header, type: "GET"});

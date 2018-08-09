@@ -12,6 +12,7 @@ import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.constant.GlobalConst;
+import com.scrats.rent.constant.SexType;
 import com.scrats.rent.constant.UserType;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
@@ -249,44 +250,40 @@ public class RoomController {
         return JSON.toJSONString(new JsonResult<List>(jsonArray));
     }
 
-    @PostMapping("/renterEdit/{roomId}")
+    @PostMapping("/renterAdd/{roomId}")
     @ResponseBody
-    public JsonResult renterEdit(@PathVariable(name="roomId") Integer roomId, @RequestParam(name= "roomRenterId", required= false) int roomRenterId, String idCard, String phone, User user){
-        long updatTs = System.currentTimeMillis();
-        if(roomRenterId > 0){
-            RoomRenter roomRenter = roomRenterService.selectByPrimaryKey(roomRenterId);
-            User oldUser = userService.selectByPrimaryKey(roomRenter.getUserId());
-            Account account = accountService.selectByPrimaryKey(oldUser.getAccountId());
-            if(!account.getPhone().equals(phone)){
-                account.setPhone(phone);
-                account.setUpdateTs(updatTs);
-                accountService.updateByPrimaryKeySelective(account);
-            }
-        }else{
+    public JsonResult renterAdd(@PathVariable(name="roomId") Integer roomId, String idCard, String phone, String name){
+        long createTs = System.currentTimeMillis();
+        Renter renter = null;
+        if(null == accountService.findBy("phone", phone)){
             //创建account
-            Account account = new Account();
-            account.setPhone(phone);
-            account.setPwd(phone);
-            account.setUsername(phone);
-            account.setCreateTs(updatTs);
+            Account account = new Account(phone, phone, phone);
+            account.setCreateTs(createTs);
             accountService.insertSelective(account);
             //创建user
+            User user = new User();
+            user.setName(name);
             user.setType(UserType.renter.getValue());
+            user.setSex(SexType.secret.getValue());
             user.setAccountId(account.getAccountId());
-            user.setCreateTs(updatTs);
+            user.setCreateTs(createTs);
             userService.insertSelective(user);
             //创建renter
-            Renter newRenter = new Renter(idCard);
-            newRenter.setCreateTs(updatTs);
-            newRenter.setUserId(user.getUserId());
-            renterService.insertSelective(newRenter);
-
-            List<Bargin> list = barginService.getBarginByRoomId(roomId, false);
-            Bargin bargin = list.get(0);
-            RoomRenter newRoomRenter = new RoomRenter(roomId, user.getUserId(), newRenter.getRenterId(), bargin.getBarginId());
-            newRenter.setCreateTs(updatTs);
-            roomRenterService.insertSelective(newRoomRenter);
+            renter = new Renter(idCard, user.getUserId());
+            renter.setCreateTs(createTs);
+            renterService.insertSelective(renter);
+        }else{
+            User user = userService.getUserByPhone(phone);
+            if(null == user){
+                throw new BusinessException("请求数据不正确");
+            }
+            renter = renterService.findBy("userId",user.getUserId());
         }
+
+        List<Bargin> list = barginService.getBarginByRoomId(roomId, false);
+        RoomRenter newRoomRenter = new RoomRenter(roomId, renter.getUserId(), renter.getRenterId(), list.get(0).getBarginId());
+        newRoomRenter.setCreateTs(createTs);
+        roomRenterService.insertSelective(newRoomRenter);
 
         return new JsonResult<>();
     }

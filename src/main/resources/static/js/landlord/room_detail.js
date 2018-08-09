@@ -213,7 +213,6 @@ layui.use(['layer', 'table', 'form'], function () {
         },
         renterAdd: function () {
             $("input[type!=checkbox]").val("");
-            $("select").val("");
             $("[name='remark']").val("");
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
@@ -293,7 +292,7 @@ layui.use(['layer', 'table', 'form'], function () {
         if (obj.event === 'detail') {
             location.href= requestBaseUrl + "/room/goRoom/" + data.buildingId + "?tokenId=" + tokenId;
         } else if (obj.event === 'del') {
-            layer.confirm('真的删除行么', function (index) {
+            layer.confirm('真的删除当前租客么', function (index) {
                 var jhxhr = $.ajax({url: requestBaseUrl + "/room/renterDelete/" + $('#roomId').val() + "/" + data.roomRenterId, headers: header, type: "GET"});
                 jhxhr.done(function (res) {
                     if(res.code == 1){
@@ -304,16 +303,6 @@ layui.use(['layer', 'table', 'form'], function () {
                 });
                 layer.close(index);
             });
-        } else if (obj.event === 'edit') {
-            form.val("renterEditFormFilter", {
-                "roomRenterId": data.roomRenterId
-                ,"name": data.user.name
-                ,"sex": data.user.sex
-                ,"phone": data.phone
-                ,"idCard": data.idCard
-                ,"remark": data.user.remark
-            });
-            active.renterEdit();
         }
     });
 

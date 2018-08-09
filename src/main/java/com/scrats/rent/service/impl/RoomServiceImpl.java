@@ -100,13 +100,10 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         bargin.setBuildingId(building.getBuildingId());
 
         //填充renterId
-        Renter renter = renterService.findBy("idCard", bargin.getIdCard());
-        if(null == renter){
+        Account account = accountService.findBy("phone", bargin.getPhone());
+        if(null == account){
             //创建account
-            Account account = new Account();
-            account.setPhone(bargin.getPhone());
-            account.setPwd(bargin.getPhone());
-            account.setUsername(bargin.getPhone());
+            account = new Account(bargin.getPhone(), bargin.getPhone(), bargin.getPhone());
             account.setCreateTs(createTs);
             accountService.insertSelective(account);
             //创建user
@@ -117,15 +114,16 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
             user.setCreateTs(createTs);
             userService.insertSelective(user);
             //创建renter
-            Renter newRenter = new Renter(bargin.getIdCard());
+            Renter newRenter = new Renter(bargin.getIdCard(), user.getUserId());
             newRenter.setCreateTs(createTs);
-            newRenter.setUserId(user.getUserId());
             renterService.insertSelective(newRenter);
 
             //补齐renterId字段
             bargin.setUserId(user.getUserId());
             bargin.setRenterId(newRenter.getRenterId());
         }else{
+            User user = userService.getUserByPhone(bargin.getPhone());
+            Renter renter = renterService.findBy("userId",user.getUserId());
             bargin.setUserId(renter.getUserId());
             bargin.setRenterId(renter.getRenterId());
         }

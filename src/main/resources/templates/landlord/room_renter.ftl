@@ -1,22 +1,9 @@
 <div id="addRenterDiv" style="padding: 20px 0; padding-right: 40px; display: none" >
     <form class="layui-form" lay-filter="renterEditFormFilter" action="">
-        <div class="layui-form-item" style="display: none">
-            <input type="hidden" name="roomRenterId" autocomplete="off" class="layui-input">
-        </div>
         <div class="layui-form-item">
             <label class="layui-form-label">姓名</label>
             <div class="layui-input-block">
                 <input type="text" name="name" required lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">性别</label>
-            <div class="layui-input-inline">
-                <select name="sex" lay-filter="sex">
-                    <option value="0" selected>保密</option>
-                    <option value="1">男</option>
-                    <option value="2">女</option>
-                </select>
             </div>
         </div>
         <div class="layui-form-item">

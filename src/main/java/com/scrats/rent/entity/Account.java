@@ -34,4 +34,10 @@ public class Account extends BaseEntity {
         this.username = username;
         this.pwd = pwd;
     }
+
+    public Account(String username, String pwd, String phone) {
+        this.username = username;
+        this.pwd = pwd;
+        this.phone = phone;
+    }
 }

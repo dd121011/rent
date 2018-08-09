@@ -29,8 +29,9 @@ public class Renter extends BaseEntity {
         super();
     }
 
-    public Renter(String idCard) {
+    public Renter(String idCard, Integer userId) {
         super();
         this.idCard = idCard;
+        this.userId = userId;
     }
 }

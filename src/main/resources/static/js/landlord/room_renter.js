@@ -1,22 +1,17 @@
 layui.use(['layer', 'form'], function () {
-    var $ = layui.jquery;
+    var $ = layui.$;
     var layer = layui.layer;
     var form = layui.form;
-
+    var renterRoomId = $('#roomId').val();//3
     //监听提交
     form.on('submit(renterEditFormSubmitFilter)', function(data){
         var params = $(data.form).serializeObject();
-        var jhxhr = $.ajax({url: requestBaseUrl + "/room/renterEdit/" + $('#roomId').val(), data: params, headers: header, type: "POST"});
+        var jhxhr = $.ajax({url: requestBaseUrl + "/room/renterAdd/" + renterRoomId, data: params, headers: header, type: "POST"});
         jhxhr.done(function (res) {
             if(res.code == 1){
                 layer.close(1);
-                if(params.roomRenterId){
-                    layer.msg("修改成功");
-
-                }else{
-                    layer.msg("添加成功");
-                }
-                location.href= requestBaseUrl + "/room/goRoomDetail/" + $('#roomId').val() + "?tokenId=" + tokenId;
+                layer.msg("添加成功");
+                location.href= requestBaseUrl + "/room/goRoomDetail/" + renterRoomId + "?tokenId=" + tokenId;
             }else{
                 layer.alert(res.msg)
             }

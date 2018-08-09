@@ -1358,12 +1358,12 @@ curl  X POST  H 'Content type: application/json' --data-binary '{"code":"011a4Ic
 | --- | --- | --- | --- |
 | tokenId | String | true | 登录获取的tokenId，不要放在header中 |
 | openid | String | true | 登录时获取的openid |
-| roomId | Integer | true | 带绑定的房间Id |
+| renterId | Integer | true | 待绑定的userId |
 
 #### Sample
 
 ```
-curl  X POST  H 'Content type: application/json' --data-binary '{"tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff", "openid": "xxxxxx", roomId":3}' 'https://scrats.cn/rent/api/renter/bindUser'
+curl  X POST  H 'Content type: application/json' --data-binary '{"tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff", "openid": "xxxxxx", userId":9}' 'https://scrats.cn/rent/api/renter/bindUser'
 ```
 
 #### Response

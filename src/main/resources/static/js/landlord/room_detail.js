@@ -239,6 +239,7 @@ layui.use(['layer', 'table', 'form'], function () {
             });
         },
         qrcodeRenter: function (userId) {
+            $('#qrcode').empty();
             //生成房间二维码
             new QRCode('qrcode', {
                 text: 'https://scrats.cn/rent/qr?method=bindUser&data=' + userId,

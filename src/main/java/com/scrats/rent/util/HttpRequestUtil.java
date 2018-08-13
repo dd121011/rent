@@ -3,6 +3,7 @@ package com.scrats.rent.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
+import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -15,15 +16,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 public class HttpRequestUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpRequestUtil.class);
 
-    public static String httpGet(String url) {
+    public static String httpGet(String url, Map<String, String> headerMap) {
         HttpClient httpClient = new HttpClient();
         GetMethod getMethod = new GetMethod(url);
         getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler());
+        if(null != headerMap){
+            Header header = new Header();
+            for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+                header.setName(entry.getKey());
+                header.setValue(entry.getValue());
+            }
+            getMethod.setRequestHeader(header);
+        }
         try {
             int statusCode = httpClient.executeMethod(getMethod);
             if (statusCode != HttpStatus.SC_OK) {
@@ -38,8 +48,8 @@ public class HttpRequestUtil {
         }
     }
 
-    public static JSONObject httpGet2Json(String url) {
-        String content = httpGet(url);
+    public static JSONObject httpGet2Json(String url, Map headerMap) {
+        String content = httpGet(url, headerMap);
         if (content == null) {
             return null;
         }

@@ -68,7 +68,7 @@ public class WxAccessTokenManager {
             retryTimes++;
             String tokenUrl = String.format(ACCESS_TOKEN_URL, cropId, cropSecret);
             logger.info("========tokenUrl========" + tokenUrl);
-            JSONObject tokenObj = HttpRequestUtil.httpGet2Json(tokenUrl);
+            JSONObject tokenObj = HttpRequestUtil.httpGet2Json(tokenUrl, null);
             if (tokenObj != null) {
                 logger.info(tokenObj.toString());
                 String token = tokenObj.getString(ACCESS_TOKEN);

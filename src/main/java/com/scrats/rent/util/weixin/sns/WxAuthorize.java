@@ -35,7 +35,7 @@ public class WxAuthorize {
         WxSns wxSns = null;
         String checkUrl = String.format(AUTHORIZE_URL, appId, secret, code);
         logger.info("========checkUrl========" + checkUrl);
-        JSONObject infoObj = HttpRequestUtil.httpGet2Json(checkUrl);
+        JSONObject infoObj = HttpRequestUtil.httpGet2Json(checkUrl, null);
         if (infoObj != null) {
             logger.info(infoObj.toString());
             wxSns = JSON.parseObject(infoObj.toJSONString(),WxSns.class);

@@ -43,7 +43,7 @@ public class WxPushManager {
         String pushUrl = String.format(USERINFO_URL, token, code);
         logger.info("========pushUrl========" + pushUrl);
         logger.info(pushUrl);
-        JSONObject userinfo = HttpRequestUtil.httpGet2Json(pushUrl);
+        JSONObject userinfo = HttpRequestUtil.httpGet2Json(pushUrl, null);
 
         return userinfo;
     }

@@ -104,6 +104,15 @@ public class RenterApi {
             throw new BusinessException("请求的信息有误");
         }
 
+        RoomRenter param = new RoomRenter();
+        param.setRoomId(roomId);
+        param.setUserId(apiRequest.getUser().getUserId());
+        param.setRenterId(apiRequest.getRenterId());
+        List<RoomRenter> rrlist = roomRenterService.getListByRoomrenter(param);
+        if(null != rrlist && rrlist.size() > 0){
+            throw new BusinessException("请求的信息有误,该用户目前正在入住该房间");
+        }
+
         List<Bargin> list = barginService.getBarginByRoomId(roomId, false);
         RoomRenter newRoomRenter = new RoomRenter(roomId, apiRequest.getUser().getUserId(), apiRequest.getRenterId(), list.get(0).getBarginId());
         newRoomRenter.setCreateTs(System.currentTimeMillis());

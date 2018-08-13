@@ -16,6 +16,7 @@ import com.scrats.rent.constant.SexType;
 import com.scrats.rent.constant.UserType;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
+import com.scrats.rent.util.IdCardUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -254,12 +256,16 @@ public class RoomController {
 
     @PostMapping("/renterAdd/{roomId}")
     @ResponseBody
-    public JsonResult renterAdd(@PathVariable(name="roomId") Integer roomId, String idCard, String phone, String name){
+    public JsonResult renterAdd(@PathVariable(name="roomId") Integer roomId, String idCard, String phone, String name) throws ParseException {
         long createTs = System.currentTimeMillis();
         Renter renter = null;
         if(null == accountService.findBy("phone", phone)){
             if(null != renterService.findBy("idCard", idCard)){
                 return new JsonResult("身份证号:" + idCard + "在系统中已被注册");
+            }
+            String idValid = IdCardUtil.IDCardValidate(idCard);
+            if(!IdCardUtil.VALIDITY.equals(idValid)){
+                return new JsonResult(idValid);
             }
             //创建account
             Account account = new Account(phone, phone, phone);

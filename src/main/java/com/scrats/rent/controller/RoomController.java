@@ -283,6 +283,14 @@ public class RoomController {
                 throw new BusinessException("请求数据不正确");
             }
             renter = renterService.findBy("userId",user.getUserId());
+            RoomRenter param = new RoomRenter();
+            param.setRoomId(roomId);
+            param.setUserId(user.getUserId());
+            param.setRenterId(renter.getRenterId());
+            List<RoomRenter> rrlist = roomRenterService.getListByRoomrenter(param);
+            if(null != rrlist && rrlist.size() > 0){
+                throw new BusinessException("请求的信息有误,该用户目前正在入住该房间");
+            }
         }
 
         List<Bargin> list = barginService.getBarginByRoomId(roomId, false);

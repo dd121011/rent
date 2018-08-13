@@ -1,9 +1,11 @@
-package com.scrats.rent.util;
+package com.scrats.rent.base.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.scrats.rent.util.HttpRequestUtil;
+import com.scrats.rent.util.MD5Util;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -15,10 +17,11 @@ import java.util.Map;
  * @Description: ${DESCRIPTION}.
  * @Email: guosq@scrats.cn.
  * @Author: lol.
- * @Date: 2018/8/13 21:53.
+ * @Date: 2018/8/13 22:49.
  */
-@Component
-public class SmsUtil {
+@Service
+public class SmsService {
+
     private final Logger logger = Logger.getLogger(this.getClass());
 
     @Value("${sms.app.id}")

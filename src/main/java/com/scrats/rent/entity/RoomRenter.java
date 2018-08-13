@@ -26,6 +26,7 @@ public class RoomRenter extends BaseEntity {
     private Integer userId;//租客的userId
     private Integer renterId;//租客的renterId
     private Integer barginId;//合同Id
+    private Long checkTs;//核验时间
 
     public RoomRenter() {
     }

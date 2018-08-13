@@ -245,6 +245,7 @@ CREATE TABLE `room_renter` (
     `user_id` int(10) unsigned NOT NULL COMMENT '租客的user_id',
     `renter_id` int(10) unsigned NOT NULL COMMENT '租客的renter_id',
     `bargin_id` int(10) unsigned NOT NULL COMMENT 'bargin_id,一个房租对应一个bargin_id',
+    `check_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '房东校验时间, 13位时间戳',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间/入住时间，13位时间戳',
     `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',

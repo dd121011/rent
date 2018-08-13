@@ -20,4 +20,7 @@ public interface RoomRenterService extends BaseService<RoomRenter, RoomRenterMap
     List<RoomRenter> getListByRoomrenter(RoomRenter roomRenter);
 
     List<RoomRenter> getRoomRenterByBuildingId(Integer buildingId);
+
+    int renterCheck(Integer roomRenterId);
+
 }

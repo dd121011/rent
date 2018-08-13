@@ -6,6 +6,16 @@ layui.use(['layer', 'table', 'form'], function () {
     var table = layui.table;
     var form = layui.form;
 
+    //生成房间二维码
+    new QRCode('qrcode', {
+        text: 'https://scrats.cn/rent/qr?method=bindRoom&data=' + $('#roomId').val(),
+        width: 256,
+        height: 256,
+        colorDark : '#000000',
+        colorLight : '#ffffff',
+        correctLevel : QRCode.CorrectLevel.H
+    });
+
     //租客Table
     table.render({
         elem: '#lay_table_room_renter'//指定原始表格元素选择器（
@@ -42,6 +52,18 @@ layui.use(['layer', 'table', 'form'], function () {
                 }}
             , {field: 'qq', title: 'QQ号', templet: function(d){
                     return d.user.qq;
+                }}
+            , {field: 'check', title: '核验', templet: function(d){
+                    if(d.checkTs == 0){
+                        if(d.deleteTs > 0){
+                            return "离开待核验";
+
+                        }else{
+                            return "入住待核验";
+                        }
+
+                    }
+                    return "已核验入住";
                 }}
             , {field: '', title: '操作', align: 'center', toolbar: '#renterListBar'}
         ]]
@@ -238,17 +260,7 @@ layui.use(['layer', 'table', 'form'], function () {
                 }
             });
         },
-        qrcodeRenter: function (userId) {
-            $('#qrcode').empty();
-            //生成房间二维码
-            new QRCode('qrcode', {
-                text: 'https://scrats.cn/rent/qr?method=bindUser&data=' + userId,
-                width: 256,
-                height: 256,
-                colorDark : '#000000',
-                colorLight : '#ffffff',
-                correctLevel : QRCode.CorrectLevel.H
-            });
+        bindRoom: function (userId) {
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "房间二维码"
@@ -289,8 +301,23 @@ layui.use(['layer', 'table', 'form'], function () {
     //监听工具条
     table.on('tool(renterRoomTableFilter)', function (obj) {
         var data = obj.data;
-        if (obj.event === 'qrcode') {
-            active.qrcodeRenter(data.user.userId)
+        if (obj.event === 'renterCheck') {
+            var checkType = "入住";
+            if(data.deleteTs > 0){
+                checkType = "离开";
+            }
+            layer.confirm('请确认是否已经办理完' + checkType + '手续', function (index) {
+                var jhxhr = $.ajax({url: requestBaseUrl + "/room/renterCheck/" + $('#roomId').val() + "/" + data.roomRenterId, headers: header, type: "GET"});
+                jhxhr.done(function (res) {
+                    if(res.code == 1){
+                        layer.msg(checkType + "核验成功");
+                        table.reload('lay_table_room_renter', { });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                });
+                layer.close(index);
+            });
         } else if (obj.event === 'del') {
             layer.confirm('真的删除当前租客么', function (index) {
                 var jhxhr = $.ajax({url: requestBaseUrl + "/room/renterDelete/" + $('#roomId').val() + "/" + data.roomRenterId, headers: header, type: "GET"});
@@ -298,7 +325,7 @@ layui.use(['layer', 'table', 'form'], function () {
                     if(res.code == 1){
                         obj.del();
                     }else{
-                        layer.alert(res.msg)
+                        layer.alert(res.msg);
                     }
                 });
                 layer.close(index);

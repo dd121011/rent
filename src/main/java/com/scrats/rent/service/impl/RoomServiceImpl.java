@@ -134,7 +134,8 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
 
         //创建roomRenter
         RoomRenter roomRenter = new RoomRenter(bargin.getRoomId(), bargin.getUserId(), bargin.getRenterId(), bargin.getBarginId());
-        roomRenter.setCreateTs(bargin.getLiveTs());
+        roomRenter.setCreateTs(createTs);
+        roomRenter.setCheckTs(createTs);
         roomRenterService.insertSelective(roomRenter);
 
         //生成租金的extra

@@ -25,10 +25,11 @@ public interface RoomRenterMapper extends BaseMapper<RoomRenter> {
             "where 1=1 " +
             "<if test='roomRenter.roomRenterId != null'>and r.room_rent_id = #{roomRenter.roomRenterId}</if>" +
             "<if test='roomRenter.roomId != null'>and r.room_id = #{roomRenter.roomId}</if>" +
+            "<if test='roomRenter.barginId != null'>and r.bargin_id = #{roomRenter.barginId}</if>" +
             "<if test='roomRenter.userId != null'>and r.user_id = #{roomRenter.userId}</if>" +
             "<if test='roomRenter.renterId != null'>and r.renter_id = #{roomRenter.renterId}</if>" +
-            "<if test='roomRenter.deleteTs != null and roomRenter.deleteTs > 0'>and r.delete_ts > 0</if>" +
-            "<if test='roomRenter.deleteTs == null or roomRenter.deleteTs == 0'>and r.delete_ts = 0</if>" +
+            "<if test='roomRenter.deleteTs != null and roomRenter.deleteTs > 0'>and r.delete_ts > 0 and check_ts > 0</if>" +
+            "<if test='roomRenter.deleteTs == null or roomRenter.deleteTs == 0'>and (check_ts = 0 or (check_ts > 0 and delete_ts = 0))</if>" +
             "</script>")
     List<RoomRenter> getListByRoomrenter(@Param("roomRenter") RoomRenter roomRenter);
 
@@ -36,4 +37,5 @@ public interface RoomRenterMapper extends BaseMapper<RoomRenter> {
             "left join room r on r.room_id = b.room_id " +
             "where r.building_id = #{buildingId} and b.delete_ts = 0 and r.delete_ts = 0")
     List<RoomRenter> getRoomRenterByBuildingId(Integer buildingId);
+
 }

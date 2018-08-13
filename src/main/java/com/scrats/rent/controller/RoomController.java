@@ -245,6 +245,8 @@ public class RoomController {
             jsonObject.put("user",user);
             jsonObject.put("phone",account.getPhone());
             jsonObject.put("roomRenterId",roomRenter.getRoomRenterId());
+            jsonObject.put("checkTs",roomRenter.getCheckTs());
+            jsonObject.put("deleteTs",roomRenter.getDeleteTs());
             jsonArray.add(jsonObject);
         }
         return JSON.toJSONString(new JsonResult<List>(jsonArray));
@@ -256,6 +258,9 @@ public class RoomController {
         long createTs = System.currentTimeMillis();
         Renter renter = null;
         if(null == accountService.findBy("phone", phone)){
+            if(null != renterService.findBy("idCard", idCard)){
+                return new JsonResult("身份证号:" + idCard + "在系统中已被注册");
+            }
             //创建account
             Account account = new Account(phone, phone, phone);
             account.setCreateTs(createTs);
@@ -283,6 +288,7 @@ public class RoomController {
         List<Bargin> list = barginService.getBarginByRoomId(roomId, false);
         RoomRenter newRoomRenter = new RoomRenter(roomId, renter.getUserId(), renter.getRenterId(), list.get(0).getBarginId());
         newRoomRenter.setCreateTs(createTs);
+        newRoomRenter.setCheckTs(createTs);
         roomRenterService.insertSelective(newRoomRenter);
 
         return new JsonResult<>();
@@ -294,14 +300,14 @@ public class RoomController {
         //检查是否是本人名下的删除
         RoomRenter roomRenter = roomRenterService.selectByPrimaryKey(roomRenterId);
         Room room = roomService.selectByPrimaryKey(roomId);
-        if(room.getRoomId() - roomRenter.getRoomId() != 0){
+        if(null == roomRenter || null == room || room.getRoomId() - roomRenter.getRoomId() != 0){
             throw new BusinessException("请求数据不正确");
         }
 
         List<BuildingLandlord> list = buildingLandlordService.findListBy("landlordId", apiRequest.getUser().getUserId());
         for(BuildingLandlord buildingLandlord : list){
             if(buildingLandlord.getBuildingId() - room.getBuildingId() == 0){
-                roomRenterService.deleteRoomRenterById(roomRenter.getRenterId());
+                roomRenterService.deleteRoomRenterById(roomRenter.getRoomRenterId());
                 return new JsonResult();
             }
         }
@@ -422,5 +428,26 @@ public class RoomController {
         List<Room> list = roomService.getRoomByRoomNoAndBuildingId(null, buildingId);
 
         return new JsonResult<List>(list);
+    }
+
+    @GetMapping("/renterCheck/{roomId}/{roomRenterId}")
+    @ResponseBody
+    public JsonResult renterCheck(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomRenterId") Integer roomRenterId, @PathVariable(name="roomId") Integer roomId){
+        //检查是否是本人名下的删除
+        RoomRenter roomRenter = roomRenterService.selectByPrimaryKey(roomRenterId);
+        Room room = roomService.selectByPrimaryKey(roomId);
+        if(null == roomRenter || null == room || room.getRoomId() - roomRenter.getRoomId() != 0){
+            throw new BusinessException("请求数据不正确");
+        }
+
+        List<BuildingLandlord> list = buildingLandlordService.findListBy("landlordId", apiRequest.getUser().getUserId());
+        for(BuildingLandlord buildingLandlord : list){
+            if(buildingLandlord.getBuildingId() - room.getBuildingId() == 0){
+                roomRenterService.renterCheck(roomRenter.getRoomRenterId());
+                return new JsonResult();
+            }
+        }
+
+        throw new BusinessException("请求数据不正确");
     }
 }

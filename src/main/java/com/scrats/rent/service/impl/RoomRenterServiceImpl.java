@@ -37,4 +37,17 @@ public class RoomRenterServiceImpl extends BaseServiceImpl<RoomRenter, RoomRente
     public List<RoomRenter> getRoomRenterByBuildingId(Integer buildingId) {
         return dao.getRoomRenterByBuildingId(buildingId);
     }
+
+    @Override
+    public int renterCheck(Integer roomRenterId) {
+        RoomRenter roomRenter = dao.selectByPrimaryKey(roomRenterId);
+        if(null == roomRenter){
+            return 0;
+        }
+        Long updateTs = System.currentTimeMillis();
+        roomRenter.setCheckTs(updateTs);
+        roomRenter.setUpdateTs(updateTs);
+        return dao.updateByPrimaryKeySelective(roomRenter);
+    }
+
 }

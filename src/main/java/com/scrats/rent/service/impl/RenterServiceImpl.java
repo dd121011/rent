@@ -169,7 +169,10 @@ public class RenterServiceImpl extends BaseServiceImpl<Renter, RenterMapper> imp
         //缓存user
         redisService.set(tokenId, user, GlobalConst.ACCESS_TOKEN_EXPIRE);
 
-        return new JsonResult();
+        JSONObject result = new JSONObject();
+        result.put("tokenId", tokenId);
+        result.put("wxSns", wxSns);
+        return new JsonResult<JSONObject>(result);
     }
 
     private Date getPayTime(Date date, int rentDay){

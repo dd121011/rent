@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.JsonResult;
+import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.constant.SexType;
 import com.scrats.rent.constant.UserType;
@@ -89,6 +90,9 @@ public class RenterServiceImpl extends BaseServiceImpl<Renter, RenterMapper> imp
             if(null!= wxSns.getUserId() && wxSns.getUserId() > 0){
                 //已有userId，保存登录状态
                 User user = userService.selectByPrimaryKey(wxSns.getUserId());
+                if(null == user){
+                    throw new BusinessException("系统数据异常!");
+                }
                 redisService.set(tokenId,user, GlobalConst.ACCESS_TOKEN_EXPIRE);
             }else{
                 wxSns.setUserId(-1);

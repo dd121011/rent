@@ -16,6 +16,7 @@ import com.scrats.rent.constant.SexType;
 import com.scrats.rent.constant.UserType;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
+import com.scrats.rent.util.AccountValidatorUtil;
 import com.scrats.rent.util.IdCardUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -262,6 +263,9 @@ public class RoomController {
         if(null == accountService.findBy("phone", phone)){
             if(null != renterService.findBy("idCard", idCard)){
                 return new JsonResult("身份证号:" + idCard + "在系统中已被注册");
+            }
+            if(!AccountValidatorUtil.isMobile(phone)){
+                return new JsonResult("该手机号不正确!");
             }
             String idValid = IdCardUtil.IDCardValidate(idCard);
             if(!IdCardUtil.VALIDITY.equals(idValid)){

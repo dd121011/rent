@@ -11,6 +11,7 @@ import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
+import com.scrats.rent.util.AccountValidatorUtil;
 import com.scrats.rent.util.IdCardUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -94,6 +95,10 @@ public class RenterApi {
 
         if(StringUtils.isEmpty(name) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(idCard)){
             throw new BusinessException("请求的信息有误");
+        }
+
+        if(!AccountValidatorUtil.isMobile(phone)){
+            return new JsonResult("该手机号不正确!");
         }
 
         String idValid = IdCardUtil.IDCardValidate(idCard);

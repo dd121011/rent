@@ -6,7 +6,7 @@ import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
-import org.apache.commons.lang3.StringUtils;
+import com.scrats.rent.util.AccountValidatorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,18 +37,18 @@ public class SmsApi {
     private SmsService smsService;
 
     @IgnoreSecurity
-    @PostMapping("/snsRegist")
-    public JsonResult snsSms(@RequestBody APIRequest apiRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        String openid = apiRequest.getOpenid();
-        String tokenId = (String) redisService.get(openid);
-        if(StringUtils.isEmpty(tokenId)){
-            return new JsonResult("该openid" + openid + "已失效, 请重新登录");
-        }
+    @PostMapping("/send")
+    public JsonResult send(@RequestBody APIRequest apiRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        //String openid = apiRequest.getOpenid();
+        //String tokenId = (String) redisService.get(openid);
+        //if(StringUtils.isEmpty(tokenId)){
+        //    return new JsonResult("该openid" + openid + "已失效, 请重新登录");
+        //}
 
         String phone = APIRequest.getParameterValue(apiRequest,"phone",String.class);
 
-        if(StringUtils.isEmpty(phone)){
-            throw new BusinessException("请求的信息有误");
+        if(!AccountValidatorUtil.isMobile(phone)){
+            throw new BusinessException("请求的手机号不正确");
         }
 
         String res = smsService.send(phone);

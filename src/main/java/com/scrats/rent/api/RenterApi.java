@@ -82,7 +82,7 @@ public class RenterApi {
     public JsonResult snsRegist(@RequestBody APIRequest apiRequest){
         String openid = apiRequest.getOpenid();
         String tokenId = (String) redisService.get(openid);
-        if(StringUtils.isEmpty(openid)){
+        if(StringUtils.isEmpty(tokenId)){
             return new JsonResult("该openid" + openid + "已失效, 请重新获取");
         }
 

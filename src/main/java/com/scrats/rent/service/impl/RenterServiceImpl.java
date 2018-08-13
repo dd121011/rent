@@ -7,6 +7,8 @@ import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.constant.GlobalConst;
+import com.scrats.rent.constant.SexType;
+import com.scrats.rent.constant.UserType;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.mapper.RenterMapper;
 import com.scrats.rent.service.*;
@@ -49,6 +51,10 @@ public class RenterServiceImpl extends BaseServiceImpl<Renter, RenterMapper> imp
     private RoomService roomService;
     @Autowired
     private RoomRenterService roomRenterService;
+    @Autowired
+    private AccountService accountService;
+    @Autowired
+    private RenterService renterService;
 
     @Override
     public JsonResult snsLogin(String code, String signature, String rawData) {
@@ -119,6 +125,49 @@ public class RenterServiceImpl extends BaseServiceImpl<Renter, RenterMapper> imp
             result.add(jsonObject);
         }
         return result;
+    }
+
+    @Override
+    public JsonResult snsRenterRegist(String tokenId, String openid, String name, String phone, String idCard) {
+
+        if(null != accountService.findBy("phone",phone)){
+
+            return new JsonResult("手机号:" + phone + "在系统中已被注册");
+        }
+        if(null != renterService.findBy("idCard",idCard)){
+
+            return new JsonResult("身份证号:" + idCard + "在系统中已被注册");
+        }
+
+        Long createTs = System.currentTimeMillis();
+
+        //创建account
+        Account account = new Account(phone, phone, phone);
+        account.setCreateTs(createTs);
+        accountService.insertSelective(account);
+
+        //创建user
+        User user = new User(UserType.renter.getValue());
+        user.setAccountId(account.getAccountId());
+        user.setName(name);
+        user.setSex(SexType.secret.getValue());
+        user.setCreateTs(createTs);
+        userService.insertSelective(user);
+
+        //创建renter
+        Renter newRenter = new Renter(idCard, user.getUserId());
+        newRenter.setCreateTs(createTs);
+        renterService.insertSelective(newRenter);
+
+        WxSns wxSns = wxSnsService.selectByPrimaryKey(openid);
+        wxSns.setUserId(user.getUserId());
+        wxSns.setUpdateTs(createTs);
+        wxSnsService.updateByPrimaryKeySelective(wxSns);
+
+        //缓存user
+        redisService.set(tokenId, user, GlobalConst.ACCESS_TOKEN_EXPIRE);
+
+        return new JsonResult();
     }
 
     private Date getPayTime(Date date, int rentDay){

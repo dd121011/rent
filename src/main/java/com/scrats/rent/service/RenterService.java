@@ -18,4 +18,7 @@ public interface RenterService extends BaseService<Renter, RenterMapper> {
     JsonResult snsLogin(String code, String signature, String rawData);
 
     JSONArray getRoomList(Integer userId);
+
+    JsonResult snsRenterRegist(String tokenId, String openid, String name, String phone, String idCard);
+
 }

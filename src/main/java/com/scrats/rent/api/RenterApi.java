@@ -9,7 +9,6 @@ import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
-import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
 import org.apache.commons.lang3.StringUtils;
@@ -73,35 +72,40 @@ public class RenterApi {
         String signature = APIRequest.getParameterValue(apiRequest,"signature",String.class);
         String rawData = APIRequest.getParameterValue(apiRequest,"rawData",String.class);
         if(StringUtils.isEmpty(code) || StringUtils.isEmpty(signature) || StringUtils.isEmpty(rawData)){
-            return new JsonResult("请求的信息有误");
+            throw new BusinessException("请求的信息有误");
         }
         return renterService.snsLogin(code, signature, rawData);
     }
 
     @IgnoreSecurity
-    @PostMapping("/bindUser")
-    public JsonResult bindUser(@RequestBody APIRequest apiRequest){
+    @PostMapping("/snsRegist")
+    public JsonResult snsRegist(@RequestBody APIRequest apiRequest){
+        String openid = apiRequest.getOpenid();
+        String name = APIRequest.getParameterValue(apiRequest,"name",String.class);
+        String phone = APIRequest.getParameterValue(apiRequest,"phone",String.class);
+        String idCard = APIRequest.getParameterValue(apiRequest,"idCard",String.class);
 
-        if(StringUtils.isEmpty(apiRequest.getOpenid()) || StringUtils.isEmpty(apiRequest.getTokenId()) || apiRequest.getRenterId() <1 ){
-            return new JsonResult("请求的信息有误");
+        if(StringUtils.isEmpty(openid) || StringUtils.isEmpty(apiRequest.getTokenId()) || StringUtils.isEmpty(name) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(idCard)){
+            throw new BusinessException("请求的信息有误");
         }
 
         String checkTokeId = (String) redisService.get(apiRequest.getOpenid());
         if(StringUtils.isEmpty(checkTokeId)){
             return new JsonResult("请求的openid有误");
         }
-        if(!checkTokeId.equals(apiRequest.getTokenId())){
-            return new JsonResult("请求的tokenId有误");
-        }
+        return renterService.snsRenterRegist(apiRequest.getTokenId(), openid, name, phone, idCard);
+    }
 
-        User user = userService.selectByPrimaryKey(apiRequest.getRenterId());
-        WxSns wxSns = wxSnsService.selectByPrimaryKey(apiRequest.getOpenid());
-        wxSns.setUserId(user.getUserId());
-        wxSns.setUpdateTs(System.currentTimeMillis());
-        wxSnsService.updateByPrimaryKeySelective(wxSns);
-        //缓存user
-        redisService.set(apiRequest.getTokenId(),user, GlobalConst.ACCESS_TOKEN_EXPIRE);
-        return new JsonResult<User>(user);
+
+    @GetMapping("/bindRoom/{roomId}")
+    public JsonResult bindRoom(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
+        Room room = roomService.selectByPrimaryKey(roomId);
+        if(null == room){
+            throw new BusinessException("请求的信息有误");
+        }
+        Renter renter = renterService.selectByPrimaryKey(apiRequest.getRenterId());
+        RoomRenter roomRenter = new RoomRenter();
+        return new JsonResult<>();
     }
 
     @GetMapping("/roomList")

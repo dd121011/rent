@@ -80,12 +80,17 @@ public class RenterApi {
     @IgnoreSecurity
     @PostMapping("/snsRegist")
     public JsonResult snsRegist(@RequestBody APIRequest apiRequest){
-        String openid = apiRequest.getOpenid();
+        String tokenId = apiRequest.getTokenId();
+        String openid = (String) redisService.get(tokenId);
+        if(StringUtils.isEmpty(openid)){
+            return new JsonResult("该tokenId" + tokenId + "已失效, 请重新获取");
+        }
+
         String name = APIRequest.getParameterValue(apiRequest,"name",String.class);
         String phone = APIRequest.getParameterValue(apiRequest,"phone",String.class);
         String idCard = APIRequest.getParameterValue(apiRequest,"idCard",String.class);
 
-        if(StringUtils.isEmpty(openid) || StringUtils.isEmpty(apiRequest.getTokenId()) || StringUtils.isEmpty(name) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(idCard)){
+        if(StringUtils.isEmpty(name) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(idCard)){
             throw new BusinessException("请求的信息有误");
         }
 
@@ -93,7 +98,7 @@ public class RenterApi {
         if(StringUtils.isEmpty(checkTokeId)){
             return new JsonResult("请求的openid有误");
         }
-        return renterService.snsRenterRegist(apiRequest.getTokenId(), openid, name, phone, idCard);
+        return renterService.snsRenterRegist(tokenId, openid, name, phone, idCard);
     }
 
 

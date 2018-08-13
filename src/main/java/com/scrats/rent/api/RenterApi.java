@@ -80,10 +80,10 @@ public class RenterApi {
     @IgnoreSecurity
     @PostMapping("/snsRegist")
     public JsonResult snsRegist(@RequestBody APIRequest apiRequest){
-        String tokenId = apiRequest.getTokenId();
-        String openid = (String) redisService.get(tokenId);
+        String openid = apiRequest.getOpenid();
+        String tokenId = (String) redisService.get(openid);
         if(StringUtils.isEmpty(openid)){
-            return new JsonResult("该tokenId" + tokenId + "已失效, 请重新获取");
+            return new JsonResult("该openid" + openid + "已失效, 请重新获取");
         }
 
         String name = APIRequest.getParameterValue(apiRequest,"name",String.class);

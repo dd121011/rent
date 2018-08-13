@@ -1355,7 +1355,7 @@ curl  X POST  H 'Content type: application/json' --data-binary '{"code":"011a4Ic
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| tokenId | String | true | tokenId |
+| openid | String | true | openid |
 | name | String | true | 姓名 |
 | phone | String | true | 手机号 |
 | idCard | String | true | 身份证号 |
@@ -1363,7 +1363,7 @@ curl  X POST  H 'Content type: application/json' --data-binary '{"code":"011a4Ic
 #### Sample
 
 ```
-curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -d '{"tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff", "body": {"name": "test", "phone": "13332965432", "idCard": "410526198902265817"}}' 'https://scrats.cn/rent/api/renter/snsRegist'
+curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -d '{"openid": "399c6d05741f4ce2a7cff52fbb4dc6ff", "body": {"name": "test", "phone": "13332965432", "idCard": "410526198902265817"}}' 'https://scrats.cn/rent/api/renter/snsRegist'
 ```
 
 #### Response

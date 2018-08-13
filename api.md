@@ -1038,7 +1038,6 @@ curl  X POST  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7
 #### Sample
 ```
 curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -H 'tokenId: 0451e77616bc4f188b2003b2dc656855' -H 'userId: 3' -d '{"body": {"roomId": 3, "roomNo": "201"}}' 'https://scrats.cn/rent/api/room/edit'
-curl  X POST  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 3' 'https://scrats.cn/rent/api/room/edit'
 ```
 #### Response
 ```
@@ -1350,20 +1349,21 @@ curl  X POST  H 'Content type: application/json' --data-binary '{"code":"011a4Ic
 }
 ```
 
-### 绑定用户
+### 小程序注册租户
 
-> [POST] **application/json** `/api/renter/bindUser` 
+> [POST] **application/json** `/api/renter/snsRegist` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| tokenId | String | true | 登录获取的tokenId，不要放在header中 |
-| openid | String | true | 登录时获取的openid |
-| renterId | Integer | true | 待绑定的userId |
+| tokenId | String | true | tokenId |
+| name | String | true | 姓名 |
+| phone | String | true | 手机号 |
+| idCard | String | true | 身份证号 |
 
 #### Sample
 
 ```
-curl  X POST  H 'Content type: application/json' --data-binary '{"tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff", "openid": "xxxxxx", userId":9}' 'https://scrats.cn/rent/api/renter/bindUser'
+curl -X POST -H 'Accept: application/json' -d '{"tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff", body": {"name": "test", "phone": "13332965432", "idCard": "410526198902265817"}}' 'https://scrats.cn/rent/api/renter/snsRegist'
 ```
 
 #### Response
@@ -1376,6 +1376,32 @@ curl  X POST  H 'Content type: application/json' --data-binary '{"tokenId": "399
         "tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff",
         "userId": "9",
     }
+}
+```
+
+### 小程序入住
+
+> [GET] `/api/renter/bindRoom/{roomId}` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| tokenId | String | true | 登录获取的tokenId，不要放在header中 |
+| openid | String | true | 登录时获取的openid |
+| roomId | Integer | true | 待绑定的房间Id |
+
+#### Sample
+```
+curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/renter/bindRoom/5'
+```
+
+#### Response
+
+```
+{
+    "code": 1,
+    "msg": "成功",
+    "data": null,
+    "count": 0
 }
 ```
 

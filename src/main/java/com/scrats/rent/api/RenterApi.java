@@ -11,12 +11,14 @@ import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
+import com.scrats.rent.util.IdCardUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +81,7 @@ public class RenterApi {
 
     @IgnoreSecurity
     @PostMapping("/snsRegist")
-    public JsonResult snsRegist(@RequestBody APIRequest apiRequest){
+    public JsonResult snsRegist(@RequestBody APIRequest apiRequest) throws ParseException {
         String openid = apiRequest.getOpenid();
         String tokenId = (String) redisService.get(openid);
         if(StringUtils.isEmpty(tokenId)){
@@ -92,6 +94,11 @@ public class RenterApi {
 
         if(StringUtils.isEmpty(name) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(idCard)){
             throw new BusinessException("请求的信息有误");
+        }
+
+        String idValid = IdCardUtil.IDCardValidate(idCard);
+        if(!IdCardUtil.VALIDITY.equals(idValid)){
+            return new JsonResult(idValid);
         }
 
         String checkTokeId = (String) redisService.get(apiRequest.getOpenid());

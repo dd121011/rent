@@ -1,5 +1,7 @@
 package com.scrats.rent.common.exception;
 
+import lombok.Data;
+
 /**
  * @Created with jointstarc.
  * @Email: 262297088@qq.com
@@ -7,29 +9,13 @@ package com.scrats.rent.common.exception;
  * @User: lol.
  * @Date: 2018/1/11 10:40.
  */
+@Data
 public class BusinessException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
     private int code;
     private String message;
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public BusinessException(String message) {
         this.message = message;

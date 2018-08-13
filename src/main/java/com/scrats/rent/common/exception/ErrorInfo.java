@@ -1,5 +1,7 @@
 package com.scrats.rent.common.exception;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -9,6 +11,7 @@ import java.io.Serializable;
  * @User: lol.
  * @Date: 2018/1/11 10:35.
  */
+@Data
 public class ErrorInfo<T> implements Serializable {
 
     public static final int OK = 0;
@@ -31,39 +34,4 @@ public class ErrorInfo<T> implements Serializable {
         this.url = url;
     }
 
-    public static int getERROR() {
-        return ERROR;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
 }

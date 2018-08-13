@@ -1,5 +1,7 @@
 package com.scrats.rent.common.exception;
 
+import lombok.Data;
+
 /**
  * @Created with jointstarc.
  * @Email: 262297088@qq.com
@@ -7,18 +9,10 @@ package com.scrats.rent.common.exception;
  * @User: lol.
  * @Date: 2018/1/11 10:46.
  */
+@Data
 public class NotAuthorizedException extends RuntimeException {
 
     private String message;
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public NotAuthorizedException(String message) {
         this.message = message;

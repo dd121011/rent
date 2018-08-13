@@ -103,8 +103,11 @@ public class RenterApi {
         if(null == room){
             throw new BusinessException("请求的信息有误");
         }
-        Renter renter = renterService.selectByPrimaryKey(apiRequest.getRenterId());
-        RoomRenter roomRenter = new RoomRenter();
+
+        List<Bargin> list = barginService.getBarginByRoomId(roomId, false);
+        RoomRenter newRoomRenter = new RoomRenter(roomId, apiRequest.getUser().getUserId(), apiRequest.getRenterId(), list.get(0).getBarginId());
+        newRoomRenter.setCreateTs(System.currentTimeMillis());
+        roomRenterService.insertSelective(newRoomRenter);
         return new JsonResult<>();
     }
 

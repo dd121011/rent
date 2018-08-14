@@ -1866,6 +1866,29 @@ curl  -X GET -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' 'http
     "count": 0
 }
 ```
-上传身份信息
 
-查看水电
+### 小程序注册租户
+
+> [POST] **application/x-www-form-urlencoded** `/api/upload/upload` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| file | file | true | 文件 |
+
+#### Sample
+
+```
+curl -X POST -H 'Accept: application/json' -H 'Content-type: application/x-www-form-urlencoded' -d '{"file": "399c6d05741f4ce2a7cff52fbb4dc6ff"}' 'https://scrats.cn/rent/api/upload/upload'
+```
+
+#### Response
+
+```
+{
+    "code": 1,
+    "count": 0,
+    "data": {
+        "paht": "https://oiu0cclvb.qnssl.com/ed6e0b78e36c434785b8c5daa04f03df.png"
+    }
+}
+```

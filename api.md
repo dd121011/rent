@@ -1867,7 +1867,7 @@ curl  -X GET -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' 'http
 }
 ```
 
-### 小程序注册租户
+### 文件上传
 
 > [POST] **application/x-www-form-urlencoded** `/api/upload/upload` 
 

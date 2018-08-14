@@ -119,7 +119,7 @@ CREATE TABLE `user_role` (
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
     `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`user_role`)
+    PRIMARY KEY (`user_role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

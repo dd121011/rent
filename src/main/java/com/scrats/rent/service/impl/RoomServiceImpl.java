@@ -5,6 +5,8 @@ import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
+import com.scrats.rent.common.exception.BusinessException;
+import com.scrats.rent.constant.SexType;
 import com.scrats.rent.constant.UserType;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.mapper.RoomMapper;
@@ -41,8 +43,6 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     @Autowired
     private BarginService barginService;
     @Autowired
-    private RenterService renterService;
-    @Autowired
     private BuildingService buildingService;
     @Autowired
     private DictionaryItermService dictionaryItermService;
@@ -60,6 +60,8 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     private ExtraHistoryService extraHistoryService;
     @Autowired
     private RentItermService rentItermService;
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Override
     public PageInfo<Room> getRoomList(APIRequest apiRequest, Room room) {
@@ -107,25 +109,25 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
             account.setCreateTs(createTs);
             accountService.insertSelective(account);
             //创建user
-            User user = new User(UserType.renter.getValue());
+            User user = new User(bargin.getName(),SexType.secret, bargin.getPhone(), bargin.getIdCard());
             user.setAccountId(account.getAccountId());
             user.setName(bargin.getName());
             user.setSex(bargin.getSex());
             user.setCreateTs(createTs);
             userService.insertSelective(user);
-            //创建renter
-            Renter newRenter = new Renter(bargin.getIdCard(), user.getUserId());
-            newRenter.setCreateTs(createTs);
-            renterService.insertSelective(newRenter);
+            //创建userRole
+            UserRole userRole = new UserRole(UserType.renter, user.getUserId());
+            userRole.setCreateTs(createTs);
+            userRoleService.insertSelective(userRole);
 
             //补齐renterId字段
             bargin.setUserId(user.getUserId());
-            bargin.setRenterId(newRenter.getRenterId());
         }else{
-            User user = userService.getUserByPhone(bargin.getPhone());
-            Renter renter = renterService.findBy("userId",user.getUserId());
-            bargin.setUserId(renter.getUserId());
-            bargin.setRenterId(renter.getRenterId());
+            User user = userService.findBy("phone", bargin.getPhone());
+            if(null == user){
+                throw new BusinessException("请求数据不正确");
+            }
+            bargin.setUserId(user.getUserId());
         }
 
         bargin.setBarginNo("haozu-bargin-" + RandomUtil.generateLowerString(5) + "-" + createTs);
@@ -133,7 +135,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         barginService.insertSelective(bargin);
 
         //创建roomRenter
-        RoomRenter roomRenter = new RoomRenter(bargin.getRoomId(), bargin.getUserId(), bargin.getRenterId(), bargin.getBarginId());
+        RoomRenter roomRenter = new RoomRenter(bargin.getRoomId(), bargin.getUserId(), bargin.getBarginId());
         roomRenter.setCreateTs(createTs);
         roomRenter.setCheckTs(createTs);
         roomRenterService.insertSelective(roomRenter);
@@ -158,7 +160,6 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         deposit.setBuildingId(building.getBuildingId());
         deposit.setDepositNo("haozu-deposit-" + RandomUtil.generateLowerString(4) + "-" + createTs);
         deposit.setFee(bargin.getGuarantyFee());
-        deposit.setRenterId(bargin.getRenterId());
         deposit.setUserId(bargin.getUserId());
         deposit.setCreateTs(createTs);
         deposit.setBarginId(bargin.getBarginId());

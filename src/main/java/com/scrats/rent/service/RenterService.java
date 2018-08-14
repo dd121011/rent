@@ -1,10 +1,7 @@
 package com.scrats.rent.service;
 
 import com.alibaba.fastjson.JSONArray;
-import com.scrats.rent.base.service.BaseService;
 import com.scrats.rent.common.JsonResult;
-import com.scrats.rent.entity.Renter;
-import com.scrats.rent.mapper.RenterMapper;
 
 /**
  * Created with scrat.
@@ -13,7 +10,7 @@ import com.scrats.rent.mapper.RenterMapper;
  * Author:   lol.
  * Date:     2018/6/6 22:33.
  */
-public interface RenterService extends BaseService<Renter, RenterMapper> {
+public interface RenterService {
 
     JsonResult snsLogin(String code, String signature, String rawData);
 

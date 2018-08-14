@@ -3,7 +3,6 @@ package com.scrats.rent.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.exception.BusinessException;
@@ -11,7 +10,6 @@ import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.constant.SexType;
 import com.scrats.rent.constant.UserType;
 import com.scrats.rent.entity.*;
-import com.scrats.rent.mapper.RenterMapper;
 import com.scrats.rent.service.*;
 import com.scrats.rent.util.BaseUtil;
 import com.scrats.rent.util.DateUtils;
@@ -37,7 +35,7 @@ import java.util.UUID;
  * Date:     2018/6/6 22:34.
  */
 @Service
-public class RenterServiceImpl extends BaseServiceImpl<Renter, RenterMapper> implements RenterService {
+public class RenterServiceImpl implements RenterService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -56,7 +54,7 @@ public class RenterServiceImpl extends BaseServiceImpl<Renter, RenterMapper> imp
     @Autowired
     private AccountService accountService;
     @Autowired
-    private RenterService renterService;
+    private UserRoleService userRoleService;
 
     @Override
     public JsonResult snsLogin(String code, String signature, String rawData) {
@@ -140,7 +138,7 @@ public class RenterServiceImpl extends BaseServiceImpl<Renter, RenterMapper> imp
 
             return new JsonResult("手机号:" + phone + "在系统中已被注册");
         }
-        if(null != renterService.findBy("idCard",idCard)){
+        if(null != userService.findBy("idCard",idCard)){
 
             return new JsonResult("身份证号:" + idCard + "在系统中已被注册");
         }
@@ -153,17 +151,15 @@ public class RenterServiceImpl extends BaseServiceImpl<Renter, RenterMapper> imp
         accountService.insertSelective(account);
 
         //创建user
-        User user = new User(UserType.renter.getValue());
+        User user = new User(name, SexType.secret, phone, idCard);
         user.setAccountId(account.getAccountId());
-        user.setName(name);
-        user.setSex(SexType.secret.getValue());
         user.setCreateTs(createTs);
         userService.insertSelective(user);
 
-        //创建renter
-        Renter newRenter = new Renter(idCard, user.getUserId());
-        newRenter.setCreateTs(createTs);
-        renterService.insertSelective(newRenter);
+        //创建userRole
+        UserRole userRole = new UserRole(UserType.renter, user.getUserId());
+        userRole.setCreateTs(createTs);
+        userRoleService.insertSelective(userRole);
 
         WxSns wxSns = wxSnsService.selectByPrimaryKey(openid);
         wxSns.setUserId(user.getUserId());

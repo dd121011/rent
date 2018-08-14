@@ -25,5 +25,7 @@ public class GlobalConst {
 
     public static final String DEPOSIT_ITERM_CODE = "0005";
 
+    public static final String ROLE_CODE = "0006";
+
 
 }

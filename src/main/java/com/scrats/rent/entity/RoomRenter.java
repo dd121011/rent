@@ -24,17 +24,15 @@ public class RoomRenter extends BaseEntity {
     private Integer roomRenterId;//主键
     private Integer roomId;//房间Id
     private Integer userId;//租客的userId
-    private Integer renterId;//租客的renterId
     private Integer barginId;//合同Id
     private Long checkTs;//核验时间
 
     public RoomRenter() {
     }
 
-    public RoomRenter(Integer roomId, Integer userId, Integer renterId, Integer barginId) {
+    public RoomRenter(Integer roomId, Integer userId, Integer barginId) {
         this.roomId = roomId;
         this.userId = userId;
-        this.renterId = renterId;
         this.barginId = barginId;
     }
 }

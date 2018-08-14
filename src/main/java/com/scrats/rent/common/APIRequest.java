@@ -22,14 +22,14 @@ public class APIRequest {
     private int rows = 10;
     private String searchText;//搜索内容
     private User user;
-    private int lanlordId = 0;
-    private int renterId = 0;
     private String openid = "";
-    private int adminId = 0;
-    private int guardId = 0;
-    private boolean administratorFlag = false;
     private Integer roomId;
     private Integer buildingId;
+    private boolean renterFlag = false;
+    private boolean landlordFlag = false;
+    private boolean guardFlag = false;
+    private boolean adminFlag = false;
+    private boolean administratorFlag = false;
 
     private Map<String, Object> body;
 

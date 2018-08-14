@@ -83,7 +83,6 @@ CREATE TABLE `account` (
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
     `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `type` char(1) NOT NULL COMMENT '用户类型 , 0-租客, 1-房东, 2-管理员, 3-巡管员, 4-超级管理员',
     `name` varchar(32) NOT NULL COMMENT '姓名',
     `sex` char(1) NOT NULL DEFAULT '0' COMMENT '0-保密, 1-男, 2-女',
     `age` int(3) NOT NULL DEFAULT '0' COMMENT '年龄',
@@ -96,8 +95,10 @@ CREATE TABLE `user` (
     --     `address_id` int(10) unsigned DEFAULT NULL COMMENT '地址Id',
     `address` varchar(128) DEFAULT '' COMMENT '地址',
     `account_id` int(10) unsigned NOT NULL COMMENT '账号Id',
-    `openid` varchar(64) DEFAULT '' COMMENT '微信openid',
-    `unionid` varchar(64) DEFAULT '' COMMENT '微信unionid',
+    `id_card` varchar(18) NOT NULL COMMENT 'identification card 身份证号',
+    `id_card_pic` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证正面',
+    `id_card_pic_back` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证反面',
+    `phone` char(11) NOT NULL COMMENT '手机号码',
 
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
@@ -107,20 +108,18 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for renter
+-- Table structure for user_role
 -- ----------------------------
-DROP TABLE IF EXISTS `renter`;
-CREATE TABLE `renter` (
-    `renter_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `id_card` varchar(18) NOT NULL COMMENT 'identification card 身份证号',
-    `id_card_pic` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证正面',
-    `id_card_pic_back` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证反面',
-    `user_id` int(10) unsigned NOT NULL COMMENT '一个租客对应一个账号',
+DROP TABLE IF EXISTS `user_role`;
+CREATE TABLE `user_role` (
+    `user_role_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `role_code` char (4) NOT NULL COMMENT '角色类型编号',
+    `user_id` int(10) unsigned COMMENT 'userId',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `create_ts` bigint unsigned NOT NULL COMMENT '创建时间，13位时间戳',
     `update_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新时间, 13位时间戳',
     `delete_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除时间, 13位时间戳',
-    PRIMARY KEY (`renter_id`)
+    PRIMARY KEY (`user_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -243,7 +242,6 @@ CREATE TABLE `room_renter` (
     room_renter_id int(10) unsigned NOT NULL AUTO_INCREMENT,
     `room_id` int(10) unsigned NOT NULL COMMENT '房间Id',
     `user_id` int(10) unsigned NOT NULL COMMENT '租客的user_id',
-    `renter_id` int(10) unsigned NOT NULL COMMENT '租客的renter_id',
     `bargin_id` int(10) unsigned NOT NULL COMMENT 'bargin_id,一个房租对应一个bargin_id',
     `check_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '房东校验时间, 13位时间戳',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
@@ -276,7 +274,6 @@ CREATE TABLE `bargin` (
     `room_id` int(10) unsigned NOT NULL COMMENT '房间id,一个合同对应一个房间，一个房间对应多个合同',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `user_id` int(10) unsigned NOT NULL COMMENT '一个合同对应一个租客,租客的user_id',
-    `renter_id` int(10) unsigned NOT NULL COMMENT '一个合同对应一个租客,租客的renter_id',
     `landlord_id` int(10) unsigned NOT NULL COMMENT '一个合同对应一个房东,房东的user_id',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',
     `live_ts` bigint unsigned NOT NULL COMMENT '入住时间，13位时间戳',
@@ -320,7 +317,6 @@ CREATE TABLE `deposit` (
     `channel` char(2) DEFAULT '99' COMMENT '支付渠道，99-未支付; 0-线下支付; 1-微信支付; 2-支付宝支付',
     `room_id` int(10) unsigned NOT NULL COMMENT '房间id,一个押金对应一个roomId,一个roomId可能对应多个押金Id',
     `user_id` int(10) unsigned NOT NULL COMMENT '一个押金对应一个租客,租客的user_id',
-    `renter_id` int(10) unsigned NOT NULL COMMENT '一个押金对应一个租客,租客的renter_id',
     `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `bargin_id` int(10) unsigned NOT NULL COMMENT 'bargin_id,一个押金对应一个bargin_id',
     `remark` varchar(256) DEFAULT '' COMMENT '备注',

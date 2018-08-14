@@ -80,4 +80,10 @@ public class DictionaryController {
         return new JsonResult<List>(depositIterms);
     }
 
+    @GetMapping("/roleAll")
+    public JsonResult roleAll() {
+        List<DictionaryIterm> depositIterms = dictionaryItermService.findListBy("dicCode", GlobalConst.ROLE_CODE);
+        return new JsonResult<List>(depositIterms);
+    }
+
 }

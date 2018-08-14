@@ -134,12 +134,10 @@ public class RoomApi {
         JSONArray jsonArray = new JSONArray();
         for(RoomRenter roomRenter : list){
             User user = userService.selectByPrimaryKey(roomRenter.getUserId());
-            Account account = accountService.selectByPrimaryKey(user.getAccountId());
-            Renter renter = renterService.selectByPrimaryKey(roomRenter.getRenterId());
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("idCard",renter.getIdCard());
+            jsonObject.put("idCard",user.getIdCard());
             jsonObject.put("user",user);
-            jsonObject.put("phone",account.getPhone());
+            jsonObject.put("phone",user.getPhone());
             jsonObject.put("roomRenterId",roomRenter.getRoomRenterId());
             jsonArray.add(jsonObject);
         }
@@ -181,7 +179,7 @@ public class RoomApi {
     public JsonResult rent(@APIRequestControl APIRequest apiRequest) {
         Bargin bargin = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Bargin.class);
         //补齐landlordId字段
-        bargin.setLandlordId(apiRequest.getLanlordId());
+        bargin.setLandlordId(apiRequest.getUser().getUserId());
         bargin.setRoomId(apiRequest.getRoomId());
         Room room = roomService.selectByPrimaryKey(bargin.getRoomId());
         if(room.getRentTs() != null && room.getRentTs() > 0){

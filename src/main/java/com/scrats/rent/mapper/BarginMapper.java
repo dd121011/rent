@@ -25,7 +25,6 @@ public interface BarginMapper extends BaseMapper<Bargin> {
             "<if test = 'null != sex and sex != \"\"'> and b.sex = #{sex}</if> " +
             "<if test = 'null != buildingId'> and b.building_id = #{buildingId}</if> " +
             "<if test = 'null != userId'> and b.user_id = #{userId}</if> " +
-            "<if test = 'null != renterId'> and b.renter_id = #{renterId}</if>" +
             "<if test = 'null != landlordId'> and b.landlord_id = #{landlordId}</if>" +
             "<if test = 'null != rentDay'> and b.rent_day = #{rentDay}</if>" +
             "<if test = 'null != deleteTs and deleteTs > 0'> and b.delete_ts > 0</if>" +

@@ -26,7 +26,6 @@ public class Deposit extends BaseEntity {
     private String channel;//支付渠道，99-未支付;0-线下支付;1-微信支付;2-支付宝支付
     private Integer roomId;//房间id,一个押金对应一个roomId,一个roomId可能对应多个押金Id
     private Integer userId;//租客的userId
-    private Integer renterId;//租客的renterId
     private Integer buildingId;//buildingId
     private Integer barginId;//合同Id
 

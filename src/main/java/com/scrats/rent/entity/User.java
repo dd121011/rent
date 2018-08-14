@@ -2,13 +2,11 @@ package com.scrats.rent.entity;
 
 import com.scrats.rent.base.entity.BaseEntity;
 import com.scrats.rent.constant.SexType;
-import com.scrats.rent.constant.UserType;
 import lombok.Data;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 
 /**
  * 用户实体类
@@ -22,7 +20,6 @@ public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;//主键
-    private String type;//用户类型 , 0-租客, 1-房东, 2-管理员, 3-巡管员, 4-超级管理员
     private String name;//姓名
     private String sex;//0-保密, 1-男, 2-女
     private Integer age;//年龄
@@ -35,20 +32,21 @@ public class User extends BaseEntity {
     private String address;//地址
     private Integer accountId;//账号Id
 
-    @Transient
+    private String idCard;//identification card 身份证号
+    private String idCardPic;//身份证正面
+    private String idCardPicBack;//身份证反面
     private String phone;//电话号码
 
     public User() {
         super();
     }
 
-    public User(String type) {
+    public User(String name, SexType sexType, String phone, String idCard) {
         super();
-        this.type = type;
-    }
-
-    public String getTypeName(){
-        return UserType.fromValue(type).getName();
+        this.name = name;
+        this.sex = sexType.getValue();
+        this.phone = phone;
+        this.idCard = idCard;
     }
 
     public String getSexName(){

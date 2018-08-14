@@ -57,8 +57,6 @@ public class RoomController {
     @Autowired
     private BarginService barginService;
     @Autowired
-    private RenterService renterService;
-    @Autowired
     private UserService userService;
     @Autowired
     private AccountService accountService;
@@ -70,6 +68,8 @@ public class RoomController {
     private BarginExtraService barginExtraService;
     @Autowired
     private DepositService depositService;
+    @Autowired
+    private UserRoleService userRoleService;
 
     @IgnoreSecurity
     @GetMapping(value = {"/goRoom/{userId}/{buildingId}","/goRoom/{userId}"})
@@ -209,7 +209,7 @@ public class RoomController {
     public JsonResult rent(@APIRequestControl APIRequest apiRequest) {
         Bargin bargin = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Bargin.class);
         //补齐landlordId字段
-        bargin.setLandlordId(apiRequest.getLanlordId());
+        bargin.setLandlordId(apiRequest.getUser().getUserId());
         bargin.setRoomId(apiRequest.getRoomId());
         Room room = roomService.selectByPrimaryKey(bargin.getRoomId());
         if(room.getRentTs() != null && room.getRentTs() > 0){
@@ -241,13 +241,10 @@ public class RoomController {
         JSONArray jsonArray = new JSONArray();
         for(RoomRenter roomRenter : list){
             User user = userService.selectByPrimaryKey(roomRenter.getUserId());
-            Account account = accountService.selectByPrimaryKey(user.getAccountId());
-            Renter renter = renterService.selectByPrimaryKey(roomRenter.getRenterId());
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("idCard",renter.getIdCard());
+            jsonObject.put("idCard",user.getIdCard());
             jsonObject.put("user",user);
-            jsonObject.put("phone",account.getPhone());
-            jsonObject.put("roomRenterId",roomRenter.getRoomRenterId());
+            jsonObject.put("phone",user.getPhone());
             jsonObject.put("checkTs",roomRenter.getCheckTs());
             jsonObject.put("deleteTs",roomRenter.getDeleteTs());
             jsonArray.add(jsonObject);
@@ -261,7 +258,7 @@ public class RoomController {
         long createTs = System.currentTimeMillis();
         Renter renter = null;
         if(null == accountService.findBy("phone", phone)){
-            if(null != renterService.findBy("idCard", idCard)){
+            if(null != userService.findBy("idCard", idCard)){
                 return new JsonResult("身份证号:" + idCard + "在系统中已被注册");
             }
             if(!AccountValidatorUtil.isMobile(phone)){
@@ -276,27 +273,22 @@ public class RoomController {
             account.setCreateTs(createTs);
             accountService.insertSelective(account);
             //创建user
-            User user = new User();
-            user.setName(name);
-            user.setType(UserType.renter.getValue());
-            user.setSex(SexType.secret.getValue());
+            User user = new User(name, SexType.secret, phone, idCard);
             user.setAccountId(account.getAccountId());
             user.setCreateTs(createTs);
             userService.insertSelective(user);
-            //创建renter
-            renter = new Renter(idCard, user.getUserId());
-            renter.setCreateTs(createTs);
-            renterService.insertSelective(renter);
+            //创建userRole
+            UserRole userRole = new UserRole(UserType.renter, user.getUserId());
+            userRole.setCreateTs(createTs);
+            userRoleService.insertSelective(userRole);
         }else{
-            User user = userService.getUserByPhone(phone);
+            User user = userService.findBy("phone",phone);
             if(null == user){
                 throw new BusinessException("请求数据不正确");
             }
-            renter = renterService.findBy("userId",user.getUserId());
             RoomRenter param = new RoomRenter();
             param.setRoomId(roomId);
             param.setUserId(user.getUserId());
-            param.setRenterId(renter.getRenterId());
             List<RoomRenter> rrlist = roomRenterService.getListByRoomrenter(param);
             if(null != rrlist && rrlist.size() > 0){
                 throw new BusinessException("请求的信息有误,该用户目前正在入住该房间");
@@ -304,7 +296,7 @@ public class RoomController {
         }
 
         List<Bargin> list = barginService.getBarginByRoomId(roomId, false);
-        RoomRenter newRoomRenter = new RoomRenter(roomId, renter.getUserId(), renter.getRenterId(), list.get(0).getBarginId());
+        RoomRenter newRoomRenter = new RoomRenter(roomId, renter.getUserId(), list.get(0).getBarginId());
         newRoomRenter.setCreateTs(createTs);
         newRoomRenter.setCheckTs(createTs);
         roomRenterService.insertSelective(newRoomRenter);

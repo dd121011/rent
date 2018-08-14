@@ -27,7 +27,6 @@ public interface RoomRenterMapper extends BaseMapper<RoomRenter> {
             "<if test='roomRenter.roomId != null'>and r.room_id = #{roomRenter.roomId}</if>" +
             "<if test='roomRenter.barginId != null'>and r.bargin_id = #{roomRenter.barginId}</if>" +
             "<if test='roomRenter.userId != null'>and r.user_id = #{roomRenter.userId}</if>" +
-            "<if test='roomRenter.renterId != null'>and r.renter_id = #{roomRenter.renterId}</if>" +
             "<if test='roomRenter.deleteTs != null and roomRenter.deleteTs > 0'>and r.delete_ts > 0 and check_ts > 0</if>" +
             "<if test='roomRenter.deleteTs == null or roomRenter.deleteTs == 0'>and (check_ts = 0 or (check_ts > 0 and delete_ts = 0))</if>" +
             "</script>")

@@ -11,11 +11,11 @@ import lombok.Getter;
  */
 public enum UserType {
 
-    renter("租客", "0"),
-    landlord("房东", "1"),
-    admin("管理员", "2"),
-    guard("巡管员", "3"),
-    administrator("超级管理员", "4");
+    renter("租客", "6001"),
+    landlord("房东", "6002"),
+    admin("管理员", "6003"),
+    guard("巡管员", "6004"),
+    administrator("超级管理员", "6005");
 
     @Getter
     private String name;

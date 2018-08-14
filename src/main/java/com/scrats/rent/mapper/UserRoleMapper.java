@@ -1,15 +1,15 @@
 package com.scrats.rent.mapper;
 
 import com.scrats.rent.base.mapper.BaseMapper;
-import com.scrats.rent.entity.Renter;
+import com.scrats.rent.entity.UserRole;
 
 /**
  * Created with scrat.
  * Description: ${DESCRIPTION}.
  * Email:    guosq@scrats.cn.
  * Author:   lol.
- * Date:     2018/5/24 00:12.
+ * Date:     2018/6/6 22:32.
  */
-public interface RenterMapper extends BaseMapper<Renter> {
+public interface UserRoleMapper extends BaseMapper<UserRole> {
 
 }

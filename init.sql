@@ -17,6 +17,7 @@ INSERT INTO `dictionary` (dic_code, name, create_ts) VALUES ('0002', '装修情�
 INSERT INTO `dictionary` (dic_code, name, create_ts) VALUES ('0003', '房间朝向', unix_timestamp(now()));
 INSERT INTO `dictionary` (dic_code, name, create_ts) VALUES ('0004', '额外收费项', unix_timestamp(now()));
 INSERT INTO `dictionary` (dic_code, name, create_ts) VALUES ('0005', '押金项', unix_timestamp(now()));
+INSERT INTO `dictionary` (dic_code, name, create_ts) VALUES ('0006', '系统角色', unix_timestamp(now()));
 
 -- dictionary_iterm initial
 INSERT INTO `dictionary_iterm` (dic_iterm_code, dic_code, value, create_ts) VALUES ('1001', '0001', '床', unix_timestamp(now()));
@@ -66,7 +67,12 @@ INSERT INTO `dictionary_iterm` (dic_iterm_code, dic_code, value, unit, create_ts
 INSERT INTO `dictionary_iterm` (dic_iterm_code, dic_code, value, unit, create_ts) VALUES ('4010', '0004', '卫生费', '月',  unix_timestamp(now()));
 INSERT INTO `dictionary_iterm` (dic_iterm_code, dic_code, value, unit, create_ts) VALUES ('4011', '0004', '物业费', '月',  unix_timestamp(now()));
 
-
 INSERT INTO `dictionary_iterm` (dic_iterm_code, dic_code, value, unit, create_ts) VALUES ('5001', '0005', '租金', '月',  unix_timestamp(now()));
 INSERT INTO `dictionary_iterm` (dic_iterm_code, dic_code, value, unit, create_ts) VALUES ('5002', '0005', '房间钥匙', '把',  unix_timestamp(now()));
 INSERT INTO `dictionary_iterm` (dic_iterm_code, dic_code, value, unit, create_ts) VALUES ('5003', '0005', '门禁钥匙', '个',  unix_timestamp(now()));
+
+INSERT INTO `dictionary_iterm` (dic_iterm_code, dic_code, value, unit, create_ts) VALUES ('6001', '0006', '租客', '',  unix_timestamp(now()));
+INSERT INTO `dictionary_iterm` (dic_iterm_code, dic_code, value, unit, create_ts) VALUES ('6002', '0006', '房东', '',  unix_timestamp(now()));
+INSERT INTO `dictionary_iterm` (dic_iterm_code, dic_code, value, unit, create_ts) VALUES ('6003', '0006', '巡管员', '',  unix_timestamp(now()));
+INSERT INTO `dictionary_iterm` (dic_iterm_code, dic_code, value, unit, create_ts) VALUES ('6004', '0006', '管理员', '',  unix_timestamp(now()));
+INSERT INTO `dictionary_iterm` (dic_iterm_code, dic_code, value, unit, create_ts) VALUES ('6005', '0006', '超级管理员', '',  unix_timestamp(now()));

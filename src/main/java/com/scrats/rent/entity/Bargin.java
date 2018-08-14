@@ -42,7 +42,6 @@ public class Bargin extends BaseEntity {
     private Integer roomId;//房间id,一个合同对应一个房间，一个房间对应多个合同
     private Integer buildingId;//房子Id
     private Integer userId;//租客的userId
-    private Integer renterId;//租客的renterId
     private Integer landlordId;//房东Id,签署合同的房东
     private Long liveTs;//入住时间，13位时间戳
     private Long leaveTs;//退租时间，13位时间戳

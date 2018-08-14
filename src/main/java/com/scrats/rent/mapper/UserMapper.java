@@ -16,6 +16,4 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("select * from user where 1=1 and account_id = #{accountId} limit 1")
     User getUserByAccountId(Integer accountId);
 
-    @Select("select u.* from user u left join account a on u.account_id = a.account_id where 1=1 and a.phone = #{phone} limit 1")
-    User getUserByPhone(String phone);
 }

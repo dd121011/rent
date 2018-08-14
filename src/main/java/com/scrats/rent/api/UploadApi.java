@@ -1,12 +1,13 @@
 package com.scrats.rent.api;
 
+import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.UploadService;
 import com.scrats.rent.common.JsonResult;
+import com.scrats.rent.common.annotation.IgnoreSecurity;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,14 +27,16 @@ public class UploadApi {
     @Autowired
     private UploadService uploadService;
 
+    @IgnoreSecurity
     @PostMapping("/upload")
-    @ResponseBody
     public JsonResult upload(MultipartFile file) throws IOException {
         String path = uploadService.upload(file);
         if(StringUtils.isEmpty(path)){
             return new JsonResult("上传错误, 请重试!");
         }
-        return new JsonResult();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("path",path);
+        return new JsonResult<JSONObject>(jsonObject);
     }
 
 }

@@ -1,12 +1,9 @@
 package com.scrats.rent.base.service;
 
-import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
-import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
-import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import com.scrats.rent.common.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,18 +35,18 @@ public class UploadService {
         String fileName = file.getOriginalFilename();
         fileName = UUID.randomUUID().toString().replace("-","") + fileName.substring(fileName.lastIndexOf("."));
         //创建上传对象
-        UploadManager uploadManager = new UploadManager(new Configuration(Zone.zone2()));
+        UploadManager uploadManager = new UploadManager(new Configuration());
         //密匙配置
         Auth auth = Auth.create(ak, sk);
         //简单上传
         String token = auth.uploadToken(bucket);
-        Response result = null;
         try{
-            result =uploadManager.put(file.getBytes(), fileName, token);
+            uploadManager.put(file.getBytes(), fileName, token);
+            //Response result =uploadManager.put(file.getBytes(), fileName, token);
             //解析上传成功的结果
-            DefaultPutRet putRet = new Gson().fromJson(result.bodyString(), DefaultPutRet.class);
-            System.out.println(putRet.key);
-            System.out.println(putRet.hash);
+            //DefaultPutRet putRet = new Gson().fromJson(result.bodyString(), DefaultPutRet.class);
+            //System.out.println(putRet.key);
+            //System.out.println(putRet.hash);
         }catch (QiniuException ex) {
             Response r = ex.response;
             System.err.println(r.toString());

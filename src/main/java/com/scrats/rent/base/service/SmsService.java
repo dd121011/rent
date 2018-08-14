@@ -38,7 +38,10 @@ public class SmsService {
 
     public boolean send(final String tel) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         long ts = System.currentTimeMillis();
-        String sign = MD5Util.md5(smsAppSecret + ts + tel);
+        StringBuilder sb = new StringBuilder();
+        sb.append(smsAppSecret).append(ts).append(tel);
+        String sign = MD5Util.md5(sb.toString());
+        //String sign = Md5Crypt.md5Crypt(sb.toString().getBytes());
         smsSendUrl = String.format(smsSendUrl, tel, ts, sign.toUpperCase());
         logger.info("========smsSendUrl========" + smsSendUrl);
         Map<String, String> headerMap = new HashMap<>();

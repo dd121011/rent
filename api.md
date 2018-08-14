@@ -1349,6 +1349,30 @@ curl  X POST  H 'Content type: application/json' --data-binary '{"code":"011a4Ic
 }
 ```
 
+### 小程序入住
+
+> [GET] `/api/sms/send/{phone}` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| phone | String | true | 待发送短信手机号 |
+
+#### Sample
+```
+curl 'https://scrats.cn/rent/api/sms/send/18018790114'
+```
+
+#### Response
+
+```
+{
+    "code": 1,
+    "msg": "成功",
+    "data": null,
+    "count": 0
+}
+```
+
 ### 小程序注册租户
 
 > [POST] **application/json** `/api/renter/snsRegist` 

@@ -49,4 +49,14 @@ public class SmsApi {
         return new JsonResult("发送短信失败, 请重试!");
     }
 
+    @IgnoreSecurity
+    @GetMapping("/check/{phone}/{code}")
+    public JsonResult send(@PathVariable(name = "phone") String phone, @PathVariable(name = "code") String code) {
+
+        if(smsService.checkCode(phone, code)){
+            return new JsonResult();
+        }
+        return new JsonResult("手机验证码不正确!");
+    }
+
 }

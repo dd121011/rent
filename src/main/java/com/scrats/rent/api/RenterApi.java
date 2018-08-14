@@ -3,6 +3,7 @@ package com.scrats.rent.api;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.RedisService;
+import com.scrats.rent.base.service.SmsService;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
@@ -67,6 +68,8 @@ public class RenterApi {
     private ExtraHistoryService extraHistoryService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private SmsService smsService;
 
     @IgnoreSecurity
     @PostMapping("/snsLogin")
@@ -86,15 +89,16 @@ public class RenterApi {
         String openid = apiRequest.getOpenid();
         String tokenId = (String) redisService.get(openid);
         if(StringUtils.isEmpty(tokenId)){
-            return new JsonResult("该openid" + openid + "已失效, 请重新获取");
+            return new JsonResult("该openid" + openid + "已失效, 请重新获取!");
         }
 
         String name = APIRequest.getParameterValue(apiRequest,"name",String.class);
         String phone = APIRequest.getParameterValue(apiRequest,"phone",String.class);
         String idCard = APIRequest.getParameterValue(apiRequest,"idCard",String.class);
+        String code = APIRequest.getParameterValue(apiRequest,"code",String.class);
 
-        if(StringUtils.isEmpty(name) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(idCard)){
-            throw new BusinessException("请求的信息有误");
+        if(StringUtils.isEmpty(name) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(idCard) || StringUtils.isEmpty(code)){
+            throw new BusinessException("请求的信息有误!");
         }
 
         if(!AccountValidatorUtil.isMobile(phone)){
@@ -108,8 +112,13 @@ public class RenterApi {
 
         String checkTokeId = (String) redisService.get(apiRequest.getOpenid());
         if(StringUtils.isEmpty(checkTokeId)){
-            return new JsonResult("请求的openid有误");
+            return new JsonResult("请求的openid有误!");
         }
+
+        if(!smsService.checkCode(phone, code)){
+            return new JsonResult("手机验证码不正确!");
+        }
+
         return renterService.snsRenterRegist(tokenId, openid, name, phone, idCard);
     }
 

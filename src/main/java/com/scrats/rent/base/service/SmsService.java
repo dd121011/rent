@@ -36,6 +36,9 @@ public class SmsService {
     @Value("${sms.send}")
     private String smsSendUrl;
 
+    @Value("${sms.check}")
+    private String smsCheckUrl;
+
     public boolean send(final String tel) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         long ts = System.currentTimeMillis();
         StringBuilder sb = new StringBuilder();
@@ -53,10 +56,25 @@ public class SmsService {
             if("200".equals(infoObj.getString("code"))){
                 return true;
             }
-
         }
         return false;
+    }
 
-
+    public boolean checkCode(final String tel, final String code) {
+        JSONObject params = new JSONObject();
+        params.put("tel", tel);
+        params.put("code", code);
+        logger.info("========smsSendUrl========" + smsSendUrl);
+        Map<String, String> headerMap = new HashMap<>();
+        headerMap.put("appid",smsAppId);
+        headerMap.put("appkey",smsAppKey);
+        JSONObject infoObj = HttpRequestUtil.httpPost2Json(smsSendUrl, params.toJSONString(), headerMap);
+        if (infoObj != null) {
+            logger.info(infoObj.toString());
+            if("200".equals(infoObj.getString("code"))){
+                return true;
+            }
+        }
+        return false;
     }
 }

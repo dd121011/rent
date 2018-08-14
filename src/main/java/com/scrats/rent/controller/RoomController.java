@@ -242,9 +242,7 @@ public class RoomController {
         for(RoomRenter roomRenter : list){
             User user = userService.selectByPrimaryKey(roomRenter.getUserId());
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("idCard",user.getIdCard());
             jsonObject.put("user",user);
-            jsonObject.put("phone",user.getPhone());
             jsonObject.put("checkTs",roomRenter.getCheckTs());
             jsonObject.put("deleteTs",roomRenter.getDeleteTs());
             jsonArray.add(jsonObject);

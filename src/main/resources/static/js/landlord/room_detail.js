@@ -42,10 +42,10 @@ layui.use(['layer', 'table', 'form'], function () {
                     return d.user.sexName;
                 }}
             , {field: 'phone', title: '手机号', templet: function(d){
-                    return d.phone;
+                    return d.user.phone;
                 }}
             , {field: 'idCard', title: '身份证号', templet: function(d){
-                    return d.idCard == undefined ? "" : d.idCard;
+                    return d.user.idCard;
                 }}
             , {field: 'wechat', title: '微信号', templet: function(d){
                     return d.user.wechat;

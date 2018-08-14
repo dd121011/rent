@@ -1349,7 +1349,7 @@ curl  X POST  H 'Content type: application/json' --data-binary '{"code":"011a4Ic
 }
 ```
 
-### 小程序入住
+### 发送手机验证码
 
 > [GET] `/api/sms/send/{phone}` 
 

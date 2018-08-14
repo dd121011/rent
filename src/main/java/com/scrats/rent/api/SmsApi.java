@@ -39,11 +39,6 @@ public class SmsApi {
     @IgnoreSecurity
     @PostMapping("/send")
     public JsonResult send(@RequestBody APIRequest apiRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        //String openid = apiRequest.getOpenid();
-        //String tokenId = (String) redisService.get(openid);
-        //if(StringUtils.isEmpty(tokenId)){
-        //    return new JsonResult("该openid" + openid + "已失效, 请重新登录");
-        //}
 
         String phone = APIRequest.getParameterValue(apiRequest,"phone",String.class);
 
@@ -51,7 +46,10 @@ public class SmsApi {
             throw new BusinessException("请求的手机号不正确");
         }
 
-        String res = smsService.send(phone);
-        return new JsonResult();
+        if(smsService.send(phone)){
+            return new JsonResult();
+        }
+        return new JsonResult("发送短信失败, 请重试!");
     }
+
 }

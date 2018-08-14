@@ -36,10 +36,10 @@ public class SmsService {
     @Value("${sms.send}")
     private String smsSendUrl;
 
-    public String send(final String tel) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public boolean send(final String tel) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         long ts = System.currentTimeMillis();
-        String sign = MD5Util.EncoderByMd5(smsAppSecret + ts + tel);
-        smsSendUrl = String.format(smsSendUrl, tel, ts, sign);
+        String sign = MD5Util.md5(smsAppSecret + ts + tel);
+        smsSendUrl = String.format(smsSendUrl, tel, ts, sign.toUpperCase());
         logger.info("========smsSendUrl========" + smsSendUrl);
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("appid",smsAppId);
@@ -47,9 +47,13 @@ public class SmsService {
         JSONObject infoObj = HttpRequestUtil.httpGet2Json(smsSendUrl, headerMap);
         if (infoObj != null) {
             logger.info(infoObj.toString());
-            //wxSns = JSON.parseObject(infoObj.toJSONString(),WxSns.class);
+            if("200".equals(infoObj.getString("code"))){
+                return true;
+            }
+
         }
-        return null;
+        return false;
+
 
     }
 }

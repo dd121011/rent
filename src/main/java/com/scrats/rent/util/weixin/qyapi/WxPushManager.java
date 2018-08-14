@@ -72,7 +72,7 @@ public class WxPushManager {
         String token = WxAccessTokenManager.getInstance(CROP_ID, CROP_SECRET).getAccessToken();
 
         String pushUrl = String.format(PUSH_URL, token);
-        JSONObject pushObj = HttpRequestUtil.httpPost2Json(pushUrl, json);
+        JSONObject pushObj = HttpRequestUtil.httpPost2Json(pushUrl, json, null);
         if (pushObj == null) {
             return false;
         }
@@ -85,7 +85,7 @@ public class WxPushManager {
         String token = WxAccessTokenManager.getInstance(CROP_ID, CROP_SECRET).getAccessToken();
 
         String pushUrl = String.format(PUSH_URL, token);
-        return HttpRequestUtil.httpPost2Json(pushUrl, json);
+        return HttpRequestUtil.httpPost2Json(pushUrl, json, null);
     }
 
     private String getToUserStr(String... toUser) {

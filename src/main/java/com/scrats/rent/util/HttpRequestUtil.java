@@ -3,7 +3,6 @@ package com.scrats.rent.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
-import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -24,27 +23,27 @@ public class HttpRequestUtil {
 
     public static String httpGet(String url, Map<String, String> headerMap) {
         HttpClient httpClient = new HttpClient();
-        GetMethod getMethod = new GetMethod(url);
-        getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler());
-        if(null != headerMap){
-            Header header = new Header();
+        GetMethod method = new GetMethod(url);
+        method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler());
+        if(null != headerMap && !headerMap.isEmpty()){
             for (Map.Entry<String, String> entry : headerMap.entrySet()) {
-                header.setName(entry.getKey());
-                header.setValue(entry.getValue());
+                String value = entry.getValue();
+                if(org.apache.commons.lang3.StringUtils.isNotBlank(value)){
+                    method.addRequestHeader(entry.getKey(), value);
+                }
             }
-            getMethod.setRequestHeader(header);
         }
         try {
-            int statusCode = httpClient.executeMethod(getMethod);
+            int statusCode = httpClient.executeMethod(method);
             if (statusCode != HttpStatus.SC_OK) {
                 return null;
             }
-            byte[] responseBody = getMethod.getResponseBody();
+            byte[] responseBody = method.getResponseBody();
             return new String(responseBody);
         } catch (Exception e) {
             return null;
         } finally {
-            getMethod.releaseConnection();
+            method.releaseConnection();
         }
     }
 
@@ -61,9 +60,17 @@ public class HttpRequestUtil {
         }
     }
 
-    public static String httpPost(String url, String json) {
+    public static String httpPost(String url, String json, Map<String, String> headerMap) {
         HttpClient httpClient = new HttpClient();
         PostMethod method = new PostMethod(url);
+        if(null != headerMap && !headerMap.isEmpty()){
+            for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+                String value = entry.getValue();
+                if(org.apache.commons.lang3.StringUtils.isNotBlank(value)){
+                    method.addRequestHeader(entry.getKey(), value);
+                }
+            }
+        }
         try {
             if(!StringUtils.isEmpty(json)) {
                 RequestEntity requestEntity = new StringRequestEntity(json,"application/json","UTF-8");
@@ -78,8 +85,8 @@ public class HttpRequestUtil {
         }
     }
 
-    public static JSONObject httpPost2Json(String url, String json) {
-        String res = httpPost(url, json);
+    public static JSONObject httpPost2Json(String url, String json, Map<String, String> headerMap) {
+        String res = httpPost(url, json, headerMap);
         if (res == null) {
             return null;
         }

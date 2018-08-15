@@ -141,9 +141,9 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         roomRenterService.insertSelective(roomRenter);
 
         //生成租金的extra
-        BarginExtra barginExtra = new BarginExtra(bargin.getBarginId(), bargin.getRoomId(), "0000", "租金", "月", bargin.getRentFee(), -1);
-        barginExtra.setCreateTs(createTs);
-        barginExtraService.insertSelective(barginExtra);
+        BarginExtra barginExtraRoom = new BarginExtra(bargin.getBarginId(), bargin.getRoomId(), "0000", "租金", "月", bargin.getRentFee(), -1);
+        barginExtraRoom.setCreateTs(createTs);
+        barginExtraService.insertSelective(barginExtraRoom);
 
 
         //保存合同额外收费项，便于以后计算每月房租

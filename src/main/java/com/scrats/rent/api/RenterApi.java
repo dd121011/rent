@@ -45,8 +45,6 @@ public class RenterApi {
     @Autowired
     private RoomService roomService;
     @Autowired
-    private WxSnsService wxSnsService;
-    @Autowired
     private RedisService redisService;
     @Autowired
     private BuildingService buildingService;
@@ -108,11 +106,6 @@ public class RenterApi {
         String idValid = IdCardUtil.IDCardValidate(idCard);
         if(!IdCardUtil.VALIDITY.equals(idValid)){
             return new JsonResult(idValid);
-        }
-
-        String checkTokeId = (String) redisService.get(apiRequest.getOpenid());
-        if(StringUtils.isEmpty(checkTokeId)){
-            return new JsonResult("请求的openid有误!");
         }
 
         if(!smsService.checkCode(phone, code)){

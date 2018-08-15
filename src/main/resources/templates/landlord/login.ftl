@@ -20,6 +20,12 @@
     <script src="${base}/static/js/landlord/common.js"></script>
 </head>
 
+<script>
+    if(undefined != tokenId && tokenId != null && tokenId != 'null'){
+        window.location.href = "${base}/building/goBuilding/" + userId + "?tokenId=" + tokenId;
+    }
+</script>
+
 <body>
 <dl class="admin_login">
  <dt>
@@ -48,11 +54,7 @@
 <script>
     layui.use(['element', 'layer', 'table', 'form'], function () {
         var $ = layui.$;
-        var element = layui.element;
         var layer = layui.layer;
-        if(undefined != tokenId && tokenId != null && tokenId != 'null'){
-            window.location.href = "${base}/building/goBuilding/" + userId + "?tokenId=" + tokenId;
-        }
 
         $(document).ready(function () {
             //粒子背景特效

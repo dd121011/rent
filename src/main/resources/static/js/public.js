@@ -1,14 +1,4 @@
-var tokenId = $.cookie('rent_tokenId');
-var userId = $.cookie('rent_userId');
-
-var header = {}; //或者 var obj=new Object();
-header["tokenId"] = tokenId;
-header["userId"] = userId;
-
 var requestBaseUrl = getRootPath();
-
-
-
 
 //js获取项目根路径，如： http://localhost:8083/rent
 function getRootPath(){

@@ -1,3 +1,10 @@
+var tokenId = $.cookie('rent_admin_tokenId');
+var userId = $.cookie('rent_admin_userId');
+
+var header = {}; //或者 var obj=new Object();
+header["tokenId"] = tokenId;
+header["userId"] = userId;
+
 layui.use(['element', 'layer', 'table', 'form'], function () {
     var $ = layui.$;
     var element = layui.element;

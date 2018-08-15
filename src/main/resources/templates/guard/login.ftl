@@ -51,7 +51,7 @@
         var element = layui.element;
         var layer = layui.layer;
         if(undefined != tokenId && tokenId != null && tokenId != 'null'){
-            window.location.href = "${base}/admin/goHome/" + userId + "?tokenId=" + tokenId;
+            window.location.href = "${base}/guard/goHome/" + userId + "?tokenId=" + tokenId;
         }
 
         $(document).ready(function () {
@@ -77,9 +77,9 @@
             var jhxhr = $.ajax({url: "${base}/login", data: JSON.stringify(params), contentType: 'application/json', type: "POST"});
             jhxhr.done(function (res) {
                 if(res.code == 1){
-                    $.cookie("rent_admin_tokenId",res.data.tokenId,{expires: 7, path: '/rent'});
-                    $.cookie("rent_admin_userId",res.data.userId,{expires: 7, path: '/rent'});
-                    window.location.href = requestBaseUrl +  "/admin/goHome/" + res.data.userId + "?tokenId=" + res.data.tokenId;
+                    $.cookie("rent_guard_tokenId",res.data.tokenId,{expires: 7, path: '/rent'});
+                    $.cookie("rent_guard_userId",res.data.userId,{expires: 7, path: '/rent'});
+                    window.location.href = requestBaseUrl +  "/guard/goHome/" + res.data.userId + "?tokenId=" + res.data.tokenId;
                 }else{
                     layer.alert(res.msg);
                 }

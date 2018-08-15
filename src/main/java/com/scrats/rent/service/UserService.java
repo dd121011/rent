@@ -1,6 +1,7 @@
 package com.scrats.rent.service;
 
 import com.scrats.rent.base.service.BaseService;
+import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.mapper.UserMapper;
 
@@ -14,5 +15,7 @@ import com.scrats.rent.mapper.UserMapper;
 public interface UserService extends BaseService<User, UserMapper> {
 
     User getUserByAccountId(Integer accountId);
+
+    JsonResult realCertification(Integer userId, String idCardPic, String idCardPicBack);
 
 }

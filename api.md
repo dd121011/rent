@@ -1898,3 +1898,29 @@ curl -X POST -H 'Accept: application/json' -H 'Content-type: application/x-www-f
     }
 }
 ```
+
+### 文件上传
+
+> [POST] **application/json** `/api/user/realCertification` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| idCardPic | String | true | 身份证正面图片url |
+| idCardPicBack | String | true | 身份证反面图片url |
+
+#### Sample
+
+```
+curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' -d '{"body":{"idCardPic":"小小胡.png","idCardPicBack":"0123.png"}}' 'https://scrats.cn/rent/api/user/realCertification'
+```
+
+#### Response
+
+```
+{
+    "code": 1,
+    "msg": "成功",
+    "data": null,
+    "count": 0
+}
+```

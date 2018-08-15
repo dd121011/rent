@@ -6,10 +6,11 @@ import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.mapper.UserMapper;
 import com.scrats.rent.service.UserService;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created with scrat.
@@ -34,7 +35,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserMapper> implement
         if(null == user){
             throw new BusinessException("请求数据有误!");
         }
-        if(StringUtils.isNotEmpty(user.getIdCardPic())){
+        if(user.getCheckTs() > 0){
             throw new BusinessException("该用户已实名认证, 请勿重复认证!");
         }
         user.setIdCardPic(idCardPic);
@@ -42,6 +43,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserMapper> implement
         user.setUpdateTs(System.currentTimeMillis());
         dao.updateByPrimaryKeySelective(user);
         return new JsonResult();
+    }
+
+    @Override
+    public List<User> getListByUser(User user) {
+        return dao.getListByUser(user);
     }
 
 }

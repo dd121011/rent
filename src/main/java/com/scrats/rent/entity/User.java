@@ -36,6 +36,7 @@ public class User extends BaseEntity {
     private String idCardPic;//身份证正面
     private String idCardPicBack;//身份证反面
     private String phone;//电话号码
+    private Long checkTs;//实名认证时间戳
 
     public User() {
         super();

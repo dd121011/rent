@@ -98,6 +98,7 @@ CREATE TABLE `user` (
     `id_card` varchar(18) NOT NULL COMMENT 'identification card 身份证号',
     `id_card_pic` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证正面',
     `id_card_pic_back` varchar(64) NOT NULL DEFAULT '' COMMENT '身份证反面',
+    `check_ts` bigint unsigned NOT NULL DEFAULT '0' COMMENT '实名认证, 13位时间戳',
     `phone` char(11) NOT NULL COMMENT '手机号码',
 
     `remark` varchar(256) DEFAULT '' COMMENT '备注',

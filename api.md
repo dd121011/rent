@@ -18,16 +18,33 @@
     > * [所有房间朝向](#所有房间朝向)
     > * [所有押金项](#所有押金项)
 2. [房东PC](#房东PC) 
+    > * [首页数据](#首页数据)
     > * [房子列表](#房子列表)
     > * [编辑房子](#编辑房子)
     > * [删除房子](#删除房子)
     > * [获取所有房子](#获取所有房子)
-    > * [房子详情](#房子详情)
     > * [房间列表](#房间列表)
     > * [编辑房间](#编辑房间)
     > * [删除房间](#删除房间)
+    > * [生成房租](#生成房租)
+    > * [退租](#退租)
+    > * [续约](#续约)
     > * [房间详情](#房间详情)
     > * [房间所有租客](#房间所有租客)
+    > * [租客入住确认](#入住确认)
+    > * [租客离开确认](#离开确认)
+    > * [删除租客](#删除租客)
+    > * [房间出租](#房间出租)
+    > * [二维码入住](#二维码入住)
+    > * [添加租客](#添加租客)
+    > * [办理退房](#办理退房)
+    > * [房间所有租客](#房间所有租客)
+    > * [租赁列表](#租赁列表)
+    > * [租赁详情](#租赁详情)
+    > * [房租缴费](#房租缴费)
+    > * [房租详情](#房租详情)
+    > * [房租编辑](#房租编辑)
+    > * [添加房租](#添加房租)
 3. [租客小程序](#租客小程序)
     > * [小程序登录](#小程序登录)
     > * [发送手机验证码](#发送手机验证码)
@@ -888,161 +905,6 @@ curl  -X GET -H 'tokenId: 0451e77616bc4f188b2003b2dc656855' -H 'userId: 3' 'http
         "depositIterm": null
         }
 ],
-"count": 0
-}
-```
-
-### 房子详情
-
-> [GET] `/api/room/detail/{buildingId}` 
-
-| param | type | require | description |
-| --- | --- | --- | --- |
-
-#### Sample
-```
-curl  -X GET -H 'tokenId: 0451e77616bc4f188b2003b2dc656855' -H 'userId: 3' 'https://scrats.cn/rent/api/building/detail/1'
-```
-#### Response
-```
-{
-"code": 1,
-"msg": null,
-"data": {
-        "createTs": 123,
-        "updateTs": 1530798379181,
-        "remark": "",
-        "deleteTs": 0,
-        "buildingId": 1,
-        "name": "宝山新村二区28栋",
-        "rooms": 2,
-        "roomAble": 0,
-        "facilities": "1001,1009,1011,1016",
-        "extraFee": "4001,4002,4009,4011",
-        "deposits": "5001,5002",
-        "description": "87654",
-        "address": "这个是地址",
-        "attachmentList": null,
-        "facilityIds": null,
-        "extraIds": null,
-        "depositIds": null,
-        "facilitiesIterm": [
-            {
-            "createTs": 1529661151,
-            "updateTs": 0,
-            "remark": "",
-            "deleteTs": 0,
-            "dicItermCode": "1001",
-            "dicCode": "0001",
-            "value": "床",
-            "unit": ""
-            },
-            {
-            "createTs": 1529661151,
-            "updateTs": 0,
-            "remark": "",
-            "deleteTs": 0,
-            "dicItermCode": "1009",
-            "dicCode": "0001",
-            "value": "冰箱",
-            "unit": ""
-            },
-            {
-            "createTs": 1529661151,
-            "updateTs": 0,
-            "remark": "",
-            "deleteTs": 0,
-            "dicItermCode": "1011",
-            "dicCode": "0001",
-            "value": "电视机",
-            "unit": ""
-            },
-            {
-            "createTs": 1529661151,
-            "updateTs": 0,
-            "remark": "",
-            "deleteTs": 0,
-            "dicItermCode": "1016",
-            "dicCode": "0001",
-            "value": "油烟机",
-            "unit": ""
-            }
-        ],
-        "extraFeeIterm": [
-            {
-            "createTs": 1529661151,
-            "updateTs": 0,
-            "remark": "",
-            "deleteTs": 0,
-            "dicItermCode": "4001",
-            "dicCode": "0004",
-            "value": "水费",
-            "unit": "吨"
-            },
-            {
-            "createTs": 1529661151,
-            "updateTs": 0,
-            "remark": "",
-            "deleteTs": 0,
-            "dicItermCode": "4002",
-            "dicCode": "0004",
-            "value": "电费",
-            "unit": "度"
-            },
-            {
-            "createTs": 1529661152,
-            "updateTs": 0,
-            "remark": "",
-            "deleteTs": 0,
-            "dicItermCode": "4009",
-            "dicCode": "0004",
-            "value": "空调费",
-            "unit": "月"
-            },
-            {
-            "createTs": 1529661152,
-            "updateTs": 0,
-            "remark": "",
-            "deleteTs": 0,
-            "dicItermCode": "4011",
-            "dicCode": "0004",
-            "value": "物业费",
-            "unit": "月"
-            }
-        ],
-        "depositIterm": [
-            {
-            "createTs": 1530079051,
-            "updateTs": 0,
-            "remark": "",
-            "deleteTs": 0,
-            "dicItermCode": "5001",
-            "dicCode": "0005",
-            "value": "租金",
-            "unit": "月"
-            },
-            {
-            "createTs": 1530079051,
-            "updateTs": 0,
-            "remark": "",
-            "deleteTs": 0,
-            "dicItermCode": "5002",
-            "dicCode": "0005",
-            "value": "房间钥匙",
-            "unit": "把"
-            },
-            {
-            "createTs": 1530079051,
-            "updateTs": 0,
-            "remark": "",
-            "deleteTs": 0,
-            "dicItermCode": "5003",
-            "dicCode": "0005",
-            "value": "门禁钥匙",
-            "unit": "个"
-            }
-        ]   
-},
 "count": 0
 }
 ```

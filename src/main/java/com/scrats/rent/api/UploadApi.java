@@ -6,6 +6,8 @@ import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +29,9 @@ public class UploadApi {
     @Autowired
     private UploadService uploadService;
 
+    @Value("${qiniu.domain}")
+    private String domain;
+
     @IgnoreSecurity
     @PostMapping("/upload")
     public JsonResult upload(MultipartFile file) throws IOException {
@@ -36,6 +41,15 @@ public class UploadApi {
         }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("path",path);
+        return new JsonResult<JSONObject>(jsonObject);
+    }
+
+    @GetMapping("/uploadToken")
+    public JsonResult uploadToken() {
+        String token = uploadService.getQiniuToken();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("token",token);
+        jsonObject.put("domain",domain);
         return new JsonResult<JSONObject>(jsonObject);
     }
 

@@ -36,12 +36,8 @@ public class UploadService {
         fileName = UUID.randomUUID().toString().replace("-","") + fileName.substring(fileName.lastIndexOf("."));
         //创建上传对象
         UploadManager uploadManager = new UploadManager(new Configuration());
-        //密匙配置
-        Auth auth = Auth.create(ak, sk);
-        //简单上传
-        String token = auth.uploadToken(bucket);
         try{
-            uploadManager.put(file.getBytes(), fileName, token);
+            uploadManager.put(file.getBytes(), fileName, getQiniuToken());
             //Response result =uploadManager.put(file.getBytes(), fileName, token);
             //解析上传成功的结果
             //DefaultPutRet putRet = new Gson().fromJson(result.bodyString(), DefaultPutRet.class);
@@ -66,5 +62,12 @@ public class UploadService {
             fileList.add(upload(file));
         }
         return fileList;
+    }
+
+    public String getQiniuToken() {
+        //密匙配置
+        Auth auth = Auth.create(ak, sk);
+        //简单上传
+        return auth.uploadToken(bucket);
     }
 }

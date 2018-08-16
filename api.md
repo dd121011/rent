@@ -3,41 +3,47 @@
 > 接口地址: https://scrats.cn/rent
 
 ## 接口列表
-* [登陆接口](#登陆接口)
-* [所有字典类型列表](#所有字典类型列表)
-* [某一字典类型的所有字典项目列表](#某一字典类型的所有字典项目列表)
-* [所有额外收费项](#所有额外收费项)
-* [所有配套设施](#所有配套设施)
-* [所有装修情况](#所有装修情况)
-* [所有房间朝向](#所有房间朝向)
-* [所有押金项](#所有押金项)
-* [房子列表](#房子列表)
-* [编辑房子](#编辑房子)
-* [删除房子](#删除房子)
-* [获取所有房子](#获取所有房子)
-* [房子详情](#房子详情)
-* [房间列表](#房间列表)
-* [编辑房间](#编辑房间)
-* [删除房间](#删除房间)
-* [房间详情](#房间详情)
-* [房间所有租客](#房间所有租客)
-* [小程序登录](#小程序登录)
-* [发送手机验证码](#发送手机验证码)
-* [小程序注册租户](#小程序注册租户)
-* [小程序入住](#小程序入住)
-* [获取房间列表](#获取房间列表)
-* [获取某一个房间的合同](#获取某一个房间的合同)
-* [获取某一个房间的押金](#获取某一个房间的押金)
-* [获取某一个房间的未缴费房租](#获取某一个房间的未缴费房租)
-* [获取某一个房间额外收费项的明细数据](#获取某一个房间额外收费项的明细数据)
-* [获取某一个房间的所有房租](#获取某一个房间的所有房租)
-* [获取某一个房租的明细](#获取某一个房租的明细)
-* [获取七牛上传文件的token](#获取七牛上传文件的token)
-* [文件上传](#文件上传)
-* [实名认证](#实名认证)
-* [实名认证确认](#实名认证确认)
 
-## 登陆接口
+1 [公共](#公共)
+> * [登陆接口](#登陆接口)
+> * [获取七牛上传文件的token](#获取七牛上传文件的token)
+> * [文件上传](#文件上传)
+> * [实名认证](#实名认证)
+> * [实名认证确认](#实名认证确认)
+> * [所有字典类型列表](#所有字典类型列表)
+> * [某一字典类型的所有字典项目列表](#某一字典类型的所有字典项目列表)
+> * [所有额外收费项](#所有额外收费项)
+> * [所有配套设施](#所有配套设施)
+> * [所有装修情况](#所有装修情况)
+> * [所有房间朝向](#所有房间朝向)
+> * [所有押金项](#所有押金项)
+2 [房东PC](#房东PC)
+> * [房子列表](#房子列表)
+> * [编辑房子](#编辑房子)
+> * [删除房子](#删除房子)
+> * [获取所有房子](#获取所有房子)
+> * [房子详情](#房子详情)
+> * [房间列表](#房间列表)
+> * [编辑房间](#编辑房间)
+> * [删除房间](#删除房间)
+> * [房间详情](#房间详情)
+> * [房间所有租客](#房间所有租客)
+3 [租客小程序](#租客小程序)
+> * [小程序登录](#小程序登录)
+> * [发送手机验证码](#发送手机验证码)
+> * [小程序注册租户](#小程序注册租户)
+> * [小程序入住](#小程序入住)
+> * [获取房间列表](#获取房间列表)
+> * [获取某一个房间的合同](#获取某一个房间的合同)
+> * [获取某一个房间的押金](#获取某一个房间的押金)
+> * [获取某一个房间的未缴费房租](#获取某一个房间的未缴费房租)
+> * [获取某一个房间额外收费项的明细数据](#获取某一个房间额外收费项的明细数据)
+> * [获取某一个房间的所有房租](#获取某一个房间的所有房租)
+> * [获取某一个房租的明细](#获取某一个房租的明细)
+
+## 公共
+
+### 登陆接口
 > [POST] **application/json** `/login` 
 
 | param | type | require | description |
@@ -62,7 +68,104 @@ curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -
 }
 ```
 
-## 字典
+### 获取七牛上传文件的token
+
+> [GET] `/api/upload/uploadToken` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| roomId | Integer | true | 房间ID |
+
+#### Sample
+```
+curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/upload/uploadToken'
+```
+#### Response
+```
+{
+    "code": 1,
+    "count": 0,
+    "data": {
+        "tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff",
+        "domain": "https://oiu0cclvb.qnssl.com/"
+    }
+}
+```
+
+### 文件上传
+
+> [POST] **application/x-www-form-urlencoded** `/api/upload/upload` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| file | file | true | 文件 |
+
+#### Sample
+
+```
+curl -X POST -H 'Accept: application/json' -H 'Content-type: application/x-www-form-urlencoded' -d '{"file": "399c6d05741f4ce2a7cff52fbb4dc6ff"}' 'https://scrats.cn/rent/api/upload/upload'
+```
+
+#### Response
+
+```
+{
+    "code": 1,
+    "count": 0,
+    "data": {
+        "paht": "https://oiu0cclvb.qnssl.com/ed6e0b78e36c434785b8c5daa04f03df.png"
+    }
+}
+```
+
+### 实名认证
+
+> [POST] **application/json** `/api/user/realCertification` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| idCardPic | String | true | 身份证正面图片url |
+| idCardPicBack | String | true | 身份证反面图片url |
+
+#### Sample
+
+```
+curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' -d '{"body":{"idCardPic":"小小胡.png","idCardPicBack":"0123.png"}}' 'https://scrats.cn/rent/api/user/realCertification'
+```
+
+#### Response
+
+```
+{
+    "code": 1,
+    "msg": "成功",
+    "data": null,
+    "count": 0
+}
+```
+
+### 实名认证确认
+
+> [GET] `/api/user/realConfirm/{userId}` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| userId | Integer | true | userId |
+
+#### Sample
+```
+curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/user/realConfirm/9'
+```
+
+#### Response
+```
+{
+    "code": 1,
+    "msg": "成功",
+    "data": null,
+    "count": 0
+}
+```
 
 ### 所有字典类型列表
 
@@ -459,7 +562,7 @@ curl  -X GET -H 'tokenId: 0451e77616bc4f188b2003b2dc656855' -H 'userId: 3' 'http
 }
 ```
 
-## 房东
+## 房东PC
 
 ### 房子列表
 
@@ -1337,16 +1440,9 @@ curl  -X GET -H 'tokenId: 0451e77616bc4f188b2003b2dc656855' -H 'userId: 3' 'http
 }
 ```
 
-房东
-2，，修改租客，租客详情
-3，合同详情
-4，账单结算，账单详情
+## 租客小程序
 
-小程序
-
-## 小程序
-
-公共Header
+### 公共Header
 
 | param | type | require | description |
 | --- | --- | --- | --- |
@@ -1903,105 +1999,6 @@ curl  -X GET -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' 'http
             "description": ""
         }
     ],
-    "count": 0
-}
-```
-
-### 获取七牛上传文件的token
-
-> [GET] `/api/upload/uploadToken` 
-
-| param | type | require | description |
-| --- | --- | --- | --- |
-| roomId | Integer | true | 房间ID |
-
-#### Sample
-```
-curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/upload/uploadToken'
-```
-#### Response
-```
-{
-    "code": 1,
-    "count": 0,
-    "data": {
-        "tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff",
-        "domain": "https://oiu0cclvb.qnssl.com/"
-    }
-}
-```
-
-### 文件上传
-
-> [POST] **application/x-www-form-urlencoded** `/api/upload/upload` 
-
-| param | type | require | description |
-| --- | --- | --- | --- |
-| file | file | true | 文件 |
-
-#### Sample
-
-```
-curl -X POST -H 'Accept: application/json' -H 'Content-type: application/x-www-form-urlencoded' -d '{"file": "399c6d05741f4ce2a7cff52fbb4dc6ff"}' 'https://scrats.cn/rent/api/upload/upload'
-```
-
-#### Response
-
-```
-{
-    "code": 1,
-    "count": 0,
-    "data": {
-        "paht": "https://oiu0cclvb.qnssl.com/ed6e0b78e36c434785b8c5daa04f03df.png"
-    }
-}
-```
-
-### 实名认证
-
-> [POST] **application/json** `/api/user/realCertification` 
-
-| param | type | require | description |
-| --- | --- | --- | --- |
-| idCardPic | String | true | 身份证正面图片url |
-| idCardPicBack | String | true | 身份证反面图片url |
-
-#### Sample
-
-```
-curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' -d '{"body":{"idCardPic":"小小胡.png","idCardPicBack":"0123.png"}}' 'https://scrats.cn/rent/api/user/realCertification'
-```
-
-#### Response
-
-```
-{
-    "code": 1,
-    "msg": "成功",
-    "data": null,
-    "count": 0
-}
-```
-
-### 实名认证确认
-
-> [GET] `/api/user/realConfirm/{userId}` 
-
-| param | type | require | description |
-| --- | --- | --- | --- |
-| userId | Integer | true | userId |
-
-#### Sample
-```
-curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/user/realConfirm/9'
-```
-
-#### Response
-```
-{
-    "code": 1,
-    "msg": "成功",
-    "data": null,
     "count": 0
 }
 ```

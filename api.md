@@ -1873,6 +1873,30 @@ curl  -X GET -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' 'http
 }
 ```
 
+### 获取七牛上传文件的token
+
+> [GET] `/api/upload/uploadToken` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| roomId | Integer | true | 房间ID |
+
+#### Sample
+```
+curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/upload/uploadToken'
+```
+#### Response
+```
+{
+    "code": 1,
+    "count": 0,
+    "data": {
+        "tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff",
+        "domain": "https://oiu0cclvb.qnssl.com/"
+    }
+}
+```
+
 ### 文件上传
 
 > [POST] **application/x-www-form-urlencoded** `/api/upload/upload` 
@@ -1927,24 +1951,23 @@ curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -
 
 ### 获取七牛上传文件的token
 
-> [GET] `/api/upload/uploadToken` 
+> [GET] `/api/user/realConfirm/{userId}` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| roomId | Integer | true | 房间ID |
+| userId | Integer | true | userId |
 
 #### Sample
 ```
-curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/upload/uploadToken'
+curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/user/realConfirm/9'
 ```
+
 #### Response
 ```
 {
     "code": 1,
-    "count": 0,
-    "data": {
-        "tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff",
-        "domain": "https://oiu0cclvb.qnssl.com/"
-    }
+    "msg": "成功",
+    "data": null,
+    "count": 0
 }
 ```

@@ -1899,7 +1899,7 @@ curl -X POST -H 'Accept: application/json' -H 'Content-type: application/x-www-f
 }
 ```
 
-### 文件上传
+### 实名认证
 
 > [POST] **application/json** `/api/user/realCertification` 
 
@@ -1922,5 +1922,29 @@ curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -
     "msg": "成功",
     "data": null,
     "count": 0
+}
+```
+
+### 获取七牛上传文件的token
+
+> [GET] `/api/upload/uploadToken` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| roomId | Integer | true | 房间ID |
+
+#### Sample
+```
+curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/upload/uploadToken'
+```
+#### Response
+```
+{
+    "code": 1,
+    "count": 0,
+    "data": {
+        "tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff",
+        "domain": "https://oiu0cclvb.qnssl.com/"
+    }
 }
 ```

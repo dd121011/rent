@@ -28,6 +28,9 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
         rentManage: function () {
             window.location.href = requestBaseUrl +  "/rent/goRent/" + userId + "?tokenId=" + tokenId;
         },
+        userDetail: function () {
+            window.location.href = requestBaseUrl +  "/user/goUserDetail/" + userId + "?tokenId=" + tokenId;
+        },
 
     };
 

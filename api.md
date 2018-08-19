@@ -91,7 +91,6 @@ curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| roomId | Integer | true | 房间ID |
 
 #### Sample
 ```

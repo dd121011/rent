@@ -1,0 +1,86 @@
+server:
+  port: 8083
+  context-path: /rent
+  tomcat:
+    uri-encoding: utf-8
+#springboot 监控
+management:
+  port: 54001
+  health:
+    mail:
+      enabled: false
+
+spring:
+  profiles:
+    active: dev
+  #自定义静态资源
+  mvc:
+    static-path-pattern: /static/**
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+logging:
+  config: classpath:logback-spring.xml
+
+ ##################mybatis config begin  #################
+mybatis:
+  #实体类所在包
+  type-aliases-package: com.scrats.rent.entity
+  #mapper.xml所在位置
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+#    mapUnderscoreToCamelCase: true
+    map-underscore-to-camel-case: true
+    #是否启用下划线与驼峰式命名规则的映射（如first_name => firstName
+
+#通用mapper
+mapper:
+  mappers: com.scrats.rent.base.mapper.BaseMapper
+  not-empty: false
+  identity: MYSQL
+
+#分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+#wx configure
+wx:
+  qy:
+    agent:
+      id: 1000002
+    corp:
+      id: ww170cb031844a5400
+      secret: bi3mQAWY1hIVcGhOhAYdW83LQAVG-fuYQAJe5OAjyy0
+    report:
+      url: https://edcd.evergrande.com/edc_wx/msgPush.html?planID=%s
+  sns:
+    appid: wxba42a8644a5548fd
+    secret: 2aa07da1b3bca8df43ca259c92ec1443
+
+#jpush configure
+jpush:
+ server: http://notify.eafservice.evergrande.com
+ key: c1a786a57a59620a86fce314
+ secret: 2b39cd397064cfbad5b055ab
+
+sms:
+  app:
+    id: 1
+    key: 5651745861381
+    secret: zI7dzZXKQDbz3Q0Tz78ciQ==
+    name: 壕租
+    description: 壕租小程序服务端
+  send: https://scrats.cn/api/core/sms?tel=%s&ts=%s&sign=%s
+  check: https://scrats.cn/api/core/sms
+
+qiniu:
+  ak: pFMOp8Bx9bbuV7TxOLzq7srre69t2-KiT4qs_ia0
+  sk: a-YbA0858L2fgzLuRifumM01cevIahMFZIh6DGtO
+  bucket: tinstone
+  domain: https://oiu0cclvb.qnssl.com/
+
+

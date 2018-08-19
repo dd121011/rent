@@ -35,8 +35,7 @@
                     ${user.name}
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a data-method="userDetail" class="scratMenu" href="javascript:;">基本资料</a></dd>
-                    <dd><a data-method="userSecurity" class="scratMenu" href="javascript:;">安全设置</a></dd>
+                    <dd><a data-method="userDetail" class="scratMenu" href="javascript:;">个人中心</a></dd>
                     <dd><a data-method="userLogout" class="scratMenu" href="javascript:;">退出</a></dd>
                 </dl>
             </li>

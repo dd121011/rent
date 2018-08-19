@@ -2,5 +2,5 @@
 /*.iml
 /target/
 /logs/
-/resources/application*
 src/main/resources/rebel.xml
+*.yml

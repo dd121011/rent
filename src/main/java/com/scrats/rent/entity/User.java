@@ -7,6 +7,7 @@ import lombok.Data;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  * 用户实体类
@@ -37,6 +38,11 @@ public class User extends BaseEntity {
     private String idCardPicBack;//身份证反面
     private String phone;//电话号码
     private Long checkTs;//实名认证时间戳
+
+    @Transient
+    private String hidePhone;
+    @Transient
+    private String hideIdCard;
 
     public User() {
         super();

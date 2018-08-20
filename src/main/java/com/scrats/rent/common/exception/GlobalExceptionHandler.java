@@ -43,7 +43,7 @@ public class GlobalExceptionHandler implements ApplicationContextAware {
             response.setCode(code > 0 ? code : ErrorInfo.STATUS_CODE_BUSINESS_ERROR);
             response.setMessage(exception.getMessage());
         } else if (exception instanceof MethodArgumentNotValidException) {
-            response.setCode(ErrorInfo.STATUS_CODE_METHODARGUMENTNOTVALID_ERROR);
+            response.setCode(ErrorInfo.STATUS_CODE_METHOD_ARGUMENT_NOT_VALID_ERROR);
             response.setMessage(exception.getMessage());
         } else if (exception instanceof NotAuthorizedException) {
             response.setCode(ErrorInfo.STATUS_CODE_NOT_AUTHORIZED);

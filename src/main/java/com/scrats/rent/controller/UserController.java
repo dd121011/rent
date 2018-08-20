@@ -1,18 +1,21 @@
 package com.scrats.rent.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.scrats.rent.base.service.RedisService;
+import com.scrats.rent.common.APIRequest;
+import com.scrats.rent.common.JsonResult;
+import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.common.exception.NotAuthorizedException;
+import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -49,5 +52,25 @@ public class UserController {
         map.put("user",user);
 
         return "landlord/user_detail";
+    }
+
+    @PostMapping("/personalInfo")
+    @ResponseBody
+    public JsonResult personalInfo(@APIRequestControl APIRequest apiRequest) {
+
+        User updateUser = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),User.class);
+        if(null == updateUser){
+            throw new BusinessException("请求参数有误");
+        }
+
+        updateUser.setUserId(apiRequest.getUser().getUserId());
+        updateUser.setUpdateTs(System.currentTimeMillis());
+
+        userService.updateByPrimaryKeySelective(updateUser);
+
+        //更新缓存数据
+        redisService.set(apiRequest.getTokenId(),userService.selectByPrimaryKey(updateUser.getUserId()), GlobalConst.ACCESS_TOKEN_EXPIRE);
+
+        return new JsonResult();
     }
 }

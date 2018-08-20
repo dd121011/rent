@@ -1,6 +1,7 @@
 layui.use(['layer', 'form'], function () {
     var $ = layui.jquery;
     var layer = layui.layer;
+    var form = layui.form;
 
     var userInfo = {
         realCertification: function () {
@@ -135,5 +136,23 @@ layui.use(['layer', 'form'], function () {
         userInfo[method] ? userInfo[method].call(this, othis) : '';
     });
 
+    //监听提交
+    form.on('submit(userPersonalInfoFormSubmitFilter)', function(data){
+        var params = {};
+        var fromParams = $(data.form).serializeObject();
+        params.body = fromParams;
+        console.log(params);
+        var jhxhr = $.ajax({url: requestBaseUrl + "/user/personalInfo", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST"});
+        jhxhr.done(function (res) {
+            if(res.code == 1){
+                layer.close(1);
+                layer.msg("修改成功");
+            }else{
+                layer.alert(res.msg)
+            }
+        });
+
+        return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。
+    });
 
 });

@@ -43,23 +43,23 @@
                             <tbody>
                             <tr style="background-color: #ffffff;">
                                 <th class="table-two-first-fex">QQ：</th>
-                                <td><input type="text" name="qq" required lay-verify="required" placeholder="请输入QQ" autocomplete="off" class="layui-input"  value="${user.qq}"></td>
+                                <td><input type="text" name="qq"  lay-verify="number" placeholder="请输入QQ" autocomplete="off" class="layui-input"  value="${user.qq}"></td>
                             </tr>
                             <tr style="background-color: #ffffff;">
                                 <th class="table-two-first-fex">微信：</th>
-                                <td><input type="text" name="wechat" required lay-verify="required" placeholder="请输入微信" autocomplete="off" class="layui-input"  value="${user.wechat}"></td>
+                                <td><input type="text" name="wechat"  lay-verify="" placeholder="请输入微信" autocomplete="off" class="layui-input"  value="${user.wechat}"></td>
                             </tr>
                             <tr style="background-color: #ffffff;">
                                 <th class="table-two-first-fex">职业：</th>
-                                <td><input type="text" name="profession" required lay-verify="required" placeholder="请输入职业" autocomplete="off" class="layui-input"  value="${user.profession}"></td>
+                                <td><input type="text" name="profession"  lay-verify="" placeholder="请输入职业" autocomplete="off" class="layui-input"  value="${user.profession}"></td>
                             </tr>
                             <tr style="background-color: #ffffff;">
                                 <th class="table-two-first-fex">籍贯：</th>
-                                <td><input type="text" name="hometown" required lay-verify="required" placeholder="请输入籍贯" autocomplete="off" class="layui-input"  value="${user.hometown}"></td>
+                                <td><input type="text" name="hometown"  lay-verify="" placeholder="请输入籍贯" autocomplete="off" class="layui-input"  value="${user.hometown}"></td>
                             </tr>
                             <tr style="background-color: #ffffff;">
                                 <th class="table-two-first-fex">地址：</th>
-                                <td><input type="text" name="address" required lay-verify="required" placeholder="请输入地址" autocomplete="off" class="layui-input"  value="${user.hometown}"></td>
+                                <td><input type="text" name="address"  lay-verify="" placeholder="请输入地址" autocomplete="off" class="layui-input"  value="${user.hometown}"></td>
                             </tr>
                             <tr style="background-color: #ffffff;">
                                 <td></td>

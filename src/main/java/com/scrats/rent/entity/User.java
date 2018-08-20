@@ -54,4 +54,12 @@ public class User extends BaseEntity {
         return SexType.fromValue(sex).getName();
     }
 
+    public String getHidePhone(){
+        return phone.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
+    }
+
+    public String getHideIdCard(){
+        return idCard.replaceAll("(\\d{4})\\d{10}(\\w{4})","$1*****$2");
+    }
+
 }

@@ -31,7 +31,7 @@
                         </tr>
                         <tr>
                             <th class="table-two-first-fex">身份证号：</th>
-                            <td>${user.idCard}</td>
+                            <td>${user.hideIdCard}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -76,7 +76,7 @@
                         <tbody>
                         <tr style="background-color: #ffffff;">
                             <th class="table-two-first-fex">换绑手机：</th>
-                            <td>您当前的手机号码是${user.phone}</td>
+                            <td>您当前的手机号码是${user.hidePhone}</td>
                             <td><a data-method="changePhone" data-type="changePhone" class="layui-btn layui-btn-normal">更改</a></td>
                         </tr>
                         <tr style="background-color: #ffffff;">

@@ -28,6 +28,10 @@ layui.use(['layer', 'form'], function () {
                 , yes: function () {
                     layer.closeAll();
                 }
+                , success: function(layero, index){
+                    smsCodeGenerateClick($('#userPhoneEditNewPhoneInput'));
+                    console.log(layero, index);
+                }
             });
         },
     };
@@ -50,7 +54,7 @@ layui.use(['layer', 'form'], function () {
                 layer.close(1);
                 layer.msg("修改成功");
             }else{
-                layer.alert(res.msg)
+                layer.alert(res.msg);
             }
         });
 

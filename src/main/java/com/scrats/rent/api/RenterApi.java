@@ -75,9 +75,7 @@ public class RenterApi {
         String code = APIRequest.getParameterValue(apiRequest,"code",String.class);
         String signature = APIRequest.getParameterValue(apiRequest,"signature",String.class);
         String rawData = APIRequest.getParameterValue(apiRequest,"rawData",String.class);
-        if(StringUtils.isEmpty(code) || StringUtils.isEmpty(signature) || StringUtils.isEmpty(rawData)){
-            throw new BusinessException("请求的信息有误");
-        }
+
         return renterService.snsLogin(code, signature, rawData);
     }
 
@@ -94,10 +92,6 @@ public class RenterApi {
         String phone = APIRequest.getParameterValue(apiRequest,"phone",String.class);
         String idCard = APIRequest.getParameterValue(apiRequest,"idCard",String.class);
         String code = APIRequest.getParameterValue(apiRequest,"code",String.class);
-
-        if(StringUtils.isEmpty(name) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(idCard) || StringUtils.isEmpty(code)){
-            throw new BusinessException("请求的信息有误!");
-        }
 
         if(!AccountValidatorUtil.isMobile(phone)){
             return new JsonResult("该手机号不正确!");

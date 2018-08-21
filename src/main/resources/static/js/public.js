@@ -1,4 +1,5 @@
 var requestBaseUrl = getRootPath();
+var countdown = 120;
 
 //js获取项目根路径，如： http://localhost:8083/rent
 function getRootPath(){
@@ -147,14 +148,15 @@ var checkPwd = function (ff2) {
             //                    ,shade: 0 //不显示遮罩
             , yes: function () {
                 layer.closeAll();
-            },btn2: function(index, layero){
+            }
+            , btn2: function(index, layero){
                 //按钮【按钮二】的回调
                 var params = {};
                 var bodyParams = {};
                 bodyParams.pwd = $('#checkPwd').val();
                 params.body = bodyParams;
                 console.log(params);
-                var jhxhr = $.ajax({url: requestBaseUrl + "/user/checkPwd", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST", async: false});
+                var jhxhr = $.ajax({url: requestBaseUrl + "/user/checkPwd", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST"});
                 jhxhr.done(function (res) {
                     console.log(res);
                     if(res.code == 1){
@@ -168,3 +170,49 @@ var checkPwd = function (ff2) {
         });
     });
 };
+var pickkkkkk = function () {
+        var sendPhone = '18018790114';
+        var jhxhr = $.ajax({url: requestBaseUrl + "api/sms/send/" + sendPhone, headers: header, contentType: 'application/json', type: "GET"});
+        jhxhr.done(function (res) {
+            console.log(res);
+            if(res.code == 1){
+                settime(this);
+            }else{
+                layer.alert(res.msg)
+            }
+        });
+    };
+
+//绑定click点击事件
+var smsCodeGenerateClick = function (obj) {
+    $('#smsCodeGenerate').on('click', function () {
+        var smsCodeButton = this;
+        var sendPhone = obj.val();
+        var jhxhr = $.ajax({url: requestBaseUrl + "/api/sms/send/" + sendPhone, headers: header, contentType: 'application/json', type: "GET"});
+        jhxhr.done(function (res) {
+            console.log(res);
+            if(res.code == 1){
+                settime(smsCodeButton);
+            }else{
+                layer.alert(res.msg);
+            }
+        });
+    });
+};
+
+
+function settime(obj) {
+    if (countdown == 0) {
+        obj.removeAttribute("disabled");
+        obj.innerHTML = "获取验证码";
+        countdown = 120;
+        return;
+    } else {
+        obj.setAttribute("disabled", true);
+        obj.innerHTML = "" + countdown + " 秒后再获取";
+        countdown--;
+    }
+    setTimeout(function () {
+        settime(obj)
+    }, 1000)
+}

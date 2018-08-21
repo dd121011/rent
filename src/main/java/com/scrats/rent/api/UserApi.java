@@ -6,7 +6,6 @@ import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.service.UserService;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +32,6 @@ public class UserApi {
 
         String idCardPic = APIRequest.getParameterValue(apiRequest,"idCardPic",String.class);
         String idCardPicBack = APIRequest.getParameterValue(apiRequest,"idCardPicBack",String.class);
-
-        if(StringUtils.isEmpty(idCardPic) || StringUtils.isEmpty(idCardPicBack)){
-            return new JsonResult("认证数据有误!");
-        }
 
         return userService.realCertification(apiRequest.getUser().getUserId(), idCardPic, idCardPicBack);
     }

@@ -57,6 +57,28 @@ layui.use(['layer', 'form'], function () {
                 }
             });
         },
+        changeEmail: function () {
+            checkPwd(userInfo.openChangeEmail);
+        },
+        openChangeEmail: function () {
+            form.val("userEmailEditFormFilter", {
+                "email": ""
+            });
+            layer.open({
+                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                ,title: "修改邮箱"
+                , area: '500px'
+                , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                , id: 'layeruserEmailEdit' //防止重复弹出
+                , content: $('#userEmailEditDiv')
+                , btn: '关闭全部'
+                , btnAlign: 'c' //按钮居中
+//                    ,shade: 0 //不显示遮罩
+                , yes: function () {
+                    layer.closeAll();
+                }
+            });
+        },
     };
 
     //绑定click点击事件

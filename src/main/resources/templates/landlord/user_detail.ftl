@@ -103,4 +103,5 @@
 <script src="${base}/static/js/landlord/user.js" charset="utf-8"></script>
 <#include "landlord/user_pwd_edit.ftl"/>
 <#include "landlord/user_phone_edit.ftl"/>
+<#include "landlord/user_email_edit.ftl"/>
 </html>

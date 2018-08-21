@@ -189,15 +189,15 @@ var smsCodeGenerateClick = function (obj) {
         var smsCodeButton = this;
         var sendPhone = obj.val();
         console.log(sendPhone);
-        // var jhxhr = $.ajax({url: requestBaseUrl + "/api/sms/send/" + sendPhone, headers: header, contentType: 'application/json', type: "GET"});
-        // jhxhr.done(function (res) {
-        //     console.log(res);
-        //     if(res.code == 1){
-        //         settime(smsCodeButton);
-        //     }else{
-        //         layer.alert(res.msg);
-        //     }
-        // });
+        var jhxhr = $.ajax({url: requestBaseUrl + "/api/sms/send/" + sendPhone, headers: header, contentType: 'application/json', type: "GET"});
+        jhxhr.done(function (res) {
+            console.log(res);
+            if(res.code == 1){
+                settime(smsCodeButton);
+            }else{
+                layer.alert(res.msg);
+            }
+        });
     });
 };
 

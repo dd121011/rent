@@ -78,7 +78,7 @@
         </div>
     </div>
 
-<#include "landlord/footer.ftl"/>
+<#include "footer.ftl"/>
 <script type="text/html" id="renterListBar">
     {{#  if(d.checkTs == 0){ }}
         {{#  if(d.deleteTs > 0){ }}

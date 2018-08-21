@@ -27,7 +27,7 @@
         <table class="layui-hide" id="lay_table_building" lay-filter="buildingTableFilter"></table>
     </div>
 
-<#include "landlord/footer.ftl"/>
+<#include "footer.ftl"/>
 
 <script type="text/html" id="buildingListBar">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">出租情况</a>

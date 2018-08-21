@@ -99,7 +99,7 @@
         </div>
     </div>
 
-<#include "landlord/footer.ftl"/>
+<#include "footer.ftl"/>
 <script src="${base}/static/js/landlord/user.js" charset="utf-8"></script>
 <#include "landlord/user_pwd_edit.ftl"/>
 <#include "landlord/user_phone_edit.ftl"/>

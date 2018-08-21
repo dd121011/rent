@@ -112,7 +112,7 @@
         </blockquote>
     </blockquote>
 
-<#include "landlord/footer.ftl"/>
+<#include "footer.ftl"/>
 
 <script src="${base}/static/js/landlord/home.js" charset="utf-8"></script>
 

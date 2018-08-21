@@ -33,7 +33,7 @@
         </div>
     </div>
 
-<#include "admin/footer.ftl"/>
+<#include "footer.ftl"/>
 
 <div id="addDiv" style="padding: 20px 0; padding-right: 40px; display: none" >
     <form class="layui-form" action="">

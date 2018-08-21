@@ -44,7 +44,7 @@
         <table class="layui-hide" id="lay_table_rent" lay-filter="rentTableFilter"></table>
     </div>
 
-<#include "landlord/footer.ftl"/>
+<#include "footer.ftl"/>
 
 <script type="text/html" id="rentListBar">
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="pay">缴费</a>

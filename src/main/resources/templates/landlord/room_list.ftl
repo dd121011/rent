@@ -45,7 +45,7 @@
         <table class="layui-hide" id="lay_table_room" lay-filter="roomTableFilter"></table>
     </div>
 
-<#include "landlord/footer.ftl"/>
+<#include "footer.ftl"/>
 
 <script type="text/html" id="roomListBar">
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="detail">详情</a>

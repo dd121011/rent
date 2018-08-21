@@ -124,7 +124,10 @@ function isEmpty(str) {
 }
 
 //校验密码
-var checkPwd = function () {
+var checkPwd = function (ff2) {
+    // if (f2 && typeof(f2) === "function") {
+    //     return false;//写上判断是个好习惯f2()
+    // }
     layui.use(['layer', 'form'], function () {
         var $ = layui.jquery;
         var layer = layui.layer;
@@ -151,17 +154,16 @@ var checkPwd = function () {
                 bodyParams.pwd = $('#checkPwd').val();
                 params.body = bodyParams;
                 console.log(params);
-                var jhxhr = $.ajax({url: requestBaseUrl + "/user/checkPwd", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST"});
+                var jhxhr = $.ajax({url: requestBaseUrl + "/user/checkPwd", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST", async: false});
                 jhxhr.done(function (res) {
                     console.log(res);
                     if(res.code == 1){
                         layer.close(1);
+                        ff2 && ff2();
                     }else{
                         layer.alert(res.msg)
                     }
                 });
-
-                return false; //开启该代码可禁止点击该按钮关闭
             }
         });
     });

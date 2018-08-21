@@ -9,7 +9,9 @@ import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.constant.GlobalConst;
+import com.scrats.rent.entity.Account;
 import com.scrats.rent.entity.User;
+import com.scrats.rent.service.AccountService;
 import com.scrats.rent.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,8 @@ public class UserController {
     private RedisService redisService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AccountService accountService;
 
     @IgnoreSecurity
     @GetMapping("/goUserDetail/{landlordId}")
@@ -54,9 +58,9 @@ public class UserController {
         return "landlord/user_detail";
     }
 
-    @PostMapping("/personalInfo")
+    @PostMapping("/updatePersonalInfo")
     @ResponseBody
-    public JsonResult personalInfo(@APIRequestControl APIRequest apiRequest) {
+    public JsonResult updatePersonalInfo(@APIRequestControl APIRequest apiRequest) {
 
         User updateUser = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),User.class);
         if(null == updateUser){
@@ -73,4 +77,30 @@ public class UserController {
 
         return new JsonResult();
     }
+
+    @GetMapping("/personalInfo")
+    @ResponseBody
+    public JsonResult personalInfo(@APIRequestControl APIRequest apiRequest) {
+
+        User user = apiRequest.getUser();
+
+        return new JsonResult<User>(user);
+    }
+
+    @PostMapping("/checkPwd")
+    @ResponseBody
+    public JsonResult checkPwd(@APIRequestControl APIRequest apiRequest) {
+
+        String checkPwd = APIRequest.getParameterValue(apiRequest, "pwd", String.class);
+
+        Account account = accountService.selectByPrimaryKey(apiRequest.getUser().getAccountId());
+
+
+        if(checkPwd.equals(account.getPwd())){
+            return new JsonResult();
+        }
+
+        return new JsonResult("校验失败, 请输入正确的密码!");
+    }
+
 }

@@ -4,19 +4,22 @@ layui.use(['layer', 'form'], function () {
     var form = layui.form;
 
     //监听提交
-    form.on('submit(userPhoneEditFormSubmitFilter)', function(data){
+    form.on('submit(userPwdEditFormSubmitFilter)', function(data){
         var params = {};
         var fromParams = $(data.form).serializeObject();
+        if(fromParams.pwd != fromParams.rpwd){
+            layer.alert('两次输入的密码不一样!!!');
+            return false;
+        }
         params.body = fromParams;
         console.log(params);
-        var jhxhr = $.ajax({url: requestBaseUrl + "/user/updatePhone", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST"});
+        var jhxhr = $.ajax({url: requestBaseUrl + "/user/updatePwd", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST"});
         jhxhr.done(function (res) {
             if(res.code == 1){
                 layer.closeAll();
-                layer.msg("添加成功");
-                location.reload();
+                layer.msg("修改成功");
             }else{
-                layer.alert(res.msg)
+                layer.alert(res.msg);
             }
         });
         return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。

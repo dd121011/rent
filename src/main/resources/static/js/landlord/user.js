@@ -34,6 +34,29 @@ layui.use(['layer', 'form'], function () {
                 }
             });
         },
+        changePwd: function () {
+            checkPwd(userInfo.openChangePwd);
+        },
+        openChangePwd: function () {
+            form.val("userPwdEditFormFilter", {
+                "pwd": ""
+                ,"rpwd": ""
+            });
+            layer.open({
+                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                ,title: "修改密码"
+                , area: '500px'
+                , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                , id: 'layeruserPwdEdit' //防止重复弹出
+                , content: $('#userPwdEditDiv')
+                , btn: '关闭全部'
+                , btnAlign: 'c' //按钮居中
+//                    ,shade: 0 //不显示遮罩
+                , yes: function () {
+                    layer.closeAll();
+                }
+            });
+        },
     };
 
     //绑定click点击事件

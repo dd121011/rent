@@ -124,7 +124,8 @@ public class UserController {
         }
 
         long updateTs = System.currentTimeMillis();
-        account = accountService.selectByPrimaryKey(apiRequest.getUser().getAccountId());
+        account = new Account();
+        account.setAccountId(apiRequest.getUser().getAccountId());
         account.setPhone(phone);
         account.setUpdateTs(updateTs);
         accountService.updateByPrimaryKeySelective(account);
@@ -137,6 +138,21 @@ public class UserController {
 
         //更新缓存数据
         redisService.set(apiRequest.getTokenId(),userService.selectByPrimaryKey(updateUser.getUserId()), GlobalConst.ACCESS_TOKEN_EXPIRE);
+
+        return new JsonResult();
+    }
+
+    @PostMapping("/updatePwd")
+    @ResponseBody
+    public JsonResult updatePwd(@APIRequestControl APIRequest apiRequest) {
+
+        String pwd = APIRequest.getParameterValue(apiRequest, "pwd", String.class);
+
+        Account account = new Account();
+        account.setAccountId(apiRequest.getUser().getAccountId());
+        account.setPwd(pwd);
+        account.setUpdateTs(System.currentTimeMillis());
+        accountService.updateByPrimaryKeySelective(account);
 
         return new JsonResult();
     }

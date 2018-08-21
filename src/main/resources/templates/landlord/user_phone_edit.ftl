@@ -4,7 +4,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">新手机号</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" required  lay-verify="required" id="userPhoneEditNewPhoneInput" name="phone" placeholder="请输入新手机号">
+                <input type="text" class="layui-input" required  lay-verify="phone" id="userPhoneEditNewPhoneInput" name="phone" placeholder="请输入新手机号">
             </div>
         </div>
         <div class="layui-form-item">

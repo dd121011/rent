@@ -7,8 +7,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,18 +37,17 @@ public class SmsService {
     @Value("${sms.check}")
     private String smsCheckUrl;
 
-    public boolean send(final String tel) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public boolean send(final String tel) {
         long ts = System.currentTimeMillis();
         StringBuilder sb = new StringBuilder();
         sb.append(smsAppSecret).append(ts).append(tel);
         String sign = MD5Util.md5(sb.toString());
-        //String sign = Md5Crypt.md5Crypt(sb.toString().getBytes());
-        smsSendUrl = String.format(smsSendUrl, tel, ts, sign.toUpperCase());
-        logger.info("========smsSendUrl========" + smsSendUrl);
+        String uri = String.format(smsSendUrl, tel, ts, sign.toUpperCase());
+        logger.info("========smsSendUrl========" + uri);
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("appid",smsAppId);
         headerMap.put("appkey",smsAppKey);
-        JSONObject infoObj = HttpRequestUtil.httpGet2Json(smsSendUrl, headerMap);
+        JSONObject infoObj = HttpRequestUtil.httpGet2Json(uri, headerMap);
         if (infoObj != null) {
             logger.info(infoObj.toString());
             if("200".equals(infoObj.getString("code"))){

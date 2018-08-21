@@ -82,7 +82,7 @@
                         <tr style="background-color: #ffffff;">
                             <th class="table-two-first-fex">更改邮箱：</th>
                             <td>您当前的邮箱是${user.email}</td>
-                            <td><a data-method="changePhone" data-type="changePhone" class="layui-btn layui-btn-normal">更改</a></td>
+                            <td><a data-method="changeEmail" data-type="changeEmail" class="layui-btn layui-btn-normal">更改</a></td>
                         </tr>
                         <tr style="background-color: #ffffff;">
                             <th class="table-two-first-fex">更改密码：</th>
@@ -101,5 +101,6 @@
 
 <#include "landlord/footer.ftl"/>
 <script src="${base}/static/js/landlord/user.js" charset="utf-8"></script>
-
+<#include "landlord/user_pwd_edit.ftl"/>
+<#include "landlord/user_phone_edit.ftl"/>
 </html>

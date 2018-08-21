@@ -122,3 +122,47 @@ function isEmpty(str) {
     }
     return false;
 }
+
+//校验密码
+var checkPwd = function () {
+    layui.use(['layer', 'form'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        form.val("userPwdCheckFormFilter", {
+            "pwd": ""
+        });
+        layer.open({
+            type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+            ,title: "校验密码"
+            , area: '500px'
+            , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+            , id: 'layerUserPwdCheck' //防止重复弹出
+            , content: $('#userPwdCheckDiv')
+            , btn: ['取消', '确定']
+            , btnAlign: 'c' //按钮居中
+            //                    ,shade: 0 //不显示遮罩
+            , yes: function () {
+                layer.closeAll();
+            },btn2: function(index, layero){
+                //按钮【按钮二】的回调
+                var params = {};
+                var bodyParams = {};
+                bodyParams.pwd = $('#checkPwd').val();
+                params.body = bodyParams;
+                console.log(params);
+                var jhxhr = $.ajax({url: requestBaseUrl + "/user/checkPwd", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST"});
+                jhxhr.done(function (res) {
+                    console.log(res);
+                    if(res.code == 1){
+                        layer.close(1);
+                    }else{
+                        layer.alert(res.msg)
+                    }
+                });
+
+                return false; //开启该代码可禁止点击该按钮关闭
+            }
+        });
+    });
+};

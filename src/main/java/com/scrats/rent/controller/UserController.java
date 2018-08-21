@@ -2,6 +2,7 @@ package com.scrats.rent.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.scrats.rent.base.service.RedisService;
+import com.scrats.rent.base.service.SmsService;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.annotation.APIRequestControl;
@@ -40,6 +41,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private SmsService smsService;
 
     @IgnoreSecurity
     @GetMapping("/goUserDetail/{landlordId}")
@@ -101,6 +104,41 @@ public class UserController {
         }
 
         return new JsonResult("校验失败, 请输入正确的密码!");
+    }
+
+    @PostMapping("/updatePhone")
+    @ResponseBody
+    public JsonResult updatePhone(@APIRequestControl APIRequest apiRequest) {
+
+        String phone = APIRequest.getParameterValue(apiRequest, "phone", String.class);
+
+        String smsCode = APIRequest.getParameterValue(apiRequest, "smsCode", String.class);
+
+        if(!smsService.checkCode(phone, smsCode)){
+            return new JsonResult("验证码不正确, 请重新输入!");
+        }
+
+        Account account = accountService.findBy("phone", phone);
+        if(null != account){
+            return new JsonResult("该手机号码已被注册, 请重新输入!");
+        }
+
+        long updateTs = System.currentTimeMillis();
+        account = accountService.selectByPrimaryKey(apiRequest.getUser().getAccountId());
+        account.setPhone(phone);
+        account.setUpdateTs(updateTs);
+        accountService.updateByPrimaryKeySelective(account);
+
+        User updateUser = new User();
+        updateUser.setUserId(apiRequest.getUser().getUserId());
+        updateUser.setPhone(phone);
+        updateUser.setUpdateTs(updateTs);
+        userService.updateByPrimaryKeySelective(updateUser);
+
+        //更新缓存数据
+        redisService.set(apiRequest.getTokenId(),userService.selectByPrimaryKey(updateUser.getUserId()), GlobalConst.ACCESS_TOKEN_EXPIRE);
+
+        return new JsonResult();
     }
 
 }

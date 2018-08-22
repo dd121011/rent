@@ -78,7 +78,8 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
             if(res.code == 1){
                 layer.close(1);
                 layer.msg("房间出租成功");
-                location.href= requestBaseUrl + "/room/goRoomDetail/" + $('#roomId').val() + "?tokenId=" + tokenId;
+                // location.href= requestBaseUrl + "/room/goRoomDetail/" + $('#roomId').val() + "?tokenId=" + tokenId;
+                location.reload();
             }else{
                 layer.alert(res.msg);
             }

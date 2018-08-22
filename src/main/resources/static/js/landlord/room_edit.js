@@ -22,7 +22,8 @@ layui.use(['layer', 'form'], function () {
                     layer.msg("添加成功");
                 }
                 var buildingId = $("select[name=buildingId]").val();
-                location.href= requestBaseUrl + "/room/goRoom/" + userId + "/" + buildingId + "?tokenId=" + tokenId;
+                // location.href= requestBaseUrl + "/room/goRoom/" + userId + "/" + buildingId + "?tokenId=" + tokenId;
+                location.reload();
             }else{
                 layer.alert(res.msg)
             }

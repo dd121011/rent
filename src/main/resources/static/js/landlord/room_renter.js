@@ -11,7 +11,8 @@ layui.use(['layer', 'form'], function () {
             if(res.code == 1){
                 layer.close(1);
                 layer.msg("添加成功");
-                location.href= requestBaseUrl + "/room/goRoomDetail/" + renterRoomId + "?tokenId=" + tokenId;
+                // location.href= requestBaseUrl + "/room/goRoomDetail/" + renterRoomId + "?tokenId=" + tokenId;
+                location.reload();
             }else{
                 layer.alert(res.msg)
             }

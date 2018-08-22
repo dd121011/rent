@@ -1,6 +1,5 @@
 <div id="addRentDiv" style="padding: 20px 0; padding-right: 40px; display: none" >
     <form class="layui-form" lay-filter="rentEditFormFilter" action="">
-        <input type="hidden" name="roomId" required lay-verify="required" autocomplete="off" class="layui-input" value="${room.roomId}">
         <div class="layui-form-item">
             <label class="layui-form-label">姓名</label>
             <div class="layui-input-block">
@@ -64,15 +63,24 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">手机号码</label>
-            <div class="layui-input-block">
-                <input type="text" name="phone" required  lay-verify="phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">身份证</label>
             <div class="layui-input-block">
                 <input type="text" name="idCard" required  lay-verify="identity" placeholder="请输入身份证号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机号码</label>
+            <div class="layui-input-block">
+                <input type="text" name="phone" id="rentEditFormPhoneInput" required  lay-verify="phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">验证码</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="smsCode" required  lay-verify="required" placeholder="请输入验证码">
+            </div>
+            <div class="layui-input-inline" style="width:30%;">
+                <button type="button" class="layui-btn layui-btn-primary layui-btn-fluid" id="rentFormSmsCodeGenerate" >获取验证码</button>
             </div>
         </div>
         <div class="layui-form-item">

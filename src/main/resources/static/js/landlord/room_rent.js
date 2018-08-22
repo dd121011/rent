@@ -70,8 +70,9 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
         formParams.depositItermList = depositItermList;
         formParams.guarantyFee = guarantyFee;
         formParams.total = Number(formParams.rentFee) + Number(formParams.guarantyFee);
+        formParams.smsCode =formParams.smsCode;
         params.body = formParams;
-        params.roomId = formParams.roomId;
+        params.roomId = $('#roomDetailRoomId').val();
 
         var jhxhr = $.ajax({url: requestBaseUrl + "/room/rent", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST"});
         jhxhr.done(function (res) {

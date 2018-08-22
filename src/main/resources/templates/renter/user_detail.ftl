@@ -12,12 +12,32 @@
         <div class="layui-tab layui-tab-brief" lay-filter="userTabBrief">
             <input type="hidden" id="userId" autocomplete="off" class="layui-input" value="${user.userId}">
             <ul class="layui-tab-title">
-                <li class="layui-this">个人信息</li>
+                <li class="layui-this">个人中心</li>
                 <li>安全设置</li>
                 <li>操作日志</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
+                    <h6>实名认证信息</h6>
+                    <table class="layui-table" lay-even lay-skin="nob">
+                        <tbody>
+                        <tr>
+                            <th class="table-two-first-fex">认证状态：</th>
+                            <td><#if user.checkTs &gt; 0>已<#else>未</#if>认证</td>
+                        </tr>
+                        <tr>
+                            <th class="table-two-first-fex">姓名：</th>
+                            <td>${user.name}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-two-first-fex">身份证号：</th>
+                            <td>${user.hideIdCard}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <hr class="layui-bg-green">
+
+                    <h6>个人信息</h6>
                     <form class="layui-form" lay-filter="userPersonalInfoFormFilter" action="">
                         <table class="layui-table" lay-even lay-skin="nob">
                             <tbody>

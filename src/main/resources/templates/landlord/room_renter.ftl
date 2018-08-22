@@ -7,15 +7,24 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">手机号码</label>
-            <div class="layui-input-block">
-                <input type="text" name="phone" required  lay-verify="phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">身份证</label>
             <div class="layui-input-block">
                 <input type="text" name="idCard" required  lay-verify="identity" placeholder="请输入身份证号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机号码</label>
+            <div class="layui-input-block">
+                <input type="text" name="phone" id="renterEditFormPhoneInput" required  lay-verify="phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">验证码</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="smsCode" required  lay-verify="required" placeholder="请输入验证码">
+            </div>
+            <div class="layui-input-inline" style="width:30%;">
+                <button type="button" class="layui-btn layui-btn-primary layui-btn-fluid" id="renterFormSmsCodeGenerate" >获取验证码</button>
             </div>
         </div>
         <div class="layui-form-item">

@@ -8,7 +8,7 @@
 
     <div class="layui-body childrenBody">
         <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-            <input type="hidden" id="roomId" autocomplete="off" class="layui-input" value="${room.roomId}">
+            <input type="hidden" id="roomDetailRoomId" autocomplete="off" class="layui-input" value="${room.roomId}">
             <ul class="layui-tab-title">
                 <li class="layui-this">房子详情</li>
                 <li>租客列表</li>

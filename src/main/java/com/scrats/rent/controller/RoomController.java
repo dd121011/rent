@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.RedisService;
+import com.scrats.rent.base.service.SmsService;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
@@ -12,11 +13,9 @@ import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.constant.GlobalConst;
-import com.scrats.rent.constant.SexType;
 import com.scrats.rent.constant.UserType;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
-import com.scrats.rent.util.AccountValidatorUtil;
 import com.scrats.rent.util.IdCardUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -70,6 +69,8 @@ public class RoomController {
     private DepositService depositService;
     @Autowired
     private UserRoleService userRoleService;
+    @Autowired
+    private SmsService smsService;
 
     @IgnoreSecurity
     @GetMapping(value = {"/goRoom/{userId}/{buildingId}","/goRoom/{userId}"})
@@ -252,37 +253,49 @@ public class RoomController {
 
     @PostMapping("/renterAdd/{roomId}")
     @ResponseBody
-    public JsonResult renterAdd(@PathVariable(name="roomId") Integer roomId, String idCard, String phone, String name) throws ParseException {
-        long createTs = System.currentTimeMillis();
+    public JsonResult renterAdd(@PathVariable(name="roomId") Integer roomId, @APIRequestControl APIRequest apiRequest) throws ParseException {
+
+        User newUser = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),User.class);
+        String smsCode = APIRequest.getParameterValue(apiRequest, "smsCode", String.class);
+
+        if(!smsService.checkCode(newUser.getPhone(), smsCode)){
+            return new JsonResult("该手机号不正确!");
+        }
+
         Renter renter = null;
-        if(null == accountService.findBy("phone", phone)){
-            if(null != userService.findBy("idCard", idCard)){
-                return new JsonResult("身份证号:" + idCard + "在系统中已被注册");
+        long createTs = System.currentTimeMillis();
+        if(null == accountService.findBy("phone", newUser.getPhone())){
+            if(null != userService.findBy("idCard", newUser.getIdCard())){
+                return new JsonResult("身份证号:" + newUser.getIdCard() + "在系统中已被注册");
             }
-            if(!AccountValidatorUtil.isMobile(phone)){
-                return new JsonResult("该手机号不正确!");
-            }
-            String idValid = IdCardUtil.IDCardValidate(idCard);
+
+            String idValid = IdCardUtil.IDCardValidate(newUser.getIdCard());
             if(!IdCardUtil.VALIDITY.equals(idValid)){
                 return new JsonResult(idValid);
             }
             //创建account
-            Account account = new Account(phone, phone, phone);
+            Account account = new Account(newUser.getPhone(), newUser.getPhone(), newUser.getPhone());
             account.setCreateTs(createTs);
             accountService.insertSelective(account);
+
             //创建user
-            User user = new User(name, SexType.secret, phone, idCard);
-            user.setAccountId(account.getAccountId());
-            user.setCreateTs(createTs);
-            userService.insertSelective(user);
+            newUser.setAccountId(account.getAccountId());
+            newUser.setCreateTs(createTs);
+            userService.insertSelective(newUser);
             //创建userRole
-            UserRole userRole = new UserRole(UserType.renter, user.getUserId());
+            UserRole userRole = new UserRole(UserType.renter, newUser.getUserId());
             userRole.setCreateTs(createTs);
             userRoleService.insertSelective(userRole);
         }else{
-            User user = userService.findBy("phone",phone);
+            User user = userService.findBy("phone",newUser.getPhone());
             if(null == user){
                 throw new BusinessException("请求数据不正确");
+            }
+            if(!newUser.getName().equals(user.getName())){
+                throw new BusinessException("填写的身份证号与该手机号在系统中记录的有误");
+            }
+            if(!newUser.getIdCard().equals(user.getIdCard())){
+                throw new BusinessException("填写的姓名与该手机号在系统中记录的有误");
             }
             RoomRenter param = new RoomRenter();
             param.setRoomId(roomId);

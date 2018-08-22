@@ -8,7 +8,7 @@ layui.use(['layer', 'table', 'form'], function () {
 
     //生成房间二维码
     new QRCode('qrcode', {
-        text: 'https://scrats.cn/rent/qr?method=bindRoom&data=' + $('#roomId').val(),
+        text: 'https://scrats.cn/rent/qr?method=bindRoom&data=' + $('#roomDetailRoomId').val(),
         width: 256,
         height: 256,
         colorDark : '#000000',
@@ -19,7 +19,7 @@ layui.use(['layer', 'table', 'form'], function () {
     //租客Table
     table.render({
         elem: '#lay_table_room_renter'//指定原始表格元素选择器（
-        , url: requestBaseUrl + '/room/renterAll/' + $('#roomId').val()
+        , url: requestBaseUrl + '/room/renterAll/' + $('#roomDetailRoomId').val()
         , method: 'get'
         , headers: header
         , request: {
@@ -89,7 +89,7 @@ layui.use(['layer', 'table', 'form'], function () {
             , dataName: 'data' //数据列表的字段名称，默认：data
         } //如果无需自定义数据响应名称，可不加该参数
         , where: {
-            roomId: $('#roomId').val(),
+            roomId: $('#roomDetailRoomId').val(),
             deleteTs: -1
         }//传参*/
         , id: 'lay_table_bargin_room'
@@ -125,6 +125,16 @@ layui.use(['layer', 'table', 'form'], function () {
 
     var active = {
         rentAdd: function () {
+            form.val("rentEditFormFilter", {
+                "name": ""
+                ,"sex": "0"
+                ,"idCard": ""
+                ,"phone": ""
+                ,"smsCode": ""
+                ,"liveTs": ""
+                ,"leaveTs": ""
+                ,"remark": ""
+            });
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "办理入住"
@@ -139,13 +149,14 @@ layui.use(['layer', 'table', 'form'], function () {
                     layer.closeAll();
                 }
                 ,success: function(layero, index){
+                    smsCodeGenerateClick($('#rentEditFormPhoneInput'), $('#rentFormSmsCodeGenerate'));
                     console.log(layero, index);
                 }
             });
             //额外收费项table
             table.render({
                 elem: '#extraTable'//指定原始表格元素选择器（
-                , url: requestBaseUrl + '/room/extra/' + $('#roomId').val()
+                , url: requestBaseUrl + '/room/extra/' + $('#roomDetailRoomId').val()
                 , method: 'get'
                 , headers: header
                 , request: {
@@ -184,7 +195,7 @@ layui.use(['layer', 'table', 'form'], function () {
             //押金项Table
             table.render({
                 elem: '#depositTable'//指定原始表格元素选择器（
-                , url: requestBaseUrl + '/room/depositIterm/' + $('#roomId').val()
+                , url: requestBaseUrl + '/room/depositIterm/' + $('#roomDetailRoomId').val()
                 , method: 'get'
                 , headers: header
                 , request: {
@@ -224,8 +235,14 @@ layui.use(['layer', 'table', 'form'], function () {
             });
         },
         renterAdd: function () {
-            $("input[type!=checkbox]").val("");
-            $("[name='remark']").val("");
+            form.val("renterEditFormFilter", {
+                "name": ""
+                ,"idCard": ""
+                ,"phone": ""
+                ,"smsCode": ""
+                ,"remark": ""
+            });
+
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "添加租客"
@@ -238,6 +255,10 @@ layui.use(['layer', 'table', 'form'], function () {
                 // , shade: 0 //不显示遮罩
                 , yes: function () {
                     layer.closeAll();
+                }
+                , success: function(layero, index){
+                    smsCodeGenerateClick($('#renterEditFormPhoneInput'), $('#renterFormSmsCodeGenerate'));
+                    console.log(layero, index);
                 }
             });
         },
@@ -278,7 +299,7 @@ layui.use(['layer', 'table', 'form'], function () {
         },
         rentLeave: function () {
             layer.confirm('真的要办理退房吗, 请先退还押金', function (index) {
-                var jhxhr = $.ajax({url: requestBaseUrl + "/room/rentLeave/" + $('#roomId').val(), headers: header, type: "GET"});
+                var jhxhr = $.ajax({url: requestBaseUrl + "/room/rentLeave/" + $('#roomDetailRoomId').val(), headers: header, type: "GET"});
                 jhxhr.done(function (res) {
                     if(res.code == 1){
                         //执行重载
@@ -307,7 +328,7 @@ layui.use(['layer', 'table', 'form'], function () {
                 checkType = "离开";
             }
             layer.confirm('请确认是否已经办理完' + checkType + '手续', function (index) {
-                var jhxhr = $.ajax({url: requestBaseUrl + "/room/renterCheck/" + $('#roomId').val() + "/" + data.roomRenterId, headers: header, type: "GET"});
+                var jhxhr = $.ajax({url: requestBaseUrl + "/room/renterCheck/" + $('#roomDetailRoomId').val() + "/" + data.roomRenterId, headers: header, type: "GET"});
                 jhxhr.done(function (res) {
                     if(res.code == 1){
                         layer.msg(checkType + "核验成功");
@@ -320,7 +341,7 @@ layui.use(['layer', 'table', 'form'], function () {
             });
         } else if (obj.event === 'del') {
             layer.confirm('真的删除当前租客么', function (index) {
-                var jhxhr = $.ajax({url: requestBaseUrl + "/room/renterDelete/" + $('#roomId').val() + "/" + data.roomRenterId, headers: header, type: "GET"});
+                var jhxhr = $.ajax({url: requestBaseUrl + "/room/renterDelete/" + $('#roomDetailRoomId').val() + "/" + data.roomRenterId, headers: header, type: "GET"});
                 jhxhr.done(function (res) {
                     if(res.code == 1){
                         obj.del();

@@ -29,7 +29,7 @@ layui.use(['layer', 'form'], function () {
                     layer.closeAll();
                 }
                 , success: function(layero, index){
-                    smsCodeGenerateClick($('#userPhoneEditNewPhoneInput'));
+                    smsCodeGenerateClick($('#userPhoneEditNewPhoneInput'), $('#smsCodeGenerate'));
                     console.log(layero, index);
                 }
             });

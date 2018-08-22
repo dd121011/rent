@@ -184,14 +184,14 @@ var pickkkkkk = function () {
     };
 
 //绑定click点击事件
-var smsCodeGenerateClick = function (obj) {
+var smsCodeGenerateClick = function (phoneObj, codeObj) {
     layui.use(['layer'], function () {
         var $ = layui.jquery;
         var layer = layui.layer;
         var form = layui.form;
-        $('#smsCodeGenerate').on('click', function () {
+        codeObj.on('click', function () {
             var smsCodeButton = this;
-            var sendPhone = obj.val();
+            var sendPhone = phoneObj.val();
             if(isEmpty(sendPhone)){
                 return layer.alert("请输入正确的手机号码!");
             }

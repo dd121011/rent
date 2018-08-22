@@ -185,18 +185,25 @@ var pickkkkkk = function () {
 
 //绑定click点击事件
 var smsCodeGenerateClick = function (obj) {
-    $('#smsCodeGenerate').on('click', function () {
-        var smsCodeButton = this;
-        var sendPhone = obj.val();
-        console.log(sendPhone);
-        var jhxhr = $.ajax({url: requestBaseUrl + "/api/sms/send/" + sendPhone, headers: header, contentType: 'application/json', type: "GET"});
-        jhxhr.done(function (res) {
-            console.log(res);
-            if(res.code == 1){
-                settime(smsCodeButton);
-            }else{
-                layer.alert(res.msg);
+    layui.use(['layer'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        $('#smsCodeGenerate').on('click', function () {
+            var smsCodeButton = this;
+            var sendPhone = obj.val();
+            if(isEmpty(sendPhone)){
+                return layer.alert("请输入正确的手机号码!");
             }
+            var jhxhr = $.ajax({url: requestBaseUrl + "/api/sms/send/" + sendPhone, headers: header, contentType: 'application/json', type: "GET"});
+            jhxhr.done(function (res) {
+                console.log(res);
+                if(res.code == 1){
+                    settime(smsCodeButton);
+                }else{
+                    layer.alert(res.msg);
+                }
+            });
         });
     });
 };

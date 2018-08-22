@@ -10,10 +10,10 @@
         <div class="layui-form-item">
             <label class="layui-form-label">验证码</label>
             <div class="layui-input-inline">
-                <input type="text" class="layui-input" name="smsCode" required  lay-verify="required" id="chargeEditMonth" placeholder="请输入验证码">
+                <input type="text" class="layui-input" name="smsCode" required  lay-verify="required" placeholder="请输入验证码">
             </div>
             <div class="layui-input-inline" style="width:30%;">
-                <button type="button" class="layui-btn layui-btn-primary layui-btn-fluid" id="smsCodeGenerate" lay-filter="userPhoneEditFormSmsCodeGenerateSubmitFilter">获取验证码</button>
+                <button type="button" class="layui-btn layui-btn-primary layui-btn-fluid" id="smsCodeGenerate" >获取验证码</button>
             </div>
         </div>
         <div class="layui-form-item">

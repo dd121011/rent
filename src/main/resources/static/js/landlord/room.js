@@ -377,12 +377,14 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
         jhxhr.done(function (res) {
             if(res.code == 1){
                 $('#searchRoomId').html('');
-                var option = $('<option>').val(-1).text("请选择");
-                $('#searchRoomId').append(option)
-                $.each(res.data, function (index, val) {
-                    var option = $('<option>').val(val.roomId).text(val.roomNo);
+                if(res.data.length > 0){
+                    var option = $('<option>').val(-1).text("请选择");
                     $('#searchRoomId').append(option)
-                });
+                    $.each(res.data, function (index, val) {
+                        option = $('<option>').val(val.roomId).text(val.roomNo);
+                        $('#searchRoomId').append(option)
+                    });
+                }
                 //重新渲染
                 form.render('select', 'roomSearchFormFilter');
                 $('#searchRoomId').get(0).selectedIndex = 0;

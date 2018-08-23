@@ -44,6 +44,7 @@ public class UploadApi {
         return new JsonResult<JSONObject>(jsonObject);
     }
 
+    @IgnoreSecurity
     @GetMapping("/uploadToken")
     public JsonResult uploadToken() {
         String token = uploadService.getQiniuToken();

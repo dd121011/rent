@@ -1,10 +1,17 @@
 var chargeExtra;
-layui.use(['layer', 'table', 'form', 'laytpl'], function () {
+layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
     var $ = layui.$;
     var layer = layui.layer;
     var table = layui.table;
     var form = layui.form;
     var laytpl = layui.laytpl;
+    var laydate = layui.laydate;
+
+    laydate.render({
+        elem: '#searchMonth'
+        ,type: 'month'
+        ,format: 'yyyyMM'
+    });
 
     //方法级渲染
     table.render({
@@ -26,6 +33,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
         , where: {
             roomId: $('#searchRoomId').val(),
             buildingId: $('#searchBuildingId').val(),
+            rentMonth: $('#searchMonth').val(),
             payTs: $('#searchRoomPayTs').val()
         }//传参*/
         , id: 'lay_table_rent'
@@ -116,10 +124,14 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
         jhxhr.done(function (res) {
             if(res.code == 1){
                 $('#searchRoomId').html('');
-                $.each(res.data, function (index, val) {
-                    var option = $('<option>').val(val.roomId).text(val.roomNo);
+                if(res.data.length > 0){
+                    var option = $('<option>').val('').text('全部');
                     $('#searchRoomId').append(option)
-                });
+                    $.each(res.data, function (index, val) {
+                        option = $('<option>').val(val.roomId).text(val.roomNo);
+                        $('#searchRoomId').append(option)
+                    });
+                }
                 //重新渲染
                 form.render('select', 'rentSearchFormFilter');
                 $('#searchRoomId').get(0).selectedIndex = 0;
@@ -140,6 +152,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 , where: {
                     roomId: $('#searchRoomId').val(),
                     buildingId: $('#searchBuildingId').val(),
+                    rentMonth: $('#searchMonth').val(),
                     payTs: $('#searchRoomPayTs').val()
                 }
             });

@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -67,9 +66,6 @@ public class RentController {
             param.setBuildingId(buildingPage.getList().get(0).getBuildingId());
             PageInfo<Room> roomPage = roomService.getRoomList(null, param, false);
             roomList = roomPage.getList();
-            if(!CollectionUtils.isEmpty(roomList)){
-                roomId = roomPage.getList().get(0).getRoomId();
-            }
         }else{
             Room room = roomService.selectByPrimaryKey(roomId);
             if(null != room){

@@ -21,10 +21,14 @@
                     </div>
                     <div class="layui-input-inline">
                         <select id="searchRoomId" lay-verify="required" lay-search="">
+                            <option value="" selected>全部</option>
                         <#list rooms as item>
                             <option value="${item.roomId}"<#if item.roomId == roomId>selected</#if>>${item.roomNo}</option>
                         </#list>
                         </select>
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="searchMonth" required  lay-verify="required" placeholder="请选择统计月">
                     </div>
                     <div class="layui-input-inline">
                         <select id="searchRoomPayTs"  lay-search="">

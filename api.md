@@ -94,7 +94,7 @@ curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -
 
 #### Sample
 ```
-curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/upload/uploadToken'
+curl https://scrats.cn/rent/api/upload/uploadToken
 ```
 #### Response
 ```

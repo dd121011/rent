@@ -78,9 +78,7 @@ sms:
   check: https://scrats.cn/api/core/sms
 
 qiniu:
-  ak: pFMOp8Bx9bbuV7TxOLzq7srre69t2-KiT4qs_ia0
-  sk: a-YbA0858L2fgzLuRifumM01cevIahMFZIh6DGtO
-  bucket: tinstone
-  domain: https://oiu0cclvb.qnssl.com/
-
-
+  ak: L-QcW2FE28Gi85jsBBuCyfc4y0xggWL0o2p-ig4v
+  sk: aCAgLI3p5I4dpQ6zpLOcaLzLOFS1Gg6n71Y-ApCO
+  bucket: richrent
+  domain: http://rcdn.scrats.cn/

@@ -294,6 +294,7 @@ CREATE TABLE `bargin_extra` (
     `bargin_extra_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `bargin_id` int(10) unsigned NOT NULL COMMENT '合同Id',
     `room_id` int(10) unsigned NOT NULL COMMENT '房间Id',
+    `building_id` int(10) unsigned NOT NULL COMMENT '房子Id',
     `dic_iterm_code` char(4) NOT NULL COMMENT '额外收费项code',
     `value` varchar(32) NOT NULL COMMENT '名称',
     `unit` varchar(16) DEFAULT '' COMMENT '单位',

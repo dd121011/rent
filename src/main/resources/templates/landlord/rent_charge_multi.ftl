@@ -20,9 +20,9 @@
                         </select>
                     </div>
                     <div class="layui-input-inline">
-                        <select id="searchRoomId" lay-verify="required" lay-search="">
+                        <select id="searchExtraCode" lay-verify="required" lay-search="">
                         <#list extraType as item>
-                            <option value="${item.dicItermCode}"${item.value}</option>
+                            <option value="${item.dicItermCode}">${item.value}</option>
                         </#list>
                         </select>
                     </div>
@@ -30,9 +30,6 @@
                         <input type="text" class="layui-input" id="searchMonth" required  lay-verify="required" placeholder="请选择统计月">
                     </div>
                     <a class="layui-btn search_btn" data-method="search" data-type="search">搜索</a>
-                </div>
-                <div class="layui-inline">
-                    <a data-method="add" data-type="add" class="layui-btn layui-btn-normal">添加</a>
                 </div>
             </form>
         </blockquote>

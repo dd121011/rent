@@ -62,7 +62,7 @@ public class RentController {
         //获取所有房子select数据
         PageInfo<Building> buildingPage = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
         if(buildingPage.getTotal() < 1){
-            throw new BusinessException("数组异常, 请联系管理员!!!");
+            throw new BusinessException("数据异常, 请联系管理员!!!");
         }
         List<Room> roomList = new ArrayList<Room>();
         Integer buildingId = null;
@@ -147,10 +147,9 @@ public class RentController {
         }
 
         //获取所有房子select数据
-        //PageInfo<Building> buildingPage = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
-        PageInfo<Building> buildingPage = buildingService.getBuildingListWithUserId(null, null, 1000, false);
+        PageInfo<Building> buildingPage = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
         if(buildingPage.getTotal() < 1){
-            throw new BusinessException("数组异常, 请联系管理员!!!");
+            throw new BusinessException("数据异常, 请联系管理员!!!");
         }
         //获取所有抄表合同额外收费项
         Bargin param = new Bargin();

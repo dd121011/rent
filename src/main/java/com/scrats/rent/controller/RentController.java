@@ -9,10 +9,7 @@ import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.entity.*;
-import com.scrats.rent.service.BuildingService;
-import com.scrats.rent.service.ExtraHistoryService;
-import com.scrats.rent.service.RentService;
-import com.scrats.rent.service.RoomService;
+import com.scrats.rent.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +43,8 @@ public class RentController {
     private RentService rentService;
     @Autowired
     private ExtraHistoryService extraHistoryService;
+    @Autowired
+    private BarginExtraService barginExtraService;
 
     @IgnoreSecurity
     @GetMapping(value = {"/goRent/{userId}/{roomId}","/goRent/{userId}"})
@@ -129,6 +128,42 @@ public class RentController {
         Rent rent = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Rent.class);
         List<ExtraHistory> list = JSON.parseArray(JSON.toJSONString(apiRequest.getBody().get("extraList")),ExtraHistory.class);
         return rentService.rentEdit(rent, list);
+    }
+
+    @IgnoreSecurity
+    @GetMapping("/goRentMulti/{userId}/{buildingId}")
+    public String goRentMulti(String tokenId, @PathVariable(name="userId") Integer userId, @PathVariable(name="buildingId") Integer buildingId, Map<String, Object> map){
+
+        User user = (User)redisService.get(tokenId);
+        if(null == user || (userId -  user.getUserId() != 0)){
+            throw new NotAuthorizedException("参数错误");
+        }
+
+        //获取所有房子select数据
+        PageInfo<Building> buildingPage = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
+        //获取所有抄表合同额外收费项
+        Bargin param = new Bargin();
+        param.setBuildingId(buildingId);
+        List<BarginExtra> barginExtraList = barginExtraService.getBarginExtraTypeByBargin(param);
+
+        map.put("user",user);
+        map.put("buildingId",buildingId);
+        map.put("buildings",buildingPage.getList());
+        map.put("extraType",barginExtraList);
+
+        return "landlord/rent_charge_multi";
+    }
+
+    @GetMapping("/extraType/{buildingId}")
+    @ResponseBody
+    public JsonResult goRentMulti(@PathVariable(name="buildingId") Integer buildingId){
+
+        //获取所有抄表合同额外收费项
+        Bargin param = new Bargin();
+        param.setBuildingId(buildingId);
+        List<BarginExtra> barginExtraList = barginExtraService.getBarginExtraTypeByBargin(param);
+
+        return new JsonResult<List>(barginExtraList);
     }
 
 }

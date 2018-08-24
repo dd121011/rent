@@ -1,8 +1,11 @@
 package com.scrats.rent.service;
 
 import com.scrats.rent.base.service.BaseService;
+import com.scrats.rent.entity.Bargin;
 import com.scrats.rent.entity.BarginExtra;
 import com.scrats.rent.mapper.BarginExtraMapper;
+
+import java.util.List;
 
 /**
  * Created with scrat.
@@ -13,4 +16,5 @@ import com.scrats.rent.mapper.BarginExtraMapper;
  */
 public interface BarginExtraService extends BaseService<BarginExtra, BarginExtraMapper> {
 
+    List<BarginExtra> getBarginExtraTypeByBargin(Bargin bargin);
 }

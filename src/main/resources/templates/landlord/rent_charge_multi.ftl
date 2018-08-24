@@ -21,29 +21,18 @@
                     </div>
                     <div class="layui-input-inline">
                         <select id="searchRoomId" lay-verify="required" lay-search="">
-                            <option value="" selected>全部</option>
-                        <#list rooms as item>
-                            <option value="${item.roomId}"<#if item.roomId == roomId>selected</#if>>${item.roomNo}</option>
+                        <#list extraType as item>
+                            <option value="${item.dicItermCode}"${item.value}</option>
                         </#list>
                         </select>
                     </div>
                     <div class="layui-input-inline">
                         <input type="text" class="layui-input" id="searchMonth" required  lay-verify="required" placeholder="请选择统计月">
                     </div>
-                    <div class="layui-input-inline">
-                        <select id="searchRoomPayTs"  lay-search="">
-                            <option value="-1" selected>全部</option>
-                            <option value="1">已缴费</option>
-                            <option value="0">未缴费</option>
-                        </select>
-                    </div>
                     <a class="layui-btn search_btn" data-method="search" data-type="search">搜索</a>
                 </div>
                 <div class="layui-inline">
                     <a data-method="add" data-type="add" class="layui-btn layui-btn-normal">添加</a>
-                </div>
-                <div class="layui-inline">
-                    <a data-method="addMulti" data-type="adds" class="layui-btn layui-btn-normal">批量收租</a>
                 </div>
             </form>
         </blockquote>
@@ -53,15 +42,7 @@
 
 <#include "footer.ftl"/>
 
-<script type="text/html" id="rentListBar">
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="pay">缴费</a>
-    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="detail">详情</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-</script>
 
-<script src="${base}/static/js/landlord/rent.js" charset="utf-8"></script>
+<script src="${base}/static/js/landlord/rent_charge_multi.js" charset="utf-8"></script>
 
-<#include "landlord/rent_charge.ftl"/>
-<#include "landlord/rent_detail.ftl"/>
-<#include "landlord/rent_edit.ftl"/>
 </html>

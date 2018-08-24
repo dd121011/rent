@@ -379,10 +379,10 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 $('#searchRoomId').html('');
                 if(res.data.length > 0){
                     var option = $('<option>').val(-1).text("请选择");
-                    $('#searchRoomId').append(option)
+                    $('#searchRoomId').append(option);
                     $.each(res.data, function (index, val) {
                         option = $('<option>').val(val.roomId).text(val.roomNo);
-                        $('#searchRoomId').append(option)
+                        $('#searchRoomId').append(option);
                     });
                 }
                 //重新渲染

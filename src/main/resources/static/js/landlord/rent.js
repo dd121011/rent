@@ -126,10 +126,10 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
                 $('#searchRoomId').html('');
                 if(res.data.length > 0){
                     var option = $('<option>').val('').text('全部');
-                    $('#searchRoomId').append(option)
+                    $('#searchRoomId').append(option);
                     $.each(res.data, function (index, val) {
                         option = $('<option>').val(val.roomId).text(val.roomNo);
-                        $('#searchRoomId').append(option)
+                        $('#searchRoomId').append(option);
                     });
                 }
                 //重新渲染

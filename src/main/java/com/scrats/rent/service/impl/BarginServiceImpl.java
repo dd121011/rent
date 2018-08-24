@@ -48,6 +48,7 @@ public class BarginServiceImpl extends BaseServiceImpl<Bargin, BarginMapper> imp
         list = dao.getBarginList(bargin);
         PageInfo pageInfo = new PageInfo();
         pageInfo.setList(list);
+        pageInfo.setTotal(list.size());
         return pageInfo;
     }
 

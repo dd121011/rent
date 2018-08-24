@@ -73,6 +73,7 @@ public class RentServiceImpl extends BaseServiceImpl<Rent, RentMapper> implement
         list = dao.getListByRent(rent);
         PageInfo pageInfo = new PageInfo();
         pageInfo.setList(list);
+        pageInfo.setTotal(list.size());
         return pageInfo;
     }
 

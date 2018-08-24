@@ -83,6 +83,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         list = dao.getRoomList(room);
         PageInfo pageInfo = new PageInfo();
         pageInfo.setList(list);
+        pageInfo.setTotal(list.size());
         return pageInfo;
     }
 

@@ -42,6 +42,7 @@ public class BuildingServiceImpl extends BaseServiceImpl<Building, BuildingMappe
         list = dao.getBuildingListWithUserId(building, userId);
         PageInfo pageInfo = new PageInfo();
         pageInfo.setList(list);
+        pageInfo.setTotal(list.size());
         return pageInfo;
     }
 

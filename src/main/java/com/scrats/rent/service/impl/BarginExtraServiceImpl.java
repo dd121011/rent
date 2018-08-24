@@ -27,4 +27,9 @@ public class BarginExtraServiceImpl extends BaseServiceImpl<BarginExtra, BarginE
     public List<BarginExtra> getBarginExtraTypeByBargin(Bargin bargin) {
         return dao.getBarginExtraTypeByBargin(bargin);
     }
+
+    @Override
+    public List<BarginExtra> getBarginExtraByBuildingIdAndDicItermCode(Integer buildingId, String code) {
+        return dao.getBarginExtraByBuildingIdAndDicItermCode(buildingId, code);
+    }
 }

@@ -17,4 +17,6 @@ import java.util.List;
 public interface BarginExtraService extends BaseService<BarginExtra, BarginExtraMapper> {
 
     List<BarginExtra> getBarginExtraTypeByBargin(Bargin bargin);
+
+    List<BarginExtra> getBarginExtraByBuildingIdAndDicItermCode(Integer buildingId, String code);
 }

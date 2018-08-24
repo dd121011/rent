@@ -1,6 +1,8 @@
 package com.scrats.rent.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
@@ -10,6 +12,7 @@ import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
+import com.scrats.rent.util.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,6 +167,33 @@ public class RentController {
         List<BarginExtra> barginExtraList = barginExtraService.getBarginExtraTypeByBargin(param);
 
         return new JsonResult<List>(barginExtraList);
+    }
+
+    @GetMapping("/multi/{buildingId}/{code}/{month}")
+    @ResponseBody
+    public JsonResult multi(@PathVariable(name="buildingId") Integer buildingId, @PathVariable(name="code") String code, @PathVariable(name="month") String month){
+        JSONArray jsonArray = new JSONArray();
+        //获取所有含有该额外收费项code的房间
+        List<BarginExtra> barginExtraList = barginExtraService.getBarginExtraByBuildingIdAndDicItermCode(buildingId, code);
+        for(BarginExtra barginExtra : barginExtraList){
+            //获取所有已记录
+            List<ExtraHistory> extraHistoryList = extraHistoryService.getListByBarginExtraAndMonth(barginExtra, month);
+            if(extraHistoryList.size() < 1){
+                JSONObject jsonObject = (JSONObject) JSON.toJSON(barginExtra);
+                ExtraHistory query = new ExtraHistory();
+                query.setBarginExtraId(barginExtra.getBarginExtraId());
+                query.setMonth(DateUtils.beforeMonth(month));
+                List<ExtraHistory> before = extraHistoryService.select(query);
+                //没有记录
+                if(null == before || before.size() < 1){
+                    jsonObject.put("beforeCount", barginExtra.getNumber());
+                }else{
+                    jsonObject.put("beforeCount", before.get(0).getCount());
+                }
+                jsonArray.add(jsonObject);
+            }
+        }
+        return new JsonResult<JSONArray>(jsonArray);
     }
 
 }

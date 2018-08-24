@@ -9,6 +9,7 @@ import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
+import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
@@ -60,6 +61,9 @@ public class RentController {
 
         //获取所有房子select数据
         PageInfo<Building> buildingPage = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
+        if(buildingPage.getTotal() < 1){
+            throw new BusinessException("数组异常, 请联系管理员!!!");
+        }
         List<Room> roomList = new ArrayList<Room>();
         Integer buildingId = null;
         if(null == roomId){
@@ -143,7 +147,11 @@ public class RentController {
         }
 
         //获取所有房子select数据
-        PageInfo<Building> buildingPage = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
+        //PageInfo<Building> buildingPage = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
+        PageInfo<Building> buildingPage = buildingService.getBuildingListWithUserId(null, null, 1000, false);
+        if(buildingPage.getTotal() < 1){
+            throw new BusinessException("数组异常, 请联系管理员!!!");
+        }
         //获取所有抄表合同额外收费项
         Bargin param = new Bargin();
         param.setBuildingId(buildingId);

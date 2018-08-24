@@ -83,6 +83,9 @@ public class RoomController {
 
         //获取所有房子select数据
         PageInfo<Building> pageInfo = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
+        if(pageInfo.getTotal() < 1){
+            throw new BusinessException("数组异常, 请联系管理员!!!");
+        }
         Building building = null;
         if(buildingId == null){
             if(pageInfo.getList() != null && pageInfo.getList().size() > 0){

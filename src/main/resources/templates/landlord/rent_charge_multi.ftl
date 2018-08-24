@@ -10,10 +10,10 @@
         内容主体区域
         <br><br>
         <blockquote class="layui-elem-quote">
-            <form class="layui-form" lay-filter="rentSearchFormFilter" action="">
+            <form class="layui-form" lay-filter="rentMultiSearchFormFilter" action="">
                 <div class="layui-inline">
                     <div class="layui-input-inline">
-                        <select id="searchBuildingId" lay-verify="required" lay-filter="rentSearchFormSelectBuildingFilter" lay-search="">
+                        <select id="searchBuildingId" lay-verify="required" lay-filter="rentMultiSearchFormSelectBuildingFilter" lay-search="">
                         <#list buildings as item>
                             <option value="${item.buildingId}"<#if item.buildingId == buildingId>selected</#if>>${item.name}</option>
                         </#list>
@@ -38,7 +38,6 @@
     </div>
 
 <#include "footer.ftl"/>
-
 
 <script src="${base}/static/js/landlord/rent_charge_multi.js" charset="utf-8"></script>
 

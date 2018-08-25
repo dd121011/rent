@@ -66,7 +66,7 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
         formParams.rentFee = formParams.rentFee * 100;
         formParams.liveTs = (new Date(formParams.liveTs)).getTime();
         formParams.leaveTs = (new Date(formParams.leaveTs)).getTime();
-        formParams.facilities = formParams.facilities.join(",");
+        formParams.facilities = '无'== formParams.facilities ? '' : formParams.facilities.join(",");
         formParams.barginExtraList = barginExtraList;
         formParams.depositItermList = depositItermList;
         formParams.guarantyFee = guarantyFee;

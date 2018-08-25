@@ -130,4 +130,4 @@
     </form>
 </div>
 
-<script src="${base}/static/js/landlord/room_rent.js" charset="utf-8"></script>
+<script src="${base}/static/js/landlord/room_detail_rent.js" charset="utf-8"></script>

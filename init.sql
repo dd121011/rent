@@ -5,11 +5,11 @@ INSERT INTO `account`(account_id, username, pwd, phone, remark, create_ts) VALUE
 
 -- user initial
 -- 超级管理员
-INSERT INTO `user` (user_id, type, name, sex, age, account_id, create_ts) VALUES (1, '4', 'administrator', '0', '18', 1, unix_timestamp(now()));
+INSERT INTO `user` (user_id, name, sex, account_id, create_ts) VALUES (1, '4', 'administrator', '0', '18', 1, unix_timestamp(now()));
 -- 管理员
-INSERT INTO `user` (user_id, type, name, sex, age, account_id, create_ts) VALUES (2, '2', 'scrat', '2', '18', 2, unix_timestamp(now()));
+INSERT INTO `user` (user_id, name, sex, account_id, create_ts) VALUES (2, '2', 'scrat', '2', '18', 2, unix_timestamp(now()));
 -- 房东
-INSERT INTO `user` (user_id, type, name, sex, age, account_id, create_ts) VALUES (3, '1', 'ryan', '1', '18', 3, unix_timestamp(now()));
+INSERT INTO `user` (user_id, name, sex, account_id, create_ts) VALUES (3, '1', 'ryan', '1', '18', 3, unix_timestamp(now()));
 
 -- dictionary initial
 INSERT INTO `dictionary` (dic_code, name, create_ts) VALUES ('0001', '配套设施', unix_timestamp(now()));

@@ -90,7 +90,9 @@ layui.use(['layer', 'table', 'form'], function () {
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: {
-                    buildingId: $('#searchBuildingName').val()
+                    body: {
+                        buildingId: $('#searchBuildingName').val()
+                    }
                 }//传参*/
             });
         },

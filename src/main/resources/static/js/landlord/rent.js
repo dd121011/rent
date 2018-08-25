@@ -150,10 +150,12 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: {
-                    roomId: $('#searchRoomId').val(),
-                    buildingId: $('#searchBuildingId').val(),
-                    rentMonth: $('#searchMonth').val(),
-                    payTs: $('#searchRoomPayTs').val()
+                    body: {
+                        roomId: $('#searchRoomId').val(),
+                        buildingId: $('#searchBuildingId').val(),
+                        rentMonth: $('#searchMonth').val(),
+                        payTs: $('#searchRoomPayTs').val()
+                    }
                 }
             });
         },

@@ -23,8 +23,6 @@ public class APIRequest {
     private String searchText;//搜索内容
     private User user;
     private String openid = "";
-    private Integer roomId;
-    private Integer buildingId;
     private boolean renterFlag = false;
     private boolean landlordFlag = false;
     private boolean guardFlag = false;

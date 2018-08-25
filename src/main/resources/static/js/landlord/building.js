@@ -29,13 +29,12 @@ layui.use(['layer', 'table', 'form'], function () {
         , page: true//开启分页
 //            ,height: 315//容器高度
         , cols: [[//表头
-            {checkbox: true, fixed: true}
-            , {field: 'name', title: '楼盘', width: 200}
+            {field: 'name', title: '楼盘', width: 200}
             , {field: 'rooms', title: '总的房间数', sort: true, width: 110}
             , {field: 'roomAble', title: '可用房间数', sort: true, width: 120}
-            , {field: 'description', title: '描述'}
             , {field: 'address', title: '地址'}
-            , {field: '', title: '操作', align: 'center', toolbar: '#buildingListBar'}
+            , {field: 'description', title: '描述'}
+            , {field: '', title: '操作', align: 'left', toolbar: '#buildingListBar'}
         ]]
         , done: function (res, curr, count) {
             if(selectLoadFlag){

@@ -160,11 +160,16 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             var jhxhr = $.ajax({url: requestBaseUrl + "/room/detail/" + data.roomId, headers: header, type: "GET"});
             jhxhr.done(function (res) {
                 if(res.code == 1){
-                    var getTpl = roomRentFacilitiesTemplete.innerHTML;
                     var view = document.getElementById('roomRentFacilities');
-                    laytpl(getTpl).render(res.data.facilitiesIterm, function(html){
-                        view.innerHTML = html;
-                    });
+                    if(isEmpty(res.data.facilitiesIterm)){
+                        view.innerHTML = "<p class='form-show-input-p'>无</p>";
+                    }else{
+                        var getTpl = roomRentFacilitiesTemplete.innerHTML;
+                        laytpl(getTpl).render(res.data.facilitiesIterm, function(html){
+                            view.innerHTML = html;
+                        });
+                    }
+
                     form.val("rentEditFormFilter", {
                         "roomId": res.data.roomId
                         ,"rentFee": res.data.rentFee/100

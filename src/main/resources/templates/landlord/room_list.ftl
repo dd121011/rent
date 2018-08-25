@@ -21,7 +21,7 @@
                     </div>
                     <div class="layui-input-inline">
                         <select id="searchRoomId" lay-verify="required" lay-search="">
-                        <#if (rooms?size>0)>
+                        <#if rooms?? && (rooms?size>0)>
                             <option value="-1" selected>全部</option>
                         </#if>
                         <#list rooms as item>

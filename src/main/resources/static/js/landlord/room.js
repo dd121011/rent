@@ -29,26 +29,23 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
         , page: true//开启分页
 //            ,height: 315//容器高度
         , cols: [[//表头
-            {checkbox: true, fixed: true}
-            , {field: 'roomNo', title: '房间号', sort: true, width: 100}
+            {field: 'roomNo', title: '房间号', sort: true, width: 100}
             , {field: 'roomStyle', title: '房型', sort: true, width: 100, templet: function(d){
                     return d.bedroom + '房' + d.living + '厅' + d.toilet + '卫';
                 }}
-            , {field: 'orientationName', title: '房间朝向', sort: true, width: 100}
             , {field: 'guarantyAndPay', title: '押付情况', width: 100, templet: function(d){
                     return '押' + d.guaranty + '付' + d.pay;
                 }}
             , {field: 'rentFee', title: '租金[元/月]', sort: true, width: 150, templet: function(d){
                     return d.rentFee/100;
                 }}
-            , {field: 'description', title: '描述', width: 100}
             , {field: 'rentTs', title: '是否出租', width: 100, templet: function(d){
                     if(d.rentTs > 0){
                         return '<a class="layui-btn layui-btn-xs">已出租</a>';
                     }
                     return '<a class="layui-btn layui-btn-danger layui-btn-xs">未出租</a>'
                 }}
-            , {field: '', title: '操作', align: 'center', toolbar: '#roomListBar'}
+            , {field: '', title: '操作', align: 'left', toolbar: '#roomListBar'}
         ]]
         , done: function (res, curr, count) {
             //如果是异步请求数据方式，res即为你接口返回的信息。
@@ -378,7 +375,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             if(res.code == 1){
                 $('#searchRoomId').html('');
                 if(res.data.length > 0){
-                    var option = $('<option>').val(-1).text("请选择");
+                    var option = $('<option>').val('').text('全部');
                     $('#searchRoomId').append(option);
                     $.each(res.data, function (index, val) {
                         option = $('<option>').val(val.roomId).text(val.roomNo);
@@ -387,7 +384,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 }
                 //重新渲染
                 form.render('select', 'roomSearchFormFilter');
-                $('#searchRoomId').get(0).selectedIndex = 0;
+                // $('#searchRoomId').get(0).selectedIndex = 0;
             }else{
                 layer.alert(res.msg)
             }

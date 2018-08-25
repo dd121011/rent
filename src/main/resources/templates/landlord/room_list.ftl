@@ -21,7 +21,9 @@
                     </div>
                     <div class="layui-input-inline">
                         <select id="searchRoomId" lay-verify="required" lay-search="">
-                            <option value="-1">请选择</option>
+                        <#if (rooms?size>0)>
+                            <option value="-1" selected>全部</option>
+                        </#if>
                         <#list rooms as item>
                             <option value="${item.roomId}">${item.roomNo}</option>
                         </#list>
@@ -49,16 +51,17 @@
 
 <script type="text/html" id="roomListBar">
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="detail">详情</a>
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="charge">生成房租</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     {{#  if(d.rentTs > 0){ }}
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="charge">计算房租</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="continue">续约</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="leave">退租</a>
     {{#  } else { }}
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="rent">出租</a>
     {{#  } }}
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="rentHistoty">出租记录</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <#--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="rentHistoty">出租记录</a>-->
+
 </script>
 
 <script src="${base}/static/js/landlord/room.js" charset="utf-8"></script>

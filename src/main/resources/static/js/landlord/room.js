@@ -375,7 +375,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             if(res.code == 1){
                 $('#searchRoomId').html('');
                 if(res.data.length > 0){
-                    var option = $('<option>').val('').text('全部');
+                    var option = $('<option>').val('-1').text('全部');
                     $('#searchRoomId').append(option);
                     $.each(res.data, function (index, val) {
                         option = $('<option>').val(val.roomId).text(val.roomNo);
@@ -384,7 +384,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 }
                 //重新渲染
                 form.render('select', 'roomSearchFormFilter');
-                // $('#searchRoomId').get(0).selectedIndex = 0;
+                $('#searchRoomId').get(0).selectedIndex = 0;
             }else{
                 layer.alert(res.msg)
             }

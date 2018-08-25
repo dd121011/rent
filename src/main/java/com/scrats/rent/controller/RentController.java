@@ -94,7 +94,8 @@ public class RentController {
 
     @PostMapping("/list")
     @ResponseBody
-    public String list(@APIRequestControl APIRequest apiRequest, Rent rent) {
+    public String list(@APIRequestControl APIRequest apiRequest) {
+        Rent rent = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Rent.class);
         PageInfo<Rent> pageInfo = rentService.getRentPageList(apiRequest, rent);
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
     }

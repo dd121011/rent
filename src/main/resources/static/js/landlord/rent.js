@@ -19,6 +19,14 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
         , url: requestBaseUrl + '/rent/list/'
         , method: 'post'
         , contentType: 'application/json'
+        , where: {
+            body: {
+                roomId: -1,
+                buildingId: $('#searchBuildingId').val(),
+                rentMonth: $('#searchMonth').val(),
+                payTs: $('#searchRoomPayTs').val()
+            }
+        }
         , headers: header
         , request: {
             pageName: 'page' //页码的参数名称，默认：page

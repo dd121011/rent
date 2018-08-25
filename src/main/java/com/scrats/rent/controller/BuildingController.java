@@ -69,8 +69,8 @@ public class BuildingController {
 
     @PostMapping("/list")
     @ResponseBody
-    public String list(@APIRequestControl APIRequest apiRequest, Building building) {
-
+    public String list(@APIRequestControl APIRequest apiRequest) {
+        Building building = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Building.class);
         PageInfo<Building> pageInfo = buildingService.getBuildingListWithUserId(apiRequest, building, apiRequest.getUser().getUserId(), true);
 
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));

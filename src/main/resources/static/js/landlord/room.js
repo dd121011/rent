@@ -15,6 +15,11 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laypage'], function () {
         , url: requestBaseUrl + '/room/list/' + $('#searchBuildingId').val()//数据接口
         , method: 'post'
         , contentType: 'application/json'
+        ,where: {
+            body: {
+                roomId: -1
+            }
+        }//传参*/
         , headers: header
         , request: {
             pageName: 'page' //页码的参数名称，默认：page

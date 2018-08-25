@@ -32,7 +32,7 @@ public interface RentMapper extends BaseMapper<Rent> {
             "<if test='payTs == null or payTs == 0'>and r.pay_ts = 0</if> " +
             "<if test='deleteTs != null and deleteTs >0'>and r.delete_ts > 0</if>" +
             "<if test='deleteTs == null or deleteTs ==0'>and r.delete_ts = 0</if>" +
-            "order by r.building_id, r.room_no, r.rent_month desc</script>")
+            "order by r.building_id, r.room_id, r.rent_month desc</script>")
     List<Rent> getListByRent(Rent rent);
 
     @Select("<script>select r.* from rent r where 1=1 and r.building_id = #{buildingId} <if test='payFlag == false'>and r.pay_ts = 0</if> <if test='payFlag == true'>and r.pay_ts > 0</if> and r.delete_ts = 0 order by r.rent_month desc</script>")

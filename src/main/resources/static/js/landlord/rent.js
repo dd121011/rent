@@ -18,6 +18,7 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
         elem: '#lay_table_rent'//指定原始表格元素选择器（
         , url: requestBaseUrl + '/rent/list/'
         , method: 'post'
+        , contentType: 'application/json'
         , headers: header
         , request: {
             pageName: 'page' //页码的参数名称，默认：page

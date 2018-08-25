@@ -11,6 +11,7 @@ layui.use(['layer', 'table', 'form'], function () {
         elem: '#lay_table_building'//指定原始表格元素选择器（
         , url: requestBaseUrl + '/building/list'//数据接口
         , method: 'post'
+        , contentType: 'application/json'
         , headers: header
         , request: {
             pageName: 'page' //页码的参数名称，默认：page

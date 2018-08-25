@@ -43,6 +43,7 @@ layui.use(['layer', 'table', 'form'], function () {
                     $("#searchBuildingName").append("<option value='"+selectData[i].buildingId+"'>"+selectData[i].name+"</option>");
                 }
                 form.render('select','buildingSearchFormFilter');
+                selectLoadFlag = false;
             }
         }
     });

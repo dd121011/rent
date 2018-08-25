@@ -85,7 +85,6 @@ CREATE TABLE `user` (
     `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `name` varchar(32) NOT NULL COMMENT '姓名',
     `sex` char(1) NOT NULL DEFAULT '0' COMMENT '0-保密, 1-男, 2-女',
-    `age` int(3) NOT NULL DEFAULT '0' COMMENT '年龄',
     `avatar` varchar (128) DEFAULT '' COMMENT '头像URL',
     `qq` varchar(32) DEFAULT '' COMMENT 'qq',
     `wechat` varchar(32) DEFAULT '' COMMENT '微信',

@@ -1,13 +1,12 @@
 var chargeExtra;
 var extraTableData;
 var depositItermTableData;
-layui.use(['layer', 'table', 'form', 'laytpl', 'laypage'], function () {
+layui.use(['layer', 'table', 'form', 'laytpl'], function () {
     var $ = layui.$;
     var layer = layui.layer;
     var table = layui.table;
     var form = layui.form;
     var laytpl = layui.laytpl;
-    var laypage = layui.laypage;
 
     //方法级渲染
     table.render({
@@ -15,11 +14,12 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laypage'], function () {
         , url: requestBaseUrl + '/room/list/' + $('#searchBuildingId').val()//数据接口
         , method: 'post'
         , contentType: 'application/json'
-        ,where: {
+        , where: {
             body: {
-                roomId: -1
+                roomId: $('#searchRoomId').val(),
+                rentTs: $('#searchRoomRentTs').val()
             }
-        }//传参*/
+        }
         , headers: header
         , request: {
             pageName: 'page' //页码的参数名称，默认：page
@@ -62,20 +62,6 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laypage'], function () {
             console.log(curr);
             //得到数据总量
             console.log(count);
-            // laypage.render({
-            //     elem: 'test1'
-            //     ,count: 70 //数据总数，从服务端得到
-            //     ,jump: function(obj, first){
-            //         //obj包含了当前分页的所有参数，比如：
-            //         console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-            //         console.log(obj.limit); //得到每页显示的条数
-            //
-            //         //首次不执行
-            //         if(!first){
-            //             //do something
-            //         }
-            //     }
-            // });
         }
     });
 

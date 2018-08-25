@@ -16,13 +16,12 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
     //方法级渲染
     table.render({
         elem: '#lay_table_rent'//指定原始表格元素选择器（
-        , url: requestBaseUrl + '/rent/list/'
+        , url: requestBaseUrl + '/rent/list/' + $('#searchBuildingId').val()
         , method: 'post'
         , contentType: 'application/json'
         , where: {
             body: {
-                roomId: -1,
-                buildingId: $('#searchBuildingId').val(),
+                roomId: $('#searchRoomId').val(),
                 rentMonth: $('#searchMonth').val(),
                 payTs: $('#searchRoomPayTs').val()
             }
@@ -39,12 +38,6 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
             , countName: 'count' //数据总数的字段名称，默认：count
             , dataName: 'data' //数据列表的字段名称，默认：data
         } //如果无需自定义数据响应名称，可不加该参数
-        , where: {
-            roomId: $('#searchRoomId').val(),
-            buildingId: $('#searchBuildingId').val(),
-            rentMonth: $('#searchMonth').val(),
-            payTs: $('#searchRoomPayTs').val()
-        }//传参*/
         , id: 'lay_table_rent'
         , page: true//开启分页
 //            ,height: 315//容器高度
@@ -153,14 +146,12 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
         search: function () {
             //执行重载
             table.reload('lay_table_rent', {
-                // url: requestBaseUrl + '/rent/list'
                 page: {
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: {
                     body: {
                         roomId: $('#searchRoomId').val(),
-                        buildingId: $('#searchBuildingId').val(),
                         rentMonth: $('#searchMonth').val(),
                         payTs: $('#searchRoomPayTs').val()
                     }

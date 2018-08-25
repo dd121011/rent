@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface RentMapper extends BaseMapper<Rent> {
 
-    @Select("<script>select r.* from rent r where 1=1 <if test='roomId != null'>and r.room_id = #{roomId}</if> <if test='payFlag == false'>and r.pay_ts = 0</if>  <if test='payFlag == true'>and r.pay_ts > 0</if> and r.delete_ts = 0</script>")
+    @Select("<script>select r.* from rent r where 1=1 <if test='roomId != null'>and r.room_id = #{roomId}</if> <if test='payFlag == false'>and r.pay_ts = 0</if>  <if test='payFlag == true'>and r.pay_ts > 0</if> and r.delete_ts = 0 order by r.rent_month desc</script>")
     List<Rent> getRentByRoomId(@Param("roomId") Integer roomId, @Param("payFlag") boolean payFlag);
 
     @Select("<script>select r.*,ro.room_no from rent r " +
@@ -32,9 +32,9 @@ public interface RentMapper extends BaseMapper<Rent> {
             "<if test='payTs == null or payTs == 0'>and r.pay_ts = 0</if> " +
             "<if test='deleteTs != null and deleteTs >0'>and r.delete_ts > 0</if>" +
             "<if test='deleteTs == null or deleteTs ==0'>and r.delete_ts = 0</if>" +
-            "order by r.rent_month desc</script>")
+            "order by r.building_id, r.room_no, r.rent_month desc</script>")
     List<Rent> getListByRent(Rent rent);
 
-    @Select("<script>select r.* from rent r where 1=1 and r.building_id = #{buildingId} <if test='payFlag == false'>and r.pay_ts = 0</if> <if test='payFlag == true'>and r.pay_ts > 0</if> and r.delete_ts = 0</script>")
+    @Select("<script>select r.* from rent r where 1=1 and r.building_id = #{buildingId} <if test='payFlag == false'>and r.pay_ts = 0</if> <if test='payFlag == true'>and r.pay_ts > 0</if> and r.delete_ts = 0 order by r.room_no, r.rent_month desc</script>")
     List<Rent> getRentByBuildingIdandPayFlag(@Param("buildingId") Integer buildingId, @Param("payFlag") boolean payFlag);
 }

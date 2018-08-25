@@ -40,8 +40,7 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
         , page: true//开启分页
 //            ,height: 315//容器高度
         , cols: [[//表头
-            {checkbox: true, fixed: true}
-            , {field: 'roomNo', title: '房间号', sort: true}
+            {field: 'roomNo', title: '房间号', sort: true}
             , {field: 'rentMonth', title: '月份', sort: true}
             , {field: 'fee', title: '总费用', sort: true, templet: function(d){
                     return d.fee/100;
@@ -58,7 +57,7 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
                     }
                     return '<a class="layui-btn layui-btn-danger layui-btn-xs">未缴费</a>'
                 }}
-            , {field: '', title: '操作', align: 'center', toolbar: '#rentListBar'}
+            , {field: '', title: '操作', align: 'left', toolbar: '#rentListBar'}
         ]]
         , done: function (res, curr, count) {
             //如果是异步请求数据方式，res即为你接口返回的信息。

@@ -92,10 +92,11 @@ public class RentController {
         return "landlord/rent_list";
     }
 
-    @PostMapping("/list")
+    @PostMapping("/list/{buildingId}")
     @ResponseBody
-    public String list(@APIRequestControl APIRequest apiRequest) {
+    public String list(@APIRequestControl APIRequest apiRequest, @PathVariable(name="buildingId") Integer buildingId) {
         Rent rent = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Rent.class);
+        rent.setBuildingId(buildingId);
         PageInfo<Rent> pageInfo = rentService.getRentPageList(apiRequest, rent);
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
     }

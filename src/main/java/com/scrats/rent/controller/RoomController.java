@@ -480,4 +480,27 @@ public class RoomController {
 
         throw new BusinessException("请求数据不正确");
     }
+
+    /**
+     * @description: 办理入住补录
+     * @author: lol
+     * @date: 2018/7/4 23:05
+     * @param: null
+     * @return: JsonResult
+     */
+    @PostMapping("/additionalRent")
+    @ResponseBody
+    public JsonResult additionalRent(@APIRequestControl APIRequest apiRequest) {
+        Bargin bargin = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Bargin.class);
+
+        //补齐landlordId字段
+        bargin.setLandlordId(apiRequest.getUser().getUserId());
+        bargin.setRoomId(apiRequest.getRoomId());
+        Room room = roomService.selectByPrimaryKey(bargin.getRoomId());
+        if(room.getRentTs() != null && room.getRentTs() > 0){
+            return new JsonResult("办理入住失败, 请先办理退房!!!");
+        }
+
+        return roomService.rent(bargin);
+    }
 }

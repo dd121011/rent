@@ -95,7 +95,7 @@
 <script src="${base}/static/js/extends/qrcode.min.js" charset="utf-8"></script>
 <script src="${base}/static/js/landlord/room_detail.js" charset="utf-8"></script>
 
-<#include "landlord/room_rent.ftl"/>
+<#include "landlord/room_detail_rent.ftl"/>
 <#include "landlord/room_renter.ftl"/>
 
 </html>

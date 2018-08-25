@@ -35,6 +35,6 @@ public interface RentMapper extends BaseMapper<Rent> {
             "order by r.building_id, r.room_no, r.rent_month desc</script>")
     List<Rent> getListByRent(Rent rent);
 
-    @Select("<script>select r.* from rent r where 1=1 and r.building_id = #{buildingId} <if test='payFlag == false'>and r.pay_ts = 0</if> <if test='payFlag == true'>and r.pay_ts > 0</if> and r.delete_ts = 0 order by r.room_no, r.rent_month desc</script>")
+    @Select("<script>select r.* from rent r where 1=1 and r.building_id = #{buildingId} <if test='payFlag == false'>and r.pay_ts = 0</if> <if test='payFlag == true'>and r.pay_ts > 0</if> and r.delete_ts = 0 order by r.rent_month desc</script>")
     List<Rent> getRentByBuildingIdandPayFlag(@Param("buildingId") Integer buildingId, @Param("payFlag") boolean payFlag);
 }

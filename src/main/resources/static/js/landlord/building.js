@@ -4,8 +4,6 @@ layui.use(['layer', 'table', 'form'], function () {
     var table = layui.table;
     var form = layui.form;
 
-    layer.msg('hello');
-
     var selectLoadFlag= true;
 
     //方法级渲染

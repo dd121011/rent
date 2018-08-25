@@ -126,7 +126,13 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         }else{
             User user = userService.findBy("phone", bargin.getPhone());
             if(null == user){
-                throw new BusinessException("请求数据不正确");
+                throw new BusinessException("请求数据不正确!!!");
+            }
+            if(!user.getName().equals(bargin.getName())){
+                throw new BusinessException("该租户对应手机号在系统中的姓名和输入不一致, 请修改!!!");
+            }
+            if(!user.getIdCard().equals(bargin.getIdCard())){
+                throw new BusinessException("该租户对应身份证号在系统中的姓名和输入不一致, 请修改!!!");
             }
             bargin.setUserId(user.getUserId());
         }

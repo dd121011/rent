@@ -114,7 +114,7 @@ layui.use(['layer', 'table', 'form'], function () {
                     return new Date(d.liveTs).Format('yyyy-MM-dd');
                 }}
             , {field: 'leaveTs', title: '退租时间', templet: function(d){
-                    return new Date(d.leaveTs).Format('yyyy-MM-dd');
+                    return new Date(d.deleteTs).Format('yyyy-MM-dd');
                 }}
             , {field: '', title: '操作', align: 'center', toolbar: '#barginRoomListBar'}
         ]]

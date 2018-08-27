@@ -104,13 +104,14 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
 
         //填充renterId
         Account account = accountService.findBy("phone", bargin.getPhone());
+        User user = null;
         if(null == account){
             //创建account
             account = new Account(bargin.getPhone(), bargin.getPhone(), bargin.getPhone());
             account.setCreateTs(createTs);
             accountService.insertSelective(account);
             //创建user
-            User user = new User(bargin.getName(),SexType.secret, bargin.getPhone(), bargin.getIdCard());
+            user = new User(bargin.getName(),SexType.secret, bargin.getPhone(), bargin.getIdCard());
             user.setAccountId(account.getAccountId());
             user.setName(bargin.getName());
             user.setSex(bargin.getSex());
@@ -120,11 +121,8 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
             UserRole userRole = new UserRole(UserType.renter, user.getUserId());
             userRole.setCreateTs(createTs);
             userRoleService.insertSelective(userRole);
-
-            //补齐renterId字段
-            bargin.setUserId(user.getUserId());
         }else{
-            User user = userService.findBy("phone", bargin.getPhone());
+            user = userService.findBy("phone", bargin.getPhone());
             if(null == user){
                 throw new BusinessException("请求数据不正确!!!");
             }
@@ -134,9 +132,14 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
             if(!user.getIdCard().equals(bargin.getIdCard())){
                 throw new BusinessException("该租户对应手机号在系统中的身份证号和输入不一致, 请修改!!!");
             }
-            bargin.setUserId(user.getUserId());
+            if(userRoleService.noExistRoleWithUserId(UserType.renter, user.getUserId())){
+                UserRole userRole = new UserRole(UserType.renter, user.getUserId());
+                userRole.setCreateTs(createTs);
+                userRoleService.insertSelective(userRole);
+            }
         }
-
+        //补齐renterId字段
+        bargin.setUserId(user.getUserId());
         bargin.setBarginNo("haozu-bargin-" + RandomUtil.generateLowerString(5) + "-" + createTs);
         bargin.setCreateTs(createTs);
         barginService.insertSelective(bargin);

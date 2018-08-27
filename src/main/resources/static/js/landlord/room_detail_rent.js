@@ -71,7 +71,6 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
         formParams.depositItermList = depositItermList;
         formParams.guarantyFee = guarantyFee;
         formParams.total = Number(formParams.rentFee) + Number(formParams.guarantyFee);
-        formParams.smsCode =formParams.smsCode;
         params.body = formParams;
 
         var jhxhr = $.ajax({url: requestBaseUrl + "/room/rent", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST"});
@@ -82,7 +81,7 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
                 // location.href= requestBaseUrl + "/room/goRoomDetail/" + $('#roomId').val() + "?tokenId=" + tokenId;
                 location.reload();
             }else{
-                layer.alert(res.msg);
+                layer.alert(res.msg || res.message);
             }
         });
         return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。

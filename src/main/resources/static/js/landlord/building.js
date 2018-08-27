@@ -67,7 +67,7 @@ layui.use(['layer', 'table', 'form'], function () {
                         layer.msg("删除成功");
                         obj.del();
                     }else{
-                        layer.alert(res.msg);
+                        layer.alert(res.msg || res.message);
                     }
                 });
                 layer.close(index);

@@ -305,7 +305,7 @@ layui.use(['layer', 'table', 'form'], function () {
                         //执行重载
                         table.reload('lay_table_room_renter', { });
                     }else{
-                        layer.alert(res.msg)
+                        layer.alert(res.msg || res.message);
                     }
                 });
                 layer.close(index);
@@ -334,7 +334,7 @@ layui.use(['layer', 'table', 'form'], function () {
                         layer.msg(checkType + "核验成功");
                         table.reload('lay_table_room_renter', { });
                     }else{
-                        layer.alert(res.msg);
+                        layer.alert(res.msg || res.message);
                     }
                 });
                 layer.close(index);
@@ -346,7 +346,7 @@ layui.use(['layer', 'table', 'form'], function () {
                     if(res.code == 1){
                         obj.del();
                     }else{
-                        layer.alert(res.msg);
+                        layer.alert(res.msg || res.message);
                     }
                 });
                 layer.close(index);

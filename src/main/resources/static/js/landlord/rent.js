@@ -90,7 +90,7 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
                         active.search();
                         layer.msg("缴费成功");
                     }else{
-                        layer.alert(res.msg);
+                        layer.alert(res.msg || res.message);
                     }
                 });
                 layer.close(index);
@@ -103,7 +103,7 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
                 if(res.code == 1){
                     active.detail(res.data);
                 }else{
-                    layer.alert(res.msg);
+                    layer.alert(res.msg || res.message);
                 }
             });
         } else if(obj.event === 'edit'){
@@ -114,7 +114,7 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
                     rent.extraList = res.data;
                     active.edit(rent);
                 }else{
-                    layer.alert(res.msg);
+                    layer.alert(res.msg || res.message);
                 }
             });
         }
@@ -137,7 +137,7 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
                 form.render('select', 'rentSearchFormFilter');
                 $('#searchRoomId').get(0).selectedIndex = 0;
             }else{
-                layer.alert(res.msg)
+                layer.alert(res.msg || res.message);
             }
         });
     });
@@ -193,7 +193,7 @@ layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
                         }
                     });
                 }else{
-                    layer.alert(res.msg)
+                    layer.alert(res.msg || res.message);
                 }
             });
         },

@@ -25,7 +25,7 @@ layui.use(['layer', 'form'], function () {
                 // location.href= requestBaseUrl + "/room/goRoom/" + userId + "/" + buildingId + "?tokenId=" + tokenId;
                 location.reload();
             }else{
-                layer.alert(res.msg)
+                layer.alert(res.msg || res.message);
             }
         });
 

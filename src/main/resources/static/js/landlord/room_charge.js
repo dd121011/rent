@@ -35,7 +35,7 @@ layui.use(['layer', 'form', 'laydate'], function () {
                 layer.close(1);
                 layer.msg("录入成功");
             }else{
-                layer.alert(res.msg)
+                layer.alert(res.msg || res.message);
             }
         });
 

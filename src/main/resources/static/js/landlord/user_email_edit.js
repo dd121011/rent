@@ -16,7 +16,7 @@ layui.use(['layer', 'form'], function () {
                 layer.msg("添加成功");
                 location.reload();
             }else{
-                layer.alert(res.msg)
+                layer.alert(res.msg || res.message);
             }
         });
         return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。

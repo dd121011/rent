@@ -83,7 +83,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                         layer.msg("删除成功");
                         obj.del();
                     }else{
-                        layer.alert(res.msg || res.message);
+                        layer.alert(res.message);
                     }
                 });
                 layer.close(index);
@@ -179,7 +179,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                     });
                     active.rent(res.data);
                 }else{
-                    layer.alert(res.msg || res.message);
+                    layer.alert(res.message);
                 }
             });
         } else if (obj.event === 'continue'){
@@ -205,7 +205,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                     });
                     active.charge();
                 }else{
-                    layer.alert(res.msg || res.message);
+                    layer.alert(res.message);
                 }
             });
 
@@ -295,7 +295,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                         //执行重载
                         active.search();
                     }else{
-                        layer.alert(res.msg || res.message);
+                        layer.alert(res.message);
                     }
                 });
                 layer.close(index);
@@ -400,7 +400,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 form.render('select', 'roomSearchFormFilter');
                 $('#searchRoomId').get(0).selectedIndex = 0;
             }else{
-                layer.alert(res.msg || res.message);
+                layer.alert(res.message);
             }
         });
     });

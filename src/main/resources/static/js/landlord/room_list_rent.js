@@ -88,7 +88,7 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
                     }//传参*/
                 });
             }else{
-                layer.alert(res.msg || res.message);
+                layer.alert(res.message);
             }
         });
         return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。

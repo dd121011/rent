@@ -19,7 +19,7 @@ layui.use(['layer', 'form'], function () {
                 layer.closeAll();
                 layer.msg("修改成功");
             }else{
-                layer.alert(res.msg || res.message);
+                layer.alert(res.message);
             }
         });
         return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。

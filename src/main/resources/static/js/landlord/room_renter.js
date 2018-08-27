@@ -16,7 +16,7 @@ layui.use(['layer', 'form'], function () {
                 // location.href= requestBaseUrl + "/room/goRoomDetail/" + renterRoomId + "?tokenId=" + tokenId;
                 location.reload();
             }else{
-                layer.alert(res.msg || res.message);
+                layer.alert(res.message);
             }
         });
         return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。

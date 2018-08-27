@@ -163,7 +163,7 @@ var checkPwd = function (ff2) {
                         layer.close(1);
                         ff2 && ff2();
                     }else{
-                        layer.alert(res.msg || res.message);
+                        layer.alert(res.message);
                     }
                 });
             }
@@ -178,7 +178,7 @@ var pickkkkkk = function () {
             if(res.code == 1){
                 settime(this);
             }else{
-                layer.alert(res.msg || res.message);
+                layer.alert(res.message);
             }
         });
     };
@@ -201,7 +201,7 @@ var smsCodeGenerateClick = function (phoneObj, codeObj) {
                 if(res.code == 1){
                     settime(smsCodeButton);
                 }else{
-                    layer.alert(res.msg || res.message);
+                    layer.alert(res.message);
                 }
             });
         });

@@ -12,7 +12,7 @@ layui.use(['layer', 'form'], function () {
                     $('#renterNum').html(res.data.renterNum);
                     $('#noRentNum').html(res.data.noRentNum);
                 }else{
-                    layer.alert(res.msg || res.message);
+                    layer.alert(res.message);
                 }
             });
         },

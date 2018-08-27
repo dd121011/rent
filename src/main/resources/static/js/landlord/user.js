@@ -99,7 +99,7 @@ layui.use(['layer', 'form'], function () {
                 layer.close(1);
                 layer.msg("修改成功");
             }else{
-                layer.alert(res.msg || res.message);
+                layer.alert(res.message);
             }
         });
 

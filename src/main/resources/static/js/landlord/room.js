@@ -161,7 +161,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             jhxhr.done(function (res) {
                 if(res.code == 1){
                     var view = document.getElementById('roomRentFacilities');
-                    if(isEmpty(res.data.facilitiesIterm)){
+                    if(res.data.facilitiesIterm.length == 0){
                         view.innerHTML = "<p class='form-show-input-p'>无</p>";
                     }else{
                         var getTpl = roomRentFacilitiesTemplete.innerHTML;

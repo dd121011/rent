@@ -214,7 +214,6 @@ public class RoomController {
     public JsonResult rent(@APIRequestControl APIRequest apiRequest) {
         Bargin bargin = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Bargin.class);
         String smsCode = APIRequest.getParameterValue(apiRequest, "smsCode", String.class);
-        Integer roomId = APIRequest.getParameterValue(apiRequest, "roomId", Integer.class);
 
         if(!smsService.checkCode(bargin.getPhone(), smsCode)){
             return new JsonResult("验证码不正确, 请重新输入!!!!");
@@ -222,7 +221,6 @@ public class RoomController {
 
         //补齐landlordId字段
         bargin.setLandlordId(apiRequest.getUser().getUserId());
-        bargin.setRoomId(roomId);
         Room room = roomService.selectByPrimaryKey(bargin.getRoomId());
         if(room.getRentTs() != null && room.getRentTs() > 0){
             return new JsonResult("办理入住失败, 请先办理退房!!!");
@@ -495,11 +493,9 @@ public class RoomController {
     @ResponseBody
     public JsonResult additionalRent(@APIRequestControl APIRequest apiRequest) {
         Bargin bargin = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Bargin.class);
-        Integer roomId = APIRequest.getParameterValue(apiRequest, "roomId", Integer.class);
 
         //补齐landlordId字段
         bargin.setLandlordId(apiRequest.getUser().getUserId());
-        bargin.setRoomId(roomId);
         Room room = roomService.selectByPrimaryKey(bargin.getRoomId());
         if(room.getRentTs() != null && room.getRentTs() > 0){
             return new JsonResult("办理入住失败, 请先办理退房!!!");

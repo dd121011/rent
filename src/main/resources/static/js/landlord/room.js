@@ -171,7 +171,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                     }
 
                     form.val("rentEditFormFilter", {
-                        "roomId": res.data.roomId
+                        "roomId": data.roomId
                         ,"rentFee": res.data.rentFee/100
                         ,"rentDay": res.data.rentDay
                         ,"guaranty": res.data.guaranty

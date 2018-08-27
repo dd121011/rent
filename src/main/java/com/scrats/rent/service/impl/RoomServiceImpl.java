@@ -132,7 +132,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
                 throw new BusinessException("该租户对应手机号在系统中的姓名和输入不一致, 请修改!!!");
             }
             if(!user.getIdCard().equals(bargin.getIdCard())){
-                throw new BusinessException("该租户对应身份证号在系统中的姓名和输入不一致, 请修改!!!");
+                throw new BusinessException("该租户对应手机号在系统中的身份证号和输入不一致, 请修改!!!");
             }
             bargin.setUserId(user.getUserId());
         }

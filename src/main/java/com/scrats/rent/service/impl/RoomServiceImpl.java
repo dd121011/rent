@@ -204,17 +204,17 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         //获取装修情况name
         DictionaryIterm decoration = dictionaryItermService.selectByPrimaryKey(room.getDecoration());
         //获取所有配套设施
-        List<DictionaryIterm> facilities = null;
+        List<DictionaryIterm> facilities = new ArrayList<DictionaryIterm>();
         if(StringUtils.isNotEmpty(room.getFacilities())){
             facilities = dictionaryItermService.selectByIds(room.getFacilities());
         }
         //获取所有额外收费项
-        List<DictionaryIterm> extras = null;
+        List<DictionaryIterm> extras = new ArrayList<DictionaryIterm>();
         if(StringUtils.isNotEmpty(room.getExtraFee())){
             extras = dictionaryItermService.selectByIds(room.getExtraFee());
         }
         //获取所有押金项
-        List<DictionaryIterm> deposits = null;
+        List<DictionaryIterm> deposits = new ArrayList<DictionaryIterm>();
         if(StringUtils.isNotEmpty(room.getDeposits())){
             deposits = dictionaryItermService.selectByIds(room.getDeposits());
         }

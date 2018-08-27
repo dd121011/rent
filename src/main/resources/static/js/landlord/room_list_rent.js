@@ -40,6 +40,10 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
         var params = {};
         var formParams = $(data.form).serializeObject();
         for(i=0, len=extraTableData.length; i< len; i++){
+            if(isEmpty(extraTableData[i].price) || Number(extraTableData[i].price) < 0){
+                layer.alert("额外收费项-" + extraTableData[i].value + "-的单价填写不正确, 请填写一个不小于0的数据!!!");
+                return false;
+            }
             var extra = {};
             extra.value = extraTableData[i].value;
             extra.unit = extraTableData[i].unit;
@@ -50,6 +54,10 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
             barginExtraList.push(extra);
         }
         for(i=0, len=depositItermTableData.length; i< len; i++){
+            if(isEmpty(extraTableData[i].price) || Number(extraTableData[i].price) < 0){
+                layer.alert("押金项项-" + depositItermTableData[i].value + "-的单价填写不正确, 请填写一个不小于0的数据!!!");
+                return false;
+            }
             var depositIterm = {};
             depositIterm.value = depositItermTableData[i].value;
             depositIterm.unit = depositItermTableData[i].unit;

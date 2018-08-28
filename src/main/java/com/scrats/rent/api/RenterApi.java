@@ -217,6 +217,7 @@ public class RenterApi {
         RoomRenter param = new RoomRenter();
         param.setUserId(apiRequest.getUser().getUserId());
         param.setDeleteTs(1L);
+        param.setCheckTs(1L);
         List<RoomRenter> rrlist = roomRenterService.getListByRoomrenter(param);
         JSONArray result = new JSONArray();
         for(RoomRenter rr : rrlist){

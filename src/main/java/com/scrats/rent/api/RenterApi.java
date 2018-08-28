@@ -212,4 +212,17 @@ public class RenterApi {
         return new JsonResult<>(rentItermService.findListBy("rentId", rentId));
     }
 
+    @GetMapping("/historyLive")
+    @IgnoreSecurity
+    public JsonResult historyLive(@APIRequestControl APIRequest apiRequest){
+        RoomRenter param = new RoomRenter();
+        param.setUserId(apiRequest.getUser().getUserId());
+        param.setDeleteTs(1L);
+        List<RoomRenter> rrlist = roomRenterService.getListByRoomrenter(param);
+        JSONArray result = new JSONArray();
+        for(RoomRenter rr : rrlist){
+            result.add(roomService.detail(rr.getRoomId()));
+        }
+        return new JsonResult<>(result);
+    }
 }

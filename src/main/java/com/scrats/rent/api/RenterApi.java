@@ -213,7 +213,6 @@ public class RenterApi {
     }
 
     @GetMapping("/historyLive")
-    @IgnoreSecurity
     public JsonResult historyLive(@APIRequestControl APIRequest apiRequest){
         RoomRenter param = new RoomRenter();
         param.setUserId(apiRequest.getUser().getUserId());

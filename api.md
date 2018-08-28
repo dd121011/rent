@@ -1452,15 +1452,15 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 
 ### 获取某一个房间的合同
 
-> [GET] `/api/renter/bargin/{roomId}` 
+> [GET] `/api/renter/bargin/{barginId}` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| roomId | Integer | true | 房间ID |
+| barginId | Integer | true | 合同ID |
 
 #### Sample
 ```
-curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/renter/bargin/3'
+curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/renter/bargin/1'
 ```
 #### Response
 ```
@@ -1476,15 +1476,15 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 
 ### 获取某一个房间的押金
 
-> [GET] `/api/renter/deposit/{roomId}` 
+> [GET] `/api/renter/deposit/{barginId}` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| roomId | Integer | true | 房间ID |
+| barginId | Integer | true | 合同ID |
 
 #### Sample
 ```
-curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/renter/deposit/3'
+curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/renter/deposit/1'
 ```
 #### Response
 ```
@@ -1783,7 +1783,7 @@ curl  -X GET -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' 'http
 
 ### 获取某一个房租的明细
 
-> [GET] `/api/renter/rentDetail/{rentId}?` 
+> [GET] `/api/renter/rentDetail/{rentId}` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
@@ -1858,6 +1858,139 @@ curl  -X GET -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' 'http
             "number": 1,
             "money": 3000,
             "description": ""
+        }
+    ],
+    "count": 0
+}
+```
+
+### 获取某一个房租的明细
+
+> [GET] `/api/renter/historyLive/` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+
+#### Sample
+```
+curl  -X GET -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' 'https://scrats.cn/rent/api/renter/historyLive'
+```
+#### Response
+```
+{
+    "code": 1,
+    "message": null,
+    "data": [
+        {
+            "createTs": 1535203854318,
+            "updateTs": 0,
+            "remark": "",
+            "deleteTs": 0,
+            "roomId": 22,
+            "roomNo": "802",
+            "living": 0,
+            "bedroom": 1,
+            "toilet": 1,
+            "orientation": "3001",
+            "decoration": "2002",
+            "guaranty": 1,
+            "pay": 1,
+            "rentFee": 40000,
+            "area": 150000,
+            "description": "",
+            "facilities": "",
+            "extraFee": "4001,4002,4010",
+            "deposits": "5001,5002,5003",
+            "rentTs": 0,
+            "buildingId": 20,
+            "attachmentList": null,
+            "orientationName": "东",
+            "decorationName": "简装",
+            "facilitiesIterm": [],
+            "extraFeeIterm": [
+                {
+                    "createTs": 1529661151,
+                    "updateTs": 0,
+                    "remark": "",
+                    "deleteTs": 0,
+                    "dicItermCode": "4001",
+                    "dicCode": "0004",
+                    "value": "水费",
+                    "unit": "吨"
+                },
+                {
+                    "createTs": 1529661151,
+                    "updateTs": 0,
+                    "remark": "",
+                    "deleteTs": 0,
+                    "dicItermCode": "4002",
+                    "dicCode": "0004",
+                    "value": "电费",
+                    "unit": "度"
+                },
+                {
+                    "createTs": 1529661152,
+                    "updateTs": 0,
+                    "remark": "",
+                    "deleteTs": 0,
+                    "dicItermCode": "4010",
+                    "dicCode": "0004",
+                    "value": "卫生费",
+                    "unit": "月"
+                }
+            ],
+            "depositIterm": [
+                {
+                    "createTs": 1530079051,
+                    "updateTs": 0,
+                    "remark": "",
+                    "deleteTs": 0,
+                    "dicItermCode": "5001",
+                    "dicCode": "0005",
+                    "value": "租金",
+                    "unit": "月"
+                },
+                {
+                    "createTs": 1530079051,
+                    "updateTs": 0,
+                    "remark": "",
+                    "deleteTs": 0,
+                    "dicItermCode": "5002",
+                    "dicCode": "0005",
+                    "value": "房间钥匙",
+                    "unit": "把"
+                },
+                {
+                    "createTs": 1530079051,
+                    "updateTs": 0,
+                    "remark": "",
+                    "deleteTs": 0,
+                    "dicItermCode": "5003",
+                    "dicCode": "0005",
+                    "value": "门禁钥匙",
+                    "unit": "个"
+                }
+            ],
+            "facilityIds": null,
+            "extraIds": null,
+            "depositIds": null,
+            "building": {
+                "createTs": 1535210768068,
+                "updateTs": 0,
+                "remark": "",
+                "deleteTs": 0,
+                "buildingId": 20,
+                "name": "大浪街道宝山新村二区28号楼",
+                "rooms": 38,
+                "roomAble": 37,
+                "description": "",
+                "address": "大浪街道同胜社区宝山新村二区28号楼",
+                "attachmentList": null
+            },
+            "barginList": null,
+            "rentList": null,
+            "floor": 0,
+            "floorRoom": 0
         }
     ],
     "count": 0

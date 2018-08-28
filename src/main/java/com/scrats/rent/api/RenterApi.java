@@ -137,49 +137,31 @@ public class RenterApi {
         return new JsonResult<JSONArray>(renterService.getRoomList(apiRequest.getUser().getUserId()));
     }
 
-    @GetMapping("/bargin/{roomId}")
-    public JsonResult bargin(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
-        RoomRenter param = new RoomRenter();
-        param.setRoomId(roomId);
-        param.setUserId(apiRequest.getUser().getUserId());
-        List<RoomRenter> rrlist = roomRenterService.getListByRoomrenter(param);
-        if(rrlist.size() != 1){
-            throw new BusinessException("数据有误");
+    @GetMapping("/bargin/{barginId}")
+    public JsonResult bargin(@APIRequestControl APIRequest apiRequest, @PathVariable(name="barginId") Integer barginId){
+        Bargin bargin = barginService.selectByPrimaryKey(barginId);
+        Building building = buildingService.selectByPrimaryKey(bargin.getBuildingId());
+        List<DictionaryIterm> facilities = new ArrayList<DictionaryIterm>();
+        if(StringUtils.isNotEmpty(bargin.getFacilities())){
+            facilities = dictionaryItermService.selectByIds(bargin.getFacilities());
         }
-        RoomRenter rr = rrlist.get(0);
-        Bargin bargin = barginService.selectByPrimaryKey(rr.getBarginId());
-        if(rr.getCheckTs() > 0){
-            Building building = buildingService.selectByPrimaryKey(bargin.getBuildingId());
-            List<DictionaryIterm> facilities = new ArrayList<DictionaryIterm>();
-            if(StringUtils.isNotEmpty(bargin.getFacilities())){
-                facilities = dictionaryItermService.selectByIds(bargin.getFacilities());
-            }
-            List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBarginId());
-            Room room = roomService.selectByPrimaryKey(roomId);
-            JSONObject result = new JSONObject();
-            result.put("bargin",bargin);
-            result.put("landlord",accountService.getPhoneByBuildingId(building.getBuildingId()));
-            result.put("roomNo",room.getRoomNo());
-            result.put("building",building);
-            result.put("facilities",facilities);
-            result.put("extras",extras == null ? new ArrayList<>() : extras);
-            return new JsonResult<JSONObject>(result);
-        }
+        List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBarginId());
+        Room room = roomService.selectByPrimaryKey(bargin.getRoomId());
+        JSONObject result = new JSONObject();
+        result.put("bargin",bargin);
+        result.put("landlord",accountService.getPhoneByBuildingId(building.getBuildingId()));
+        result.put("roomNo",room.getRoomNo());
+        result.put("building",building);
+        result.put("facilities",facilities);
+        result.put("extras",extras == null ? new ArrayList<>() : extras);
+        return new JsonResult<JSONObject>(result);
 
-        throw new BusinessException("数据有误");
     }
 
-    @GetMapping("/deposit/{roomId}")
-    public JsonResult deposit(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
-        RoomRenter param = new RoomRenter();
-        param.setRoomId(roomId);
-        param.setUserId(apiRequest.getUser().getUserId());
-        List<RoomRenter> rrlist = roomRenterService.getListByRoomrenter(param);
-        if(rrlist.size() != 1){
-            throw new BusinessException("数据有误");
-        }
-        RoomRenter rr = rrlist.get(0);
-        Deposit deposit = depositService.findBy("barginId", rr.getBarginId());
+    @GetMapping("/deposit/{barginId}")
+    public JsonResult deposit(@APIRequestControl APIRequest apiRequest, @PathVariable(name="barginId") Integer barginId){
+        Bargin bargin = barginService.selectByPrimaryKey(barginId);
+        Deposit deposit = depositService.findBy("barginId", bargin.getBarginId());
         if(null != deposit ){
             Building building = buildingService.selectByPrimaryKey(deposit.getBuildingId());
             List<DepositIterm> depositIterms = depositItermService.findListBy("depositId", deposit.getDepositId());

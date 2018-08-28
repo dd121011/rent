@@ -139,27 +139,31 @@ public class RenterApi {
 
     @GetMapping("/bargin/{roomId}")
     public JsonResult bargin(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
-        List<Bargin> list = barginService.getBarginByRoomId(roomId, false);
-        Bargin bargin = list.get(0);
-        List<RoomRenter> rrlist = roomRenterService.findListBy("userId", apiRequest.getUser().getUserId());
-        for(RoomRenter rr :  rrlist){
-            if(rr.getRoomId() - bargin.getRoomId() == 0 ){
-                Building building = buildingService.selectByPrimaryKey(bargin.getBuildingId());
-                List<DictionaryIterm> facilities = new ArrayList<DictionaryIterm>();
-                if(StringUtils.isNotEmpty(bargin.getFacilities())){
-                    facilities = dictionaryItermService.selectByIds(bargin.getFacilities());
-                }
-                List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBarginId());
-                Room room = roomService.selectByPrimaryKey(roomId);
-                JSONObject result = new JSONObject();
-                result.put("bargin",bargin);
-                result.put("landlord",accountService.getPhoneByBuildingId(building.getBuildingId()));
-                result.put("roomNo",room.getRoomNo());
-                result.put("building",building);
-                result.put("facilities",facilities);
-                result.put("extras",extras == null ? new ArrayList<>() : extras);
-                return new JsonResult<JSONObject>(result);
+        RoomRenter param = new RoomRenter();
+        param.setRoomId(roomId);
+        param.setUserId(apiRequest.getUser().getUserId());
+        List<RoomRenter> rrlist = roomRenterService.getListByRoomrenter(param);
+        if(rrlist.size() != 1){
+            throw new BusinessException("数据有误");
+        }
+        RoomRenter rr = rrlist.get(0);
+        Bargin bargin = barginService.selectByPrimaryKey(rr.getBarginId());
+        if(rr.getCheckTs() > 0){
+            Building building = buildingService.selectByPrimaryKey(bargin.getBuildingId());
+            List<DictionaryIterm> facilities = new ArrayList<DictionaryIterm>();
+            if(StringUtils.isNotEmpty(bargin.getFacilities())){
+                facilities = dictionaryItermService.selectByIds(bargin.getFacilities());
             }
+            List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBarginId());
+            Room room = roomService.selectByPrimaryKey(roomId);
+            JSONObject result = new JSONObject();
+            result.put("bargin",bargin);
+            result.put("landlord",accountService.getPhoneByBuildingId(building.getBuildingId()));
+            result.put("roomNo",room.getRoomNo());
+            result.put("building",building);
+            result.put("facilities",facilities);
+            result.put("extras",extras == null ? new ArrayList<>() : extras);
+            return new JsonResult<JSONObject>(result);
         }
 
         throw new BusinessException("数据有误");
@@ -167,19 +171,23 @@ public class RenterApi {
 
     @GetMapping("/deposit/{roomId}")
     public JsonResult deposit(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
-        List<Deposit> list = depositService.getDepositByRoomId(roomId, false);
-        Deposit deposit = list.get(0);
-        List<RoomRenter> rrlist = roomRenterService.findListBy("userId", apiRequest.getUser().getUserId());
-        for(RoomRenter rr :  rrlist){
-            if(rr.getRoomId() - deposit.getRoomId() == 0 ){
-                Building building = buildingService.selectByPrimaryKey(deposit.getBuildingId());
-                List<DepositIterm> depositIterms = depositItermService.findListBy("depositId", deposit.getDepositId());
-                JSONObject result = new JSONObject();
-                result.put("deposit",deposit);
-                result.put("building",building);
-                result.put("depositIterms",depositIterms);
-                return new JsonResult<JSONObject>(result);
-            }
+        RoomRenter param = new RoomRenter();
+        param.setRoomId(roomId);
+        param.setUserId(apiRequest.getUser().getUserId());
+        List<RoomRenter> rrlist = roomRenterService.getListByRoomrenter(param);
+        if(rrlist.size() != 1){
+            throw new BusinessException("数据有误");
+        }
+        RoomRenter rr = rrlist.get(0);
+        Deposit deposit = depositService.findBy("barginId", rr.getBarginId());
+        if(null != deposit ){
+            Building building = buildingService.selectByPrimaryKey(deposit.getBuildingId());
+            List<DepositIterm> depositIterms = depositItermService.findListBy("depositId", deposit.getDepositId());
+            JSONObject result = new JSONObject();
+            result.put("deposit",deposit);
+            result.put("building",building);
+            result.put("depositIterms",depositIterms);
+            return new JsonResult<JSONObject>(result);
         }
 
         throw new BusinessException("数据有误");

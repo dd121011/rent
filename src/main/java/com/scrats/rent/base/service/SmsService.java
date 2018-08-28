@@ -5,7 +5,7 @@ import com.scrats.rent.util.HttpRequestUtil;
 import com.scrats.rent.util.MD5Util;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ import java.util.Map;
  * @Author: lol.
  * @Date: 2018/8/13 22:49.
  */
-@Service
+@Component
 public class SmsService {
 
     private final Logger logger = Logger.getLogger(this.getClass());

@@ -353,8 +353,8 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         }
         room.setCreateTs(System.currentTimeMillis());
         Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
-        building.setRooms(building.getRooms() + 1);
-        building.setRoomAble(building.getRoomAble() + 1);
+        building.setRooms(building.getRooms() + room.getRoomNoMulity().size());
+        building.setRoomAble(building.getRoomAble() + room.getRoomNoMulity().size());
         buildingService.updateByPrimaryKeySelective(building);
         for(String no : room.getRoomNoMulity()){
             Room r = new Room();

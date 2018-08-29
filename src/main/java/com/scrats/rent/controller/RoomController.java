@@ -13,10 +13,8 @@ import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.constant.GlobalConst;
-import com.scrats.rent.constant.UserType;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
-import com.scrats.rent.util.IdCardUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -270,58 +268,7 @@ public class RoomController {
         if(!smsService.checkCode(newUser.getPhone(), smsCode)){
             return new JsonResult("验证码不正确, 请重新输入!!!!");
         }
-
-        long createTs = System.currentTimeMillis();
-        if(null == accountService.findBy("phone", newUser.getPhone())){
-            if(null != userService.findBy("idCard", newUser.getIdCard())){
-                return new JsonResult("身份证号:" + newUser.getIdCard() + "在系统中已被注册");
-            }
-
-            String idValid = IdCardUtil.IDCardValidate(newUser.getIdCard());
-            if(!IdCardUtil.VALIDITY.equals(idValid)){
-                return new JsonResult(idValid);
-            }
-            //创建account
-            Account account = new Account(newUser.getPhone(), newUser.getPhone(), newUser.getPhone());
-            account.setCreateTs(createTs);
-            accountService.insertSelective(account);
-
-            //创建user
-            newUser.setAccountId(account.getAccountId());
-            newUser.setCreateTs(createTs);
-            userService.insertSelective(newUser);
-            //创建userRole
-            UserRole userRole = new UserRole(UserType.renter, newUser.getUserId());
-            userRole.setCreateTs(createTs);
-            userRoleService.insertSelective(userRole);
-        }else{
-            User user = userService.findBy("phone",newUser.getPhone());
-            if(null == user){
-                throw new BusinessException("请求数据不正确");
-            }
-            if(!newUser.getName().trim().equals(user.getName())){
-                throw new BusinessException("填写的姓名与该手机号在系统中记录的有误");
-            }
-            if(!newUser.getIdCard().trim().equals(user.getIdCard())){
-                throw new BusinessException("填写的身份证号与该手机号在系统中记录的有误");
-            }
-            RoomRenter param = new RoomRenter();
-            param.setRoomId(roomId);
-            param.setUserId(user.getUserId());
-            List<RoomRenter> rrlist = roomRenterService.getListByRoomrenter(param);
-            if(null != rrlist && rrlist.size() > 0){
-                throw new BusinessException("请求的信息有误,该用户目前正在入住该房间");
-            }
-            newUser = user;
-        }
-
-        List<Bargin> list = barginService.getBarginByRoomId(roomId, false);
-        RoomRenter newRoomRenter = new RoomRenter(roomId, newUser.getUserId(), list.get(0).getBarginId());
-        newRoomRenter.setCreateTs(createTs);
-        newRoomRenter.setCheckTs(createTs);
-        roomRenterService.insertSelective(newRoomRenter);
-
-        return new JsonResult<>();
+        return roomService.renterAdd(roomId, newUser);
     }
 
     @GetMapping("/renterDelete/{roomId}/{roomRenterId}")
@@ -426,7 +373,7 @@ public class RoomController {
      */
     @GetMapping("/rentLeave/{roomId}")
     @ResponseBody
-    public JsonResult rentLeave(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
+    public JsonResult rentLeave(@PathVariable(name="roomId") Integer roomId){
         Long deleteTs = System.currentTimeMillis();
         //修改房间状态为未出租
         Room room = new Room();
@@ -509,6 +456,9 @@ public class RoomController {
     public JsonResult addMulity(@APIRequestControl APIRequest apiRequest) {
 
         Room room = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Room.class);
+        if(null == room.getRoomNoMulity()){
+            return new JsonResult("请输入房号");
+        }
 
         if(null != room.getFacilityIds() && room.getFacilityIds().size()>0){
             room.setFacilities(String.join(",", room.getFacilityIds()));
@@ -520,26 +470,6 @@ public class RoomController {
             room.setDeposits(String.join(",", room.getDepositIds()));
         }
 
-        List<Room> rlist = roomService.getRoomByRoomNoAndBuildingId(null,room.getBuildingId());
-
-        for(Room r : rlist){
-            if(room.getRoomNoMulity().contains(r.getRoomNo())){
-                return new JsonResult<>("创建失败,房间号" + r.getRoomNo() + "已存在");
-            }
-        }
-        room.setCreateTs(System.currentTimeMillis());
-        List<Room> list = new ArrayList<>();
-        for(String no : room.getRoomNoMulity()){
-            //Room r = S
-        }
-        //roomService.insertSelective()
-        roomService.insertSelective(room);
-
-        Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
-        building.setRooms(building.getRooms() + 1);
-        building.setRoomAble(building.getRoomAble() + 1);
-        buildingService.updateByPrimaryKeySelective(building);
-
-        return new JsonResult();
+        return roomService.addMulity(room);
     }
 }

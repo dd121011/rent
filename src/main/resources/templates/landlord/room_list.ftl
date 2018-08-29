@@ -41,6 +41,9 @@
                 <div class="layui-inline">
                     <a data-method="add" data-type="add" class="layui-btn layui-btn-normal">添加</a>
                 </div>
+                <div class="layui-inline">
+                    <a data-method="addMulti" data-type="addMulti" class="layui-btn layui-btn-normal">批量添加</a>
+                </div>
             </form>
         </blockquote>
         <hr class="layui-bg-green">
@@ -67,6 +70,7 @@
 <script src="${base}/static/js/landlord/room.js" charset="utf-8"></script>
 
 <#include "landlord/room_edit.ftl"/>
+<#include "landlord/room_edit_multi.ftl"/>
 <#include "landlord/room_charge.ftl"/>
 <#include "landlord/room_list_rent.ftl"/>
 

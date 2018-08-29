@@ -7,8 +7,10 @@ import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.entity.Bargin;
 import com.scrats.rent.entity.ExtraHistory;
 import com.scrats.rent.entity.Room;
+import com.scrats.rent.entity.User;
 import com.scrats.rent.mapper.RoomMapper;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -35,4 +37,8 @@ public interface RoomService extends BaseService<Room, RoomMapper> {
     List<Room> getRoomByRoomNoAndBuildingId(String roomNo, Integer buildingId);
 
     JsonResult charge(List<ExtraHistory> chargeList, String month, Integer barginId, Integer roomId, String remark);
+
+    JsonResult addMulity(Room room);
+
+    JsonResult renterAdd(Integer roomId, User newUser) throws ParseException;
 }

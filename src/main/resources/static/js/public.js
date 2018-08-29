@@ -170,18 +170,6 @@ var checkPwd = function (ff2) {
         });
     });
 };
-var pickkkkkk = function () {
-        var sendPhone = '18018790114';
-        var jhxhr = $.ajax({url: requestBaseUrl + "api/sms/send/" + sendPhone, headers: header, contentType: 'application/json', type: "GET"});
-        jhxhr.done(function (res) {
-            console.log(res);
-            if(res.code == 1){
-                settime(this);
-            }else{
-                layer.alert(res.message);
-            }
-        });
-    };
 
 //绑定click点击事件
 var smsCodeGenerateClick = function (phoneObj, codeObj) {

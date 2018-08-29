@@ -1,6 +1,7 @@
 var chargeExtra;
 var extraTableData;
 var depositItermTableData;
+var roomAddMulti;
 layui.use(['layer', 'table', 'form', 'laytpl'], function () {
     var $ = layui.$;
     var layer = layui.layer;
@@ -243,7 +244,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "新增房间"
-                , area: '500px'
+                , area: '600px'
                 , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
                 , id: 'layerRoomAdd' //防止重复弹出
                 , content: $('#addDiv')
@@ -252,6 +253,59 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
 //                    ,shade: 0 //不显示遮罩
                 , yes: function () {
                     layer.closeAll();
+                }
+            });
+        },
+        addMulti: function () {
+            $(".rmcl").val("");
+            // // $("select").val("");
+            $("[name='description']").val("");
+            $.each($('input[type=checkbox]'),function(){
+                $(this).attr("checked",false);
+                $(this).next().removeClass("layui-form-checked");
+            });
+            layer.open({
+                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                ,title: "批量添加房间"
+                , area: '600px'
+                , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                , id: 'layerRoomAddMulti' //防止重复弹出
+                , content: $('#addMultiDiv')
+                , btn: ['取消', '下一步']
+                , btnAlign: 'c' //按钮居中
+//                    ,shade: 0 //不显示遮罩
+                , yes: function () {
+                    layer.closeAll();
+                }
+                , btn2: function(index, layero){
+                    //按钮【按钮二】的回调
+                    roomAddMulti = {};
+                    var fromParams = $('#roomEditMultiForm').serializeObject();
+                    fromParams.rentFee = fromParams.rentFee * 100;
+                    fromParams.area = fromParams.area * 10000;
+                    roomAddMulti.body = fromParams;
+                    console.log(roomAddMulti);
+                    var multiRoomNos = generateFloor(fromParams.floor, fromParams.floorRoom, fromParams.roomPre);
+                    var getTpl = roomEditMultiSecondFormRoomNo.innerHTML;
+                    var view = document.getElementById('addMultiSecondDiv');
+                    laytpl(getTpl).render(multiRoomNos, function(html){
+                        view.innerHTML = html;
+                    });
+                    form.render(null, 'roomEditMultiSecondFormFilter');
+                    layer.open({
+                        type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                        ,title: "批量添加房间"
+                        , area: '600px'
+                        , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                        , id: 'layerRoomAddMultiSecond' //防止重复弹出
+                        , content: $('#addMultiSecondDiv')
+                        , btn: '关闭全部'
+                        , btnAlign: 'c' //按钮居中
+//                    ,shade: 0 //不显示遮罩
+                        , yes: function () {
+                            layer.closeAll();
+                        }
+                    });
                 }
             });
         },
@@ -450,3 +504,31 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
         }
     });
 });
+
+function generateFloor(floor, floorRoom, roomPre) {
+    var res = [];
+    for(i=0; i<floor; i++){
+        var flo = {};
+        var floo = [];
+        for(j=0; j<floorRoom; j++){
+            floo.push(generateRoomNo(roomPre, i+1, j+1));
+        }
+        flo.floorNo = i+1;
+        flo.floorRoom = floo;
+        res.push(flo);
+    }
+    return res;
+}
+
+function generateRoomNo(roomPre, floorNo, roomNo){
+    var name = "";
+    name += floorNo;
+    if(roomNo < 10){
+        name += "0";
+    }
+    name += roomNo;
+    if(!isEmpty(roomPre)){
+        name = roomPre + name;
+    }
+    return name;
+}

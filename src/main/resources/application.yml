@@ -19,6 +19,18 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+  mail:
+    host: smtp.exmail.qq.com
+    username: server@scrats.cn
+    password: Scrats2017
+    default-encoding: utf-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
 
 logging:
   config: classpath:logback-spring.xml

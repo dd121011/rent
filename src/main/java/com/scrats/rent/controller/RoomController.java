@@ -271,7 +271,6 @@ public class RoomController {
             return new JsonResult("验证码不正确, 请重新输入!!!!");
         }
 
-        Renter renter = null;
         long createTs = System.currentTimeMillis();
         if(null == accountService.findBy("phone", newUser.getPhone())){
             if(null != userService.findBy("idCard", newUser.getIdCard())){
@@ -300,11 +299,11 @@ public class RoomController {
             if(null == user){
                 throw new BusinessException("请求数据不正确");
             }
-            if(!newUser.getName().equals(user.getName())){
-                throw new BusinessException("填写的身份证号与该手机号在系统中记录的有误");
-            }
-            if(!newUser.getIdCard().equals(user.getIdCard())){
+            if(!newUser.getName().trim().equals(user.getName())){
                 throw new BusinessException("填写的姓名与该手机号在系统中记录的有误");
+            }
+            if(!newUser.getIdCard().trim().equals(user.getIdCard())){
+                throw new BusinessException("填写的身份证号与该手机号在系统中记录的有误");
             }
             RoomRenter param = new RoomRenter();
             param.setRoomId(roomId);
@@ -313,10 +312,11 @@ public class RoomController {
             if(null != rrlist && rrlist.size() > 0){
                 throw new BusinessException("请求的信息有误,该用户目前正在入住该房间");
             }
+            newUser = user;
         }
 
         List<Bargin> list = barginService.getBarginByRoomId(roomId, false);
-        RoomRenter newRoomRenter = new RoomRenter(roomId, renter.getUserId(), list.get(0).getBarginId());
+        RoomRenter newRoomRenter = new RoomRenter(roomId, newUser.getUserId(), list.get(0).getBarginId());
         newRoomRenter.setCreateTs(createTs);
         newRoomRenter.setCheckTs(createTs);
         roomRenterService.insertSelective(newRoomRenter);
@@ -502,5 +502,44 @@ public class RoomController {
         }
 
         return roomService.rent(bargin);
+    }
+
+    @PostMapping("/addMulity")
+    @ResponseBody
+    public JsonResult addMulity(@APIRequestControl APIRequest apiRequest) {
+
+        Room room = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Room.class);
+
+        if(null != room.getFacilityIds() && room.getFacilityIds().size()>0){
+            room.setFacilities(String.join(",", room.getFacilityIds()));
+        }
+        if(null != room.getExtraIds() && room.getExtraIds().size()>0){
+            room.setExtraFee(String.join(",", room.getExtraIds()));
+        }
+        if(null != room.getDepositIds() && room.getDepositIds().size()>0){
+            room.setDeposits(String.join(",", room.getDepositIds()));
+        }
+
+        List<Room> rlist = roomService.getRoomByRoomNoAndBuildingId(null,room.getBuildingId());
+
+        for(Room r : rlist){
+            if(room.getRoomNoMulity().contains(r.getRoomNo())){
+                return new JsonResult<>("创建失败,房间号" + r.getRoomNo() + "已存在");
+            }
+        }
+        room.setCreateTs(System.currentTimeMillis());
+        List<Room> list = new ArrayList<>();
+        for(String no : room.getRoomNoMulity()){
+            //Room r = S
+        }
+        //roomService.insertSelective()
+        roomService.insertSelective(room);
+
+        Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
+        building.setRooms(building.getRooms() + 1);
+        building.setRoomAble(building.getRoomAble() + 1);
+        buildingService.updateByPrimaryKeySelective(building);
+
+        return new JsonResult();
     }
 }

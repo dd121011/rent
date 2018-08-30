@@ -19,7 +19,7 @@ public interface DepositMapper extends BaseMapper<Deposit> {
     @Select("<script>select d.* from deposit d where 1=1 <if test='roomId != null'>and d.room_id = #{roomId}</if> <if test='deleteFlag == false'>and d.delete_ts = 0</if>  <if test='deleteFlag == true'>and d.delete_ts > 0</if></script>")
     List<Deposit> getDepositByRoomId(@Param("roomId") Integer roomId, @Param("deleteFlag") boolean deleteFlag);
 
-    @Select("<script>select d.* from deposit d where 1=1 and delete_ts = 0 and pay_ts = 0</script>")
+    @Select("<script>select d.* from deposit d where room_id = #{roomId} and delete_ts = 0 and pay_ts = 0</script>")
     List<Deposit> getUnpayDeposit(Integer roomId);
 
 }

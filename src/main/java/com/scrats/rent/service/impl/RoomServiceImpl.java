@@ -420,4 +420,32 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
 
         return new JsonResult<>();
     }
+
+    @Override
+    @Transactional
+    public JsonResult rentLeave(Integer roomId) {
+        Long deleteTs = System.currentTimeMillis();
+        //修改房间状态为未出租
+        Room room = new Room();
+        room.setRoomId(roomId);
+        room.setRentTs(0L);
+        dao.updateByPrimaryKeySelective(room);
+        //退还押金、取消合同
+        List<Bargin> barginList = barginService.getBarginByRoomId(roomId, false);
+        barginList.get(0).setDeleteTs(deleteTs);
+        barginService.updateByPrimaryKeySelective(barginList.get(0));
+
+        List<Deposit> depositList = depositService.getDepositByRoomId(roomId, false);
+        depositList.get(0).setDeleteTs(deleteTs);
+        depositService.updateByPrimaryKeySelective(depositList.get(0));
+
+        RoomRenter roomRenter = new RoomRenter();
+        roomRenter.setRoomId(roomId);
+        List<RoomRenter> roomRenterList = roomRenterService.getListByRoomrenter(roomRenter);
+        for(RoomRenter rr : roomRenterList){
+            rr.setDeleteTs(deleteTs);
+            roomRenterService.updateByPrimaryKeySelective(rr);
+        }
+        return new JsonResult();
+    }
 }

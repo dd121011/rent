@@ -41,4 +41,8 @@ public interface RoomService extends BaseService<Room, RoomMapper> {
     JsonResult addMulity(Room room);
 
     JsonResult renterAdd(Integer roomId, User newUser) throws ParseException;
+
+    JsonResult rentLeave(Integer roomId);
+
+
 }

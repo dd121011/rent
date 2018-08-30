@@ -277,6 +277,14 @@ public class RoomController {
     public JsonResult renterDelete(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomRenterId") Integer roomRenterId, @PathVariable(name="roomId") Integer roomId){
         //检查是否是本人名下的删除
         RoomRenter roomRenter = roomRenterService.selectByPrimaryKey(roomRenterId);
+        //查询是否是最后一个删除的
+        RoomRenter param = new RoomRenter();
+        roomRenter.setRoomId(roomId);
+        List<RoomRenter> roomRenterList = roomRenterService.getListByRoomrenter(param);
+        if(roomRenterList.size() == 1){
+            return roomService.rentLeave(roomId);
+        }
+
         Room room = roomService.selectByPrimaryKey(roomId);
         if(null == roomRenter || null == room || room.getRoomId() - roomRenter.getRoomId() != 0){
             throw new BusinessException("请求数据不正确");
@@ -375,29 +383,7 @@ public class RoomController {
     @GetMapping("/rentLeave/{roomId}")
     @ResponseBody
     public JsonResult rentLeave(@PathVariable(name="roomId") Integer roomId){
-        Long deleteTs = System.currentTimeMillis();
-        //修改房间状态为未出租
-        Room room = new Room();
-        room.setRoomId(roomId);
-        room.setRentTs(0L);
-        roomService.updateByPrimaryKeySelective(room);
-        //退还押金、取消合同
-        List<Bargin> barginList = barginService.getBarginByRoomId(roomId, false);
-        barginList.get(0).setDeleteTs(deleteTs);
-        barginService.updateByPrimaryKeySelective(barginList.get(0));
-
-        List<Deposit> depositList = depositService.getDepositByRoomId(roomId, false);
-        depositList.get(0).setDeleteTs(deleteTs);
-        depositService.updateByPrimaryKeySelective(depositList.get(0));
-
-        RoomRenter roomRenter = new RoomRenter();
-        roomRenter.setRoomId(roomId);
-        List<RoomRenter> roomRenterList = roomRenterService.getListByRoomrenter(roomRenter);
-        for(RoomRenter rr : roomRenterList){
-            rr.setDeleteTs(deleteTs);
-            roomRenterService.updateByPrimaryKeySelective(rr);
-        }
-        return new JsonResult();
+        return roomService.rentLeave(roomId);
     }
 
     @GetMapping("/roomAll/{buildingId}")
@@ -405,7 +391,6 @@ public class RoomController {
     public JsonResult roomAll(@PathVariable(name="buildingId") Integer buildingId){
 
         List<Room> list = roomService.getRoomByRoomNoAndBuildingId(null, buildingId);
-
         return new JsonResult<List>(list);
     }
 

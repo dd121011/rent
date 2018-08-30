@@ -115,8 +115,9 @@ public class RenterServiceImpl implements RenterService {
         for(RoomRenter rr :  rrlist){
             JSONObject jsonObject = new JSONObject();
             Room room = roomService.selectByPrimaryKey(rr.getRoomId());
+            Bargin bargin = barginService.selectByPrimaryKey(rr.getBarginId());
             Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
-            Date rentDay = this.getPayTime(date,room.getBarginList().get(0).getRentDay());
+            Date rentDay = this.getPayTime(date,bargin.getRentDay());
             String payStatus = "pay";
             if(null != room.getRentList() && room.getRentList().size() > 0){
                 payStatus = "unpay";

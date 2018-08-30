@@ -251,6 +251,7 @@ public class RoomController {
             User user = userService.selectByPrimaryKey(roomRenter.getUserId());
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("user",user);
+            jsonObject.put("roomRenterId",roomRenter.getRoomRenterId());
             jsonObject.put("checkTs",roomRenter.getCheckTs());
             jsonObject.put("deleteTs",roomRenter.getDeleteTs());
             jsonArray.add(jsonObject);

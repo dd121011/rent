@@ -198,7 +198,7 @@ public class RenterApi {
         return new JsonResult<List>(list);
     }
 
-    @GetMapping("/rent/{barginId}")
+    @PostMapping("/rent/{barginId}")
     public JsonResult rent(@APIRequestControl APIRequest apiRequest, @PathVariable(name="barginId") Integer barginId){
         Rent rent = new Rent();
         rent.setBarginId(barginId);

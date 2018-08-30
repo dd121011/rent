@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -337,11 +336,11 @@ public class RoomController {
     @ResponseBody
     public JsonResult barginExtra(@PathVariable(name="roomId") Integer roomId){
 
-        List<Bargin> barginList = barginService.getBarginByRoomId(roomId, false);
+        Bargin bargin = barginService.getRoomBargin(roomId);
 
         List<BarginExtra> list = new ArrayList<>();
-        if(!CollectionUtils.isEmpty(barginList)){
-            list = barginExtraService.findListBy("barginId",barginList.get(0).getBarginId());
+        if(null != bargin){
+            list = barginExtraService.findListBy("barginId",bargin.getBarginId());
         }
         return new JsonResult<List>(list);
     }
@@ -458,4 +457,5 @@ public class RoomController {
 
         return roomService.addMulity(room);
     }
+
 }

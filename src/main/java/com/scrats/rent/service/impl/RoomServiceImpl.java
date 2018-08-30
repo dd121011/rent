@@ -441,9 +441,9 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         room.setRentTs(0L);
         dao.updateByPrimaryKeySelective(room);
         //退还押金、取消合同
-        List<Bargin> barginList = barginService.getBarginByRoomId(roomId, false);
-        barginList.get(0).setDeleteTs(deleteTs);
-        barginService.updateByPrimaryKeySelective(barginList.get(0));
+        Bargin bargin = barginService.getRoomBargin(roomId);
+        bargin.setDeleteTs(deleteTs);
+        barginService.updateByPrimaryKeySelective(bargin);
 
         List<Deposit> depositList = depositService.getDepositByRoomId(roomId, false);
         depositList.get(0).setDeleteTs(deleteTs);

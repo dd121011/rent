@@ -52,4 +52,13 @@ public class BarginServiceImpl extends BaseServiceImpl<Bargin, BarginMapper> imp
         return pageInfo;
     }
 
+    @Override
+    public Bargin getRoomBargin(Integer roomId) {
+        List<Bargin> list = dao.getBarginByRoomId(roomId, false);
+        if(list.size() == 1){
+            return list.get(0);
+        }
+        return null;
+    }
+
 }

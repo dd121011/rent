@@ -424,6 +424,16 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     @Override
     @Transactional
     public JsonResult rentLeave(Integer roomId) {
+        //先判断是否有未缴费的房租和押金
+        List<Rent> unpayRentList = rentService.getRentByRoomId(roomId, false);
+        if(unpayRentList.size() > 0){
+            return new JsonResult("还有未支付房租, 请先支付后退房!");
+        }
+        List<Deposit> unpayDepositList = depositService.getUnpayDeposit(roomId);
+        if(unpayDepositList.size() > 0){
+            return new JsonResult("还有未支付押金, 请先支付后退房!");
+        }
+
         Long deleteTs = System.currentTimeMillis();
         //修改房间状态为未出租
         Room room = new Room();

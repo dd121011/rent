@@ -17,4 +17,6 @@ public interface DepositService extends BaseService<Deposit, DepositMapper> {
 
     List<Deposit> getDepositByRoomId(Integer roomId, boolean deleteFlag);
 
+    List<Deposit> getUnpayDeposit(Integer roomId);
+
 }

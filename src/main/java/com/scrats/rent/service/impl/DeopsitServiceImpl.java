@@ -27,4 +27,9 @@ public class DeopsitServiceImpl extends BaseServiceImpl<Deposit, DepositMapper> 
         return dao.getDepositByRoomId(roomId, deleteFlag);
     }
 
+    @Override
+    public List<Deposit> getUnpayDeposit(Integer roomId) {
+        return dao.getUnpayDeposit(roomId);
+    }
+
 }

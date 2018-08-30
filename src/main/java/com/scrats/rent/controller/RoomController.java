@@ -279,7 +279,7 @@ public class RoomController {
         RoomRenter roomRenter = roomRenterService.selectByPrimaryKey(roomRenterId);
         //查询是否是最后一个删除的
         RoomRenter param = new RoomRenter();
-        roomRenter.setRoomId(roomId);
+        param.setRoomId(roomId);
         List<RoomRenter> roomRenterList = roomRenterService.getListByRoomrenter(param);
         if(roomRenterList.size() == 1){
             return roomService.rentLeave(roomId);

@@ -104,28 +104,30 @@ public class RenterServiceImpl implements RenterService {
     @Override
     public JSONArray getRoomList(Integer userId) {
         Date date = new Date();
-
-        List<RoomRenter> rrlist = roomRenterService.findListBy("userId", userId);
+        JSONArray result = new JSONArray();
+        RoomRenter param = new RoomRenter();
+        param.setUserId(userId);
+        param.setCheckTs(1L);
+        List<RoomRenter> rrlist = roomRenterService.getListByRoomrenter(param);
         HashSet<Integer> roomIdSet = new HashSet<>();
         for(RoomRenter rr :  rrlist){
-            roomIdSet.add(rr.getRoomId());
-        }
-        JSONArray result = new JSONArray();
-        for(Integer id : roomIdSet){
-            JSONObject jsonObject = new JSONObject();
-            Room room = roomService.detailForRenter(id);
-            Date rentDay = this.getPayTime(date,room.getBarginList().get(0).getRentDay());
-            String payStatus = "pay";
-            if(null != room.getRentList() && room.getRentList().size() > 0){
-                payStatus = "unpay";
+            if(!roomIdSet.contains(rr.getRoomId())){
+                JSONObject jsonObject = new JSONObject();
+                Room room = roomService.detailForRenter(rr.getRoomId());
+                Date rentDay = this.getPayTime(date,room.getBarginList().get(0).getRentDay());
+                String payStatus = "pay";
+                if(null != room.getRentList() && room.getRentList().size() > 0){
+                    payStatus = "unpay";
+                }
+                jsonObject.put("roomId", room.getRoomId());
+                jsonObject.put("roomNo", room.getRoomNo());
+                jsonObject.put("buildingName", room.getBuilding().getName());
+                jsonObject.put("nextTime", rentDay.getTime()-date.getTime());
+                jsonObject.put("payTime", rentDay.getTime());
+                jsonObject.put("payStatus", payStatus);
+                result.add(jsonObject);
+                roomIdSet.add(rr.getRoomId());
             }
-            jsonObject.put("roomId", room.getRoomId());
-            jsonObject.put("roomNo", room.getRoomNo());
-            jsonObject.put("buildingName", room.getBuilding().getName());
-            jsonObject.put("nextTime", rentDay.getTime()-date.getTime());
-            jsonObject.put("payTime", rentDay.getTime());
-            jsonObject.put("payStatus", payStatus);
-            result.add(jsonObject);
         }
         return result;
     }

@@ -69,7 +69,7 @@ layui.use(['layer', 'table', 'form'], function () {
 
     //租赁历史Table
     table.render({
-        elem: '#lay_table_bargin_room'//指定原始表格元素选择器（
+        elem: '#lay_table_room_history'//指定原始表格元素选择器（
         , url: requestBaseUrl + '/bargin/list'
         , method: 'post'
         , contentType: 'application/json'
@@ -91,7 +91,7 @@ layui.use(['layer', 'table', 'form'], function () {
                 deleteTs: 1
             }
         }//传参*/
-        , id: 'lay_table_bargin_room'
+        , id: 'lay_table_room_history'
         , page: true//开启分页
         , cols: [[//表头
             {field: 'name', title: '姓名', templet: function(d){
@@ -319,7 +319,7 @@ layui.use(['layer', 'table', 'form'], function () {
     });
 
     //监听工具条
-    table.on('tool(renterRoomTableFilter)', function (obj) {
+    table.on('tool(roomRenterTableFilter)', function (obj) {
         var data = obj.data;
         if (obj.event === 'renterCheck') {
             var checkType = "入住";

@@ -133,6 +133,7 @@ public class RenterApi {
     }
 
     @GetMapping("/roomList")
+    @IgnoreSecurity
     public JsonResult roomList(@APIRequestControl APIRequest apiRequest){
         return new JsonResult<JSONArray>(renterService.getRoomList(apiRequest.getUser().getUserId()));
     }
@@ -213,6 +214,7 @@ public class RenterApi {
     }
 
     @GetMapping("/historyLive")
+    @IgnoreSecurity
     public JsonResult historyLive(@APIRequestControl APIRequest apiRequest){
         RoomRenter param = new RoomRenter();
         param.setUserId(apiRequest.getUser().getUserId());
@@ -223,10 +225,12 @@ public class RenterApi {
         for(RoomRenter rr : rrlist){
             JSONObject jsonObject = new JSONObject();
             Room room = roomService.selectByPrimaryKey(rr.getRoomId());
+            Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
             jsonObject.put("roomId", room.getRoomId());
             jsonObject.put("barginId", rr.getBarginId());
             jsonObject.put("roomNo", room.getRoomNo());
-            jsonObject.put("buildingName", room.getBuilding().getName());
+            jsonObject.put("buildingName", building.getName());
+            result.add(jsonObject);
         }
         return new JsonResult<>(result);
     }

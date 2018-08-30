@@ -25,4 +25,6 @@ public interface BarginService extends BaseService<Bargin, BarginMapper> {
 
     Bargin getRoomBargin(Integer roomId);
 
+    Bargin getRoomBarginDetail(Integer roomId);
+
 }

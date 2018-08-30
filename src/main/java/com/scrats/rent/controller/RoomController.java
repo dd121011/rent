@@ -458,4 +458,25 @@ public class RoomController {
         return roomService.addMulity(room);
     }
 
+    @GetMapping("/bargin/{roomId}")
+    @ResponseBody
+    @IgnoreSecurity
+    public JsonResult bargin(@PathVariable(name="roomId") Integer roomId) {
+        Bargin bargin = barginService.getRoomBargin(roomId);
+        Building building = buildingService.selectByPrimaryKey(bargin.getBuildingId());
+        List<DictionaryIterm> facilities = new ArrayList<DictionaryIterm>();
+        if(StringUtils.isNotEmpty(bargin.getFacilities())){
+            facilities = dictionaryItermService.selectByIds(bargin.getFacilities());
+        }
+        List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBarginId());
+        Room room = roomService.selectByPrimaryKey(bargin.getRoomId());
+        JSONObject result = new JSONObject();
+        result.put("bargin",bargin);
+        result.put("roomNo",room.getRoomNo());
+        result.put("building",building);
+        result.put("facilities",facilities);
+        result.put("extras",extras == null ? new ArrayList<>() : extras);
+
+        return new JsonResult(result);
+    }
 }

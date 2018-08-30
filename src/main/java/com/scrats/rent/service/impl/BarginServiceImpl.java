@@ -61,4 +61,9 @@ public class BarginServiceImpl extends BaseServiceImpl<Bargin, BarginMapper> imp
         return null;
     }
 
+    @Override
+    public Bargin getRoomBarginDetail(Integer roomId) {
+        return null;
+    }
+
 }

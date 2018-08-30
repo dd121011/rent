@@ -50,6 +50,8 @@ public class Bargin extends BaseEntity {
     private List<BarginExtra> barginExtraList;
     @Transient
     private List<DepositIterm> depositItermList;
+    @Transient
+    private List<DictionaryIterm> facilitiesItermList;
 
     public String getSexName(){
         return null == sex ? "" : SexType.fromValue(sex).getName();

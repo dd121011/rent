@@ -32,8 +32,6 @@ public interface RoomService extends BaseService<Room, RoomMapper> {
 
     Room detail(Integer roomId);
 
-    Room detailForRenter(Integer roomId);
-
     List<Room> getRoomByRoomNoAndBuildingId(String roomNo, Integer buildingId);
 
     JsonResult charge(List<ExtraHistory> chargeList, String month, Integer barginId, Integer roomId, String remark);

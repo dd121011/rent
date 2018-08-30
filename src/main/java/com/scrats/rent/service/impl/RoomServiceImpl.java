@@ -236,25 +236,6 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
     }
 
     @Override
-    public Room detailForRenter(Integer roomId) {
-        //获取所有房子select数据
-        Room room = dao.selectByPrimaryKey(roomId);
-        if(null == room){
-            return room;
-        }
-        //获取房子
-        Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
-        List<Bargin> barginList = barginService.getBarginByRoomId(room.getRoomId(), false);
-        List<Rent> rentList = rentService.getRentByRoomId(room.getRoomId(), false);
-
-        room.setBuilding(building);
-        room.setBarginList(barginList);
-        room.setRentList(rentList);
-
-        return room;
-    }
-
-    @Override
     public List<Room> getRoomByRoomNoAndBuildingId(String roomNo, Integer buildingId) {
         return dao.getRoomByRoomNoAndBuildingId(roomNo, buildingId);
     }

@@ -175,10 +175,12 @@ public class RenterApi {
         throw new BusinessException("数据有误");
     }
 
-    @GetMapping("/unpay/{roomId}")
-    public JsonResult unpay(@PathVariable(name="roomId") Integer roomId){
+    @GetMapping("/unpay/{barginId}")
+    public JsonResult unpay(@PathVariable(name="barginId") Integer barginId){
         JSONArray result = new JSONArray();
-        List<Rent> list = rentService.getRentByRoomId(roomId,false);
+        Rent param = new Rent();
+        param.setBarginId(barginId);
+        List<Rent> list = rentService.getListByRent(param);
         for(Rent rent : list){
             JSONObject jsonObject = new JSONObject();
             List<RentIterm> rentIterm = rentItermService.findListBy("rentId",rent.getRentId());
@@ -196,10 +198,10 @@ public class RenterApi {
         return new JsonResult<List>(list);
     }
 
-    @GetMapping("/rent/{roomId}")
-    public JsonResult rent(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
+    @GetMapping("/rent/{barginId}")
+    public JsonResult rent(@APIRequestControl APIRequest apiRequest, @PathVariable(name="barginId") Integer barginId){
         Rent rent = new Rent();
-        rent.setRoomId(roomId);
+        rent.setBarginId(barginId);
         rent.setPayTs(-1L);
         PageInfo<Rent> pageInfo = rentService.getRentPageList(apiRequest, rent);
 

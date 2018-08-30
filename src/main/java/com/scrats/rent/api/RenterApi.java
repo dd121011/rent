@@ -221,7 +221,12 @@ public class RenterApi {
         List<RoomRenter> rrlist = roomRenterService.getListByRoomrenter(param);
         JSONArray result = new JSONArray();
         for(RoomRenter rr : rrlist){
-            result.add(roomService.detail(rr.getRoomId()));
+            JSONObject jsonObject = new JSONObject();
+            Room room = roomService.selectByPrimaryKey(rr.getRoomId());
+            jsonObject.put("roomId", room.getRoomId());
+            jsonObject.put("barginId", rr.getBarginId());
+            jsonObject.put("roomNo", room.getRoomNo());
+            jsonObject.put("buildingName", room.getBuilding().getName());
         }
         return new JsonResult<>(result);
     }

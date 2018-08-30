@@ -42,7 +42,8 @@ public class BarginController {
     private BarginService barginService;
 
     @PostMapping("/list")
-    public String list(@APIRequestControl APIRequest apiRequest, Bargin bargin) {
+    public String list(@APIRequestControl APIRequest apiRequest) {
+        Bargin bargin = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Bargin.class);
         PageInfo<Bargin> pageInfo = barginService.getBarginList(apiRequest, bargin);
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
     }

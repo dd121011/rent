@@ -22,10 +22,6 @@ layui.use(['layer', 'table', 'form'], function () {
         , url: requestBaseUrl + '/room/renterAll/' + $('#roomDetailRoomId').val()
         , method: 'get'
         , headers: header
-        , request: {
-            pageName: 'page' //页码的参数名称，默认：page
-            , limitName: 'rows' //每页数据量的参数名，默认：limit
-        } //如果无需自定义请求参数，可不加该参数
         , response: {
             statusName: 'code' //数据状态的字段名称，默认：code
             , statusCode: 1 //成功的状态码，默认：0
@@ -76,6 +72,7 @@ layui.use(['layer', 'table', 'form'], function () {
         elem: '#lay_table_bargin_room'//指定原始表格元素选择器（
         , url: requestBaseUrl + '/bargin/list'
         , method: 'post'
+        , contentType: 'application/json'
         , headers: header
         , request: {
             pageName: 'page' //页码的参数名称，默认：page
@@ -89,8 +86,10 @@ layui.use(['layer', 'table', 'form'], function () {
             , dataName: 'data' //数据列表的字段名称，默认：data
         } //如果无需自定义数据响应名称，可不加该参数
         , where: {
-            roomId: $('#roomDetailRoomId').val(),
-            deleteTs: -1
+            body: {
+                roomId: $('#roomDetailRoomId').val(),
+                deleteTs: 1
+            }
         }//传参*/
         , id: 'lay_table_bargin_room'
         , page: true//开启分页

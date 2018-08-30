@@ -44,6 +44,8 @@ public class BarginController {
     private DictionaryItermService dictionaryItermService;
     @Autowired
     private BarginExtraService barginExtraService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/list")
     public String list(@APIRequestControl APIRequest apiRequest) {
@@ -65,9 +67,11 @@ public class BarginController {
         }
         List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBarginId());
         Room room = roomService.selectByPrimaryKey(bargin.getRoomId());
+        User landlord = userService.selectByPrimaryKey(bargin.getLandlordId());
         JSONObject result = new JSONObject();
         result.put("bargin",bargin);
         result.put("roomNo",room.getRoomNo());
+        result.put("landlordName",landlord.getName());
         result.put("building",building);
         result.put("facilities",facilities);
         result.put("extras",extras == null ? new ArrayList<>() : extras);

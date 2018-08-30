@@ -1,10 +1,11 @@
 var extraTableData;
 var depositItermTableData;
-layui.use(['layer', 'table', 'form'], function () {
+layui.use(['layer', 'table', 'form', 'laytpl'], function () {
     var $ = layui.$;
     var layer = layui.layer;
     var table = layui.table;
     var form = layui.form;
+    var laytpl = layui.laytpl;
 
     //生成房间二维码
     new QRCode('qrcode', {
@@ -280,7 +281,7 @@ layui.use(['layer', 'table', 'form'], function () {
                 }
             });
         },
-        bindRoom: function (userId) {
+        bindRoom: function () {
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "房间二维码"
@@ -308,6 +309,67 @@ layui.use(['layer', 'table', 'form'], function () {
                     }
                 });
                 layer.close(index);
+            });
+        },
+        roomBargin: function () {
+            var jhxhr = $.ajax({url: requestBaseUrl + "/room/bargin/" + $('#roomDetailRoomId').val(), headers: header, type: "GET"});
+            jhxhr.done(function (res) {
+                if(res.code == 1){
+                    active.showBargin(res.data);
+                }else{
+                    layer.alert(res.message);
+                }
+            });
+        },
+        showBargin: function (data) {
+            var facilitiesName = '';
+            for(i=0;i<data.facilities.length;i++){
+                facilitiesName += data.facilities[i].value + ',';
+            }
+            data.facilitiesName = facilitiesName;
+            data.liveTs = new Date(data.bargin.liveTs).Format('yyyy-MM-dd');
+            data.leaveTs = new Date(data.bargin.leaveTs).Format('yyyy-MM-dd');
+            //方法级渲染
+            var getTpl = roomBarginTemplete.innerHTML;
+            var view = document.getElementById('roomBarginTableTbody');
+            laytpl(getTpl).render(data, function(html){
+                view.innerHTML = html;
+            });
+
+            layer.open({
+                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                ,title: "合同详情"
+                , area: '800px'
+                , offset: '100px' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                , id: 'layerRoomBargin'  //防止重复弹出
+                , content: $('#roomBarginDiv')
+//                    ,shade: 0 //不显示遮罩
+                , yes: function () {
+                    layer.closeAll();
+                }
+            });
+            table.render({
+                elem: '#roomBarginItermTable'//指定原始表格元素选择器（
+                , data: data.extras
+                , id: 'roomBarginItermTable'
+                // , width: 550
+                , cols: [[//表头
+                    {field: 'value', title: '项目', templet: function(d){
+                            return d.value;
+                        }}
+                    , {field: 'unit', title: '单位', templet: function(d){
+                            return d.unit;
+                        }}
+                    , {field: 'price', title: '单价', templet: function(d){
+                            return d.price/100;
+                        }}
+                    , {field: 'number', title: '初始数量', templet: function(d){
+                            return undefined == d.number ? "" : d.number;
+                        }}
+                ]]
+                , done: function (res, curr, count) {
+                    console.log(res.data)
+                }
             });
         },
     };
@@ -349,6 +411,21 @@ layui.use(['layer', 'table', 'form'], function () {
                     }
                 });
                 layer.close(index);
+            });
+        }
+    });
+
+    //监听工具条
+    table.on('tool(roomHistoryTableFilter)', function (obj) {
+        var data = obj.data;
+        if (obj.event === 'barginDetail') {
+            var jhxhr = $.ajax({url: requestBaseUrl + "/bargin/bargin/" + data.barginId, headers: header, type: "GET"});
+            jhxhr.done(function (res) {
+                if(res.code == 1){
+                    active.showBargin(res.data);
+                }else{
+                    layer.alert(res.message);
+                }
             });
         }
     });

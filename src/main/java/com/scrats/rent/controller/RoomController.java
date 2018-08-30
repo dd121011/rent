@@ -470,8 +470,10 @@ public class RoomController {
         }
         List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBarginId());
         Room room = roomService.selectByPrimaryKey(bargin.getRoomId());
+        User landlord = userService.selectByPrimaryKey(bargin.getLandlordId());
         JSONObject result = new JSONObject();
         result.put("bargin",bargin);
+        result.put("landlordName",landlord.getName());
         result.put("roomNo",room.getRoomNo());
         result.put("building",building);
         result.put("facilities",facilities);

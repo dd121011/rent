@@ -61,12 +61,12 @@
                     <blockquote class="layui-elem-quote">
                         <div class="layui-inline" id="layerRenter">
                         <#if room.rentTs gt 0>
-                            <a data-method="bindRoom" data-type="bindRoom" class="layui-btn layui-btn-normal">二维码入住</a>
-                            <a data-method="renterAdd" data-type="renterAdd" class="layui-btn layui-btn-normal">添加租客</a>
-                            <a data-method="rentLeave" data-type="rentLeave" class="layui-btn layui-btn-normal">办理退房</a>
-                            <a data-method="rentLeave" data-type="rentLeave" class="layui-btn layui-btn-normal">押金支付</a>
+                            <a data-method="bindRoom" data-roomId="${room.roomId}" class="layui-btn layui-btn-normal">二维码入住</a>
+                            <a data-method="renterAdd" data-roomId="${room.roomId}" class="layui-btn layui-btn-normal">添加租客</a>
+                            <a data-method="rentLeave" data-roomId="${room.roomId}" class="layui-btn layui-btn-normal">办理退房</a>
+                            <a data-method="roomBargin" data-roomId="${room.roomId}" class="layui-btn layui-btn-normal">入住合同</a>
                         <#else>
-                            <a data-method="rentAdd" data-type="rentAdd" class="layui-btn layui-btn-normal">办理入住</a>
+                            <a data-method="rentAdd" data-type="${room.roomId}" class="layui-btn layui-btn-normal">办理入住</a>
                         </#if>
                         </div>
                     </blockquote>
@@ -98,5 +98,6 @@
 
 <#include "landlord/room_detail_rent.ftl"/>
 <#include "landlord/room_renter.ftl"/>
+<#include "landlord/room_bargin.ftl"/>
 
 </html>

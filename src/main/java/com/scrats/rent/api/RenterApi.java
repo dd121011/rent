@@ -133,7 +133,6 @@ public class RenterApi {
     }
 
     @GetMapping("/roomList")
-    @IgnoreSecurity
     public JsonResult roomList(@APIRequestControl APIRequest apiRequest){
         return new JsonResult<JSONArray>(renterService.getRoomList(apiRequest.getUser().getUserId()));
     }
@@ -214,7 +213,6 @@ public class RenterApi {
     }
 
     @GetMapping("/historyLive")
-    @IgnoreSecurity
     public JsonResult historyLive(@APIRequestControl APIRequest apiRequest){
         RoomRenter param = new RoomRenter();
         param.setUserId(apiRequest.getUser().getUserId());

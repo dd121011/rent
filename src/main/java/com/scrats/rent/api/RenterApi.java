@@ -226,10 +226,13 @@ public class RenterApi {
             JSONObject jsonObject = new JSONObject();
             Room room = roomService.selectByPrimaryKey(rr.getRoomId());
             Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
+            Bargin bargin = barginService.selectByPrimaryKey(rr.getBarginId());
             jsonObject.put("roomId", room.getRoomId());
             jsonObject.put("barginId", rr.getBarginId());
             jsonObject.put("roomNo", room.getRoomNo());
             jsonObject.put("buildingName", building.getName());
+            jsonObject.put("liveTs", bargin.getLiveTs());
+            jsonObject.put("leaveTs", bargin.getLeaveTs());
             result.add(jsonObject);
         }
         return new JsonResult<>(result);

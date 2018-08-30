@@ -80,6 +80,7 @@
 
 <#include "footer.ftl"/>
 <script type="text/html" id="renterListBar">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     {{#  if(d.checkTs == 0){ }}
         {{#  if(d.deleteTs > 0){ }}
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="renterCheck">离开确认</a>
@@ -87,7 +88,6 @@
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="renterCheck">入住确认</a>
         {{#  } }}
     {{#  } }}
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script type="text/html" id="barginRoomListBar">
     <a class="layui-btn layui-btn-xs" lay-event="barginDetail">详情</a>

@@ -232,7 +232,7 @@ public class RenterApi {
             jsonObject.put("roomNo", room.getRoomNo());
             jsonObject.put("buildingName", building.getName());
             jsonObject.put("liveTs", bargin.getLiveTs());
-            jsonObject.put("leaveTs", bargin.getLeaveTs());
+            jsonObject.put("leaveTs", bargin.getDeleteTs());
             result.add(jsonObject);
         }
         return new JsonResult<>(result);

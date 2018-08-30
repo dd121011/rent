@@ -1741,7 +1741,7 @@ curl 'https://scrats.cn/rent/api/renter/extraHistory/1' -H 'Pragma: no-cache' -H
 
 ### 获取某一个房间的所有房租
 
-> [POST] `/api/renter/rent/{bargin}` 
+> [POST] `/api/renter/rent/{barginId}` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |

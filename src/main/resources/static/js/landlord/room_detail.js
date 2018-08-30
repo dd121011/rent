@@ -364,7 +364,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                             return d.price/100;
                         }}
                     , {field: 'number', title: '初始数量', templet: function(d){
-                            return undefined == d.number ? "" : d.number;
+                            return undefined == d.number || d.number < 0 ? "" : d.number;
                         }}
                 ]]
                 , done: function (res, curr, count) {

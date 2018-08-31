@@ -4,7 +4,7 @@ layui.use(['layer', 'form'], function () {
 
     var landlordHome = {
         search: function () {
-            var jhxhr = $.ajax({url: requestBaseUrl + "/building/homeData/" + $('#searchBuildingId').val(), headers: header, type: "GET"});
+            var jhxhr = $.ajax({url: requestBaseUrl + "/landlord/homeData/" + $('#searchBuildingId').val(), headers: header, type: "GET"});
             jhxhr.done(function (res) {
                 if(res.code == 1){
                     $('#rentTotal').html(res.data.roomNum);

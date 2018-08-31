@@ -1,7 +1,6 @@
 package com.scrats.rent.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
@@ -10,7 +9,9 @@ import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.common.exception.NotAuthorizedException;
-import com.scrats.rent.entity.*;
+import com.scrats.rent.entity.Building;
+import com.scrats.rent.entity.BuildingLandlord;
+import com.scrats.rent.entity.User;
 import com.scrats.rent.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,21 +117,6 @@ public class BuildingController {
         buildingService.deleteBuildingByIds(ids);
 
         return new JsonResult();
-    }
-
-    @GetMapping("/homeData/{buildingId}")
-    @ResponseBody
-    public JsonResult homeData(@APIRequestControl APIRequest apiRequest, @PathVariable Integer buildingId){
-        Building building = buildingService.selectByPrimaryKey(buildingId);
-        List<RoomRenter> roomRenterList = roomRenterService.getRoomRenterByBuildingId(buildingId);
-        List<Rent> rentList = rentService.getRentByBuildingIdandPayFlag(buildingId, false);
-
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("roomNum", building.getRooms());
-        jsonObject.put("avaliableNum", building.getRoomAble());
-        jsonObject.put("renterNum", roomRenterList.size());
-        jsonObject.put("noRentNum", rentList.size());
-        return new JsonResult(jsonObject);
     }
 
 }

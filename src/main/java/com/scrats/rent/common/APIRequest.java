@@ -4,6 +4,7 @@ import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.util.BaseUtil;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import java.util.Map;
  * @Date: 2018/6/10 19:59.
  */
 @Data
+@ToString
 public class APIRequest {
 
     private String tokenId;
@@ -23,11 +25,11 @@ public class APIRequest {
     private String searchText;//搜索内容
     private User user;
     private String openid = "";
-    private boolean renterFlag = false;
-    private boolean landlordFlag = false;
-    private boolean guardFlag = false;
-    private boolean adminFlag = false;
-    private boolean administratorFlag = false;
+    private boolean renterFlag;
+    private boolean landlordFlag;
+    private boolean guardFlag;
+    private boolean adminFlag;
+    private boolean administratorFlag;
 
     private Map<String, Object> body;
 

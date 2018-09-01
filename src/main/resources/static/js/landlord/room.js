@@ -473,33 +473,36 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 obj.data.money = Number(obj.data.number) * Number(obj.data.price)/1;
                 console.log(depositItermTableData);
                 console.log(depositItermTableData.length);
-
-                table.render({
-                    elem: '#depositTable'//指定原始表格元素选择器（
-                    , data: depositItermTableData
-                    , id: 'depositTableEdit'
-                    , cols: [[//表头
-                        {field: 'value', title: '项目', templet: function(d){
-                                return d.value;
-                            }}
-                        , {field: 'unit', title: '单位', templet: function(d){
-                                return d.unit;
-                            }}
-                        , {field: 'price', title: '单价', edit: 'text', templet: function(d){
-                                return undefined == d.price ? "" : d.price;
-                            }}
-                        , {field: 'number', title: '数量', edit: 'text', templet: function(d){
-                                return undefined == d.number ? "" : d.number;
-                            }}
-                        , {field: 'money', title: '金额', edit: 'text', templet: function(d){
-                                return undefined == d.money ? "" : d.money;
-                            }}
-                    ]]
-                    , done: function (res, curr, count) {
-                        depositItermTableData = res.data;
-                        console.log(depositItermTableData)
-                    }
+                //执行重载
+                table.reload('depositTableEdit', {
+                    data : depositItermTableData
                 });
+                // table.render({
+                //     elem: '#depositTable'//指定原始表格元素选择器（
+                //     , data: depositItermTableData
+                //     , id: 'depositTableEdit'
+                //     , cols: [[//表头
+                //         {field: 'value', title: '项目', templet: function(d){
+                //                 return d.value;
+                //             }}
+                //         , {field: 'unit', title: '单位', templet: function(d){
+                //                 return d.unit;
+                //             }}
+                //         , {field: 'price', title: '单价', edit: 'text', templet: function(d){
+                //                 return undefined == d.price ? "" : d.price;
+                //             }}
+                //         , {field: 'number', title: '数量', edit: 'text', templet: function(d){
+                //                 return undefined == d.number ? "" : d.number;
+                //             }}
+                //         , {field: 'money', title: '金额', edit: 'text', templet: function(d){
+                //                 return undefined == d.money ? "" : d.money;
+                //             }}
+                //     ]]
+                //     , done: function (res, curr, count) {
+                //         depositItermTableData = res.data;
+                //         console.log(depositItermTableData)
+                //     }
+                // });
             }
         }
     });

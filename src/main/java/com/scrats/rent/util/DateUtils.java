@@ -1,6 +1,5 @@
 package com.scrats.rent.util;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -68,7 +67,7 @@ public class DateUtils {
     }
 
     /**
-     * 获取YYYY格式
+     * 获取yyyyMMddHHmmss格式
      */
     public static String getTimes(Date date) {
         if(null == date)
@@ -94,13 +93,81 @@ public class DateUtils {
      * 格式化日期
      */
     public static Date fomatDate(String date) {
-        DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            return fmt.parse(date);
+            return sdfDay.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * 格式化日期
+     */
+    public static Date fomatDate2(String date) {
+        try {
+            return sdfTime.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 校验日期是否合法
+     */
+    public static boolean isValidDate(String s) {
+        try {
+            sdfDay.parse(s);
+            return true;
+        } catch (Exception e) {
+            // 如果throw java.text.ParseException或者NullPointerException，就说明格式不对
+            return false;
+        }
+    }
+
+    /**
+     * 获取两个日期相差几年
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    public static int getDiffYear(String startTime, String endTime) {
+        try {
+            //long aa=0;
+            int years = (int) (((sdfDay.parse(endTime).getTime() - sdfDay.parse(startTime).getTime()) / (1000
+                    * 60
+                    * 60
+                    * 24)) / 365);
+            return years;
+        } catch (Exception e) {
+            // 如果throw java.text.ParseException或者NullPointerException，就说明格式不对
+            return 0;
+        }
+    }
+
+    /**
+     * <li>功能描述：时间相减得到天数
+     *
+     * @return long
+     * @author Administrator
+     */
+    public static long getDaySub(String beginDateStr, String endDateStr) {
+        long day = 0;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date beginDate = null;
+        Date endDate = null;
+
+        try {
+            beginDate = format.parse(beginDateStr);
+            endDate = format.parse(endDateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        day = (endDate.getTime() - beginDate.getTime()) / (24 * 60 * 60 * 1000);
+        //System.out.println("相隔的天数="+day);
+
+        return day;
     }
 
     // 获取当前月的第一天
@@ -115,6 +182,27 @@ public class DateUtils {
         return calendar.getTime();
     }
 
+    // 获取当前月的第一天
+    public static Date firstDayZeroOfThisMonth(Date date){
+        if(null == date){
+            return date;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MONTH, 0);
+        //将日置为第一天
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        //将小时至0
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        //将分钟至0
+        calendar.set(Calendar.MINUTE, 0);
+        //将秒至0
+        calendar.set(Calendar.SECOND,0);
+        //将毫秒至0
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
     // 获取当前月的最后一天
     public static Date lastDayOfThisMonth(Date date){
         if(null == date){
@@ -126,7 +214,28 @@ public class DateUtils {
         calendar.set(Calendar.DAY_OF_MONTH, 0);
         return calendar.getTime();
     }
-    // 获取当前月的第一天
+
+    // 获取当前月的最后一天
+    public static Date lastDayNineOfThisMonth(Date date){
+        if(null == date){
+            return date;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MONTH, 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 0);
+        //将小时至0
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        //将分钟至0
+        calendar.set(Calendar.MINUTE, 59);
+        //将秒至0
+        calendar.set(Calendar.SECOND,59);
+        //将毫秒至0
+        calendar.set(Calendar.MILLISECOND, 999);
+        return calendar.getTime();
+    }
+
+    // 获取下个月的第一天
     public static Date firstDayOfNextMonth(Date date){
         if(null == date){
             return date;
@@ -139,9 +248,6 @@ public class DateUtils {
     }
 
     public static Date oneDayOfThisMonth(Date date, int number){
-        if(null == date){
-            return date;
-        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -150,9 +256,6 @@ public class DateUtils {
     }
 
     public static Date oneDayOfNextMonth(Date date, int number){
-        if(null == date){
-            return date;
-        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.MONTH, 1);

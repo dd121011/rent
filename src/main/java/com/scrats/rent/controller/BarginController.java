@@ -7,7 +7,6 @@ import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
-import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
 import org.apache.commons.lang3.StringUtils;
@@ -56,7 +55,6 @@ public class BarginController {
 
     @GetMapping("/bargin/{barginId}")
     @ResponseBody
-    @IgnoreSecurity
     public JsonResult bargin(@PathVariable(name="barginId") Integer barginId) {
 
         Bargin bargin = barginService.selectByPrimaryKey(barginId);

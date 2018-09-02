@@ -65,6 +65,7 @@
                             <a data-method="renterAdd" data-roomId="${room.roomId}" class="layui-btn layui-btn-normal">添加租客</a>
                             <a data-method="rentLeave" data-roomId="${room.roomId}" class="layui-btn layui-btn-normal">办理退房</a>
                             <a data-method="roomBargin" data-roomId="${room.roomId}" class="layui-btn layui-btn-normal">入住合同</a>
+                            <a data-method="roomDeposit" data-roomId="${room.roomId}" class="layui-btn layui-btn-normal">入住押金</a>
                         <#else>
                             <a data-method="rentAdd" data-type="${room.roomId}" class="layui-btn layui-btn-normal">办理入住</a>
                         </#if>
@@ -99,5 +100,6 @@
 <#include "landlord/room_detail_rent.ftl"/>
 <#include "landlord/room_renter.ftl"/>
 <#include "landlord/room_bargin.ftl"/>
+<#include "landlord/room_deposit.ftl"/>
 
 </html>

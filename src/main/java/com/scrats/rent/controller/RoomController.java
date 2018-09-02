@@ -68,6 +68,8 @@ public class RoomController {
     private UserRoleService userRoleService;
     @Autowired
     private SmsService smsService;
+    @Autowired
+    private DepositItermService depositItermService;
 
     @IgnoreSecurity
     @GetMapping(value = {"/goRoom/{userId}/{buildingId}","/goRoom/{userId}"})
@@ -477,6 +479,26 @@ public class RoomController {
         result.put("building",building);
         result.put("facilities",facilities);
         result.put("extras",extras == null ? new ArrayList<>() : extras);
+
+        return new JsonResult(result);
+    }
+
+    @GetMapping("/deposit/{roomId}")
+    @ResponseBody
+    public JsonResult deposit(@PathVariable(name="roomId") Integer roomId) {
+        Deposit deposit = depositService.getRoomDeposit(roomId);
+        Bargin bargin = barginService.selectByPrimaryKey(deposit.getBarginId());
+        List<DepositIterm> depositItermList = depositItermService.findListBy("depositId", deposit.getDepositId());
+        deposit.setDepositItermList(depositItermList);
+        Building building = buildingService.selectByPrimaryKey(deposit.getBuildingId());
+        Room room = roomService.selectByPrimaryKey(deposit.getRoomId());
+        User landlord = userService.selectByPrimaryKey(bargin.getLandlordId());
+        JSONObject result = new JSONObject();
+        result.put("deposit",deposit);
+        result.put("bargin",bargin);
+        result.put("landlordName",landlord.getName());
+        result.put("roomNo",room.getRoomNo());
+        result.put("building",building);
 
         return new JsonResult(result);
     }

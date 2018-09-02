@@ -373,6 +373,65 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 }
             });
         },
+        roomDeposit: function () {
+            var jhxhr = $.ajax({url: requestBaseUrl + "/room/deposit/" + $('#roomDetailRoomId').val(), headers: header, type: "GET"});
+            jhxhr.done(function (res) {
+                if(res.code == 1){
+                    active.showDeposit(res.data);
+                }else{
+                    layer.alert(res.message);
+                }
+            });
+        },
+        showDeposit: function (data) {
+            data.signTs = new Date(data.deposit.createTs).Format('yyyy-MM-dd');
+            data.payTs = data.deposit.payTs == 0 ? '' :new Date(data.deposit.payTs).Format('yyyy-MM-dd');
+            //方法级渲染
+            var getTpl = roomDepositTemplete.innerHTML;
+            var view = document.getElementById('roomDepositTableTbody');
+            laytpl(getTpl).render(data, function(html){
+                view.innerHTML = html;
+            });
+
+            layer.open({
+                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                ,title: "押金详情"
+                , area: '800px'
+                , offset: '100px' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                , id: 'layerRoomDeposit'  //防止重复弹出
+                , content: $('#roomDepositDiv')
+//                    ,shade: 0 //不显示遮罩
+                , yes: function () {
+                    layer.closeAll();
+                }
+            });
+            table.render({
+                elem: '#roomDepositItermTable'//指定原始表格元素选择器（
+                , data: data.deposit.depositItermList
+                , id: 'roomDepositItermTable'
+                // , width: 550
+                , cols: [[//表头
+                    {field: 'value', title: '项目', templet: function(d){
+                            return d.value;
+                        }}
+                    , {field: 'unit', title: '单位', templet: function(d){
+                            return d.unit;
+                        }}
+                    , {field: 'price', title: '单价', templet: function(d){
+                            return d.price/100;
+                        }}
+                    , {field: 'number', title: '数量', templet: function(d){
+                            return undefined == d.number || d.number < 0 ? "" : d.number;
+                        }}
+                    , {field: 'money', title: '金额', templet: function(d){
+                            return undefined == d.money || d.money < 0 ? "" : d.money/100;
+                        }}
+                ]]
+                , done: function (res, curr, count) {
+                    console.log(res.data)
+                }
+            });
+        },
     };
 
     //绑定搜索点击事件

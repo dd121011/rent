@@ -37,4 +37,13 @@ public class DeopsitServiceImpl extends BaseServiceImpl<Deposit, DepositMapper> 
         return dao.payedWithRange(fromTs, toTs, deposit);
     }
 
+    @Override
+    public Deposit getRoomDeposit(Integer roomId) {
+        List<Deposit> list = dao.getDepositByRoomId(roomId, false);
+        if(list.size() == 1){
+            return list.get(0);
+        }
+        return null;
+    }
+
 }

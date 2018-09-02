@@ -41,7 +41,7 @@
         <th>支付渠道：</th>
         <td>
             {{#  if(d.deposit.payTs > 0){ }}
-            {{ d.deposit.channel }}
+            {{ d.deposit.channelName }}
             {{#  } }}
         </td>
     </tr>

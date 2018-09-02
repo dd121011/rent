@@ -37,17 +37,17 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
         , page: true//开启分页
 //            ,height: 315//容器高度
         , cols: [[//表头
-            {field: 'roomNo', title: '房间号', sort: true, width: 100}
-            , {field: 'roomStyle', title: '房型', sort: true, width: 100, templet: function(d){
+            {field: 'roomNo', title: '房间号', sort: true, width: 150}
+            , {field: 'roomStyle', title: '房型', sort: true, width: 150, templet: function(d){
                     return d.bedroom + '房' + d.living + '厅' + d.toilet + '卫';
                 }}
-            , {field: 'guarantyAndPay', title: '押付情况', width: 100, templet: function(d){
+            , {field: 'guarantyAndPay', title: '押付情况', width: 150, templet: function(d){
                     return '押' + d.guaranty + '付' + d.pay;
                 }}
             , {field: 'rentFee', title: '租金[元/月]', sort: true, width: 150, templet: function(d){
                     return d.rentFee/100;
                 }}
-            , {field: 'rentTs', title: '是否出租', width: 100, templet: function(d){
+            , {field: 'rentTs', title: '是否出租', width: 150, templet: function(d){
                     if(d.rentTs > 0){
                         return '<a class="layui-btn layui-btn-xs">已出租</a>';
                     }

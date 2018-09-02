@@ -7,8 +7,6 @@
     <#include "landlord/menu.ftl" />
 
     <blockquote class="layui-body childrenBody">
-        房东首页内容
-        <br><br>
         <blockquote class="layui-elem-quote">
             <form class="layui-form" lay-filter="landlordHomeSearchFormFilter"  action="">
                 <div class="layui-inline">

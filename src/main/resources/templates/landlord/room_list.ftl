@@ -7,8 +7,7 @@
     <#include "landlord/menu.ftl" />
 
     <div class="layui-body childrenBody">
-        内容主体区域
-        <br><br>
+
         <blockquote class="layui-elem-quote">
             <form class="layui-form" lay-filter="roomSearchFormFilter" action="">
                 <div class="layui-inline">

@@ -1,6 +1,7 @@
 package com.scrats.rent.entity;
 
 import com.scrats.rent.base.entity.BaseEntity;
+import com.scrats.rent.constant.ChannelType;
 import lombok.Data;
 
 import javax.persistence.GeneratedValue;
@@ -33,4 +34,8 @@ public class Deposit extends BaseEntity {
 
     @Transient
     private List<DepositIterm> depositItermList;
+
+    public String getChannelName(){
+        return ChannelType.fromValue(channel).getName();
+    }
 }

@@ -1,10 +1,12 @@
-<div id="roomBarginDiv" style="padding: 20px 40px; display: none" >
+<div id="roomBarginDiv" style="padding: 10px 40px; display: none" >
     <form class="layui-form" lay-filter="roomBarginFormFilter" action="">
-        <table class="layui-table" lay-even lay-skin="line">
+        <p>合同内容：</p>
+        <table class="layui-table" style="margin: 0" lay-even lay-skin="line">
             <tbody id="roomBarginTableTbody"></tbody>
         </table>
         <hr class="layui-bg-green">
-        <table class="layui-table" id="roomBarginItermTable" lay-filter="roomBarginItermTableFilter"></table>
+        <p>额外收费项：</p>
+        <table class="layui-table" style="margin: 0" id="roomBarginItermTable" lay-filter="roomBarginItermTableFilter"></table>
     </form>
 </div>
 
@@ -29,7 +31,7 @@
     </tr>
     <tr>
         <th>租金：</th>
-        <td>{{ d.bargin.rentFee }}</td>
+        <td>{{ d.bargin.rentFee/100 }}</td>
         <th>收租日：</th>
         <td>{{ d.bargin.rentDay }}日</td>
     </tr>

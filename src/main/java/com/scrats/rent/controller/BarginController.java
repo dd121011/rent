@@ -45,6 +45,10 @@ public class BarginController {
     private BarginExtraService barginExtraService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private DepositService depositService;
+    @Autowired
+    private DepositItermService depositItermService;
 
     @PostMapping("/list")
     public String list(@APIRequestControl APIRequest apiRequest) {
@@ -77,4 +81,20 @@ public class BarginController {
         return new JsonResult(result);
     }
 
+    @GetMapping("/deposit/{barginId}")
+    public JsonResult deposit(@PathVariable(name="barginId") Integer barginId) {
+        Deposit deposit = depositService.findBy("barginId", barginId);
+        Bargin bargin = barginService.selectByPrimaryKey(barginId);
+        List<DepositIterm> depositItermList = depositItermService.findListBy("depositId", deposit.getDepositId());
+        deposit.setDepositItermList(depositItermList);
+        Building building = buildingService.selectByPrimaryKey(deposit.getBuildingId());
+        Room room = roomService.selectByPrimaryKey(deposit.getRoomId());
+        JSONObject result = new JSONObject();
+        result.put("deposit",deposit);
+        result.put("bargin",bargin);
+        result.put("roomNo",room.getRoomNo());
+        result.put("building",building);
+
+        return new JsonResult(result);
+    }
 }

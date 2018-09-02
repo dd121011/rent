@@ -492,11 +492,9 @@ public class RoomController {
         deposit.setDepositItermList(depositItermList);
         Building building = buildingService.selectByPrimaryKey(deposit.getBuildingId());
         Room room = roomService.selectByPrimaryKey(deposit.getRoomId());
-        User landlord = userService.selectByPrimaryKey(bargin.getLandlordId());
         JSONObject result = new JSONObject();
         result.put("deposit",deposit);
         result.put("bargin",bargin);
-        result.put("landlordName",landlord.getName());
         result.put("roomNo",room.getRoomNo());
         result.put("building",building);
 

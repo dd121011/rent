@@ -92,7 +92,8 @@
     {{#  } }}
 </script>
 <script type="text/html" id="barginRoomListBar">
-    <a class="layui-btn layui-btn-xs" lay-event="barginDetail">详情</a>
+    <a class="layui-btn layui-btn-xs" lay-event="barginDetail">合同</a>
+    <a class="layui-btn layui-btn-xs" lay-event="depositDetail">押金</a>
 </script>
 <script src="${base}/static/js/extends/qrcode.min.js" charset="utf-8"></script>
 <script src="${base}/static/js/landlord/room_detail.js" charset="utf-8"></script>

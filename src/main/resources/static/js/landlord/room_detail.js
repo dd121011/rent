@@ -487,6 +487,15 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                     layer.alert(res.message);
                 }
             });
+        }else if(obj.event === 'depositDetail') {
+            var jhxhr = $.ajax({url: requestBaseUrl + "/bargin/deposit/" + data.barginId, headers: header, type: "GET"});
+            jhxhr.done(function (res) {
+                if(res.code == 1){
+                    active.showDeposit(res.data);
+                }else{
+                    layer.alert(res.message);
+                }
+            });
         }
     });
 

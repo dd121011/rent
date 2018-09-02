@@ -35,7 +35,9 @@
     </tr>
     <tr>
         <th>押付方式：</th>
-        <td colspan="5">押{{ d.bargin.guaranty }}付{{ d.bargin.pay }}</td>
+        <td>押{{ d.bargin.guaranty }}付{{ d.bargin.pay }}</td>
+        <th>签订时间：</th>
+        <td colspan="3">{{ d.signTs }}</td>
     </tr>
     <tr>
         <th>入住时间：</th>

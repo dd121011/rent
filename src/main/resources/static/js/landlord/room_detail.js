@@ -329,6 +329,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             data.facilitiesName = facilitiesName;
             data.liveTs = new Date(data.bargin.liveTs).Format('yyyy-MM-dd');
             data.leaveTs = new Date(data.bargin.leaveTs).Format('yyyy-MM-dd');
+            data.signTs = new Date(data.bargin.createTs).Format('yyyy-MM-dd');
             //方法级渲染
             var getTpl = roomBarginTemplete.innerHTML;
             var view = document.getElementById('roomBarginTableTbody');

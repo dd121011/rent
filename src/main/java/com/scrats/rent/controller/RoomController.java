@@ -460,7 +460,6 @@ public class RoomController {
 
     @GetMapping("/bargin/{roomId}")
     @ResponseBody
-    @IgnoreSecurity
     public JsonResult bargin(@PathVariable(name="roomId") Integer roomId) {
         Bargin bargin = barginService.getRoomBargin(roomId);
         Building building = buildingService.selectByPrimaryKey(bargin.getBuildingId());

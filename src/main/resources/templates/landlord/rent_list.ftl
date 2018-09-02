@@ -42,7 +42,7 @@
                     <a class="layui-btn search_btn" data-method="search" data-type="search">搜索</a>
                 </div>
                 <div class="layui-inline">
-                    <a data-method="add" data-type="add" class="layui-btn layui-btn-normal">添加</a>
+                    <a data-method="add" data-type="add" class="layui-btn layui-btn-normal">抄表</a>
                 </div>
                 <div class="layui-inline">
                     <a data-method="addMulti" data-type="adds" class="layui-btn layui-btn-normal">批量抄表</a>

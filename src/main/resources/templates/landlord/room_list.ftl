@@ -57,7 +57,7 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     {{#  if(d.rentTs > 0){ }}
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="charge">计算房租</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="charge">抄表</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="continue">续约</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="leave">退租</a>
     {{#  } else { }}

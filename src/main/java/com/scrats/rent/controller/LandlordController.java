@@ -78,8 +78,11 @@ public class LandlordController {
         Building building = buildingService.selectByPrimaryKey(buildingId);
         List<RoomRenter> roomRenterList = roomRenterService.getRoomRenterByBuildingId(buildingId);
         List<Rent> rentList = rentService.getRentByBuildingIdandPayFlag(buildingId, false);
-
+        int income = buildingService.incomeThisMonth(buildingId);
+        int expire = buildingService.expiredMoeny(buildingId);
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("income", income);
+        jsonObject.put("expire", expire);
         jsonObject.put("roomNum", building.getRooms());
         jsonObject.put("avaliableNum", building.getRoomAble());
         jsonObject.put("renterNum", roomRenterList.size());

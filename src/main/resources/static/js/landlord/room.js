@@ -188,11 +188,14 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
         } else if (obj.event === 'detail'){
             location.href= requestBaseUrl + "/room/goRoomDetail/" + data.roomId + "?tokenId=" + tokenId;
         } else if (obj.event === 'charge'){
+            if(data.rentTs = 0){
+                return layer.alert("该房间尚未出租,无法计算房租!");
+            }
             var jhxhr = $.ajax({url: requestBaseUrl + "/room/barginExtra/" + data.roomId, headers: header, type: "GET"});
             jhxhr.done(function (res) {
                 if(res.code == 1){
                     if(res.data < 1){
-                        return layer.alert("该房间尚未出租,无法计算房租!");
+                        return layer.alert("该房间没有合同额外收费项,无法计算房租!");
                     }
                     chargeExtra = {};
                     chargeExtra.extraList = res.data;

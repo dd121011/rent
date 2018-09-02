@@ -167,4 +167,9 @@ public class RentServiceImpl extends BaseServiceImpl<Rent, RentMapper> implement
         }
         return new JsonResult();
     }
+
+    @Override
+    public List<Rent> payedWithRange(Long fromTs, Long toTs, Rent rent) {
+        return dao.payedWithRange(fromTs, toTs, rent);
+    }
 }

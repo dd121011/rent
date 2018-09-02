@@ -32,4 +32,9 @@ public class DeopsitServiceImpl extends BaseServiceImpl<Deposit, DepositMapper> 
         return dao.getUnpayDeposit(roomId);
     }
 
+    @Override
+    public List<Deposit> payedWithRange(Long fromTs, Long toTs, Deposit deposit) {
+        return dao.payedWithRange(fromTs, toTs, deposit);
+    }
+
 }

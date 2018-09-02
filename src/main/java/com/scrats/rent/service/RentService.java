@@ -35,4 +35,6 @@ public interface RentService extends BaseService<Rent, RentMapper> {
     Rent detail(Integer rentId);
 
     JsonResult rentEdit(Rent rent, List<ExtraHistory> extraHistoryList);
+
+    List<Rent> payedWithRange(Long fromTs, Long toTs, Rent rent);
 }

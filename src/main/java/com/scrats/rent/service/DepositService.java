@@ -19,4 +19,6 @@ public interface DepositService extends BaseService<Deposit, DepositMapper> {
 
     List<Deposit> getUnpayDeposit(Integer roomId);
 
+    List<Deposit> payedWithRange(Long fromTs, Long toTs, Deposit deposit);
+
 }

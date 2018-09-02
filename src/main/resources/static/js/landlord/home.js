@@ -7,8 +7,8 @@ layui.use(['layer', 'form'], function () {
             var jhxhr = $.ajax({url: requestBaseUrl + "/landlord/homeData/" + $('#searchBuildingId').val(), headers: header, type: "GET"});
             jhxhr.done(function (res) {
                 if(res.code == 1){
-                    $('#rentTotal').html(res.data.roomNum);
-                    $('#rentExpired').html(res.data.roomNum);
+                    $('#rentTotal').html(res.data.income/100);
+                    $('#rentExpired').html(res.data.expire/100);
                     $('#roomTotal').html(res.data.roomNum);
                     $('#roomAvaliable').html(res.data.avaliableNum);
                     $('#roomRenter').html(res.data.renterNum);

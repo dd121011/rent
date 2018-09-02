@@ -101,7 +101,7 @@
                     </div>
                     <div class="panel_word">
                         <span id="renterExpired">0</span>
-                        <cite>到期租客</cite>
+                        <cite>即将到期租客</cite>
                     </div>
                 </a>
             </div>

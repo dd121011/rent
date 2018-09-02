@@ -6,10 +6,10 @@
 
 1. [公共](#公共) 
     > * [登陆接口](#登陆接口)
+    > * [发送手机验证码](#发送手机验证码)
     > * [获取七牛上传文件的token](#获取七牛上传文件的token)
     > * [文件上传](#文件上传)
     > * [实名认证](#实名认证)
-    > * [实名认证确认](#实名认证确认)
     > * [所有字典类型列表](#所有字典类型列表)
     > * [某一字典类型的所有字典项目列表](#某一字典类型的所有字典项目列表)
     > * [所有额外收费项](#所有额外收费项)
@@ -47,7 +47,6 @@
     > * [添加房租](#添加房租)
 3. [租客小程序](#租客小程序)
     > * [小程序登录](#小程序登录)
-    > * [发送手机验证码](#发送手机验证码)
     > * [小程序注册租户](#小程序注册租户)
     > * [小程序入住](#小程序入住)
     > * [获取房间列表](#获取房间列表)
@@ -82,6 +81,30 @@ curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -
         "tokenId": "0451e77616bc4f188b2003b2dc656855",
         "userId": "3",
     }
+}
+```
+
+### 发送手机验证码
+
+> [GET] `/api/sms/send/{phone}` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| phone | String | true | 待发送短信手机号 |
+
+#### Sample
+```
+curl 'https://scrats.cn/rent/api/sms/send/18018790114'
+```
+
+#### Response
+
+```
+{
+    "code": 1,
+    "msg": "成功",
+    "data": null,
+    "count": 0
 }
 ```
 
@@ -151,29 +174,6 @@ curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -
 
 #### Response
 
-```
-{
-    "code": 1,
-    "msg": "成功",
-    "data": null,
-    "count": 0
-}
-```
-
-### 实名认证确认
-
-> [GET] `/api/user/realConfirm/{userId}` 
-
-| param | type | require | description |
-| --- | --- | --- | --- |
-| userId | Integer | true | userId |
-
-#### Sample
-```
-curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/user/realConfirm/9'
-```
-
-#### Response
 ```
 {
     "code": 1,
@@ -1341,30 +1341,6 @@ curl  X POST  H 'Content type: application/json' --data-binary '{"code":"011a4Ic
             "userId": "9"
         }
     }
-}
-```
-
-### 发送手机验证码
-
-> [GET] `/api/sms/send/{phone}` 
-
-| param | type | require | description |
-| --- | --- | --- | --- |
-| phone | String | true | 待发送短信手机号 |
-
-#### Sample
-```
-curl 'https://scrats.cn/rent/api/sms/send/18018790114'
-```
-
-#### Response
-
-```
-{
-    "code": 1,
-    "msg": "成功",
-    "data": null,
-    "count": 0
 }
 ```
 

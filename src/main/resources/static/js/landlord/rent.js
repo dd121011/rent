@@ -1,16 +1,31 @@
 var chargeExtra;
-layui.use(['layer', 'table', 'form', 'laytpl'], function () {
+layui.use(['layer', 'table', 'form', 'laytpl', 'laydate'], function () {
     var $ = layui.$;
     var layer = layui.layer;
     var table = layui.table;
     var form = layui.form;
     var laytpl = layui.laytpl;
+    var laydate = layui.laydate;
+
+    laydate.render({
+        elem: '#searchMonth'
+        ,type: 'month'
+        ,format: 'yyyyMM'
+    });
 
     //方法级渲染
     table.render({
         elem: '#lay_table_rent'//指定原始表格元素选择器（
-        , url: requestBaseUrl + '/rent/list/'
+        , url: requestBaseUrl + '/rent/list/' + $('#searchBuildingId').val()
         , method: 'post'
+        , contentType: 'application/json'
+        , where: {
+            body: {
+                roomId: $('#searchRoomId').val(),
+                rentMonth: $('#searchMonth').val(),
+                payTs: $('#searchRoomPayTs').val()
+            }
+        }
         , headers: header
         , request: {
             pageName: 'page' //页码的参数名称，默认：page
@@ -23,17 +38,11 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
             , countName: 'count' //数据总数的字段名称，默认：count
             , dataName: 'data' //数据列表的字段名称，默认：data
         } //如果无需自定义数据响应名称，可不加该参数
-        , where: {
-            roomId: $('#searchRoomId').val(),
-            buildingId: $('#searchBuildingId').val(),
-            payTs: $('#searchRoomPayTs').val()
-        }//传参*/
         , id: 'lay_table_rent'
         , page: true//开启分页
 //            ,height: 315//容器高度
         , cols: [[//表头
-            {checkbox: true, fixed: true}
-            , {field: 'roomNo', title: '房间号', sort: true}
+            {field: 'roomNo', title: '房间号', sort: true}
             , {field: 'rentMonth', title: '月份', sort: true}
             , {field: 'fee', title: '总费用', sort: true, templet: function(d){
                     return d.fee/100;
@@ -50,7 +59,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                     }
                     return '<a class="layui-btn layui-btn-danger layui-btn-xs">未缴费</a>'
                 }}
-            , {field: '', title: '操作', align: 'center', toolbar: '#rentListBar'}
+            , {field: '', title: '操作', align: 'left', toolbar: '#rentListBar'}
         ]]
         , done: function (res, curr, count) {
             //如果是异步请求数据方式，res即为你接口返回的信息。
@@ -81,7 +90,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                         active.search();
                         layer.msg("缴费成功");
                     }else{
-                        layer.alert(res.msg);
+                        layer.alert(res.message);
                     }
                 });
                 layer.close(index);
@@ -94,7 +103,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 if(res.code == 1){
                     active.detail(res.data);
                 }else{
-                    layer.alert(res.msg);
+                    layer.alert(res.message);
                 }
             });
         } else if(obj.event === 'edit'){
@@ -105,7 +114,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                     rent.extraList = res.data;
                     active.edit(rent);
                 }else{
-                    layer.alert(res.msg);
+                    layer.alert(res.message);
                 }
             });
         }
@@ -116,15 +125,19 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
         jhxhr.done(function (res) {
             if(res.code == 1){
                 $('#searchRoomId').html('');
-                $.each(res.data, function (index, val) {
-                    var option = $('<option>').val(val.roomId).text(val.roomNo);
-                    $('#searchRoomId').append(option)
-                });
+                if(res.data.length > 0){
+                    var option = $('<option>').val('').text('全部');
+                    $('#searchRoomId').append(option);
+                    $.each(res.data, function (index, val) {
+                        option = $('<option>').val(val.roomId).text(val.roomNo);
+                        $('#searchRoomId').append(option);
+                    });
+                }
                 //重新渲染
                 form.render('select', 'rentSearchFormFilter');
                 $('#searchRoomId').get(0).selectedIndex = 0;
             }else{
-                layer.alert(res.msg)
+                layer.alert(res.message);
             }
         });
     });
@@ -133,20 +146,21 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
         search: function () {
             //执行重载
             table.reload('lay_table_rent', {
-                // url: requestBaseUrl + '/rent/list'
                 page: {
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: {
-                    roomId: $('#searchRoomId').val(),
-                    buildingId: $('#searchBuildingId').val(),
-                    payTs: $('#searchRoomPayTs').val()
+                    body: {
+                        roomId: $('#searchRoomId').val(),
+                        rentMonth: $('#searchMonth').val(),
+                        payTs: $('#searchRoomPayTs').val()
+                    }
                 }
             });
         },
         add: function () {
             if(isEmpty($('#searchRoomId option:selected').val())){
-                layer.alert("请先选择一个房间!")
+                return layer.alert("请先选择一个房间!");
             }
             var jhxhr = $.ajax({url: requestBaseUrl + "/room/barginExtra/" + $('#searchRoomId option:selected').val(), headers: header, type: "GET"});
             jhxhr.done(function (res) {
@@ -179,7 +193,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                         }
                     });
                 }else{
-                    layer.alert(res.msg)
+                    layer.alert(res.message);
                 }
             });
         },
@@ -260,6 +274,12 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 }
             });
         },
+        addMulti: function () {
+            if($('#searchRoomId option').length <1){
+                return layer.alert("请先选择一个房间!");
+            }
+            location.href= requestBaseUrl + "/rent/goRentMulti/" + userId + "/" + $('#searchBuildingId').val() + "?tokenId=" + tokenId;
+        }
     };
 
     //绑定搜索点击事件

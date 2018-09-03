@@ -1,6 +1,7 @@
 package com.scrats.rent.service.impl;
 
 import com.scrats.rent.base.service.BaseServiceImpl;
+import com.scrats.rent.entity.BarginExtra;
 import com.scrats.rent.entity.ExtraHistory;
 import com.scrats.rent.mapper.ExtraHistoryMapper;
 import com.scrats.rent.service.ExtraHistoryService;
@@ -30,5 +31,10 @@ public class ExtraHistoryServiceImpl extends BaseServiceImpl<ExtraHistory, Extra
     @Override
     public List<ExtraHistory> getRentEditExtraHistory(Integer rentId) {
         return dao.getRentEditExtraHistory(rentId);
+    }
+
+    @Override
+    public List<ExtraHistory> getListByBarginExtraAndMonth(BarginExtra barginExtra, String month) {
+        return dao.getListByBarginExtraAndMonth(barginExtra, month);
     }
 }

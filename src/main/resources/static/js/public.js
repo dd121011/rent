@@ -163,25 +163,13 @@ var checkPwd = function (ff2) {
                         layer.close(1);
                         ff2 && ff2();
                     }else{
-                        layer.alert(res.msg)
+                        layer.alert(res.message);
                     }
                 });
             }
         });
     });
 };
-var pickkkkkk = function () {
-        var sendPhone = '18018790114';
-        var jhxhr = $.ajax({url: requestBaseUrl + "api/sms/send/" + sendPhone, headers: header, contentType: 'application/json', type: "GET"});
-        jhxhr.done(function (res) {
-            console.log(res);
-            if(res.code == 1){
-                settime(this);
-            }else{
-                layer.alert(res.msg)
-            }
-        });
-    };
 
 //绑定click点击事件
 var smsCodeGenerateClick = function (phoneObj, codeObj) {
@@ -201,7 +189,7 @@ var smsCodeGenerateClick = function (phoneObj, codeObj) {
                 if(res.code == 1){
                     settime(smsCodeButton);
                 }else{
-                    layer.alert(res.msg);
+                    layer.alert(res.message);
                 }
             });
         });

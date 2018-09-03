@@ -1,10 +1,11 @@
 var extraTableData;
 var depositItermTableData;
-layui.use(['layer', 'table', 'form'], function () {
+layui.use(['layer', 'table', 'form', 'laytpl'], function () {
     var $ = layui.$;
     var layer = layui.layer;
     var table = layui.table;
     var form = layui.form;
+    var laytpl = layui.laytpl;
 
     //生成房间二维码
     new QRCode('qrcode', {
@@ -22,10 +23,6 @@ layui.use(['layer', 'table', 'form'], function () {
         , url: requestBaseUrl + '/room/renterAll/' + $('#roomDetailRoomId').val()
         , method: 'get'
         , headers: header
-        , request: {
-            pageName: 'page' //页码的参数名称，默认：page
-            , limitName: 'rows' //每页数据量的参数名，默认：limit
-        } //如果无需自定义请求参数，可不加该参数
         , response: {
             statusName: 'code' //数据状态的字段名称，默认：code
             , statusCode: 1 //成功的状态码，默认：0
@@ -73,9 +70,10 @@ layui.use(['layer', 'table', 'form'], function () {
 
     //租赁历史Table
     table.render({
-        elem: '#lay_table_bargin_room'//指定原始表格元素选择器（
+        elem: '#lay_table_room_history'//指定原始表格元素选择器（
         , url: requestBaseUrl + '/bargin/list'
         , method: 'post'
+        , contentType: 'application/json'
         , headers: header
         , request: {
             pageName: 'page' //页码的参数名称，默认：page
@@ -89,10 +87,12 @@ layui.use(['layer', 'table', 'form'], function () {
             , dataName: 'data' //数据列表的字段名称，默认：data
         } //如果无需自定义数据响应名称，可不加该参数
         , where: {
-            roomId: $('#roomDetailRoomId').val(),
-            deleteTs: -1
+            body: {
+                roomId: $('#roomDetailRoomId').val(),
+                deleteTs: 1
+            }
         }//传参*/
-        , id: 'lay_table_bargin_room'
+        , id: 'lay_table_room_history'
         , page: true//开启分页
         , cols: [[//表头
             {field: 'name', title: '姓名', templet: function(d){
@@ -114,7 +114,7 @@ layui.use(['layer', 'table', 'form'], function () {
                     return new Date(d.liveTs).Format('yyyy-MM-dd');
                 }}
             , {field: 'leaveTs', title: '退租时间', templet: function(d){
-                    return new Date(d.leaveTs).Format('yyyy-MM-dd');
+                    return new Date(d.deleteTs).Format('yyyy-MM-dd');
                 }}
             , {field: '', title: '操作', align: 'center', toolbar: '#barginRoomListBar'}
         ]]
@@ -281,7 +281,7 @@ layui.use(['layer', 'table', 'form'], function () {
                 }
             });
         },
-        bindRoom: function (userId) {
+        bindRoom: function () {
             layer.open({
                 type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 ,title: "房间二维码"
@@ -305,10 +305,131 @@ layui.use(['layer', 'table', 'form'], function () {
                         //执行重载
                         table.reload('lay_table_room_renter', { });
                     }else{
-                        layer.alert(res.msg)
+                        layer.alert(res.message);
                     }
                 });
                 layer.close(index);
+            });
+        },
+        roomBargin: function () {
+            var jhxhr = $.ajax({url: requestBaseUrl + "/room/bargin/" + $('#roomDetailRoomId').val(), headers: header, type: "GET"});
+            jhxhr.done(function (res) {
+                if(res.code == 1){
+                    active.showBargin(res.data);
+                }else{
+                    layer.alert(res.message);
+                }
+            });
+        },
+        showBargin: function (data) {
+            var facilitiesName = '';
+            for(i=0;i<data.facilities.length;i++){
+                facilitiesName += data.facilities[i].value + ',';
+            }
+            data.facilitiesName = facilitiesName;
+            data.liveTs = new Date(data.bargin.liveTs).Format('yyyy-MM-dd');
+            data.leaveTs = new Date(data.bargin.leaveTs).Format('yyyy-MM-dd');
+            data.signTs = new Date(data.bargin.createTs).Format('yyyy-MM-dd');
+            //方法级渲染
+            var getTpl = roomBarginTemplete.innerHTML;
+            var view = document.getElementById('roomBarginTableTbody');
+            laytpl(getTpl).render(data, function(html){
+                view.innerHTML = html;
+            });
+
+            layer.open({
+                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                ,title: "合同详情"
+                , area: '800px'
+                , offset: '100px' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                , id: 'layerRoomBargin'  //防止重复弹出
+                , content: $('#roomBarginDiv')
+//                    ,shade: 0 //不显示遮罩
+                , yes: function () {
+                    layer.closeAll();
+                }
+            });
+            table.render({
+                elem: '#roomBarginItermTable'//指定原始表格元素选择器（
+                , data: data.extras
+                , id: 'roomBarginItermTable'
+                // , width: 550
+                , cols: [[//表头
+                    {field: 'value', title: '项目', templet: function(d){
+                            return d.value;
+                        }}
+                    , {field: 'unit', title: '单位', templet: function(d){
+                            return d.unit;
+                        }}
+                    , {field: 'price', title: '单价', templet: function(d){
+                            return d.price/100;
+                        }}
+                    , {field: 'number', title: '初始数量', templet: function(d){
+                            return undefined == d.number || d.number < 0 ? "" : d.number;
+                        }}
+                ]]
+                , done: function (res, curr, count) {
+                    console.log(res.data)
+                }
+            });
+        },
+        roomDeposit: function () {
+            var jhxhr = $.ajax({url: requestBaseUrl + "/room/deposit/" + $('#roomDetailRoomId').val(), headers: header, type: "GET"});
+            jhxhr.done(function (res) {
+                if(res.code == 1){
+                    active.showDeposit(res.data);
+                }else{
+                    layer.alert(res.message);
+                }
+            });
+        },
+        showDeposit: function (data) {
+            data.signTs = new Date(data.deposit.createTs).Format('yyyy-MM-dd');
+            data.payTs = data.deposit.payTs == 0 ? '' :new Date(data.deposit.payTs).Format('yyyy-MM-dd');
+            //方法级渲染
+            var getTpl = roomDepositTemplete.innerHTML;
+            var view = document.getElementById('roomDepositTableTbody');
+            laytpl(getTpl).render(data, function(html){
+                view.innerHTML = html;
+            });
+
+            layer.open({
+                type: 1//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                ,title: "押金详情"
+                , area: '800px'
+                , offset: '100px' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                , id: 'layerRoomDeposit'  //防止重复弹出
+                , content: $('#roomDepositDiv')
+//                    ,shade: 0 //不显示遮罩
+                , yes: function () {
+                    layer.closeAll();
+                }
+            });
+            table.render({
+                elem: '#roomDepositItermTable'//指定原始表格元素选择器（
+                , data: data.deposit.depositItermList
+                , id: 'roomDepositItermTable'
+                // , width: 550
+                , cols: [[//表头
+                    {field: 'value', title: '项目', templet: function(d){
+                            return d.value;
+                        }}
+                    , {field: 'unit', title: '单位', templet: function(d){
+                            return d.unit;
+                        }}
+                    , {field: 'price', title: '单价', templet: function(d){
+                            return d.price/100;
+                        }}
+                    , {field: 'number', title: '数量', templet: function(d){
+                            return undefined == d.number || d.number < 0 ? "" : d.number;
+                        }}
+                    , {field: 'money', title: '金额', templet: function(d){
+                            return undefined == d.money || d.money < 0 ? "" : d.money/100;
+                        }}
+                ]]
+                , done: function (res, curr, count) {
+                    console.log(res.data)
+                }
             });
         },
     };
@@ -320,7 +441,7 @@ layui.use(['layer', 'table', 'form'], function () {
     });
 
     //监听工具条
-    table.on('tool(renterRoomTableFilter)', function (obj) {
+    table.on('tool(roomRenterTableFilter)', function (obj) {
         var data = obj.data;
         if (obj.event === 'renterCheck') {
             var checkType = "入住";
@@ -334,7 +455,7 @@ layui.use(['layer', 'table', 'form'], function () {
                         layer.msg(checkType + "核验成功");
                         table.reload('lay_table_room_renter', { });
                     }else{
-                        layer.alert(res.msg);
+                        layer.alert(res.message);
                     }
                 });
                 layer.close(index);
@@ -346,10 +467,34 @@ layui.use(['layer', 'table', 'form'], function () {
                     if(res.code == 1){
                         obj.del();
                     }else{
-                        layer.alert(res.msg);
+                        layer.alert(res.message);
                     }
                 });
                 layer.close(index);
+            });
+        }
+    });
+
+    //监听工具条
+    table.on('tool(roomHistoryTableFilter)', function (obj) {
+        var data = obj.data;
+        if (obj.event === 'barginDetail') {
+            var jhxhr = $.ajax({url: requestBaseUrl + "/bargin/bargin/" + data.barginId, headers: header, type: "GET"});
+            jhxhr.done(function (res) {
+                if(res.code == 1){
+                    active.showBargin(res.data);
+                }else{
+                    layer.alert(res.message);
+                }
+            });
+        }else if(obj.event === 'depositDetail') {
+            var jhxhr = $.ajax({url: requestBaseUrl + "/bargin/deposit/" + data.barginId, headers: header, type: "GET"});
+            jhxhr.done(function (res) {
+                if(res.code == 1){
+                    active.showDeposit(res.data);
+                }else{
+                    layer.alert(res.message);
+                }
             });
         }
     });
@@ -366,33 +511,35 @@ layui.use(['layer', 'table', 'form'], function () {
                 obj.data.money = Number(obj.data.number) * Number(obj.data.price)/1;
                 console.log(depositItermTableData);
                 console.log(depositItermTableData.length);
-
-                table.render({
-                    elem: '#depositTable'//指定原始表格元素选择器（
-                    , data: depositItermTableData
-                    , id: 'depositTableEdit'
-                    , cols: [[//表头
-                        {field: 'value', title: '项目', templet: function(d){
-                                return d.value;
-                            }}
-                        , {field: 'unit', title: '单位', templet: function(d){
-                                return d.unit;
-                            }}
-                        , {field: 'price', title: '单价', edit: 'text', templet: function(d){
-                                return undefined == d.price ? "" : d.price;
-                            }}
-                        , {field: 'number', title: '数量', edit: 'text', templet: function(d){
-                                return undefined == d.number ? "" : d.number;
-                            }}
-                        , {field: 'money', title: '金额', edit: 'text', templet: function(d){
-                                return undefined == d.money ? "" : d.money;
-                            }}
-                    ]]
-                    , done: function (res, curr, count) {
-                        depositItermTableData = res.data;
-                        console.log(depositItermTableData)
-                    }
+                table.reload('depositTableEdit', {
+                    data : depositItermTableData
                 });
+                // table.render({
+                //     elem: '#depositTable'//指定原始表格元素选择器（
+                //     , data: depositItermTableData
+                //     , id: 'depositTableEdit'
+                //     , cols: [[//表头
+                //         {field: 'value', title: '项目', templet: function(d){
+                //                 return d.value;
+                //             }}
+                //         , {field: 'unit', title: '单位', templet: function(d){
+                //                 return d.unit;
+                //             }}
+                //         , {field: 'price', title: '单价', edit: 'text', templet: function(d){
+                //                 return undefined == d.price ? "" : d.price;
+                //             }}
+                //         , {field: 'number', title: '数量', edit: 'text', templet: function(d){
+                //                 return undefined == d.number ? "" : d.number;
+                //             }}
+                //         , {field: 'money', title: '金额', edit: 'text', templet: function(d){
+                //                 return undefined == d.money ? "" : d.money;
+                //             }}
+                //     ]]
+                //     , done: function (res, curr, count) {
+                //         depositItermTableData = res.data;
+                //         console.log(depositItermTableData)
+                //     }
+                // });
             }
         }
     });

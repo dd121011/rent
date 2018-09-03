@@ -4,7 +4,6 @@ import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.entity.UserRole;
 import com.scrats.rent.entity.WxSns;
-import com.scrats.rent.service.RenterService;
 import com.scrats.rent.service.UserRoleService;
 import com.scrats.rent.service.WxSnsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,6 @@ import java.util.List;
  */
 public class APIRequestResolver implements HandlerMethodArgumentResolver {
 
-    @Autowired
-    private RenterService renterService;
     @Autowired
     private WxSnsService wxSnsService;
     @Autowired
@@ -68,6 +65,7 @@ public class APIRequestResolver implements HandlerMethodArgumentResolver {
                         break;
                     //超级管理员
                     case "6005":
+                        apiRequest.setAdminFlag(true);
                         apiRequest.setAdministratorFlag(true);
                         break;
                     default:

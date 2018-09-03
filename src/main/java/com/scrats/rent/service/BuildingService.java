@@ -22,4 +22,22 @@ public interface BuildingService extends BaseService<Building, BuildingMapper> {
     int deleteBuildingByIds(Integer... ids);
 
     Building getBuildingByRoomId(Integer roomId);
+
+    /**
+     * @description: 当月收入
+     * @author: lol
+     * @date: 2018/8/31 12:37
+     * @param: buildingId
+     * @return: 
+     */
+    int incomeThisMonth(Integer buildingId);
+
+    /**
+     * @description: 逾期收入
+     * @author: lol
+     * @date: 2018/8/31 12:37
+     * @param: buildingId
+     * @return: 
+     */
+    int expiredMoeny(Integer buildingId);
 }

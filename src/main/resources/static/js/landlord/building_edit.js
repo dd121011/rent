@@ -22,7 +22,7 @@ layui.use(['layer', 'form'], function () {
                 // window.location.href = requestBaseUrl +  "/building/goBuilding/" + userId + "?tokenId=" + tokenId;
                 location.reload();
             }else{
-                layer.alert(res.msg)
+                layer.alert(res.message);
             }
         });
 

@@ -1,23 +1,23 @@
 package com.scrats.rent.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
+import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.entity.*;
-import com.scrats.rent.service.BuildingService;
-import com.scrats.rent.service.ExtraHistoryService;
-import com.scrats.rent.service.RentService;
-import com.scrats.rent.service.RoomService;
+import com.scrats.rent.service.*;
+import com.scrats.rent.util.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -47,6 +47,8 @@ public class RentController {
     private RentService rentService;
     @Autowired
     private ExtraHistoryService extraHistoryService;
+    @Autowired
+    private BarginExtraService barginExtraService;
 
     @IgnoreSecurity
     @GetMapping(value = {"/goRent/{userId}/{roomId}","/goRent/{userId}"})
@@ -59,6 +61,9 @@ public class RentController {
 
         //获取所有房子select数据
         PageInfo<Building> buildingPage = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
+        if(buildingPage.getTotal() < 1){
+            throw new BusinessException("数据异常, 请联系管理员!!!");
+        }
         List<Room> roomList = new ArrayList<Room>();
         Integer buildingId = null;
         if(null == roomId){
@@ -67,9 +72,6 @@ public class RentController {
             param.setBuildingId(buildingPage.getList().get(0).getBuildingId());
             PageInfo<Room> roomPage = roomService.getRoomList(null, param, false);
             roomList = roomPage.getList();
-            if(!CollectionUtils.isEmpty(roomList)){
-                roomId = roomPage.getList().get(0).getRoomId();
-            }
         }else{
             Room room = roomService.selectByPrimaryKey(roomId);
             if(null != room){
@@ -90,9 +92,11 @@ public class RentController {
         return "landlord/rent_list";
     }
 
-    @PostMapping("/list")
+    @PostMapping("/list/{buildingId}")
     @ResponseBody
-    public String list(@APIRequestControl APIRequest apiRequest, Rent rent) {
+    public String list(@APIRequestControl APIRequest apiRequest, @PathVariable(name="buildingId") Integer buildingId) {
+        Rent rent = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Rent.class);
+        rent.setBuildingId(buildingId);
         PageInfo<Rent> pageInfo = rentService.getRentPageList(apiRequest, rent);
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
     }
@@ -133,6 +137,72 @@ public class RentController {
         Rent rent = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Rent.class);
         List<ExtraHistory> list = JSON.parseArray(JSON.toJSONString(apiRequest.getBody().get("extraList")),ExtraHistory.class);
         return rentService.rentEdit(rent, list);
+    }
+
+    @IgnoreSecurity
+    @GetMapping("/goRentMulti/{userId}/{buildingId}")
+    public String goRentMulti(String tokenId, @PathVariable(name="userId") Integer userId, @PathVariable(name="buildingId") Integer buildingId, Map<String, Object> map){
+
+        User user = (User)redisService.get(tokenId);
+        if(null == user || (userId -  user.getUserId() != 0)){
+            throw new NotAuthorizedException("参数错误");
+        }
+
+        //获取所有房子select数据
+        PageInfo<Building> buildingPage = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
+        if(buildingPage.getTotal() < 1){
+            throw new BusinessException("数据异常, 请联系管理员!!!");
+        }
+        //获取所有抄表合同额外收费项
+        Bargin param = new Bargin();
+        param.setBuildingId(buildingId);
+        List<BarginExtra> barginExtraList = barginExtraService.getBarginExtraTypeByBargin(param);
+
+        map.put("user",user);
+        map.put("buildingId",buildingId);
+        map.put("buildings",buildingPage.getList());
+        map.put("extraType",barginExtraList);
+
+        return "landlord/rent_charge_multi";
+    }
+
+    @GetMapping("/extraType/{buildingId}")
+    @ResponseBody
+    public JsonResult goRentMulti(@PathVariable(name="buildingId") Integer buildingId){
+
+        //获取所有抄表合同额外收费项
+        Bargin param = new Bargin();
+        param.setBuildingId(buildingId);
+        List<BarginExtra> barginExtraList = barginExtraService.getBarginExtraTypeByBargin(param);
+
+        return new JsonResult<List>(barginExtraList);
+    }
+
+    @GetMapping("/multi/{buildingId}/{code}/{month}")
+    @ResponseBody
+    public JsonResult multi(@PathVariable(name="buildingId") Integer buildingId, @PathVariable(name="code") String code, @PathVariable(name="month") String month){
+        JSONArray jsonArray = new JSONArray();
+        //获取所有含有该额外收费项code的房间
+        List<BarginExtra> barginExtraList = barginExtraService.getBarginExtraByBuildingIdAndDicItermCode(buildingId, code);
+        for(BarginExtra barginExtra : barginExtraList){
+            //获取所有已记录
+            List<ExtraHistory> extraHistoryList = extraHistoryService.getListByBarginExtraAndMonth(barginExtra, month);
+            if(extraHistoryList.size() < 1){
+                JSONObject jsonObject = (JSONObject) JSON.toJSON(barginExtra);
+                ExtraHistory query = new ExtraHistory();
+                query.setBarginExtraId(barginExtra.getBarginExtraId());
+                query.setMonth(DateUtils.beforeMonth(month));
+                List<ExtraHistory> before = extraHistoryService.select(query);
+                //没有记录
+                if(null == before || before.size() < 1){
+                    jsonObject.put("beforeCount", barginExtra.getNumber());
+                }else{
+                    jsonObject.put("beforeCount", before.get(0).getCount());
+                }
+                jsonArray.add(jsonObject);
+            }
+        }
+        return new JsonResult<JSONArray>(jsonArray);
     }
 
 }

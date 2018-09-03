@@ -82,7 +82,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                         active.search();
                         layer.msg("缴费成功");
                     }else{
-                        layer.alert(res.msg);
+                        layer.alert(res.message);
                     }
                 });
                 layer.close(index);
@@ -95,7 +95,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 if(res.code == 1){
                     active.detail(res.data);
                 }else{
-                    layer.alert(res.msg);
+                    layer.alert(res.message);
                 }
             });
         } else if(obj.event === 'edit'){
@@ -104,7 +104,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 if(res.code == 1){
                     active.edit(res.data);
                 }else{
-                    layer.alert(res.msg);
+                    layer.alert(res.message);
                 }
             });
         }
@@ -123,7 +123,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 form.render('select', 'rentSearchFormFilter');
                 $('#searchRoomId').get(0).selectedIndex = 0;
             }else{
-                layer.alert(res.msg)
+                layer.alert(res.message);
             }
         });
     });
@@ -218,7 +218,7 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                         }
                     });
                 }else{
-                    layer.alert(res.msg)
+                    layer.alert(res.message);
                 }
             });
         },

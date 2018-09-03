@@ -178,9 +178,10 @@ public class RoomApi {
     @ResponseBody
     public JsonResult rent(@APIRequestControl APIRequest apiRequest) {
         Bargin bargin = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Bargin.class);
+        Integer roomId = APIRequest.getParameterValue(apiRequest, "roomId", Integer.class);
         //补齐landlordId字段
         bargin.setLandlordId(apiRequest.getUser().getUserId());
-        bargin.setRoomId(apiRequest.getRoomId());
+        bargin.setRoomId(roomId);
         Room room = roomService.selectByPrimaryKey(bargin.getRoomId());
         if(room.getRentTs() != null && room.getRentTs() > 0){
             return new JsonResult("办理入住失败, 请先办理退房");
@@ -196,16 +197,17 @@ public class RoomApi {
         Integer barginId = APIRequest.getParameterValue(apiRequest,"barginId",Integer.class);
         String month = APIRequest.getParameterValue(apiRequest,"month",String.class);
         String remark = APIRequest.getParameterValue(apiRequest,"remark",String.class);
+        Integer roomId = APIRequest.getParameterValue(apiRequest, "roomId", Integer.class);
         List<ExtraHistory> list = JSON.parseArray(JSON.toJSONString(apiRequest.getBody().get("barginExtraList")),ExtraHistory.class);
 
         Rent rent = new Rent();
         rent.setRentMonth(month);
-        rent.setRoomId(apiRequest.getRoomId());
+        rent.setRoomId(roomId);
         List<Rent> rentList  = rentService.getListByRent(rent);
         if(null != list && list.size() > 0){
             return new JsonResult("已经计算房租, 请勿重复生成");
         }
 
-        return roomService.charge(list, month, barginId, apiRequest.getRoomId(), remark);
+        return roomService.charge(list, month, barginId, roomId, remark);
     }
 }

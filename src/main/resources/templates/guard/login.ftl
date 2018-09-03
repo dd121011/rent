@@ -83,7 +83,7 @@
                     $.cookie("rent_guard_userId",res.data.userId,{expires: 7, path: '/rent'});
                     window.location.href = requestBaseUrl +  "/guard/goHome/" + res.data.userId + "?tokenId=" + res.data.tokenId;
                 }else{
-                    layer.alert(res.msg);
+                    layer.alert(res.message);
                 }
             });
         }

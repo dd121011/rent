@@ -1,11 +1,14 @@
 package com.scrats.rent.entity;
 
 import com.scrats.rent.base.entity.BaseEntity;
+import com.scrats.rent.constant.ChannelType;
 import lombok.Data;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+import java.util.List;
 
 /**
  * 押金实体类
@@ -29,5 +32,10 @@ public class Deposit extends BaseEntity {
     private Integer buildingId;//buildingId
     private Integer barginId;//合同Id
 
+    @Transient
+    private List<DepositIterm> depositItermList;
 
+    public String getChannelName(){
+        return ChannelType.fromValue(channel).getName();
+    }
 }

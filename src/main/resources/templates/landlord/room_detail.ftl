@@ -61,18 +61,20 @@
                     <blockquote class="layui-elem-quote">
                         <div class="layui-inline" id="layerRenter">
                         <#if room.rentTs gt 0>
-                            <a data-method="bindRoom" data-type="bindRoom" class="layui-btn layui-btn-normal">二维码入住</a>
-                            <a data-method="renterAdd" data-type="renterAdd" class="layui-btn layui-btn-normal">添加租客</a>
-                            <a data-method="rentLeave" data-type="rentLeave" class="layui-btn layui-btn-normal">办理退房</a>
+                            <a data-method="bindRoom" data-roomId="${room.roomId}" class="layui-btn layui-btn-normal">二维码入住</a>
+                            <a data-method="renterAdd" data-roomId="${room.roomId}" class="layui-btn layui-btn-normal">添加租客</a>
+                            <a data-method="rentLeave" data-roomId="${room.roomId}" class="layui-btn layui-btn-normal">办理退房</a>
+                            <a data-method="roomBargin" data-roomId="${room.roomId}" class="layui-btn layui-btn-normal">入住合同</a>
+                            <a data-method="roomDeposit" data-roomId="${room.roomId}" class="layui-btn layui-btn-normal">入住押金</a>
                         <#else>
-                            <a data-method="rentAdd" data-type="rentAdd" class="layui-btn layui-btn-normal">办理入住</a>
+                            <a data-method="rentAdd" data-type="${room.roomId}" class="layui-btn layui-btn-normal">办理入住</a>
                         </#if>
                         </div>
                     </blockquote>
-                    <table class="layui-hide" id="lay_table_room_renter" lay-filter="renterRoomTableFilter"></table>
+                    <table class="layui-hide" id="lay_table_room_renter" lay-filter="roomRenterTableFilter"></table>
                 </div>
                 <div class="layui-tab-item">
-                    <table class="layui-hide" id="lay_table_bargin_room" lay-filter="barginRoomTableFilter"></table>
+                    <table class="layui-hide" id="lay_table_room_history" lay-filter="roomHistoryTableFilter"></table>
                 </div>
             </div>
         </div>
@@ -80,6 +82,7 @@
 
 <#include "footer.ftl"/>
 <script type="text/html" id="renterListBar">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     {{#  if(d.checkTs == 0){ }}
         {{#  if(d.deleteTs > 0){ }}
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="renterCheck">离开确认</a>
@@ -87,15 +90,17 @@
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="renterCheck">入住确认</a>
         {{#  } }}
     {{#  } }}
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script type="text/html" id="barginRoomListBar">
-    <a class="layui-btn layui-btn-xs" lay-event="barginDetail">详情</a>
+    <a class="layui-btn layui-btn-xs" lay-event="barginDetail">合同</a>
+    <a class="layui-btn layui-btn-xs" lay-event="depositDetail">押金</a>
 </script>
 <script src="${base}/static/js/extends/qrcode.min.js" charset="utf-8"></script>
 <script src="${base}/static/js/landlord/room_detail.js" charset="utf-8"></script>
 
-<#include "landlord/room_rent.ftl"/>
+<#include "landlord/room_detail_rent.ftl"/>
 <#include "landlord/room_renter.ftl"/>
+<#include "landlord/room_bargin.ftl"/>
+<#include "landlord/room_deposit.ftl"/>
 
 </html>

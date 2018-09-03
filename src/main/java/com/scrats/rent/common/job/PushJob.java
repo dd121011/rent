@@ -1,7 +1,7 @@
 package com.scrats.rent.common.job;
 
+import com.scrats.rent.util.DateUtils;
 import com.scrats.rent.util.weixin.qyapi.WxPushManager;
-import com.scrats.rent.util.DateUtil;
 import org.apache.log4j.Logger;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class PushJob implements Job {
         JobDataMap dataMap = jobExecutionContext.getJobDetail().getJobDataMap();
         String jobValue = dataMap.getString("jobKey1");
 
-        logger.info("Job开始时间为:" + DateUtil.getTime(new Date()) + ",值为:" + jobValue);
+        logger.info("Job开始时间为:" + DateUtils.getTime(new Date()) + ",值为:" + jobValue);
     }
 }
 

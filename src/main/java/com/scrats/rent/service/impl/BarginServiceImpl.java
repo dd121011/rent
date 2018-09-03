@@ -48,7 +48,22 @@ public class BarginServiceImpl extends BaseServiceImpl<Bargin, BarginMapper> imp
         list = dao.getBarginList(bargin);
         PageInfo pageInfo = new PageInfo();
         pageInfo.setList(list);
+        pageInfo.setTotal(list.size());
         return pageInfo;
+    }
+
+    @Override
+    public Bargin getRoomBargin(Integer roomId) {
+        List<Bargin> list = dao.getBarginByRoomId(roomId, false);
+        if(list.size() == 1){
+            return list.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public Bargin getRoomBarginDetail(Integer roomId) {
+        return null;
     }
 
 }

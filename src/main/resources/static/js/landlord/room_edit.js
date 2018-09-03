@@ -15,7 +15,7 @@ layui.use(['layer', 'form'], function () {
         jhxhr.done(function (res) {
             if(res.code == 1){
                 layer.close(1);
-                if(params.roomId){
+                if(params.body.roomId){
                     layer.msg("修改成功");
 
                 }else{
@@ -25,7 +25,7 @@ layui.use(['layer', 'form'], function () {
                 // location.href= requestBaseUrl + "/room/goRoom/" + userId + "/" + buildingId + "?tokenId=" + tokenId;
                 location.reload();
             }else{
-                layer.alert(res.msg)
+                layer.alert(res.message);
             }
         });
 

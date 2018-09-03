@@ -4,8 +4,6 @@ layui.use(['layer', 'table', 'form'], function () {
     var table = layui.table;
     var form = layui.form;
 
-    layer.msg('hello');
-
     var selectLoadFlag= true;
 
     //方法级渲染
@@ -13,6 +11,7 @@ layui.use(['layer', 'table', 'form'], function () {
         elem: '#lay_table_building'//指定原始表格元素选择器（
         , url: requestBaseUrl + '/building/list'//数据接口
         , method: 'post'
+        , contentType: 'application/json'
         , headers: header
         , request: {
             pageName: 'page' //页码的参数名称，默认：page
@@ -29,13 +28,12 @@ layui.use(['layer', 'table', 'form'], function () {
         , page: true//开启分页
 //            ,height: 315//容器高度
         , cols: [[//表头
-            {checkbox: true, fixed: true}
-            , {field: 'name', title: '楼盘', width: 200}
+            {field: 'name', title: '楼盘', width: 220}
             , {field: 'rooms', title: '总的房间数', sort: true, width: 110}
             , {field: 'roomAble', title: '可用房间数', sort: true, width: 120}
+            , {field: 'address', title: '地址', width: 280}
             , {field: 'description', title: '描述'}
-            , {field: 'address', title: '地址'}
-            , {field: '', title: '操作', align: 'center', toolbar: '#buildingListBar'}
+            , {field: '', title: '操作', align: 'left', toolbar: '#buildingListBar'}
         ]]
         , done: function (res, curr, count) {
             if(selectLoadFlag){
@@ -45,6 +43,7 @@ layui.use(['layer', 'table', 'form'], function () {
                     $("#searchBuildingName").append("<option value='"+selectData[i].buildingId+"'>"+selectData[i].name+"</option>");
                 }
                 form.render('select','buildingSearchFormFilter');
+                selectLoadFlag = false;
             }
         }
     });
@@ -68,7 +67,7 @@ layui.use(['layer', 'table', 'form'], function () {
                         layer.msg("删除成功");
                         obj.del();
                     }else{
-                        layer.alert(res.msg);
+                        layer.alert(res.message);
                     }
                 });
                 layer.close(index);
@@ -92,7 +91,9 @@ layui.use(['layer', 'table', 'form'], function () {
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: {
-                    buildingId: $('#searchBuildingName').val()
+                    body: {
+                        buildingId: $('#searchBuildingName').val()
+                    }
                 }//传参*/
             });
         },

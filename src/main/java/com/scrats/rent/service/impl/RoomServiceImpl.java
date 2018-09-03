@@ -12,14 +12,17 @@ import com.scrats.rent.entity.*;
 import com.scrats.rent.mapper.RoomMapper;
 import com.scrats.rent.service.*;
 import com.scrats.rent.util.DateUtils;
+import com.scrats.rent.util.IdCardUtil;
 import com.scrats.rent.util.RandomUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +86,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         list = dao.getRoomList(room);
         PageInfo pageInfo = new PageInfo();
         pageInfo.setList(list);
+        pageInfo.setTotal(list.size());
         return pageInfo;
     }
 
@@ -103,13 +107,14 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
 
         //填充renterId
         Account account = accountService.findBy("phone", bargin.getPhone());
+        User user = null;
         if(null == account){
             //创建account
             account = new Account(bargin.getPhone(), bargin.getPhone(), bargin.getPhone());
             account.setCreateTs(createTs);
             accountService.insertSelective(account);
             //创建user
-            User user = new User(bargin.getName(),SexType.secret, bargin.getPhone(), bargin.getIdCard());
+            user = new User(bargin.getName(),SexType.secret, bargin.getPhone(), bargin.getIdCard());
             user.setAccountId(account.getAccountId());
             user.setName(bargin.getName());
             user.setSex(bargin.getSex());
@@ -119,17 +124,25 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
             UserRole userRole = new UserRole(UserType.renter, user.getUserId());
             userRole.setCreateTs(createTs);
             userRoleService.insertSelective(userRole);
-
-            //补齐renterId字段
-            bargin.setUserId(user.getUserId());
         }else{
-            User user = userService.findBy("phone", bargin.getPhone());
+            user = userService.findBy("phone", bargin.getPhone());
             if(null == user){
-                throw new BusinessException("请求数据不正确");
+                throw new BusinessException("请求数据不正确!!!");
             }
-            bargin.setUserId(user.getUserId());
+            if(!user.getName().equals(bargin.getName())){
+                throw new BusinessException("该租户对应手机号在系统中的姓名和输入不一致, 请修改!!!");
+            }
+            if(!user.getIdCard().equals(bargin.getIdCard())){
+                throw new BusinessException("该租户对应手机号在系统中的身份证号和输入不一致, 请修改!!!");
+            }
+            if(userRoleService.noExistRoleWithUserId(UserType.renter, user.getUserId())){
+                UserRole userRole = new UserRole(UserType.renter, user.getUserId());
+                userRole.setCreateTs(createTs);
+                userRoleService.insertSelective(userRole);
+            }
         }
-
+        //补齐renterId字段
+        bargin.setUserId(user.getUserId());
         bargin.setBarginNo("haozu-bargin-" + RandomUtil.generateLowerString(5) + "-" + createTs);
         bargin.setCreateTs(createTs);
         barginService.insertSelective(bargin);
@@ -141,7 +154,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         roomRenterService.insertSelective(roomRenter);
 
         //生成租金的extra
-        BarginExtra barginExtraRoom = new BarginExtra(bargin.getBarginId(), bargin.getRoomId(), "0000", "租金", "月", bargin.getRentFee(), -1);
+        BarginExtra barginExtraRoom = new BarginExtra(bargin.getBarginId(), bargin.getRoomId(), bargin.getBuildingId(), "0000", "租金", "月", bargin.getRentFee(), -1);
         barginExtraRoom.setCreateTs(createTs);
         barginExtraService.insertSelective(barginExtraRoom);
 
@@ -149,6 +162,7 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         //保存合同额外收费项，便于以后计算每月房租
         for (BarginExtra extra: bargin.getBarginExtraList()) {
             extra.setRoomId(bargin.getRoomId());
+            extra.setBuildingId(bargin.getBuildingId());
             extra.setBarginId(bargin.getBarginId());
             extra.setCreateTs(createTs);
             barginExtraService.insertSelective(extra);
@@ -196,17 +210,17 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         //获取装修情况name
         DictionaryIterm decoration = dictionaryItermService.selectByPrimaryKey(room.getDecoration());
         //获取所有配套设施
-        List<DictionaryIterm> facilities = null;
+        List<DictionaryIterm> facilities = new ArrayList<DictionaryIterm>();
         if(StringUtils.isNotEmpty(room.getFacilities())){
             facilities = dictionaryItermService.selectByIds(room.getFacilities());
         }
         //获取所有额外收费项
-        List<DictionaryIterm> extras = null;
+        List<DictionaryIterm> extras = new ArrayList<DictionaryIterm>();
         if(StringUtils.isNotEmpty(room.getExtraFee())){
             extras = dictionaryItermService.selectByIds(room.getExtraFee());
         }
         //获取所有押金项
-        List<DictionaryIterm> deposits = null;
+        List<DictionaryIterm> deposits = new ArrayList<DictionaryIterm>();
         if(StringUtils.isNotEmpty(room.getDeposits())){
             deposits = dictionaryItermService.selectByIds(room.getDeposits());
         }
@@ -217,25 +231,6 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         room.setFacilitiesIterm(facilities);
         room.setExtraFeeIterm(extras);
         room.setDepositIterm(deposits);
-
-        return room;
-    }
-
-    @Override
-    public Room detailForRenter(Integer roomId) {
-        //获取所有房子select数据
-        Room room = dao.selectByPrimaryKey(roomId);
-        if(null == room){
-            return room;
-        }
-        //获取房子
-        Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
-        List<Bargin> barginList = barginService.getBarginByRoomId(room.getRoomId(), false);
-        List<Rent> rentList = rentService.getRentByRoomId(room.getRoomId(), false);
-
-        room.setBuilding(building);
-        room.setBarginList(barginList);
-        room.setRentList(rentList);
 
         return room;
     }
@@ -324,6 +319,123 @@ public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implement
         for(ExtraHistory ext : extraHistories){
             ext.setRentId(rent.getRentId());
             extraHistoryService.insertSelective(ext);
+        }
+        return new JsonResult();
+    }
+
+    @Transactional
+    @Override
+    public JsonResult addMulity(Room room) {
+        List<Room> rlist = dao.getRoomByRoomNoAndBuildingId(null,room.getBuildingId());
+        for(Room r : rlist){
+            if(room.getRoomNoMulity().contains(r.getRoomNo())){
+                return new JsonResult<>("创建失败,房间号" + r.getRoomNo() + "已存在");
+            }
+        }
+        room.setCreateTs(System.currentTimeMillis());
+        Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
+        building.setRooms(building.getRooms() + room.getRoomNoMulity().size());
+        building.setRoomAble(building.getRoomAble() + room.getRoomNoMulity().size());
+        buildingService.updateByPrimaryKeySelective(building);
+        for(String no : room.getRoomNoMulity()){
+            Room r = new Room();
+            BeanUtils.copyProperties(room, r);
+            r.setRoomNo(no);
+            dao.insertSelective(r);
+        }
+        return new JsonResult();
+    }
+
+    @Transactional
+    @Override
+    public JsonResult renterAdd(Integer roomId, User newUser) throws ParseException {
+        long createTs = System.currentTimeMillis();
+        if(null == accountService.findBy("phone", newUser.getPhone())){
+            if(null != userService.findBy("idCard", newUser.getIdCard())){
+                return new JsonResult("身份证号:" + newUser.getIdCard() + "在系统中已被注册");
+            }
+
+            String idValid = IdCardUtil.IDCardValidate(newUser.getIdCard());
+            if(!IdCardUtil.VALIDITY.equals(idValid)){
+                return new JsonResult(idValid);
+            }
+            //创建account
+            Account account = new Account(newUser.getPhone(), newUser.getPhone(), newUser.getPhone());
+            account.setCreateTs(createTs);
+            accountService.insertSelective(account);
+
+            //创建user
+            newUser.setAccountId(account.getAccountId());
+            newUser.setCreateTs(createTs);
+            userService.insertSelective(newUser);
+            //创建userRole
+            UserRole userRole = new UserRole(UserType.renter, newUser.getUserId());
+            userRole.setCreateTs(createTs);
+            userRoleService.insertSelective(userRole);
+        }else{
+            User user = userService.findBy("phone",newUser.getPhone());
+            if(null == user){
+                throw new BusinessException("请求数据不正确");
+            }
+            if(!newUser.getName().trim().equals(user.getName())){
+                throw new BusinessException("填写的姓名与该手机号在系统中记录的有误");
+            }
+            if(!newUser.getIdCard().trim().equals(user.getIdCard())){
+                throw new BusinessException("填写的身份证号与该手机号在系统中记录的有误");
+            }
+            RoomRenter param = new RoomRenter();
+            param.setRoomId(roomId);
+            param.setUserId(user.getUserId());
+            List<RoomRenter> rrlist = roomRenterService.getListByRoomrenter(param);
+            if(null != rrlist && rrlist.size() > 0){
+                throw new BusinessException("请求的信息有误,该用户目前正在入住该房间");
+            }
+            newUser = user;
+        }
+
+        List<Bargin> list = barginService.getBarginByRoomId(roomId, false);
+        RoomRenter newRoomRenter = new RoomRenter(roomId, newUser.getUserId(), list.get(0).getBarginId());
+        newRoomRenter.setCreateTs(createTs);
+        newRoomRenter.setCheckTs(createTs);
+        roomRenterService.insertSelective(newRoomRenter);
+
+        return new JsonResult<>();
+    }
+
+    @Override
+    @Transactional
+    public JsonResult rentLeave(Integer roomId) {
+        //先判断是否有未缴费的房租和押金
+        List<Rent> unpayRentList = rentService.getRentByRoomId(roomId, false);
+        if(unpayRentList.size() > 0){
+            return new JsonResult("还有未支付房租, 请先支付后退房!");
+        }
+        List<Deposit> unpayDepositList = depositService.getUnpayDeposit(roomId);
+        if(unpayDepositList.size() > 0){
+            return new JsonResult("还有未支付押金, 请先支付后退房!");
+        }
+
+        Long deleteTs = System.currentTimeMillis();
+        //修改房间状态为未出租
+        Room room = new Room();
+        room.setRoomId(roomId);
+        room.setRentTs(0L);
+        dao.updateByPrimaryKeySelective(room);
+        //退还押金、取消合同
+        Bargin bargin = barginService.getRoomBargin(roomId);
+        bargin.setDeleteTs(deleteTs);
+        barginService.updateByPrimaryKeySelective(bargin);
+
+        List<Deposit> depositList = depositService.getDepositByRoomId(roomId, false);
+        depositList.get(0).setDeleteTs(deleteTs);
+        depositService.updateByPrimaryKeySelective(depositList.get(0));
+
+        RoomRenter roomRenter = new RoomRenter();
+        roomRenter.setRoomId(roomId);
+        List<RoomRenter> roomRenterList = roomRenterService.getListByRoomrenter(roomRenter);
+        for(RoomRenter rr : roomRenterList){
+            rr.setDeleteTs(deleteTs);
+            roomRenterService.updateByPrimaryKeySelective(rr);
         }
         return new JsonResult();
     }

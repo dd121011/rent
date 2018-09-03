@@ -1,6 +1,7 @@
 package com.scrats.rent.service;
 
 import com.scrats.rent.base.service.BaseService;
+import com.scrats.rent.entity.BarginExtra;
 import com.scrats.rent.entity.ExtraHistory;
 import com.scrats.rent.mapper.ExtraHistoryMapper;
 
@@ -18,5 +19,7 @@ public interface ExtraHistoryService extends BaseService<ExtraHistory, ExtraHist
     List<ExtraHistory> getListByExtraHistory(ExtraHistory extraHistory);
 
     List<ExtraHistory> getRentEditExtraHistory(Integer rentId);
+
+    List<ExtraHistory> getListByBarginExtraAndMonth(BarginExtra barginExtra, String month);
 
 }

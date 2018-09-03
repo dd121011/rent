@@ -73,6 +73,7 @@ public class RentServiceImpl extends BaseServiceImpl<Rent, RentMapper> implement
         list = dao.getListByRent(rent);
         PageInfo pageInfo = new PageInfo();
         pageInfo.setList(list);
+        pageInfo.setTotal(list.size());
         return pageInfo;
     }
 
@@ -165,5 +166,10 @@ public class RentServiceImpl extends BaseServiceImpl<Rent, RentMapper> implement
             extraHistoryService.updateByPrimaryKeySelective(ext);
         }
         return new JsonResult();
+    }
+
+    @Override
+    public List<Rent> payedWithRange(Long fromTs, Long toTs, Rent rent) {
+        return dao.payedWithRange(fromTs, toTs, rent);
     }
 }

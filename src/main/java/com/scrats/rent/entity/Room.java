@@ -65,4 +65,7 @@ public class Room extends BaseEntity {
     @Transient
     private List<Rent> rentList;
 
+    @Transient
+    private List<String> roomNoMulity;
+
 }

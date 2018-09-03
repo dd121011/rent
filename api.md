@@ -6,10 +6,10 @@
 
 1. [公共](#公共) 
     > * [登陆接口](#登陆接口)
+    > * [发送手机验证码](#发送手机验证码)
     > * [获取七牛上传文件的token](#获取七牛上传文件的token)
     > * [文件上传](#文件上传)
     > * [实名认证](#实名认证)
-    > * [实名认证确认](#实名认证确认)
     > * [所有字典类型列表](#所有字典类型列表)
     > * [某一字典类型的所有字典项目列表](#某一字典类型的所有字典项目列表)
     > * [所有额外收费项](#所有额外收费项)
@@ -47,7 +47,6 @@
     > * [添加房租](#添加房租)
 3. [租客小程序](#租客小程序)
     > * [小程序登录](#小程序登录)
-    > * [发送手机验证码](#发送手机验证码)
     > * [小程序注册租户](#小程序注册租户)
     > * [小程序入住](#小程序入住)
     > * [获取房间列表](#获取房间列表)
@@ -85,6 +84,30 @@ curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -
 }
 ```
 
+### 发送手机验证码
+
+> [GET] `/api/sms/send/{phone}` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+| phone | String | true | 待发送短信手机号 |
+
+#### Sample
+```
+curl 'https://scrats.cn/rent/api/sms/send/18018790114'
+```
+
+#### Response
+
+```
+{
+    "code": 1,
+    "msg": "成功",
+    "data": null,
+    "count": 0
+}
+```
+
 ### 获取七牛上传文件的token
 
 > [GET] `/api/upload/uploadToken` 
@@ -94,7 +117,7 @@ curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -
 
 #### Sample
 ```
-curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/upload/uploadToken'
+curl https://scrats.cn/rent/api/upload/uploadToken
 ```
 #### Response
 ```
@@ -151,29 +174,6 @@ curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -
 
 #### Response
 
-```
-{
-    "code": 1,
-    "msg": "成功",
-    "data": null,
-    "count": 0
-}
-```
-
-### 实名认证确认
-
-> [GET] `/api/user/realConfirm/{userId}` 
-
-| param | type | require | description |
-| --- | --- | --- | --- |
-| userId | Integer | true | userId |
-
-#### Sample
-```
-curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/user/realConfirm/9'
-```
-
-#### Response
 ```
 {
     "code": 1,
@@ -1344,30 +1344,6 @@ curl  X POST  H 'Content type: application/json' --data-binary '{"code":"011a4Ic
 }
 ```
 
-### 发送手机验证码
-
-> [GET] `/api/sms/send/{phone}` 
-
-| param | type | require | description |
-| --- | --- | --- | --- |
-| phone | String | true | 待发送短信手机号 |
-
-#### Sample
-```
-curl 'https://scrats.cn/rent/api/sms/send/18018790114'
-```
-
-#### Response
-
-```
-{
-    "code": 1,
-    "msg": "成功",
-    "data": null,
-    "count": 0
-}
-```
-
 ### 小程序注册租户
 
 > [POST] **application/json** `/api/renter/snsRegist` 
@@ -1442,25 +1418,51 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 ```
 {
     "code": 1,
-    "count": 0,
-    "data": {
-        "tokenId": "399c6d05741f4ce2a7cff52fbb4dc6ff",
-        "userId": "9",
-    }
+    "message": null,
+    "data": [
+        {
+            "barginId": 10,
+            "buildingName": "fdsf",
+            "roomNo": "202",
+            "payTime": 1535811513172,
+            "nextTime": 172800000,
+            "payStatus": "pay",
+            "roomId": 5
+        },
+        {
+            "barginId": 8,
+            "buildingName": "宝山新村二区28栋",
+            "roomNo": "201",
+            "payTime": 1535811513172,
+            "nextTime": 172800000,
+            "payStatus": "pay",
+            "roomId": 3
+        },
+        {
+            "barginId": 13,
+            "buildingName": "宝山新村二区28栋",
+            "roomNo": "GU102",
+            "payTime": 1535897913172,
+            "nextTime": 259200000,
+            "payStatus": "pay",
+            "roomId": 47
+        }
+    ],
+    "count": 0
 }
 ```
 
 ### 获取某一个房间的合同
 
-> [GET] `/api/renter/bargin/{roomId}` 
+> [GET] `/api/renter/bargin/{barginId}` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| roomId | Integer | true | 房间ID |
+| barginId | Integer | true | 合同ID |
 
 #### Sample
 ```
-curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/renter/bargin/3'
+curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/renter/bargin/1'
 ```
 #### Response
 ```
@@ -1476,15 +1478,15 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 
 ### 获取某一个房间的押金
 
-> [GET] `/api/renter/deposit/{roomId}` 
+> [GET] `/api/renter/deposit/{barginId}` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| roomId | Integer | true | 房间ID |
+| barginId | Integer | true | 合同ID |
 
 #### Sample
 ```
-curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/renter/deposit/3'
+curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7cff52fbb4dc6ff'  H 'userId: 9' 'https://scrats.cn/rent/api/renter/deposit/1'
 ```
 #### Response
 ```
@@ -1500,11 +1502,11 @@ curl  X GET  H 'Content type: application/json'  H 'tokenId: 399c6d05741f4ce2a7c
 
 ### 获取某一个房间的未缴费房租
 
-> [GET] `/api/renter/unpay/{roomId}` 
+> [GET] `/api/renter/unpay/{barginId}` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| roomId | Integer | true | 房间ID |
+| barginId | Integer | true | 合同Id |
 
 #### Sample
 ```
@@ -1715,16 +1717,17 @@ curl 'https://scrats.cn/rent/api/renter/extraHistory/1' -H 'Pragma: no-cache' -H
 
 ### 获取某一个房间的所有房租
 
-> [GET] `/api/renter/rent/{roomId}?page=1&rows=10` 
+> [POST] `/api/renter/rent/{barginId}` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
-| roomId | Integer | true | 未缴费ID |
+| barginId | Integer | true | 合同Id |
 | page | Integer | false | 分页显示页码 |
 | rows | Integer | false | 每页显示数量 |
 
 #### Sample
 ```
+curl -X POST -H 'Accept: application/json' -H 'Content-type: application/json' -d '{"page": 1, "rows": 10}' 'https://scrats.cn/rent/api/renter/rent/3'
 curl  -X GET -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' 'https://scrats.cn/rent/api/renter/rent/3'
 ```
 #### Response
@@ -1783,7 +1786,7 @@ curl  -X GET -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' 'http
 
 ### 获取某一个房租的明细
 
-> [GET] `/api/renter/rentDetail/{rentId}?` 
+> [GET] `/api/renter/rentDetail/{rentId}` 
 
 | param | type | require | description |
 | --- | --- | --- | --- |
@@ -1858,6 +1861,34 @@ curl  -X GET -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' 'http
             "number": 1,
             "money": 3000,
             "description": ""
+        }
+    ],
+    "count": 0
+}
+```
+
+### 获取某一个房租的明细
+
+> [GET] `/api/renter/historyLive/` 
+
+| param | type | require | description |
+| --- | --- | --- | --- |
+
+#### Sample
+```
+curl  -X GET -H 'tokenId: 47beb23ed45744ae94abf92e3efeb95d' -H 'userId: 9' 'https://scrats.cn/rent/api/renter/historyLive'
+```
+#### Response
+```
+{
+    "code": 1,
+    "message": null,
+    "data": [
+        {
+            "barginId": 1,
+            "buildingName": "宝山新村二区28栋",
+            "roomNo": "201",
+            "roomId": 3
         }
     ],
     "count": 0

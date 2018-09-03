@@ -7,8 +7,6 @@
     <#include "landlord/menu.ftl" />
 
     <blockquote class="layui-body childrenBody">
-        房东首页内容
-        <br><br>
         <blockquote class="layui-elem-quote">
             <form class="layui-form" lay-filter="landlordHomeSearchFormFilter"  action="">
                 <div class="layui-inline">
@@ -31,8 +29,32 @@
                         <i class="layui-anim seraph icon-good"></i>
                     </div>
                     <div class="panel_word">
-                        <span id="roomNum">0</span>
-                        <cite>客房数量</cite>
+                        <span id="rentTotal">0</span>
+                        <cite>本月收入</cite>
+                    </div>
+                </a>
+            </div>
+            <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <a href="javascript:;" data-url="https://github.com/kse-music/mcn-projects" target="_blank">
+                    <input type="hidden" value="http://fly.layui.com/case/u/3198216">
+                    <div class="panel_icon layui-bg-green">
+                        <i class="layui-anim seraph icon-good"></i>
+                    </div>
+                    <div class="panel_word">
+                        <span id="rentExpired">0</span>
+                        <cite>逾期收入</cite>
+                    </div>
+                </a>
+            </div>
+            <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <a href="javascript:;" data-url="https://github.com/kse-music/mcn-projects" target="_blank">
+                    <input type="hidden" value="http://fly.layui.com/case/u/3198216">
+                    <div class="panel_icon layui-bg-green">
+                        <i class="layui-anim seraph icon-good"></i>
+                    </div>
+                    <div class="panel_word">
+                        <span id="roomTotal">0</span>
+                        <cite>客房</cite>
                     </div>
                 </a>
             </div>
@@ -42,8 +64,8 @@
                         <i class="layui-anim seraph icon-github"></i>
                     </div>
                     <div class="panel_word">
-                        <span id="avaliableNum">0</span>
-                        <cite>可租客房</cite>
+                        <span id="roomAvaliable">0</span>
+                        <cite>闲置客房</cite>
                     </div>
                 </a>
             </div>
@@ -53,8 +75,8 @@
                         <i class="layui-anim seraph icon-icon10" data-icon="icon-icon10"></i>
                     </div>
                     <div class="panel_word userAll">
-                        <span id="renterNum">0</span>
-                        <em>租客总数</em>
+                        <span id="roomRenter">0</span>
+                        <em>租客</em>
                         <cite class="layui-hide">用户中心</cite>
                     </div>
                 </a>
@@ -65,31 +87,19 @@
                         <i class="layui-anim seraph icon-oschina"></i>
                     </div>
                     <div class="panel_word">
-                        <span id="noRentNum">0</span>
-                        <cite>欠租房间数量</cite>
+                        <span id="roomRentExpire">0</span>
+                        <cite>欠租房间</cite>
                     </div>
                 </a>
             </div>
             <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4">
-                <a href="javascript:;" data-url="page/systemSetting/icons.html">
-                    <div class="panel_icon layui-bg-cyan">
-                        <i class="layui-anim layui-icon" data-icon="&#xe857;">&#xe857;</i>
-                    </div>
-                    <div class="panel_word outIcons">
-                        <span></span>
-                        <em>待定</em>
-                        <cite class="layui-hide">图标管理</cite>
-                    </div>
-                </a>
-            </div>
-            <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4">
-                <a href="javascript:;">
-                    <div class="panel_icon layui-bg-blue">
-                        <i class="layui-anim seraph icon-clock"></i>
+                <a href="javascript:;" data-url="https://blog.csdn.net/dh798417147" target="_blank">
+                    <div class="panel_icon layui-bg-red">
+                        <i class="layui-anim seraph icon-oschina"></i>
                     </div>
                     <div class="panel_word">
-                        <span class="loginTime"></span>
-                        <cite>上次登录时间</cite>
+                        <span id="renterExpired">0</span>
+                        <cite>即将到期租客</cite>
                     </div>
                 </a>
             </div>

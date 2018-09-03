@@ -23,7 +23,6 @@ public class User extends BaseEntity {
     private Integer userId;//主键
     private String name;//姓名
     private String sex;//0-保密, 1-男, 2-女
-    private Integer age;//年龄
     private String avatar;//头像URL
     private String qq;//qq
     private String wechat;//微信

@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,6 +54,10 @@ public class RenterServiceImpl implements RenterService {
     private AccountService accountService;
     @Autowired
     private UserRoleService userRoleService;
+    @Autowired
+    private BarginService barginService;
+    @Autowired
+    private BuildingService buildingService;
 
     @Override
     public JsonResult snsLogin(String code, String signature, String rawData) {
@@ -104,24 +107,25 @@ public class RenterServiceImpl implements RenterService {
     @Override
     public JSONArray getRoomList(Integer userId) {
         Date date = new Date();
-
-        List<RoomRenter> rrlist = roomRenterService.findListBy("userId", userId);
-        HashSet<Integer> roomIdSet = new HashSet<>();
-        for(RoomRenter rr :  rrlist){
-            roomIdSet.add(rr.getRoomId());
-        }
         JSONArray result = new JSONArray();
-        for(Integer id : roomIdSet){
+        RoomRenter param = new RoomRenter();
+        param.setUserId(userId);
+        param.setCheckTs(1L);
+        List<RoomRenter> rrlist = roomRenterService.getListByRoomrenter(param);
+        for(RoomRenter rr :  rrlist){
             JSONObject jsonObject = new JSONObject();
-            Room room = roomService.detailForRenter(id);
-            Date rentDay = this.getPayTime(date,room.getBarginList().get(0).getRentDay());
+            Room room = roomService.selectByPrimaryKey(rr.getRoomId());
+            Bargin bargin = barginService.selectByPrimaryKey(rr.getBarginId());
+            Building building = buildingService.selectByPrimaryKey(room.getBuildingId());
+            Date rentDay = this.getPayTime(date,bargin.getRentDay());
             String payStatus = "pay";
             if(null != room.getRentList() && room.getRentList().size() > 0){
                 payStatus = "unpay";
             }
             jsonObject.put("roomId", room.getRoomId());
+            jsonObject.put("barginId", rr.getBarginId());
             jsonObject.put("roomNo", room.getRoomNo());
-            jsonObject.put("buildingName", room.getBuilding().getName());
+            jsonObject.put("buildingName", building.getName());
             jsonObject.put("nextTime", rentDay.getTime()-date.getTime());
             jsonObject.put("payTime", rentDay.getTime());
             jsonObject.put("payStatus", payStatus);

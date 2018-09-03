@@ -20,14 +20,14 @@ public class JsonResult<T> implements Serializable {
     private static final String MESSAGE = "成功";
 
     private int code;
-    private String msg;
+    private String message;
     private T data;
     private int count;
 
     //构造方法
     public JsonResult() {
         this.code = SUCCESS;
-        this.msg = MESSAGE;
+        this.message = MESSAGE;
     }
 
     public JsonResult (T data){
@@ -44,12 +44,12 @@ public class JsonResult<T> implements Serializable {
 
     public JsonResult (Throwable e){
         this.code = ERROR;
-        this.msg = e.getMessage();
+        this.message = e.getMessage();
     }
 
     public JsonResult (String msg){
         this.code = ERROR;
-        this.msg = msg;
+        this.message = msg;
     }
 
 }

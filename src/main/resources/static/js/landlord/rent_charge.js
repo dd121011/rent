@@ -15,7 +15,6 @@ layui.use(['layer', 'form', 'laydate'], function () {
         var params = {};
         var bodyParams = {};
         var barginExtraList = [];
-        params.roomId = chargeExtra.roomId;
         for(i=0, len=chargeExtra.extraList.length; i< len; i++){
             var barginExtra = {};
             barginExtra.barginExtraId = chargeExtra.extraList[i].barginExtraId;
@@ -24,6 +23,7 @@ layui.use(['layer', 'form', 'laydate'], function () {
             barginExtraList.push(barginExtra);
         }
         bodyParams.barginExtraList=barginExtraList;
+        bodyParams.roomId = chargeExtra.roomId;
         bodyParams.barginId=chargeExtra.extraList[0].barginId;
         bodyParams.month=$('#addChargeDiv input[name=month]').val();
         bodyParams.remark=$('#addChargeDiv textarea[name=remark]').val();
@@ -37,7 +37,7 @@ layui.use(['layer', 'form', 'laydate'], function () {
                 // location.href= requestBaseUrl + "/rent/goRent/" + userId + "/" + params.roomId + "?tokenId=" + tokenId;
                 location.reload();
             }else{
-                layer.alert(res.msg)
+                layer.alert(res.message);
             }
         });
 

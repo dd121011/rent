@@ -4,15 +4,18 @@ layui.use(['layer', 'form'], function () {
 
     var landlordHome = {
         search: function () {
-            var jhxhr = $.ajax({url: requestBaseUrl + "/building/homeData/" + $('#searchBuildingId').val(), headers: header, type: "GET"});
+            var jhxhr = $.ajax({url: requestBaseUrl + "/landlord/homeData/" + $('#searchBuildingId').val(), headers: header, type: "GET"});
             jhxhr.done(function (res) {
                 if(res.code == 1){
-                    $('#roomNum').html(res.data.roomNum);
-                    $('#avaliableNum').html(res.data.avaliableNum);
-                    $('#renterNum').html(res.data.renterNum);
-                    $('#noRentNum').html(res.data.noRentNum);
+                    $('#rentTotal').html(res.data.income/100);
+                    $('#rentExpired').html(res.data.expire/100);
+                    $('#roomTotal').html(res.data.roomNum);
+                    $('#roomAvaliable').html(res.data.avaliableNum);
+                    $('#roomRenter').html(res.data.renterNum);
+                    $('#roomRentExpire').html(res.data.noRentNum);
+                    $('#renterExpired').html(res.data.noRentNum);
                 }else{
-                    layer.alert(res.msg)
+                    layer.alert(res.message);
                 }
             });
         },

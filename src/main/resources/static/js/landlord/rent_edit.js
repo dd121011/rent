@@ -26,7 +26,7 @@ layui.use(['layer', 'form', 'laydate'], function () {
                 // location.href= requestBaseUrl + "/rent/goRent/" + userId + "/" + chargeExtra.roomId + "?tokenId=" + tokenId;
                 location.reload();
             }else{
-                layer.alert(res.msg)
+                layer.alert(res.message);
             }
         });
 

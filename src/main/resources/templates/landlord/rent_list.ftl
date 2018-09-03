@@ -7,8 +7,7 @@
     <#include "landlord/menu.ftl" />
 
     <div class="layui-body childrenBody">
-        内容主体区域
-        <br><br>
+
         <blockquote class="layui-elem-quote">
             <form class="layui-form" lay-filter="rentSearchFormFilter" action="">
                 <div class="layui-inline">
@@ -21,10 +20,16 @@
                     </div>
                     <div class="layui-input-inline">
                         <select id="searchRoomId" lay-verify="required" lay-search="">
+                        <#if (rooms?size>0)>
+                            <option value="" selected>全部</option>
+                        </#if>
                         <#list rooms as item>
                             <option value="${item.roomId}"<#if item.roomId == roomId>selected</#if>>${item.roomNo}</option>
                         </#list>
                         </select>
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="searchMonth" required  lay-verify="required" placeholder="请选择统计月">
                     </div>
                     <div class="layui-input-inline">
                         <select id="searchRoomPayTs"  lay-search="">
@@ -36,7 +41,10 @@
                     <a class="layui-btn search_btn" data-method="search" data-type="search">搜索</a>
                 </div>
                 <div class="layui-inline">
-                    <a data-method="add" data-type="add" class="layui-btn layui-btn-normal">添加</a>
+                    <a data-method="add" data-type="add" class="layui-btn layui-btn-normal">抄表</a>
+                </div>
+                <div class="layui-inline">
+                    <a data-method="addMulti" data-type="adds" class="layui-btn layui-btn-normal">批量抄表</a>
                 </div>
             </form>
         </blockquote>

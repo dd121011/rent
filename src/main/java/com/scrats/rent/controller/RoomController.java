@@ -13,16 +13,13 @@ import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.constant.GlobalConst;
-import com.scrats.rent.constant.UserType;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
-import com.scrats.rent.util.IdCardUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -71,6 +68,8 @@ public class RoomController {
     private UserRoleService userRoleService;
     @Autowired
     private SmsService smsService;
+    @Autowired
+    private DepositItermService depositItermService;
 
     @IgnoreSecurity
     @GetMapping(value = {"/goRoom/{userId}/{buildingId}","/goRoom/{userId}"})
@@ -83,6 +82,9 @@ public class RoomController {
 
         //获取所有房子select数据
         PageInfo<Building> pageInfo = buildingService.getBuildingListWithUserId(null, null, user.getUserId(), false);
+        if(pageInfo.getTotal() < 1){
+            throw new BusinessException("数据异常, 请联系管理员!!!");
+        }
         Building building = null;
         if(buildingId == null){
             if(pageInfo.getList() != null && pageInfo.getList().size() > 0){
@@ -125,7 +127,8 @@ public class RoomController {
 
     @PostMapping("/list/{buildingId}")
     @ResponseBody
-    public String list(@APIRequestControl APIRequest apiRequest, @PathVariable(name="buildingId") Integer buildingId, Room room) {
+    public String list(@APIRequestControl APIRequest apiRequest, @PathVariable(name="buildingId") Integer buildingId) {
+        Room room = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Room.class);
         room.setBuildingId(buildingId);
         PageInfo<Room> pageInfo = roomService.getRoomList(apiRequest, room);
         return JSON.toJSONString(new JsonResult<List>(pageInfo.getList(), (int) pageInfo.getTotal()));
@@ -217,7 +220,6 @@ public class RoomController {
 
         //补齐landlordId字段
         bargin.setLandlordId(apiRequest.getUser().getUserId());
-        bargin.setRoomId(apiRequest.getRoomId());
         Room room = roomService.selectByPrimaryKey(bargin.getRoomId());
         if(room.getRentTs() != null && room.getRentTs() > 0){
             return new JsonResult("办理入住失败, 请先办理退房!!!");
@@ -250,6 +252,7 @@ public class RoomController {
             User user = userService.selectByPrimaryKey(roomRenter.getUserId());
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("user",user);
+            jsonObject.put("roomRenterId",roomRenter.getRoomRenterId());
             jsonObject.put("checkTs",roomRenter.getCheckTs());
             jsonObject.put("deleteTs",roomRenter.getDeleteTs());
             jsonArray.add(jsonObject);
@@ -267,58 +270,7 @@ public class RoomController {
         if(!smsService.checkCode(newUser.getPhone(), smsCode)){
             return new JsonResult("验证码不正确, 请重新输入!!!!");
         }
-
-        Renter renter = null;
-        long createTs = System.currentTimeMillis();
-        if(null == accountService.findBy("phone", newUser.getPhone())){
-            if(null != userService.findBy("idCard", newUser.getIdCard())){
-                return new JsonResult("身份证号:" + newUser.getIdCard() + "在系统中已被注册");
-            }
-
-            String idValid = IdCardUtil.IDCardValidate(newUser.getIdCard());
-            if(!IdCardUtil.VALIDITY.equals(idValid)){
-                return new JsonResult(idValid);
-            }
-            //创建account
-            Account account = new Account(newUser.getPhone(), newUser.getPhone(), newUser.getPhone());
-            account.setCreateTs(createTs);
-            accountService.insertSelective(account);
-
-            //创建user
-            newUser.setAccountId(account.getAccountId());
-            newUser.setCreateTs(createTs);
-            userService.insertSelective(newUser);
-            //创建userRole
-            UserRole userRole = new UserRole(UserType.renter, newUser.getUserId());
-            userRole.setCreateTs(createTs);
-            userRoleService.insertSelective(userRole);
-        }else{
-            User user = userService.findBy("phone",newUser.getPhone());
-            if(null == user){
-                throw new BusinessException("请求数据不正确");
-            }
-            if(!newUser.getName().equals(user.getName())){
-                throw new BusinessException("填写的身份证号与该手机号在系统中记录的有误");
-            }
-            if(!newUser.getIdCard().equals(user.getIdCard())){
-                throw new BusinessException("填写的姓名与该手机号在系统中记录的有误");
-            }
-            RoomRenter param = new RoomRenter();
-            param.setRoomId(roomId);
-            param.setUserId(user.getUserId());
-            List<RoomRenter> rrlist = roomRenterService.getListByRoomrenter(param);
-            if(null != rrlist && rrlist.size() > 0){
-                throw new BusinessException("请求的信息有误,该用户目前正在入住该房间");
-            }
-        }
-
-        List<Bargin> list = barginService.getBarginByRoomId(roomId, false);
-        RoomRenter newRoomRenter = new RoomRenter(roomId, renter.getUserId(), list.get(0).getBarginId());
-        newRoomRenter.setCreateTs(createTs);
-        newRoomRenter.setCheckTs(createTs);
-        roomRenterService.insertSelective(newRoomRenter);
-
-        return new JsonResult<>();
+        return roomService.renterAdd(roomId, newUser);
     }
 
     @GetMapping("/renterDelete/{roomId}/{roomRenterId}")
@@ -326,6 +278,14 @@ public class RoomController {
     public JsonResult renterDelete(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomRenterId") Integer roomRenterId, @PathVariable(name="roomId") Integer roomId){
         //检查是否是本人名下的删除
         RoomRenter roomRenter = roomRenterService.selectByPrimaryKey(roomRenterId);
+        //查询是否是最后一个删除的
+        RoomRenter param = new RoomRenter();
+        param.setRoomId(roomId);
+        List<RoomRenter> roomRenterList = roomRenterService.getListByRoomrenter(param);
+        if(roomRenterList.size() == 1){
+            return roomService.rentLeave(roomId);
+        }
+
         Room room = roomService.selectByPrimaryKey(roomId);
         if(null == roomRenter || null == room || room.getRoomId() - roomRenter.getRoomId() != 0){
             throw new BusinessException("请求数据不正确");
@@ -378,11 +338,11 @@ public class RoomController {
     @ResponseBody
     public JsonResult barginExtra(@PathVariable(name="roomId") Integer roomId){
 
-        List<Bargin> barginList = barginService.getBarginByRoomId(roomId, false);
+        Bargin bargin = barginService.getRoomBargin(roomId);
 
         List<BarginExtra> list = new ArrayList<>();
-        if(!CollectionUtils.isEmpty(barginList)){
-            list = barginExtraService.findListBy("barginId",barginList.get(0).getBarginId());
+        if(null != bargin){
+            list = barginExtraService.findListBy("barginId",bargin.getBarginId());
         }
         return new JsonResult<List>(list);
     }
@@ -400,17 +360,18 @@ public class RoomController {
         Integer barginId = APIRequest.getParameterValue(apiRequest,"barginId",Integer.class);
         String month = APIRequest.getParameterValue(apiRequest,"month",String.class);
         String remark = APIRequest.getParameterValue(apiRequest,"remark",String.class);
+        Integer roomId = APIRequest.getParameterValue(apiRequest, "roomId", Integer.class);
         List<ExtraHistory> list = JSON.parseArray(JSON.toJSONString(apiRequest.getBody().get("barginExtraList")),ExtraHistory.class);
 
         Rent rent = new Rent();
         rent.setRentMonth(month);
-        rent.setRoomId(apiRequest.getRoomId());
+        rent.setRoomId(roomId);
         List<Rent> rentList  = rentService.getListByRent(rent);
         if(null != rentList && rentList.size() > 0){
             return new JsonResult("已经计算房租, 请勿重复生成");
         }
 
-        return roomService.charge(list, month, barginId, apiRequest.getRoomId(), remark);
+        return roomService.charge(list, month, barginId, roomId, remark);
     }
 
     /**
@@ -422,30 +383,8 @@ public class RoomController {
      */
     @GetMapping("/rentLeave/{roomId}")
     @ResponseBody
-    public JsonResult rentLeave(@APIRequestControl APIRequest apiRequest, @PathVariable(name="roomId") Integer roomId){
-        Long deleteTs = System.currentTimeMillis();
-        //修改房间状态为未出租
-        Room room = new Room();
-        room.setRoomId(roomId);
-        room.setRentTs(0L);
-        roomService.updateByPrimaryKeySelective(room);
-        //退还押金、取消合同
-        List<Bargin> barginList = barginService.getBarginByRoomId(roomId, false);
-        barginList.get(0).setDeleteTs(deleteTs);
-        barginService.updateByPrimaryKeySelective(barginList.get(0));
-
-        List<Deposit> depositList = depositService.getDepositByRoomId(roomId, false);
-        depositList.get(0).setDeleteTs(deleteTs);
-        depositService.updateByPrimaryKeySelective(depositList.get(0));
-
-        RoomRenter roomRenter = new RoomRenter();
-        roomRenter.setRoomId(roomId);
-        List<RoomRenter> roomRenterList = roomRenterService.getListByRoomrenter(roomRenter);
-        for(RoomRenter rr : roomRenterList){
-            rr.setDeleteTs(deleteTs);
-            roomRenterService.updateByPrimaryKeySelective(rr);
-        }
-        return new JsonResult();
+    public JsonResult rentLeave(@PathVariable(name="roomId") Integer roomId){
+        return roomService.rentLeave(roomId);
     }
 
     @GetMapping("/roomAll/{buildingId}")
@@ -453,7 +392,6 @@ public class RoomController {
     public JsonResult roomAll(@PathVariable(name="buildingId") Integer buildingId){
 
         List<Room> list = roomService.getRoomByRoomNoAndBuildingId(null, buildingId);
-
         return new JsonResult<List>(list);
     }
 
@@ -476,5 +414,90 @@ public class RoomController {
         }
 
         throw new BusinessException("请求数据不正确");
+    }
+
+    /**
+     * @description: 办理入住补录
+     * @author: lol
+     * @date: 2018/7/4 23:05
+     * @param: null
+     * @return: JsonResult
+     */
+    @PostMapping("/additionalRent")
+    @ResponseBody
+    public JsonResult additionalRent(@APIRequestControl APIRequest apiRequest) {
+        Bargin bargin = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Bargin.class);
+
+        //补齐landlordId字段
+        bargin.setLandlordId(apiRequest.getUser().getUserId());
+        Room room = roomService.selectByPrimaryKey(bargin.getRoomId());
+        if(room.getRentTs() != null && room.getRentTs() > 0){
+            return new JsonResult("办理入住失败, 请先办理退房!!!");
+        }
+
+        return roomService.rent(bargin);
+    }
+
+    @PostMapping("/addMulity")
+    @ResponseBody
+    public JsonResult addMulity(@APIRequestControl APIRequest apiRequest) {
+
+        Room room = JSON.parseObject(JSON.toJSONString(apiRequest.getBody()),Room.class);
+        if(null == room.getRoomNoMulity()){
+            return new JsonResult("请输入房号");
+        }
+
+        if(null != room.getFacilityIds() && room.getFacilityIds().size()>0){
+            room.setFacilities(String.join(",", room.getFacilityIds()));
+        }
+        if(null != room.getExtraIds() && room.getExtraIds().size()>0){
+            room.setExtraFee(String.join(",", room.getExtraIds()));
+        }
+        if(null != room.getDepositIds() && room.getDepositIds().size()>0){
+            room.setDeposits(String.join(",", room.getDepositIds()));
+        }
+
+        return roomService.addMulity(room);
+    }
+
+    @GetMapping("/bargin/{roomId}")
+    @ResponseBody
+    public JsonResult bargin(@PathVariable(name="roomId") Integer roomId) {
+        Bargin bargin = barginService.getRoomBargin(roomId);
+        Building building = buildingService.selectByPrimaryKey(bargin.getBuildingId());
+        List<DictionaryIterm> facilities = new ArrayList<DictionaryIterm>();
+        if(StringUtils.isNotEmpty(bargin.getFacilities())){
+            facilities = dictionaryItermService.selectByIds(bargin.getFacilities());
+        }
+        List<BarginExtra> extras = barginExtraService.findListBy("barginId", bargin.getBarginId());
+        Room room = roomService.selectByPrimaryKey(bargin.getRoomId());
+        User landlord = userService.selectByPrimaryKey(bargin.getLandlordId());
+        JSONObject result = new JSONObject();
+        result.put("bargin",bargin);
+        result.put("landlordName",landlord.getName());
+        result.put("roomNo",room.getRoomNo());
+        result.put("building",building);
+        result.put("facilities",facilities);
+        result.put("extras",extras == null ? new ArrayList<>() : extras);
+
+        return new JsonResult(result);
+    }
+
+    @GetMapping("/deposit/{roomId}")
+    @ResponseBody
+    public JsonResult deposit(@PathVariable(name="roomId") Integer roomId) {
+        Deposit deposit = depositService.getRoomDeposit(roomId);
+        Bargin bargin = barginService.selectByPrimaryKey(deposit.getBarginId());
+        List<DepositIterm> depositItermList = depositItermService.findListBy("depositId", deposit.getDepositId());
+        deposit.setDepositItermList(depositItermList);
+        Building building = buildingService.selectByPrimaryKey(deposit.getBuildingId());
+        Room room = roomService.selectByPrimaryKey(deposit.getRoomId());
+        JSONObject result = new JSONObject();
+        result.put("deposit",deposit);
+        result.put("bargin",bargin);
+        result.put("roomNo",room.getRoomNo());
+        result.put("building",building);
+
+        return new JsonResult(result);
     }
 }

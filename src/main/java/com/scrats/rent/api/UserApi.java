@@ -39,6 +39,9 @@ public class UserApi {
     @GetMapping("/realConfirm/{userId}")
     public JsonResult checkReal(@APIRequestControl APIRequest apiRequest, @PathVariable(name = "userId") String userId) {
 
+        if(!apiRequest.isAdminFlag()){
+            throw new BusinessException("请求数据有误!");
+        }
         User checkUser = userService.selectByPrimaryKey(userId);
         if(null == checkUser || checkUser.getCheckTs() > 0){
             throw new BusinessException("认证数据有误!");

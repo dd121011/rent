@@ -24,6 +24,7 @@ public class BarginExtra extends BaseEntity {
     private Integer barginExtraId;//主键
     private Integer barginId;//合同Id
     private Integer roomId;//房间Id
+    private Integer buildingId;//房间Id
     private String dicItermCode;//额外收费项Id
     private String value;//名称
     private String unit;//单位
@@ -33,8 +34,9 @@ public class BarginExtra extends BaseEntity {
     public BarginExtra() {
     }
 
-    public BarginExtra(Integer barginId, Integer roomId, String dicItermCode, String value, String unit, Integer price, Integer number) {
+    public BarginExtra(Integer barginId, Integer roomId, Integer buildingId, String dicItermCode, String value, String unit, Integer price, Integer number) {
         this.barginId = barginId;
+        this.buildingId = buildingId;
         this.roomId = roomId;
         this.dicItermCode = dicItermCode;
         this.value = value;

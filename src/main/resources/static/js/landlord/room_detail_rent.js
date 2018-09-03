@@ -40,6 +40,10 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
         var params = {};
         var formParams = $(data.form).serializeObject();
         for(i=0, len=extraTableData.length; i< len; i++){
+            if(isEmpty(extraTableData[i].price) || Number(extraTableData[i].price) < 0){
+                layer.alert("额外收费项-" + extraTableData[i].value + "-的单价填写不正确, 请填写一个不小于0的数据!!!");
+                return false;
+            }
             var extra = {};
             extra.value = extraTableData[i].value;
             extra.unit = extraTableData[i].unit;
@@ -50,6 +54,10 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
             barginExtraList.push(extra);
         }
         for(i=0, len=depositItermTableData.length; i< len; i++){
+            if(isEmpty(extraTableData[i].price) || Number(extraTableData[i].price) < 0){
+                layer.alert("押金项项-" + depositItermTableData[i].value + "-的单价填写不正确, 请填写一个不小于0的数据!!!");
+                return false;
+            }
             var depositIterm = {};
             depositIterm.value = depositItermTableData[i].value;
             depositIterm.unit = depositItermTableData[i].unit;
@@ -62,17 +70,16 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
             guarantyFee += depositIterm.money;
         }
 
+        formParams.roomId = $('#roomDetailRoomId').val();
         formParams.rentFee = formParams.rentFee * 100;
         formParams.liveTs = (new Date(formParams.liveTs)).getTime();
         formParams.leaveTs = (new Date(formParams.leaveTs)).getTime();
-        formParams.facilities = formParams.facilities.join(",");
+        formParams.facilities = isEmpty(formParams.facilities) ? '' : formParams.facilities.join(",");
         formParams.barginExtraList = barginExtraList;
         formParams.depositItermList = depositItermList;
         formParams.guarantyFee = guarantyFee;
         formParams.total = Number(formParams.rentFee) + Number(formParams.guarantyFee);
-        formParams.smsCode =formParams.smsCode;
         params.body = formParams;
-        params.roomId = $('#roomDetailRoomId').val();
 
         var jhxhr = $.ajax({url: requestBaseUrl + "/room/rent", data: JSON.stringify(params), headers: header, contentType: 'application/json', type: "POST"});
         jhxhr.done(function (res) {
@@ -82,7 +89,7 @@ layui.use(['layer', 'form', 'laydate', 'table'], function () {
                 // location.href= requestBaseUrl + "/room/goRoomDetail/" + $('#roomId').val() + "?tokenId=" + tokenId;
                 location.reload();
             }else{
-                layer.alert(res.msg);
+                layer.alert(res.message);
             }
         });
         return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。

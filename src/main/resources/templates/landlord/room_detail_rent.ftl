@@ -98,9 +98,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">配套设施</label>
             <div class="layui-input-block">
-                <#list room.facilitiesIterm as item>
-                    <input type="checkbox" lay-filter="testt" name="facilities" value="${item.dicItermCode}" title="${item.value}" checked>
-                </#list>
+                <#if room.facilitiesIterm?? && (room.facilitiesIterm?size > 0)>
+                    <#list room.facilitiesIterm as item>
+                        <input type="checkbox" lay-filter="testt" name="facilities" value="${item.dicItermCode}" title="${item.value}" checked>
+                    </#list>
+                <#else>
+                    <p class='form-show-input-p'>无</p>
+                </#if>
             </div>
         </div>
         <div class="layui-form-item">
@@ -130,4 +134,4 @@
     </form>
 </div>
 
-<script src="${base}/static/js/landlord/room_rent.js" charset="utf-8"></script>
+<script src="${base}/static/js/landlord/room_detail_rent.js" charset="utf-8"></script>

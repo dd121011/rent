@@ -5,7 +5,6 @@ import com.scrats.rent.common.APIRequest;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
-import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.entity.Building;
 import com.scrats.rent.entity.BuildingLandlord;
 import com.scrats.rent.service.BuildingLandlordService;
@@ -96,7 +95,6 @@ public class BuildingApi {
     }
 
     @GetMapping("/detail/{buildingId}")
-    @IgnoreSecurity
     public JsonResult detail(@PathVariable(name="buildingId") Integer buildingId) {
         //获取所有房子select数据
         Building building = buildingService.selectByPrimaryKey(buildingId);

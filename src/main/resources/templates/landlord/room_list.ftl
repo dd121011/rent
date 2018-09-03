@@ -7,8 +7,7 @@
     <#include "landlord/menu.ftl" />
 
     <div class="layui-body childrenBody">
-        内容主体区域
-        <br><br>
+
         <blockquote class="layui-elem-quote">
             <form class="layui-form" lay-filter="roomSearchFormFilter" action="">
                 <div class="layui-inline">
@@ -21,7 +20,9 @@
                     </div>
                     <div class="layui-input-inline">
                         <select id="searchRoomId" lay-verify="required" lay-search="">
-                            <option value="-1">请选择</option>
+                        <#if rooms?? && (rooms?size>0)>
+                            <option value="-1" selected>全部</option>
+                        </#if>
                         <#list rooms as item>
                             <option value="${item.roomId}">${item.roomNo}</option>
                         </#list>
@@ -39,6 +40,9 @@
                 <div class="layui-inline">
                     <a data-method="add" data-type="add" class="layui-btn layui-btn-normal">添加</a>
                 </div>
+                <div class="layui-inline">
+                    <a data-method="addMulti" data-type="addMulti" class="layui-btn layui-btn-normal">批量添加</a>
+                </div>
             </form>
         </blockquote>
         <hr class="layui-bg-green">
@@ -49,21 +53,23 @@
 
 <script type="text/html" id="roomListBar">
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="detail">详情</a>
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="charge">生成房租</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     {{#  if(d.rentTs > 0){ }}
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="charge">抄表</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="continue">续约</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="leave">退租</a>
     {{#  } else { }}
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="rent">出租</a>
     {{#  } }}
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="rentHistoty">出租记录</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <#--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="rentHistoty">出租记录</a>-->
+
 </script>
 
 <script src="${base}/static/js/landlord/room.js" charset="utf-8"></script>
 
 <#include "landlord/room_edit.ftl"/>
+<#include "landlord/room_edit_multi.ftl"/>
 <#include "landlord/room_charge.ftl"/>
 <#include "landlord/room_list_rent.ftl"/>
 

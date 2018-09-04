@@ -94,13 +94,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">额外收费项</label>
             <div class="layui-input-block">
-                <table class="layui-table" id="extraTable" lay-filter="extraTableFilter"></table>
+                <table class="layui-table" id="extraTableEdit" lay-filter="extraTableEditFilter"></table>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">押金项</label>
             <div class="layui-input-block">
-                <table class="layui-table" id="depositTable" lay-filter="depositTableFilter"></table>
+                <table class="layui-table" id="depositTableEdit" lay-filter="depositTableEditFilter"></table>
             </div>
         </div>
         <div class="layui-form-item">

@@ -379,6 +379,32 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 }
             });
 
+            //额外收费项table
+            table.render({
+                elem: '#extraTableEdit'//指定原始表格元素选择器（
+                , data: room.extraFeeIterm
+                , id: 'extraTableEdit'
+                // , width: 550
+                , cols: [[//表头
+                    {field: 'value', title: '项目', templet: function(d){
+                            return d.value;
+                        }}
+                    , {field: 'unit', title: '单位', templet: function(d){
+                            return d.unit;
+                        }}
+                    , {field: 'price', title: '单价', edit: 'text', templet: function(d){
+                            return undefined == d.price ? "" : d.price;
+                        }}
+                    , {field: 'number', title: '初始数量', edit: 'text', templet: function(d){
+                            return undefined == d.number ? "" : d.number;
+                        }}
+                ]]
+                , done: function (res, curr, count) {
+                    extraTableData = res.data;
+                    console.log(extraTableData)
+                }
+            });
+
             //押金项Table
             table.render({
                 elem: '#depositTableEdit'//指定原始表格元素选择器（
@@ -405,32 +431,6 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
                 , done: function (res, curr, count) {
                     depositItermTableData = res.data;
                     console.log(depositItermTableData)
-                }
-            });
-
-            //额外收费项table
-            table.render({
-                elem: '#extraTableEdit'//指定原始表格元素选择器（
-                , data: room.extraFeeIterm
-                , id: 'extraTableEdit'
-                // , width: 550
-                , cols: [[//表头
-                    {field: 'value', title: '项目', templet: function(d){
-                            return d.value;
-                        }}
-                    , {field: 'unit', title: '单位', templet: function(d){
-                            return d.unit;
-                        }}
-                    , {field: 'price', title: '单价', edit: 'text', templet: function(d){
-                            return '';
-                        }}
-                    , {field: 'number', title: '初始数量', edit: 'text', templet: function(d){
-                            return '';
-                        }}
-                ]]
-                , done: function (res, curr, count) {
-                    extraTableData = res.data;
-                    console.log(extraTableData)
                 }
             });
         },
@@ -464,9 +464,6 @@ layui.use(['layer', 'table', 'form', 'laytpl'], function () {
         });
     });
 
-    table.on('edit(extraTableEdit)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
-        console.log(obj.data);
-    });
 
     table.on('edit(depositTableEditFilter)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
         console.log(obj.data);

@@ -14,9 +14,8 @@ import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
 import com.scrats.rent.util.AccountValidatorUtil;
 import com.scrats.rent.util.IdCardUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,10 +30,10 @@ import java.util.List;
  * @Author: lol.
  * @Date: 2018/6/23 15:43.
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/renter")
 public class RenterApi {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserService userService;

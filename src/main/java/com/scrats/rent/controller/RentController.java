@@ -14,6 +14,7 @@ import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
 import com.scrats.rent.util.DateUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,10 @@ import java.util.Map;
  * @Author: lol.
  * @Date: 2018/7/15 23:11.
  */
+@Slf4j
 @Controller
 @RequestMapping("/rent")
 public class RentController {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private RoomService roomService;

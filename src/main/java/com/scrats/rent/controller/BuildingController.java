@@ -13,6 +13,7 @@ import com.scrats.rent.entity.Building;
 import com.scrats.rent.entity.BuildingLandlord;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,10 @@ import java.util.*;
  * Author:   lol.
  * Date:     2018/6/6 22:20.
  */
+@Slf4j
 @Controller
 @RequestMapping("/building")
 public class BuildingController {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private BuildingService buildingService;

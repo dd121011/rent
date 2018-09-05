@@ -1,24 +1,22 @@
 package com.scrats.rent.common.filter;
 
-import org.apache.log4j.Logger;
-import org.springframework.core.annotation.Order;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@Slf4j
 public class XssFilter implements Filter {
 
-    private final Logger logger = Logger.getLogger(this.getClass());
     //XSS处理Map
     private static Map<String, String> xssMap = new LinkedHashMap<String, String>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        logger.info("====>XssFilter启动<====");
+        log.info("====>XssFilter启动<====");
         // 含有脚本： script
         xssMap.put("[s|S][c|C][r|R][i|C][p|P][t|T]", "");
         // 含有脚本 ：alert

@@ -1,12 +1,10 @@
 package com.scrats.rent.conf;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.filter.CharacterEncodingFilter;
-
 import com.scrats.rent.common.filter.CsrfFilter;
 import com.scrats.rent.common.filter.XssFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 /**
  * @Created with jointstarc.
@@ -16,8 +14,7 @@ import com.scrats.rent.common.filter.XssFilter;
  * @Date: 2018/1/3 14:07.
  */
 //@Configuration
-public class FilterConfig
-{
+public class FilterConfig {
 
     @Bean
     public FilterRegistrationBean characterEncodingFilterRegistrationBean() {

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.base.service.UploadService;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,7 @@ import java.io.IOException;
  * @Author: lol.
  * @Date: 2018/8/14 15:08.
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/upload")
 public class UploadApi {

@@ -1,6 +1,6 @@
 package com.scrats.rent.util;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.net.URI;
@@ -15,9 +15,8 @@ import java.util.*;
  * Time: 17:05.
  */
 @SuppressWarnings("unchecked")
+@Slf4j
 public class PropertiesUtil {
-
-    private static final Logger logger = Logger.getLogger(PropertiesUtil.class);
 
     /**
      * 获取所有属性，返回一个map,不常用
@@ -321,7 +320,7 @@ public class PropertiesUtil {
         InputStream in = null;
         in = PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName);
         if (in == null) {
-            logger.info("抱歉,找不到文件" + fileName);
+            log.info("抱歉,找不到文件" + fileName);
             return null;
         }
         Properties prop = new Properties();

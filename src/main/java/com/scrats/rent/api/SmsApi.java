@@ -6,8 +6,7 @@ import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.annotation.IgnoreSecurity;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.util.AccountValidatorUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,11 +23,10 @@ import java.security.NoSuchAlgorithmException;
  * @Author: lol.
  * @Date: 2018/8/13 22:46.
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/sms")
 public class SmsApi {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     private RedisService redisService;
 

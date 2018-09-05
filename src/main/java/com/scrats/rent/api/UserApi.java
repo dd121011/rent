@@ -6,6 +6,7 @@ import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
  * @Author: lol.
  * @Date: 2018/6/23 09:12.
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/user")
 public class UserApi {

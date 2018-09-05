@@ -8,9 +8,8 @@ import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.util.IOUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -27,9 +26,8 @@ import java.lang.reflect.Method;
  * @Author: lol.
  * @Date: 2018/6/8 16:54.
  */
+@Slf4j
 public class AuthenticationInterceptor  implements HandlerInterceptor {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private RedisService redisService;
@@ -53,8 +51,8 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
         String requestPath = httpServletRequest.getRequestURI();
-        logger.debug("Method: " + method.getName() + ", IgnoreSecurity: " + method.isAnnotationPresent(IgnoreSecurity.class));
-        logger.debug("requestPath: " + requestPath);
+        log.debug("Method: " + method.getName() + ", IgnoreSecurity: " + method.isAnnotationPresent(IgnoreSecurity.class));
+        log.debug("requestPath: " + requestPath);
 
         if (method.isAnnotationPresent(IgnoreSecurity.class)) {
             return true;
@@ -63,7 +61,7 @@ public class AuthenticationInterceptor  implements HandlerInterceptor {
         String token = httpServletRequest.getHeader("tokenId");
         String userId = httpServletRequest.getHeader("userId");
         String json = IOUtil.getInputStreamAsText(httpServletRequest.getInputStream(),"UTF-8");
-        logger.debug("token: " + token);
+        log.debug("token: " + token);
         if (StringUtils.isBlank(token)) {
             throw new NotAuthorizedException("非法请求, 请登陆");
         }

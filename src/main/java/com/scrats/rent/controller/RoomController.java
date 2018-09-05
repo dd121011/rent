@@ -15,6 +15,7 @@ import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.constant.GlobalConst;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,11 +35,10 @@ import java.util.Map;
  * @Author: lol.
  * @Date: 2018/6/15 12:37.
  */
+@Slf4j
 @Controller
 @RequestMapping("/room")
 public class RoomController {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private RoomService roomService;

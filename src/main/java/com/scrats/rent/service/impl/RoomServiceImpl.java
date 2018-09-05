@@ -14,6 +14,7 @@ import com.scrats.rent.service.*;
 import com.scrats.rent.util.DateUtils;
 import com.scrats.rent.util.IdCardUtil;
 import com.scrats.rent.util.RandomUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,10 +36,10 @@ import java.util.Map;
  * Author:   lol.
  * Date:     2018/6/6 22:34.
  */
+@Slf4j
 @Service
 public class RoomServiceImpl extends BaseServiceImpl<Room, RoomMapper> implements RoomService {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private UserService userService;
     @Autowired

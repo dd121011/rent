@@ -1,14 +1,13 @@
 package com.scrats.rent.common;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.SchedulerException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class MyRunner implements CommandLineRunner {
-    private final Logger logger = Logger.getLogger(this.getClass());
-
     /**
      * 重启之后运行数据库中保存的任务
      * @throws SchedulerException
@@ -16,7 +15,7 @@ public class MyRunner implements CommandLineRunner {
     @Override
     public void run(String... strings) throws SchedulerException {
         // do something here ...
-        logger.info("this class runs before the application is running");
+        log.info("this class runs before the application is running");
     }
 
 }

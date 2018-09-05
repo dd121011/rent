@@ -2,8 +2,7 @@ package com.scrats.rent.conf;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -20,14 +19,13 @@ import java.util.Map;
  * @Date: 2017/12/28 16:05.
  */
 @Configuration
+@Slf4j
 public class DruidConfig
 {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Bean
     public ServletRegistrationBean druidServlet() {
-        logger.info("init Druid Servlet Configuration ");
+        log.info("init Druid Servlet Configuration ");
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean();
         servletRegistrationBean.setServlet(new StatViewServlet());
         servletRegistrationBean.addUrlMappings("/druid/*");

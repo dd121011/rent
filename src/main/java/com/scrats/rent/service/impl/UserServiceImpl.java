@@ -6,8 +6,7 @@ import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.entity.User;
 import com.scrats.rent.mapper.UserMapper;
 import com.scrats.rent.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,10 +18,9 @@ import java.util.List;
  * Author:   lol.
  * Date:     2018/6/6 22:34.
  */
+@Slf4j
 @Service
 public class UserServiceImpl extends BaseServiceImpl<User, UserMapper> implements UserService {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public User getUserByAccountId(Integer accountId) {

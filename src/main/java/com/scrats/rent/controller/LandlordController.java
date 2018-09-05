@@ -17,6 +17,7 @@ import com.scrats.rent.service.BuildingLandlordService;
 import com.scrats.rent.service.BuildingService;
 import com.scrats.rent.service.RentService;
 import com.scrats.rent.service.RoomRenterService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,7 @@ import java.util.Map;
  * @Author: lol.
  * @Date: 2018/7/6 12:56.
  */
+@Slf4j
 @Controller
 @RequestMapping("/landlord")
 public class LandlordController {

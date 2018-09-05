@@ -124,6 +124,13 @@ function isEmpty(str) {
     return false;
 }
 
+function isEmptyArray(str) {
+    if(undefined == str || null == str || str.length == 0){
+        return true;
+    }
+    return false;
+}
+
 //校验密码
 var checkPwd = function (ff2) {
     // if (f2 && typeof(f2) === "function") {

@@ -1,18 +1,14 @@
 package com.scrats.rent.common.filter;
 
-import com.alibaba.fastjson.JSON;
-import com.scrats.rent.common.JsonResult;
-import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.util.CusAccessObjectUtil;
 import com.scrats.rent.util.PropertiesUtil;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * @Created with jointstarc.
@@ -21,12 +17,12 @@ import java.io.PrintWriter;
  * @User: lol.
  * @Date: 2018/1/3 15:21.
  */
+@Slf4j
 public class CsrfFilter implements Filter {
 
-    private Logger logger = Logger.getLogger(this.getClass());
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        logger.info("====>CsrfFilter启动<====");
+        log.info("====>CsrfFilter启动<====");
     }
 
     @Override

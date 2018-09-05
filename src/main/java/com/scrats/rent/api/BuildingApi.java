@@ -10,8 +10,7 @@ import com.scrats.rent.entity.BuildingLandlord;
 import com.scrats.rent.service.BuildingLandlordService;
 import com.scrats.rent.service.BuildingService;
 import com.scrats.rent.service.DictionaryItermService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,10 +26,10 @@ import java.util.Set;
  * @Author: lol.
  * @Date: 2018/6/7 23:30.
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/building")
 public class BuildingApi {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private BuildingService buildingService;

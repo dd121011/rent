@@ -11,8 +11,7 @@ import com.scrats.rent.mapper.AccountMapper;
 import com.scrats.rent.service.AccountService;
 import com.scrats.rent.service.UserService;
 import com.scrats.rent.view.LandlordView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +26,8 @@ import java.util.UUID;
  * Date:     2018/5/24 00:17.
  */
 @Service
+@Slf4j
 public class AccountServiceImpl extends BaseServiceImpl<Account, AccountMapper> implements AccountService {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private RedisService redisService;

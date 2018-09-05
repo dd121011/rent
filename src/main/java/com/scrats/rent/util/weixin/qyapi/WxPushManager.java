@@ -3,16 +3,16 @@ package com.scrats.rent.util.weixin.qyapi;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.util.HttpRequestUtil;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
  * Created by scrat on 2017/11/29.
  */
+@Slf4j
 @Component
 public class WxPushManager {
-    private final Logger logger = Logger.getLogger(this.getClass());
 
     @Value("${wx.qy.agent.id}")
     private String AGEN_ID;
@@ -41,8 +41,8 @@ public class WxPushManager {
         String token = WxAccessTokenManager.getInstance(CROP_ID, CROP_SECRET).getAccessToken();
 
         String pushUrl = String.format(USERINFO_URL, token, code);
-        logger.info("========pushUrl========" + pushUrl);
-        logger.info(pushUrl);
+        log.info("========pushUrl========" + pushUrl);
+        log.info(pushUrl);
         JSONObject userinfo = HttpRequestUtil.httpGet2Json(pushUrl, null);
 
         return userinfo;
@@ -77,7 +77,7 @@ public class WxPushManager {
             return false;
         }
 
-        logger.info(pushObj.toString());
+        log.info(pushObj.toString());
         return pushObj.getIntValue("ERRCODE") - 1 == 0;
     }
 

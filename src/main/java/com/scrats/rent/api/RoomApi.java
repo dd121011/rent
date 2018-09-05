@@ -9,6 +9,7 @@ import com.scrats.rent.common.PageInfo;
 import com.scrats.rent.common.annotation.APIRequestControl;
 import com.scrats.rent.entity.*;
 import com.scrats.rent.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +25,10 @@ import java.util.List;
  * @Author: lol.
  * @Date: 2018/6/15 12:37.
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/room")
 public class RoomApi {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private RoomService roomService;

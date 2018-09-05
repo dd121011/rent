@@ -4,6 +4,7 @@ import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.entity.RoomRenter;
 import com.scrats.rent.mapper.RoomRenterMapper;
 import com.scrats.rent.service.RoomRenterService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,9 @@ import java.util.List;
  * Author:   lol.
  * Date:     2018/6/6 22:34.
  */
+@Slf4j
 @Service
 public class RoomRenterServiceImpl extends BaseServiceImpl<RoomRenter, RoomRenterMapper> implements RoomRenterService {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public int deleteRoomRenterById(Integer... ids) {

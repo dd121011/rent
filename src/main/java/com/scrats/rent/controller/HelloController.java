@@ -1,14 +1,13 @@
 package com.scrats.rent.controller;
 
+import com.scrats.rent.base.service.RedisService;
 import com.scrats.rent.common.JsonResult;
 import com.scrats.rent.common.exception.BusinessException;
 import com.scrats.rent.common.exception.ErrorInfo;
 import com.scrats.rent.common.exception.NotAuthorizedException;
 import com.scrats.rent.common.job.PushJob;
-import com.scrats.rent.base.service.RedisService;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Controller;
@@ -27,10 +26,9 @@ import java.util.Map;
  * @User: lol.
  * @Date: 2018/1/3 18:18.
  */
+@Slf4j
 @Controller
 public class HelloController {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private RedisService redisService;
@@ -43,7 +41,7 @@ public class HelloController {
         map.put("descrip", "Hello, it's a springboot integrate freemarker's demo!!!!");
         map.put("tdate", new Date());
         System.out.println("345678i");
-        logger.info("this is hello");
+        log.info("this is hello");
         throw new NotAuthorizedException("非法请求");
 //        return "hello";
     }

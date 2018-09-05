@@ -1,11 +1,10 @@
 package com.scrats.rent.base.service;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
@@ -23,9 +22,9 @@ import java.util.concurrent.TimeUnit;
  * @Date: 2018/1/9 15:30.
  */
 @SuppressWarnings("unchecked")
+@Slf4j
 @Component
 public class RedisService {
-    private final Logger logger = Logger.getLogger(this.getClass());
 
     @SuppressWarnings("rawtypes")
     @Autowired

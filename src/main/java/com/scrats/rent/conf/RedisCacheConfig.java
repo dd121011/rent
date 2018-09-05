@@ -1,7 +1,6 @@
 package com.scrats.rent.conf;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.CacheManager;
@@ -28,16 +27,15 @@ import java.util.concurrent.ConcurrentHashMap;
 //@Configuration
 //@EnableCaching//启用缓存
 //@EnableConfigurationProperties(RedisProperties.class)
+@Slf4j
 public class RedisCacheConfig extends CachingConfigurerSupport {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private RedisProperties redisProperties;
 
     @Bean
     public JedisPool redisPoolFactory() {
-        logger.info("JedisPool注入成功！！");
+        log.info("JedisPool注入成功！！");
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxIdle(redisProperties.getPool().getMaxIdle());
         jedisPoolConfig.setMaxWaitMillis(redisProperties.getPool().getMaxWait());

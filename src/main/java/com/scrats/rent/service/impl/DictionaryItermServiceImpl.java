@@ -4,11 +4,8 @@ import com.scrats.rent.base.service.BaseServiceImpl;
 import com.scrats.rent.entity.DictionaryIterm;
 import com.scrats.rent.mapper.DictionaryItermMapper;
 import com.scrats.rent.service.DictionaryItermService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created with scrat.
@@ -17,9 +14,8 @@ import java.util.List;
  * Author:   lol.
  * Date:     2018/6/6 22:34.
  */
+@Slf4j
 @Service
 public class DictionaryItermServiceImpl extends BaseServiceImpl<DictionaryIterm, DictionaryItermMapper> implements DictionaryItermService {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 }

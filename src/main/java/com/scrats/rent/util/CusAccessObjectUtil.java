@@ -1,7 +1,6 @@
 package com.scrats.rent.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
  * @User: lol.
  * @Date: 2018/1/3 17:23.
  */
+@Slf4j
 public class CusAccessObjectUtil {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     /**
      * 获取用户真实IP地址，不使用request.getRemoteAddr();的原因是有可能用户使用了代理软件方式避免真实IP地址,
      * 参考文章： http://developer.51cto.com/art/201111/305181.htm

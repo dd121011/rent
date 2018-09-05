@@ -2,7 +2,7 @@ package com.scrats.rent.common.job;
 
 import com.scrats.rent.util.DateUtils;
 import com.scrats.rent.util.weixin.qyapi.WxPushManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,8 +14,8 @@ import java.util.Date;
  */
 @PersistJobDataAfterExecution
 @DisallowConcurrentExecution
+@Slf4j
 public class PushJob implements Job {
-    private final Logger logger = Logger.getLogger(this.getClass());
 
     @Autowired
     private WxPushManager wxPushManager;
@@ -35,7 +35,7 @@ public class PushJob implements Job {
         JobDataMap dataMap = jobExecutionContext.getJobDetail().getJobDataMap();
         String jobValue = dataMap.getString("jobKey1");
 
-        logger.info("Job开始时间为:" + DateUtils.getTime(new Date()) + ",值为:" + jobValue);
+        log.info("Job开始时间为:" + DateUtils.getTime(new Date()) + ",值为:" + jobValue);
     }
 }
 

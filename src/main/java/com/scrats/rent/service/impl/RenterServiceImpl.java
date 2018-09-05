@@ -14,8 +14,7 @@ import com.scrats.rent.service.*;
 import com.scrats.rent.util.BaseUtil;
 import com.scrats.rent.util.DateUtils;
 import com.scrats.rent.util.weixin.sns.WxAuthorize;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,10 +32,9 @@ import java.util.UUID;
  * Author:   lol.
  * Date:     2018/6/6 22:34.
  */
+@Slf4j
 @Service
 public class RenterServiceImpl implements RenterService {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private WxAuthorize wxAuthorize;
@@ -66,17 +64,17 @@ public class RenterServiceImpl implements RenterService {
         if(null == checkSns){
             return new JsonResult("获取签名失败");
         }
-        logger.info("checkSns is: " + JSON.toJSONString(checkSns));
+        log.info("checkSns is: " + JSON.toJSONString(checkSns));
         //检查signature的正确性
-        logger.info("request signature is: " + signature);
+        log.info("request signature is: " + signature);
         String newSignature = BaseUtil.getSha1(rawData+checkSns.getSession_key());
-        logger.info("check signature is: " + newSignature);
+        log.info("check signature is: " + newSignature);
         if(!signature.equals(newSignature)){
             return new JsonResult("签名不正确");
         }
         //生成token,保存登录
         WxSns wxSns = wxSnsService.selectByPrimaryKey(checkSns.getOpenid());
-        logger.info("wxSns login: " + JSON.toJSONString(wxSns));
+        log.info("wxSns login: " + JSON.toJSONString(wxSns));
         String tokenId = UUID.randomUUID().toString().replace("-","");
         JSONObject result = new JSONObject();
         result.put("tokenId", tokenId);

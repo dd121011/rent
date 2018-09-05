@@ -10,7 +10,7 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -20,9 +20,10 @@ import java.util.Map;
 /**
  * Created by scrat on 2017/12/1.
  */
+@Slf4j
 @Repository
 public class JPushManager {
-    private final Logger logger = Logger.getLogger(this.getClass());
+
     @Value("${jpush.key}")
     private String APP_KEY;
     @Value("${jpush.secret}")
@@ -45,7 +46,7 @@ public class JPushManager {
         final PushPayload payload = buildPushPayload(title, description, extras, regIds);
         try {
             PushResult result = jpushClient.sendPush(payload);
-            logger.info(result);
+            log.info(result + "");
             return result.isResultOK();
         } catch (Exception e) {
             e.printStackTrace();

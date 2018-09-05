@@ -6,8 +6,7 @@ import com.scrats.rent.entity.Dictionary;
 import com.scrats.rent.entity.DictionaryIterm;
 import com.scrats.rent.service.DictionaryItermService;
 import com.scrats.rent.service.DictionaryService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,11 +22,10 @@ import java.util.List;
  * Author:   lol.
  * Date:     2018/6/6 22:20.
  */
+@Slf4j
 @RestController
 @RequestMapping("/dic")
 public class DictionaryController {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private DictionaryService dictionaryService;

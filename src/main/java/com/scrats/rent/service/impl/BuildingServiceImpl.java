@@ -12,6 +12,7 @@ import com.scrats.rent.service.BuildingService;
 import com.scrats.rent.service.DepositService;
 import com.scrats.rent.service.RentService;
 import com.scrats.rent.util.DateUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,9 @@ import java.util.List;
  * Author:   lol.
  * Date:     2018/6/6 22:34.
  */
+@Slf4j
 @Service
 public class BuildingServiceImpl extends BaseServiceImpl<Building, BuildingMapper> implements BuildingService {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private RentService rentService;

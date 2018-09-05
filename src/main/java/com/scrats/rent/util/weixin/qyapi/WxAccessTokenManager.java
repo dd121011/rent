@@ -2,14 +2,14 @@ package com.scrats.rent.util.weixin.qyapi;
 
 import com.alibaba.fastjson.JSONObject;
 import com.scrats.rent.util.HttpRequestUtil;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 /**
  * Created by scrat on 2017/11/30.
  */
+@Slf4j
 public class WxAccessTokenManager {
-    private final Logger logger = Logger.getLogger(this.getClass());
 
     private static final String ACCESS_TOKEN_URL = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s";
 
@@ -47,7 +47,7 @@ public class WxAccessTokenManager {
     }
 
     public String getAccessToken(boolean refresh) {
-        logger.info("expiredTs=" + expiredTs);
+        log.info("expiredTs=" + expiredTs);
         long nowTs = System.currentTimeMillis();
         if (!refresh && nowTs <= expiredTs) {
             return this.accessToken;
@@ -67,16 +67,16 @@ public class WxAccessTokenManager {
         while (retryTimes < 3) {
             retryTimes++;
             String tokenUrl = String.format(ACCESS_TOKEN_URL, cropId, cropSecret);
-            logger.info("========tokenUrl========" + tokenUrl);
+            log.info("========tokenUrl========" + tokenUrl);
             JSONObject tokenObj = HttpRequestUtil.httpGet2Json(tokenUrl, null);
             if (tokenObj != null) {
-                logger.info(tokenObj.toString());
+                log.info(tokenObj.toString());
                 String token = tokenObj.getString(ACCESS_TOKEN);
                 if (!StringUtils.isEmpty(token)) {
                     return token;
                 }
             }
-            logger.info("retry:" + retryTimes);
+            log.info("retry:" + retryTimes);
         }
         return null;
     }

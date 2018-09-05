@@ -1,8 +1,7 @@
 package com.scrats.rent.common.exception;
 
 import com.scrats.rent.constant.GlobalConst;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -24,8 +23,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 //声明该类中的@ExceptionHandler作用于全局
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler implements ApplicationContextAware {
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     private ApplicationContext applicationContext;
 
@@ -56,7 +55,7 @@ public class GlobalExceptionHandler implements ApplicationContextAware {
             } else {
                 response.setMessage("系统异常");
             }
-            logger.error("「系统异常」", exception);
+            log.error("「系统异常」", exception);
         }
 
         String contentTypeHeader = req.getHeader("Content-Type");

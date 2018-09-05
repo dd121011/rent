@@ -1,6 +1,6 @@
 package com.scrats.rent.base.service;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -19,10 +19,9 @@ import java.io.File;
  * @Author: lol.
  * @Date: 2018/8/28 16:02.
  */
+@Slf4j
 @Component
 public class MailService {
-    private final Logger logger = Logger.getLogger(this.getClass());
-
     @Autowired
     private JavaMailSender javaMailSender;
 
@@ -38,9 +37,9 @@ public class MailService {
 
         try {
             javaMailSender.send(simpleMailMessage);
-            logger.info("简单邮件已经发送。");
+            log.info("简单邮件已经发送。");
         } catch (Exception e){
-            logger.error("发送简单邮件时发生异常!", e);
+            log.error("发送简单邮件时发生异常!", e);
         }
     }
 
@@ -55,9 +54,9 @@ public class MailService {
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(content, true);
             javaMailSender.send(mimeMailMessage);
-            logger.info("html邮件已经发送。");
+            log.info("html邮件已经发送。");
         } catch (Exception e){
-            logger.error("发送html邮件时发生异常!", e);
+            log.error("发送html邮件时发生异常!", e);
         }
     }
 
@@ -76,9 +75,9 @@ public class MailService {
             String fileName = filePath.substring(filePath.lastIndexOf(File.separator));
             mimeMessageHelper.addAttachment(fileName, file);
             javaMailSender.send(mimeMailMessage);
-            logger.info("附件邮件已经发送。");
+            log.info("附件邮件已经发送。");
         } catch (Exception e){
-            logger.error("发送附件邮件时发生异常!", e);
+            log.error("发送附件邮件时发生异常!", e);
         }
     }
 

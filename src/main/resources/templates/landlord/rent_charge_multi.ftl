@@ -7,8 +7,7 @@
     <#include "landlord/menu.ftl" />
 
     <div class="layui-body childrenBody">
-        内容主体区域
-        <br><br>
+
         <blockquote class="layui-elem-quote">
             <form class="layui-form" lay-filter="rentMultiSearchFormFilter" action="">
                 <div class="layui-inline">
@@ -34,7 +33,7 @@
             </form>
         </blockquote>
         <hr class="layui-bg-green">
-        <table class="layui-hide" id="lay_table_rent" lay-filter="rentTableFilter"></table>
+        <ul class="flow-default" id="LAY_demo1"></ul>
     </div>
 
 <#include "footer.ftl"/>
